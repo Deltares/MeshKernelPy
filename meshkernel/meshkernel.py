@@ -8,7 +8,9 @@ from typing import Iterable, Tuple
 
 import numpy as np
 
-from meshkernel.errors import InputError, MeshKernelError
+from meshkernel import InputError, MeshKernelError
+from meshkernel import Mesh2d
+from meshkernel.c_structures import CMesh2d
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +27,8 @@ class MeshKernel:
     Please document
     """
 
-    def __init__(self, lib_path: str):
-
+    def __init__(self, is_geographic: bool):
+        lib_path = "lib/MeshKernelApi.dll"
         if sys.version_info[0:2] < (3, 8):
             # Python version < 3.8
             self.lib = CDLL(lib_path)
@@ -37,20 +39,37 @@ class MeshKernel:
             self.lib = CDLL(lib_path, winmode=0x08)
 
         self.libname = os.path.basename(lib_path)
+        self._allocate_state(is_geographic)
 
-    def allocate_state(self, is_geographic: bool):
-        """
-        Creates a new empty mesh.
+    def _allocate_state(self, is_geographic: bool):
+        """Creates a new empty mesh.
 
-           Parameters:
-                   isGeographic (bool): Cartesian (False) or spherical (True) mesh
+        Args:
+            isGeographic (bool): Cartesian (False) or spherical (True) mesh
         """
 
         self._meshkernelid = c_int()
-        self.execute_function(
+        self._execute_function(
             self.lib.mkernel_allocate_state,
             c_int(is_geographic),
             byref(self._meshkernelid),
+        )
+
+    def deallocate_state(self):
+        """
+        Deallocate mesh state.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_deallocate_state,
+            self._meshkernelid,
+        )
+
+    def set_mesh2d(self, mesh2d: Mesh2d):
+        cmesh2d = CMesh2d.from_mesh2d(mesh2d)
+
+        self._execute_function(
+            self.lib.mkernel_set_mesh2d, self._meshkernelid, byref(cmesh2d)
         )
 
     def _execute_function(self, function, *args, detail=""):
