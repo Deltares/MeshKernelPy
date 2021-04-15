@@ -42,6 +42,7 @@ setup(
     license="",
     platforms="Windows, Linux",
     install_requires=["numpy"],
+    extras_require={"dev": ["pytest", "matplotlib", "flake8", "black"]},
     python_requires=">=3.7",
     packages=find_namespace_packages(exclude=("tests", "examples")),
     version=get_version("meshkernel/__init__.py"),
