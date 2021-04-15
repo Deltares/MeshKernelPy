@@ -7,7 +7,7 @@ on:
 
 jobs:
   check:
-    runs-on: latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: codespell-project/actions-codespell@master
