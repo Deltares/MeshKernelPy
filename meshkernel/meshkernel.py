@@ -28,7 +28,14 @@ class MeshKernel:
     """
 
     def __init__(self, is_geographic: bool):
-        lib_path = "lib/MeshKernelApi.dll"
+        # Determine OS
+        if platform.system() == "Windows":
+            lib_path = "lib/MeshKernelApi.dll"
+        elif platform.system() == "Linux":
+            lib_path = "lib/libMeshKernelApi.so"
+        else:
+            raise MeshKernelError("Unsupported operating system")
+
         if sys.version_info[0:2] < (3, 8):
             # Python version < 3.8
             self.lib = CDLL(lib_path)
