@@ -1,10 +1,10 @@
 import math
 
 import numpy as np
-from numpy.testing import assert_array_equal
 import pytest
+from numpy.testing import assert_array_equal
 
-from meshkernel import MeshKernel, MeshKernelError, Mesh2d
+from meshkernel import Mesh2d, MeshKernel, MeshKernelError
 
 
 def test_constructor():
