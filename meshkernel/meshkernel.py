@@ -41,7 +41,7 @@ class MeshKernel:
         self.libname = os.path.basename(lib_path)
         self._allocate_state(is_geographic)
 
-    def _allocate_state(self, is_geographic: bool):
+    def _allocate_state(self, is_geographic: bool) -> None:
         """Creates a new empty mesh.
 
         Args:
@@ -55,7 +55,7 @@ class MeshKernel:
             byref(self._meshkernelid),
         )
 
-    def deallocate_state(self):
+    def deallocate_state(self) -> None:
         """
         Deallocate mesh state.
         """
@@ -65,12 +65,25 @@ class MeshKernel:
             self._meshkernelid,
         )
 
-    def set_mesh2d(self, mesh2d: Mesh2d):
+    def set_mesh2d(self, mesh2d: Mesh2d) -> None:
         cmesh2d = CMesh2d.from_mesh2d(mesh2d)
 
         self._execute_function(
             self.lib.mkernel_set_mesh2d, self._meshkernelid, byref(cmesh2d)
         )
+
+    def get_mesh2d(self) -> Mesh2d:
+        cmesh2d = CMesh2d()
+        self._execute_function(
+            self.lib.mkernel_get_dimensions_mesh2d, self._meshkernelid, byref(cmesh2d)
+        )
+
+        mesh2d = cmesh2d.allocate_memory()
+        self._execute_function(
+            self.lib.mkernel_get_data_mesh2d, self._meshkernelid, byref(cmesh2d)
+        )
+
+        return mesh2d
 
     def _execute_function(self, function, *args, detail=""):
         """

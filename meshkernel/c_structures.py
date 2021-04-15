@@ -54,3 +54,37 @@ class CMesh2d(Structure):
         cmesh2d.num_face_nodes = mesh2d.face_nodes.size
 
         return cmesh2d
+
+    def allocate_memory(self) -> Mesh2d:
+        # Add docs
+        edge_nodes = np.empty(self.num_edges * 2, dtype=int)
+        face_nodes = np.empty(self.num_face_nodes, dtype=int)
+        nodes_per_face = np.empty(self.num_faces, dtype=int)
+        node_x = np.empty(self.num_nodes, dtype=np.double)
+        node_y = np.empty(self.num_nodes, dtype=np.double)
+        edge_x = np.empty(self.num_edges, dtype=np.double)
+        edge_y = np.empty(self.num_edges, dtype=np.double)
+        face_x = np.empty(self.num_faces, dtype=np.double)
+        face_y = np.empty(self.num_faces, dtype=np.double)
+
+        self.edge_nodes = np.ctypeslib.as_ctypes(edge_nodes)
+        self.face_nodes = np.ctypeslib.as_ctypes(face_nodes)
+        self.nodes_per_face = np.ctypeslib.as_ctypes(nodes_per_face)
+        self.node_x = np.ctypeslib.as_ctypes(node_x)
+        self.node_y = np.ctypeslib.as_ctypes(node_y)
+        self.edge_x = np.ctypeslib.as_ctypes(edge_x)
+        self.edge_y = np.ctypeslib.as_ctypes(edge_y)
+        self.face_x = np.ctypeslib.as_ctypes(face_x)
+        self.face_y = np.ctypeslib.as_ctypes(face_y)
+
+        return Mesh2d(
+            edge_nodes,
+            face_nodes,
+            nodes_per_face,
+            node_x,
+            node_y,
+            edge_x,
+            edge_y,
+            face_x,
+            face_y,
+        )
