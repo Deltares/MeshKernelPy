@@ -22,11 +22,11 @@ class Mesh2d:
     """
 
     edge_nodes: np.ndarray
-    face_nodes: np.ndarray
-    nodes_per_face: np.ndarray
     node_x: np.ndarray
     node_y: np.ndarray
-    edge_x: np.ndarray
-    edge_y: np.ndarray
-    face_x: np.ndarray
-    face_y: np.ndarray
+    face_nodes: np.ndarray = np.empty(0, dtype=int)
+    nodes_per_face: np.ndarray = np.empty(0, dtype=int)
+    edge_x: np.ndarray = np.empty(0, dtype=np.double)
+    edge_y: np.ndarray = np.empty(0, dtype=np.double)
+    face_x: np.ndarray = np.empty(0, dtype=np.double)
+    face_y: np.ndarray = np.empty(0, dtype=np.double)
