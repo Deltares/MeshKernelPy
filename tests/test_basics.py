@@ -49,5 +49,5 @@ def test_set_mesh():
     assert_array_equal(output_mesh2d.face_y, np.array([0.5]))
 
     # Test if edges are correctly calculated
-    assert_array_equal(output_mesh2d.edge_x, np.array([0.5, 1.0, 0.5, 0.0]))
+    assert_array_equal(output_mesh2d.edge_x, np.array([0.5, 1.0, 0.6, 0.0]))
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
