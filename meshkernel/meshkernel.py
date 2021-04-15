@@ -85,6 +85,22 @@ class MeshKernel:
 
         return mesh2d
 
+    def insert_node_mesh2d(self, x: float, y: float, index: int):
+        """Insert a new node at the specified coordinates
+
+        Args:
+            x (float): The x-coordinate of the new node
+            y (float): The y-coordinate of the new node
+            index (int): The index of the new node
+        """
+        self._execute_function(
+            self.lib.mkernel_insert_node_mesh2d,
+            self._meshkernelid,
+            c_double(x),
+            c_double(y),
+            byref(c_int(index)),
+        )
+
     def _execute_function(self, function, *args, detail=""):
         """
         Utility function to execute a BMI function in the kernel and checks its status
