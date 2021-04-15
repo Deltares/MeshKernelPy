@@ -1,4 +1,5 @@
-from ctypes import Structure, POINTER, c_int, c_double
+from ctypes import POINTER, Structure, c_double, c_int
+
 import numpy as np
 
 from meshkernel.py_structures import Mesh2d

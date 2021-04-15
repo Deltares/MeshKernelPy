@@ -2,15 +2,15 @@ import logging
 import os
 import platform
 import sys
-from ctypes import CDLL, byref, POINTER, c_char_p, c_double, c_int
+from ctypes import CDLL, POINTER, byref, c_char_p, c_double, c_int
 from enum import Enum, IntEnum, unique
 from typing import Iterable, Tuple
 
 import numpy as np
 
+from meshkernel.c_structures import CMesh2d
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import Mesh2d
-from meshkernel.c_structures import CMesh2d
 
 logger = logging.getLogger(__name__)
 

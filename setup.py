@@ -1,7 +1,8 @@
-import sys
-from setuptools import find_namespace_packages, setup
 import codecs
 import os.path
+import sys
+
+from setuptools import find_namespace_packages, setup
 
 # edit author dictionary as necessary
 author_dict = {
@@ -42,7 +43,7 @@ setup(
     license="",
     platforms="Windows, Linux",
     install_requires=["numpy"],
-    extras_require={"dev": ["pytest", "matplotlib", "flake8", "black"]},
+    extras_require={"dev": ["pytest", "matplotlib", "flake8", "black", "isort"]},
     python_requires=">=3.7",
     packages=find_namespace_packages(exclude=("tests", "examples")),
     version=get_version("meshkernel/__init__.py"),
