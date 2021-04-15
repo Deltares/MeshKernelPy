@@ -8,8 +8,8 @@ from typing import Iterable, Tuple
 
 import numpy as np
 
-from meshkernel import InputError, MeshKernelError
-from meshkernel import Mesh2d
+from meshkernel.errors import InputError, MeshKernelError
+from meshkernel.py_structures import Mesh2d
 from meshkernel.c_structures import CMesh2d
 
 logger = logging.getLogger(__name__)
