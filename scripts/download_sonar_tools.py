@@ -48,9 +48,15 @@ def rename_sonar_scanner_folder(save_dir: Path) -> None:
 
 def get_scanner(save_dir: Path) -> None:
     if platform.system() == "Windows":
-        url = f"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-{SONAR_SCANNER_VERSION}-windows.zip"
+        url = (
+            "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/"
+            f"sonar-scanner-cli-{SONAR_SCANNER_VERSION}-windows.zip"
+        )
     elif platform.system() == "Linux":
-        url = f"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-{SONAR_SCANNER_VERSION}-linux.zip"
+        url = (
+            "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/"
+            f"sonar-scanner-cli-{SONAR_SCANNER_VERSION}-linux.zip"
+        )
     else:
         raise Exception("Unsupported OS used.")
 
