@@ -4,6 +4,7 @@ import platform
 import sys
 from ctypes import CDLL, POINTER, byref, c_char_p, c_double, c_int
 from enum import Enum, IntEnum, unique
+from pathlib import Path
 from typing import Iterable, Tuple
 
 import numpy as np
@@ -28,22 +29,24 @@ class MeshKernel:
     """
 
     def __init__(self, is_geographic: bool):
+
         # Determine OS
         if platform.system() == "Windows":
-            lib_path = "lib/MeshKernelApi.dll"
+            lib_path = Path(__file__).parent.parent / "lib" / "MeshKernelApi.dll"
+
         elif platform.system() == "Linux":
-            lib_path = "lib/libMeshKernelApi.so"
+            lib_path = Path(__file__).parent.parent / "lib" / "libMeshKernelApi.so"
         else:
             raise MeshKernelError("Unsupported operating system")
 
         if sys.version_info[0:2] < (3, 8):
             # Python version < 3.8
-            self.lib = CDLL(lib_path)
+            self.lib = CDLL(str(lib_path))
         else:
             # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
             # -> uses the altered search path for resolving ddl dependencies
             # `winmode` has no effect while running on Linux or macOS
-            self.lib = CDLL(lib_path, winmode=0x08)
+            self.lib = CDLL(str(lib_path), winmode=0x08)
 
         self.libname = os.path.basename(lib_path)
         self._allocate_state(is_geographic)

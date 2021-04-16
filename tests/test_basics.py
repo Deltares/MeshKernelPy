@@ -27,7 +27,7 @@ def test_set_mesh():
 
     edge_nodes = np.array(
         [0, 1, 1, 2, 2, 3, 3, 0],
-        dtype=int,
+        dtype=np.int32,
     )
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
