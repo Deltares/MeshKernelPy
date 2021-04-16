@@ -24,8 +24,8 @@ class Status(IntEnum):
 
 
 class MeshKernel:
-    """
-    Please document
+    """This class is the low-level entry point
+    for interacting with the MeshKernel library
     """
 
     def __init__(self, is_geographic: bool):
@@ -33,20 +33,15 @@ class MeshKernel:
         # Determine OS
         if platform.system() == "Windows":
             lib_path = Path(__file__).parent.parent / "lib" / "MeshKernelApi.dll"
-
         elif platform.system() == "Linux":
             lib_path = Path(__file__).parent.parent / "lib" / "libMeshKernelApi.so"
         else:
-            raise MeshKernelError("Unsupported operating system")
+            raise OSError("Unsupported operating system")
 
-        if sys.version_info[0:2] < (3, 8):
-            # Python version < 3.8
-            self.lib = CDLL(str(lib_path))
-        else:
-            # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
-            # -> uses the altered search path for resolving ddl dependencies
-            # `winmode` has no effect while running on Linux or macOS
-            self.lib = CDLL(str(lib_path), winmode=0x08)
+        # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
+        # -> uses the altered search path for resolving ddl dependencies
+        # `winmode` has no effect while running on Linux or macOS
+        self.lib = CDLL(str(lib_path), winmode=0x08)
 
         self.libname = os.path.basename(lib_path)
         self._allocate_state(is_geographic)
@@ -76,6 +71,14 @@ class MeshKernel:
         )
 
     def set_mesh2d(self, mesh2d: Mesh2d) -> None:
+        """Sets the two-dimensional mesh state of the MeshKernel.
+
+        Please note that this involves a copy of the data
+        and should therefore not be called in hot loops.
+
+        Args:
+            mesh2d (Mesh2d): The input data used for setting the state
+        """
         cmesh2d = CMesh2d.from_mesh2d(mesh2d)
 
         self._execute_function(
@@ -83,6 +86,14 @@ class MeshKernel:
         )
 
     def get_mesh2d(self) -> Mesh2d:
+        """Gets the two-dimensional mesh state from the MeshKernel.
+
+        Please note that this involves a copy of the data
+        and should therefore not be called in hot loops.
+
+        Returns:
+            Mesh2d: A copy of the two-dimensional mesh state
+        """
         cmesh2d = CMesh2d()
         self._execute_function(
             self.lib.mkernel_get_dimensions_mesh2d, self._meshkernelid, byref(cmesh2d)

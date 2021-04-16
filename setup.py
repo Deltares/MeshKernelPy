@@ -6,7 +6,7 @@ from setuptools import find_namespace_packages, setup
 
 # edit author dictionary as necessary
 author_dict = {
-    "Julian Hofer": "Julian.Hofer@deltares.nl",
+    "Julian Hofer": "julian.hofer@deltares.nl",
     "Prisca van der Sluis": "prisca.vandersluis@deltares.nl",
 }
 __author__ = ", ".join(author_dict.keys())
@@ -46,7 +46,7 @@ setup(
     extras_require={
         "dev": ["pytest", "pytest-cov", "matplotlib", "flake8", "black", "isort"]
     },
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     packages=find_namespace_packages(exclude=("tests", "examples")),
     version=get_version("meshkernel/__init__.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],

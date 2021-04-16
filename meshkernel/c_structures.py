@@ -6,9 +6,10 @@ from meshkernel.py_structures import Mesh2d
 
 
 class CMesh2d(Structure):
-    """C-structure that represent a Mesh2D instance.
+    """C-structure intended for internal use only.
+    It represents a Mesh2D struct as described by the MeshKernel API.
 
-    Used for communicating with the MeshKernel dll
+    Used for communicating with the MeshKernel dll.
     """
 
     _fields_ = [
@@ -57,7 +58,14 @@ class CMesh2d(Structure):
         return cmesh2d
 
     def allocate_memory(self) -> Mesh2d:
-        # Add docs
+        """Allocate data according to the parameters with the "num_" prefix.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the Mesh2d instance which is returned by this method.
+
+        Returns:
+            Mesh2d: The object owning the allocated memory
+        """
+
         edge_nodes = np.empty(self.num_edges * 2, dtype=np.int32)
         face_nodes = np.empty(self.num_face_nodes, dtype=np.int32)
         nodes_per_face = np.empty(self.num_faces, dtype=np.int32)
