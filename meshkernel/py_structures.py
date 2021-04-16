@@ -25,8 +25,8 @@ class Mesh2d:
     edge_nodes: np.ndarray
     node_x: np.ndarray
     node_y: np.ndarray
-    face_nodes: np.ndarray = np.empty(0, dtype=int)
-    nodes_per_face: np.ndarray = np.empty(0, dtype=int)
+    face_nodes: np.ndarray = np.empty(0, dtype=np.int32)
+    nodes_per_face: np.ndarray = np.empty(0, dtype=np.int32)
     edge_x: np.ndarray = np.empty(0, dtype=np.double)
     edge_y: np.ndarray = np.empty(0, dtype=np.double)
     face_x: np.ndarray = np.empty(0, dtype=np.double)

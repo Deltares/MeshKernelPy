@@ -58,9 +58,9 @@ class CMesh2d(Structure):
 
     def allocate_memory(self) -> Mesh2d:
         # Add docs
-        edge_nodes = np.empty(self.num_edges * 2, dtype=int)
-        face_nodes = np.empty(self.num_face_nodes, dtype=int)
-        nodes_per_face = np.empty(self.num_faces, dtype=int)
+        edge_nodes = np.empty(self.num_edges * 2, dtype=np.int32)
+        face_nodes = np.empty(self.num_face_nodes, dtype=np.int32)
+        nodes_per_face = np.empty(self.num_faces, dtype=np.int32)
         node_x = np.empty(self.num_nodes, dtype=np.double)
         node_y = np.empty(self.num_nodes, dtype=np.double)
         edge_x = np.empty(self.num_edges, dtype=np.double)
