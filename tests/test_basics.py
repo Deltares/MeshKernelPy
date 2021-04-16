@@ -8,12 +8,16 @@ from meshkernel import Mesh2d, MeshKernel, MeshKernelError
 
 
 def test_constructor():
+    """Test if the constructor works"""
     MeshKernel(False)
 
 
-def test_deallocate():
-    meshlib = MeshKernel(False)
-    meshlib.deallocate_state()
+def test_different_id():
+    """Test if the meshkernelid of two instances differs"""
+    meshlib_1 = MeshKernel(False)
+    meshlib_2 = MeshKernel(False)
+
+    assert meshlib_1._meshkernelid != meshlib_2._meshkernelid
 
 
 def test_set_mesh():
@@ -32,7 +36,7 @@ def test_set_mesh():
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
 
-    input_mesh2d = Mesh2d(edge_nodes, node_x, node_y)
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     meshlib.set_mesh2d(input_mesh2d)
 
     output_mesh2d = meshlib.get_mesh2d()
