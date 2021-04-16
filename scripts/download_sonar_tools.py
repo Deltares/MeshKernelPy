@@ -3,12 +3,12 @@ Script used to download sonar tools
 """
 
 
-import requests
-import zipfile
-import shutil
 import platform
-
+import shutil
+import zipfile
 from pathlib import Path
+
+import requests
 
 SONAR_SCANNER_VERSION = "4.4.0.2170"
 
