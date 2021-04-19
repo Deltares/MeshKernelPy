@@ -39,7 +39,7 @@ class MeshKernel:
             raise OSError("Unsupported operating system")
 
         # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
-        # -> uses the altered search path for resolving ddl dependencies
+        # -> uses the altered search path for resolving dll dependencies
         # `winmode` has no effect while running on Linux or macOS
         self.lib = CDLL(str(lib_path), winmode=0x08)
 
