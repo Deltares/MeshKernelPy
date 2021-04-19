@@ -12,7 +12,7 @@ def test_constructor():
     MeshKernel(False)
 
 
-def test_different_id():
+def test_different_instances_have_different_ids():
     """Test if the meshkernelid of two instances differs"""
     meshlib_1 = MeshKernel(False)
     meshlib_2 = MeshKernel(False)
@@ -20,7 +20,7 @@ def test_different_id():
     assert meshlib_1._meshkernelid != meshlib_2._meshkernelid
 
 
-def test_set_mesh():
+def test_set_mesh_and_get_mesh():
     """Test to set a simple mesh and then get it again with new parameters
 
     3---2
