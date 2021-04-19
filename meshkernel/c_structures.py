@@ -12,6 +12,21 @@ class CMesh2d(Structure):
     It represents a Mesh2D struct as described by the MeshKernel API.
 
     Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        edge_nodes (POINTER(c_int)): The nodes composing each mesh 2d edge.
+        face_nodes (POINTER(c_int)): The nodes composing each mesh 2d face.
+        nodes_per_face (POINTER(c_int)): The nodes composing each mesh 2d face.
+        node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        edge_x (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        edge_y (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        face_x (POINTER(c_double)): The x-coordinates of the mesh faces' mass centers.
+        face_y (POINTER(c_double)): The y-coordinates of the mesh faces' mass centers.
+        num_nodes (c_int): The number of mesh nodes.
+        num_edges (c_int): The number of edges.
+        num_faces (c_int): The number of faces.
+        num_face_nodes (c_int): The total number of nodes composing the mesh 2d faces.
     """
 
     _fields_ = [
