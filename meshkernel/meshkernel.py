@@ -23,6 +23,7 @@ class Status(IntEnum):
     INVALID_GEOMETRY = 2
 
 
+@unique
 class DeleteMeshOption(IntEnum):
     """Option to delete the mesh inside a polygon """
 
