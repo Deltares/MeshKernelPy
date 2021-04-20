@@ -2,16 +2,16 @@ import logging
 import os
 import platform
 import sys
-from ctypes import CDLL, POINTER, byref, c_char_p, c_double, c_int
+from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_double, c_int
 from enum import Enum, IntEnum, unique
 from pathlib import Path
 from typing import Callable, Iterable, Tuple
 
 import numpy as np
 
-from meshkernel.c_structures import CMesh2d
+from meshkernel.c_structures import CGeometryList, CMesh2d
 from meshkernel.errors import InputError, MeshKernelError
-from meshkernel.py_structures import Mesh2d
+from meshkernel.py_structures import GeometryList, Mesh2d
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +21,19 @@ class Status(IntEnum):
     SUCCESS = 0
     EXCEPTION = 1
     INVALID_GEOMETRY = 2
+
+
+class DeleteMeshOption(IntEnum):
+    """Option to delete the mesh inside a polygon """
+
+    """Delete all nodes inside the polygon. """
+    ALLNODES = 0
+
+    """ Delete all faces of which the circum center is inside the polygon """
+    ALLFACECIRCUMCENTERS = 1
+
+    """ Delete all faces of which the complete face is inside the polygon. """
+    ALLCOMPLETEFACES = 2
 
 
 class MeshKernel:
@@ -147,3 +160,27 @@ class MeshKernel:
             msg = f"MeshKernel exception in: {function.__name__}"
             # TODO: Report errors from MeshKernel
             raise MeshKernelError(msg)
+
+    def delete_mesh2d(
+        self,
+        geometry_list: GeometryList,
+        delete_option: DeleteMeshOption,
+        invert_deletion: bool,
+    ):
+        """Deletes a mesh in a polygon using several options.
+
+        Args:
+            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
+            delete_option (DeleteMeshOption): The option describing the strategy to delete the mesh.
+            invert_deletion (bool): Whether or not to invert the polygon.
+        """
+
+        cgeometrylist = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_delete_mesh2d,
+            self._meshkernelid,
+            byref(cgeometrylist),
+            c_int(delete_option),
+            c_bool(invert_deletion),
+        )

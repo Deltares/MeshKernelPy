@@ -31,3 +31,20 @@ class Mesh2d:
     edge_y: np.ndarray = np.empty(0, dtype=np.double)
     face_x: np.ndarray = np.empty(0, dtype=np.double)
     face_y: np.ndarray = np.empty(0, dtype=np.double)
+
+
+@dataclass
+class GeometryList:
+    """A class to describe a list of geometries.
+
+    Attributes:
+        x_coordinates (np.ndarray(np.double)): The x coordinates.
+        y_coordinates (np.ndarray(np.double)): The y coordinates.
+        geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
+        inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer part. Default is `-998.0`
+    """
+
+    x_coordinates: np.ndarray
+    y_coordinates: np.ndarray
+    geometry_separator: float = -999.0
+    inner_outer_separator: float = -998.0
