@@ -28,10 +28,15 @@ class Mesh2dFactory:
             Mesh2d: The calculated rectilinear mesh
         """
 
-        if spacing_x < 0:
-            raise InputError("spacing_x needs to be positive")
-        if spacing_y < 0:
-            raise InputError("spacing_y needs to be positive")
+        # Validate input
+        if rows <= 0 or not isinstance(rows, int):
+            raise InputError("rows needs to be a positive integer.")
+        if columns <= 0 or not isinstance(columns, int):
+            raise InputError("columns needs to be a positive integer.")
+        if spacing_x <= 0:
+            raise InputError("spacing_x needs to be positive.")
+        if spacing_y <= 0:
+            raise InputError("spacing_y needs to be positive.")
 
         # Initialize helper objects
         num_nodes = rows * columns
