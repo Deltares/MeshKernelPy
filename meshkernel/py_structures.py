@@ -41,7 +41,8 @@ class GeometryList:
         x_coordinates (np.ndarray(np.double)): The x coordinates.
         y_coordinates (np.ndarray(np.double)): The y coordinates.
         geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
-        inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer part. Default is `-998.0`
+        inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer
+                                                 part. Default is `-998.0`
     """
 
     x_coordinates: np.ndarray
