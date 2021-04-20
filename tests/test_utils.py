@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-from meshkernel import Mesh2d
+from meshkernel import InputError, Mesh2d, Mesh2dFactory
 
 
 def test_create_rectilinear_mesh_simple():
@@ -15,7 +15,7 @@ def test_create_rectilinear_mesh_simple():
     0---1---2
 
     """
-    mesh2d = Mesh2d.create_rectilinear_mesh(3, 3)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
 
     # Assert node positions
     assert_array_equal(
@@ -48,7 +48,7 @@ def test_create_rectilinear_mesh_extensive():
     0---1---2---3
 
     """
-    mesh2d = Mesh2d.create_rectilinear_mesh(
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(
         3, 4, origin_x=-1.0, origin_y=1.0, spacing_x=2.0, spacing_y=3.0
     )
 
@@ -108,8 +108,8 @@ def test_create_rectilinear_mesh_extensive():
 
 def test_create_rectilinear_mesh_reject_negative_spacing():
     """Tests if `create_rectilinear_mesh` rejects negative spacing."""
-    with pytest.raises(AssertionError):
-        Mesh2d.create_rectilinear_mesh(3, 3, spacing_x=-1.0)
+    with pytest.raises(InputError):
+        Mesh2dFactory.create_rectilinear_mesh(3, 3, spacing_x=-1.0)
 
-    with pytest.raises(AssertionError):
-        Mesh2d.create_rectilinear_mesh(3, 3, spacing_y=-1.0)
+    with pytest.raises(InputError):
+        Mesh2dFactory.create_rectilinear_mesh(3, 3, spacing_y=-1.0)
