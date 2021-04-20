@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from ctypes import POINTER, Structure, c_double, c_int
 
 import numpy as np
@@ -10,6 +12,21 @@ class CMesh2d(Structure):
     It represents a Mesh2D struct as described by the MeshKernel API.
 
     Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        edge_nodes (POINTER(c_int)): The nodes composing each mesh 2d edge.
+        face_nodes (POINTER(c_int)): The nodes composing each mesh 2d face.
+        nodes_per_face (POINTER(c_int)): The nodes composing each mesh 2d face.
+        node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        edge_x (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        edge_y (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        face_x (POINTER(c_double)): The x-coordinates of the mesh faces' mass centers.
+        face_y (POINTER(c_double)): The y-coordinates of the mesh faces' mass centers.
+        num_nodes (c_int): The number of mesh nodes.
+        num_edges (c_int): The number of edges.
+        num_faces (c_int): The number of faces.
+        num_face_nodes (c_int): The total number of nodes composing the mesh 2d faces.
     """
 
     _fields_ = [
@@ -28,15 +45,18 @@ class CMesh2d(Structure):
         ("num_face_nodes", c_int),
     ]
 
-    @classmethod
-    def from_mesh2d(cls, mesh2d: Mesh2d):
+    @staticmethod
+    def from_mesh2d(mesh2d: Mesh2d) -> CMesh2d:
         """Creates a new CMesh instance from a given Mesh2d instance
 
         Args:
             mesh2d (Mesh2d): Class of numpy instances owning the state
+
+        Returns:
+            CMesh2d: The created CMesh2d instance
         """
 
-        cmesh2d = cls()
+        cmesh2d = CMesh2d()
 
         # Set the pointers
         cmesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
@@ -87,9 +107,9 @@ class CMesh2d(Structure):
         self.face_y = np.ctypeslib.as_ctypes(face_y)
 
         return Mesh2d(
-            edge_nodes,
             node_x,
             node_y,
+            edge_nodes,
             face_nodes,
             nodes_per_face,
             edge_x,

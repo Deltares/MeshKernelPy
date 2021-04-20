@@ -5,7 +5,7 @@ import sys
 from ctypes import CDLL, POINTER, byref, c_char_p, c_double, c_int
 from enum import Enum, IntEnum, unique
 from pathlib import Path
-from typing import Iterable, Tuple
+from typing import Callable, Iterable, Tuple
 
 import numpy as np
 
@@ -39,12 +39,15 @@ class MeshKernel:
             raise OSError("Unsupported operating system")
 
         # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
-        # -> uses the altered search path for resolving ddl dependencies
+        # -> uses the altered search path for resolving dll dependencies
         # `winmode` has no effect while running on Linux or macOS
         self.lib = CDLL(str(lib_path), winmode=0x08)
 
         self.libname = os.path.basename(lib_path)
         self._allocate_state(is_geographic)
+
+    def __del__(self):
+        self._deallocate_state()
 
     def _allocate_state(self, is_geographic: bool) -> None:
         """Creates a new empty mesh.
@@ -60,9 +63,12 @@ class MeshKernel:
             byref(self._meshkernelid),
         )
 
-    def deallocate_state(self) -> None:
+    def _deallocate_state(self) -> None:
         """
         Deallocate mesh state.
+
+        This method is called by the destructor and
+        should never be called manually
         """
 
         self._execute_function(
@@ -73,8 +79,7 @@ class MeshKernel:
     def set_mesh2d(self, mesh2d: Mesh2d) -> None:
         """Sets the two-dimensional mesh state of the MeshKernel.
 
-        Please note that this involves a copy of the data
-        and should therefore not be called in hot loops.
+        Please note that this involves a copy of the data.
 
         Args:
             mesh2d (Mesh2d): The input data used for setting the state
@@ -88,8 +93,7 @@ class MeshKernel:
     def get_mesh2d(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
-        Please note that this involves a copy of the data
-        and should therefore not be called in hot loops.
+        Please note that this involves a copy of the data.
 
         Returns:
             Mesh2d: A copy of the two-dimensional mesh state
@@ -106,28 +110,40 @@ class MeshKernel:
 
         return mesh2d
 
-    def insert_node_mesh2d(self, x: float, y: float, index: int):
+    def insert_node_mesh2d(self, x: float, y: float) -> int:
         """Insert a new node at the specified coordinates
 
         Args:
             x (float): The x-coordinate of the new node
             y (float): The y-coordinate of the new node
-            index (int): The index of the new node
+
+        Returns:
+            int: The index of the new node
         """
+
+        index = c_int()
         self._execute_function(
             self.lib.mkernel_insert_node_mesh2d,
             self._meshkernelid,
             c_double(x),
             c_double(y),
-            byref(c_int(index)),
+            byref(index),
         )
+        return index.value
 
-    def _execute_function(self, function, *args, detail=""):
-        """
-        Utility function to execute a BMI function in the kernel and checks its status
-        """
+    @staticmethod
+    def _execute_function(function: Callable, *args):
+        """Utility function to execute a C function of MeshKernel and checks its status
 
+        Args:
+            function (Callable): The function which we want to call
+            args: Arguments which will be passed to `function`
+
+        Raises:
+            MeshKernelError: This exception gets raised,
+                             if the MeshKernel library reports an error.
+        """
         if function(*args) != Status.SUCCESS:
-            msg = f"MeshKernel exception in: {function.__name__} ({detail})"
+            msg = f"MeshKernel exception in: {function.__name__}"
             # TODO: Report errors from MeshKernel
             raise MeshKernelError(msg)

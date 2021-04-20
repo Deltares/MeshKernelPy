@@ -1,5 +1,6 @@
 # imports
 from meshkernel.errors import InputError, MeshKernelError
+from meshkernel.factories import Mesh2dFactory
 from meshkernel.meshkernel import MeshKernel
 from meshkernel.py_structures import Mesh2d
 
