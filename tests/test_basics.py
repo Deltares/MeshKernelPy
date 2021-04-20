@@ -13,10 +13,13 @@ from meshkernel import (
     MeshKernelError,
 )
 
+cases_constructor = [(True), (False)]
 
-def test_constructor():
+
+@pytest.mark.parametrize("is_geometric", cases_constructor)
+def test_constructor(is_geometric: bool):
     """Test if the constructor works"""
-    MeshKernel(False)
+    MeshKernel(is_geometric)
 
 
 def test_different_id():
@@ -121,7 +124,9 @@ cases_count_hanging_edges_mesh2d = [
 @pytest.mark.parametrize(
     "node_x, node_y, edge_nodes, expected", cases_count_hanging_edges_mesh2d
 )
-def test_count_hanging_edges_mesh2d(node_x, node_y, edge_nodes, expected):
+def test_count_hanging_edges_mesh2d(
+    node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
+):
     """Test to count the hanging edges in a simple Mesh2d
     5*
     |
