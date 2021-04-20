@@ -7,6 +7,7 @@ from numpy.testing import assert_array_equal
 from meshkernel import (
     DeleteMeshOption,
     GeometryList,
+    InputError,
     Mesh2d,
     Mesh2dFactory,
     MeshKernel,
@@ -62,6 +63,66 @@ def test_set_mesh():
     # Test if edges are correctly calculated
     assert_array_equal(output_mesh2d.edge_x, np.array([0.5, 1.0, 0.5, 0.0]))
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
+
+
+cases_delete_node_mesh2d = [
+    (0, 0.0, 0.0),
+    (1, 1.0, 0.0),
+    (2, 2.0, 0.0),
+    (3, 0.0, 1.0),
+    (4, 1.0, 1.0),
+    (5, 2.0, 1.0),
+    (6, 0.0, 2.0),
+    (7, 1.0, 2.0),
+    (8, 2.0, 2.0),
+]
+
+
+@pytest.mark.parametrize("node_index, deleted_x, deleted_y", cases_delete_node_mesh2d)
+def test_delete_node_mesh2d(node_index: int, deleted_y: float, deleted_x: float):
+    """Test `delete_node_mesh2d` by deleting a node from a 3x3 Mesh2d.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+
+    """
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
+    meshkernel = MeshKernel(False)
+
+    meshkernel.set_mesh2d(mesh2d)
+
+    meshkernel.delete_node_mesh2d(node_index)
+
+    mesh2d = meshkernel.get_mesh2d()
+
+    assert mesh2d.node_x.size == 8
+
+    for x, y in zip(mesh2d.node_x, mesh2d.node_y):
+        assert x != deleted_x or y != deleted_y
+
+
+def test_delete_node_mesh2d_invalid_node_index():
+    """Test `delete_node_mesh2d` by passing a negative `node_index`.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+
+    """
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
+    meshkernel = MeshKernel(False)
+
+    meshkernel.set_mesh2d(mesh2d)
+
+    meshkernel.delete_node_mesh2d(0)
+
+    with pytest.raises(InputError):
+        meshkernel.delete_node_mesh2d(-1)
 
 
 def test_delete_mesh2d():

@@ -145,6 +145,24 @@ class MeshKernel:
         )
         return index.value
 
+    def delete_node_mesh2d(self, node_index: int):
+
+        """Deletes a Mesh2d node with the given `index`.
+
+        Args:
+            node_index (int): The index of the node to be deleted.
+
+        Raises:
+            InputError: Raised when `node_index` is smaller than 0.
+        """
+
+        if node_index < 0:
+            raise InputError("node_index needs to be a positive integer")
+
+        self._execute_function(
+            self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
+        )
+
     def count_hanging_edges_mesh2d(self) -> int:
         """Count the number of hanging edges in a Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
