@@ -105,24 +105,59 @@ def test_delete_node_mesh2d(node_index: int, deleted_y: float, deleted_x: float)
 
 
 def test_delete_node_mesh2d_invalid_node_index():
-    """Test `delete_node_mesh2d` by passing a negative `node_index`.
+    """Test `delete_node_mesh2d` by passing a negative `node_index`."""
 
-    6---7---8
-    |   |   |
-    3---4---5
-    |   |   |
-    0---1---2
-
-    """
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
     meshkernel = MeshKernel(False)
 
     meshkernel.set_mesh2d(mesh2d)
 
-    meshkernel.delete_node_mesh2d(0)
-
     with pytest.raises(InputError):
         meshkernel.delete_node_mesh2d(-1)
+
+
+def test_move_node_mesh2d():
+    """Test to move a node in a simple Mesh2d to new location.
+
+    2---3
+    |   |
+    0---1
+    """
+
+    meshlib = MeshKernel(False)
+
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
+
+    meshlib.set_mesh2d(mesh2d)
+
+    x_coordinates = np.array([5.0], dtype=np.double)
+    y_coordinates = np.array([7.0], dtype=np.double)
+
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+    node_index = 3
+    meshlib.move_node_mesh2d(geometry_list, node_index)
+
+    mesh2d = meshlib.get_mesh2d()
+
+    assert mesh2d.node_x[node_index] == 5.0
+    assert mesh2d.node_y[node_index] == 7.0
+
+
+def test_move_node_mesh2d_invalid_node_index():
+    """Test `move_node_mesh2d` by passing a negative `node_index`."""
+
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
+    meshkernel = MeshKernel(False)
+
+    meshkernel.set_mesh2d(mesh2d)
+
+    x_coordinates = np.array([5.0], dtype=np.double)
+    y_coordinates = np.array([7.0], dtype=np.double)
+
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+    with pytest.raises(InputError):
+        meshkernel.move_node_mesh2d(geometry_list, -1)
 
 
 def test_delete_mesh2d():

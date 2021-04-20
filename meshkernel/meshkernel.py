@@ -163,6 +163,30 @@ class MeshKernel:
             self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
         )
 
+    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int):
+
+        """Moves a Mesh2d node with the given `index` to the .
+
+        Args:
+            geometry_list: The geometry list describing the new position of the node.
+            node_index (int): The index of the node to be moved.
+
+        Raises:
+            InputError: Raised when `node_index` is smaller than 0.
+        """
+
+        if node_index < 0:
+            raise InputError("node_index needs to be a positive integer")
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_move_node_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_int(node_index),
+        )
+
     def count_hanging_edges_mesh2d(self) -> int:
         """Count the number of hanging edges in a Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
@@ -210,12 +234,12 @@ class MeshKernel:
             invert_deletion (bool): Whether or not to invert the polygon.
         """
 
-        cgeometrylist = CGeometryList.from_geometrylist(geometry_list)
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
             self.lib.mkernel_delete_mesh2d,
             self._meshkernelid,
-            byref(cgeometrylist),
+            byref(c_geometry_list),
             c_int(delete_option),
             c_bool(invert_deletion),
         )
