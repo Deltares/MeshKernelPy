@@ -144,6 +144,22 @@ class MeshKernel:
         )
         return index.value
 
+    def count_hanging_edges_mesh2d(self) -> int:
+        """Count the number of hanging edges in a Mesh2d.
+        A hanging edge is an edge where one of the two nodes is not connected.
+
+        Returns:
+            int: The number of hanging edges
+        """
+
+        count = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_hanging_edges_mesh2d,
+            self._meshkernelid,
+            byref(count),
+        )
+        return count.value
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status

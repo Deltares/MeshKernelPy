@@ -36,10 +36,7 @@ def test_set_mesh():
     """
     meshlib = MeshKernel(False)
 
-    edge_nodes = np.array(
-        [0, 1, 1, 2, 2, 3, 3, 0],
-        dtype=np.int32,
-    )
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
 
@@ -97,3 +94,27 @@ def test_delete_mesh2d():
     # assert mesh2d.node_x.size == 16
     # assert mesh2d.edge_x.size == 16
     # assert mesh2d.face_x.size == 1
+
+
+def test_count_hanging_edges_mesh2d():
+    """Test to count the hanging edges in a simple Mesh2d
+    5
+    |
+    2---3---4
+    |   |
+    0---1
+    """
+
+    meshlib = MeshKernel(False)
+
+    edge_nodes = np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4, 2, 5], dtype=np.int32)
+    node_x = np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double)
+
+    mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+
+    meshlib.set_mesh2d(mesh2d)
+
+    result = meshlib.count_hanging_edges_mesh2d()
+
+    assert result == 2
