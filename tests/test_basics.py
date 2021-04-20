@@ -25,10 +25,10 @@ def test_constructor(is_geometric: bool):
 
 def test_different_id():
     """Test if the meshkernelid of two instances differs"""
-    meshlib_1 = MeshKernel(False)
-    meshlib_2 = MeshKernel(False)
+    meshkernel_1 = MeshKernel(False)
+    meshkernel_2 = MeshKernel(False)
 
-    assert meshlib_1._meshkernelid != meshlib_2._meshkernelid
+    assert meshkernel_1._meshkernelid != meshkernel_2._meshkernelid
 
 
 def test_set_mesh():
@@ -38,16 +38,16 @@ def test_set_mesh():
     |   |
     0---1
     """
-    meshlib = MeshKernel(False)
+    meshkernel = MeshKernel(False)
 
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
 
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
-    meshlib.set_mesh2d(input_mesh2d)
+    meshkernel.set_mesh2d(input_mesh2d)
 
-    output_mesh2d = meshlib.get_mesh2d()
+    output_mesh2d = meshkernel.get_mesh2d()
 
     # Test if the input and output differs
     assert_array_equal(output_mesh2d.edge_nodes, input_mesh2d.edge_nodes)
@@ -89,10 +89,7 @@ def test_delete_node_mesh2d(node_index: int, deleted_y: float, deleted_x: float)
     0---1---2
 
     """
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
-    meshkernel = MeshKernel(False)
-
-    meshkernel.set_mesh2d(mesh2d)
+    meshkernel = _get_meshkernel_with_mesh(3, 3)
 
     meshkernel.delete_node_mesh2d(node_index)
 
@@ -107,10 +104,7 @@ def test_delete_node_mesh2d(node_index: int, deleted_y: float, deleted_x: float)
 def test_delete_node_mesh2d_invalid_node_index():
     """Test `delete_node_mesh2d` by passing a negative `node_index`."""
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
-    meshkernel = MeshKernel(False)
-
-    meshkernel.set_mesh2d(mesh2d)
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
 
     with pytest.raises(InputError):
         meshkernel.delete_node_mesh2d(-1)
@@ -124,20 +118,16 @@ def test_move_node_mesh2d():
     0---1
     """
 
-    meshlib = MeshKernel(False)
-
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
-
-    meshlib.set_mesh2d(mesh2d)
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
 
     x_coordinates = np.array([5.0], dtype=np.double)
     y_coordinates = np.array([7.0], dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     node_index = 3
-    meshlib.move_node_mesh2d(geometry_list, node_index)
+    meshkernel.move_node_mesh2d(geometry_list, node_index)
 
-    mesh2d = meshlib.get_mesh2d()
+    mesh2d = meshkernel.get_mesh2d()
 
     assert mesh2d.node_x[node_index] == 5.0
     assert mesh2d.node_y[node_index] == 7.0
@@ -146,10 +136,7 @@ def test_move_node_mesh2d():
 def test_move_node_mesh2d_invalid_node_index():
     """Test `move_node_mesh2d` by passing a negative `node_index`."""
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
-    meshkernel = MeshKernel(False)
-
-    meshkernel.set_mesh2d(mesh2d)
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
 
     x_coordinates = np.array([5.0], dtype=np.double)
     y_coordinates = np.array([7.0], dtype=np.double)
@@ -174,10 +161,7 @@ def test_delete_mesh2d():
     0---1---2---3---4
 
     """
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(5, 5)
-    meshkernel = MeshKernel(False)
-
-    meshkernel.set_mesh2d(mesh2d)
+    meshkernel = _get_meshkernel_with_mesh(5, 5)
 
     # Polygon for indices 6, 8, 18, 16
     x_coordinates = np.array([1.0, 3.0, 3.0, 1.0], dtype=np.double)
@@ -231,12 +215,31 @@ def test_count_hanging_edges_mesh2d(
     0---1
     """
 
-    meshlib = MeshKernel(False)
+    meshkernel = MeshKernel(False)
 
     mesh2d = Mesh2d(node_x, node_y, edge_nodes)
 
-    meshlib.set_mesh2d(mesh2d)
+    meshkernel.set_mesh2d(mesh2d)
 
-    result = meshlib.count_hanging_edges_mesh2d()
+    result = meshkernel.count_hanging_edges_mesh2d()
 
     assert result == expected
+
+
+def _get_meshkernel_with_mesh(rows: int, columns: int) -> MeshKernel:
+    """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
+
+    Args:
+        rows (int): Number of node rows
+        columns (int): Number of node columns
+
+    Returns:
+        MeshKernel: The created instance of `meshkernel`
+    """
+
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
+    meshkernel = MeshKernel(False)
+
+    meshkernel.set_mesh2d(mesh2d)
+
+    return meshkernel
