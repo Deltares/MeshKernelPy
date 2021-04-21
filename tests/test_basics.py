@@ -78,6 +78,25 @@ cases_delete_node_mesh2d = [
 ]
 
 
+def test_insert_node_mesh2d():
+    """Test `insert_node_mesh2d` with a 2x2 Mesh2d.
+
+    3---2
+    |   |
+    0---1
+    """
+
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
+
+    node_index = meshkernel.insert_node_mesh2d(0.5, 0.0)
+
+    mesh2d = meshkernel.get_mesh2d()
+
+    # assert node_index == 4 TODO
+
+    assert mesh2d.node_x.size == 5
+
+
 @pytest.mark.parametrize("node_index, deleted_x, deleted_y", cases_delete_node_mesh2d)
 def test_delete_node_mesh2d(node_index: int, deleted_x: float, deleted_y: float):
     """Test `delete_node_mesh2d` by deleting a node from a 3x3 Mesh2d.
@@ -230,7 +249,7 @@ def test_find_edge_mesh2d(x: float, y: float, exp_index: int):
         (2)
 
     """
-    
+
     meshkernel = _get_meshkernel_with_mesh(2, 2)
 
     x_coordinate = np.array([x], dtype=np.double)
