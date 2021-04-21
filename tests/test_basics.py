@@ -147,7 +147,7 @@ def test_move_node_mesh2d_invalid_node_index():
         meshkernel.move_node_mesh2d(geometry_list, -1)
 
 
-def test_delete_mesh2d():
+def test_delete_mesh2d_small_polygon():
     """Test `delete_mesh2d` by deleting a polygon from a 5x5 mesh2d.
 
     20--21--22--23--24
@@ -163,9 +163,8 @@ def test_delete_mesh2d():
     """
     meshkernel = _get_meshkernel_with_mesh(5, 5)
 
-    # Polygon for indices 6, 8, 18, 16
-    x_coordinates = np.array([1.0, 3.0, 3.0, 1.0], dtype=np.double)
-    y_coordinates = np.array([1.0, 1.0, 3.0, 3.0], dtype=np.double)
+    x_coordinates = np.array([0.5, 3.5, 3.5, 0.5, 0.5], dtype=np.double)
+    y_coordinates = np.array([0.5, 0.5, 3.5, 3.5, 0.5], dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     delete_option = DeleteMeshOption.ALLNODES
@@ -174,9 +173,41 @@ def test_delete_mesh2d():
     meshkernel.delete_mesh2d(geometry_list, delete_option, invert_deletion)
     mesh2d = meshkernel.get_mesh2d()
 
-    # assert mesh2d.node_x.size == 16
-    # assert mesh2d.edge_x.size == 16
+    assert mesh2d.node_x.size == 16
+    assert mesh2d.edge_x.size == 16
+    # TODO: Check why face_x.size == 0
     # assert mesh2d.face_x.size == 1
+
+
+def test_delete_mesh2d_empty_polygon():
+    """Test `delete_mesh2d` by deleting a polygon from a 5x5 mesh2d.
+
+    20--21--22--23--24
+    |   |   |   |   |
+    15--16--17--18--19
+    |   |   |   |   |
+    10--11--12--13--14
+    |   |   |   |   |
+    5---6---7---8---9
+    |   |   |   |   |
+    0---1---2---3---4
+
+    """
+    meshkernel = _get_meshkernel_with_mesh(5, 5)
+
+    x_coordinates = np.empty(0, dtype=np.double)
+    y_coordinates = np.empty(0, dtype=np.double)
+
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+    delete_option = DeleteMeshOption.ALLNODES
+    invert_deletion = False
+
+    meshkernel.delete_mesh2d(geometry_list, delete_option, invert_deletion)
+    mesh2d = meshkernel.get_mesh2d()
+
+    assert mesh2d.node_x.size == 0
+    assert mesh2d.edge_x.size == 0
+    assert mesh2d.face_x.size == 0
 
 
 cases_count_hanging_edges_mesh2d = [
