@@ -166,6 +166,51 @@ def test_move_node_mesh2d_invalid_node_index():
         meshkernel.move_node_mesh2d(geometry_list, -1)
 
 
+cases_delete_edge_mesh2d = [
+    (0.5, 0.0),
+    (1.5, 0.0),
+    (0.0, 0.5),
+    (1.0, 0.5),
+    (2.0, 0.5),
+    (0.5, 1.0),
+    (1.5, 1.0),
+    (0.0, 1.5),
+    (1.0, 1.5),
+    (2.0, 1.5),
+    (0.5, 2.0),
+    (1.5, 2.0),
+]
+
+
+@pytest.mark.parametrize("delete_x, delete_y", cases_delete_edge_mesh2d)
+def test_delete_edge_mesh2d(delete_x: float, delete_y: float):
+    """Test `delete_edge_mesh2d` by deleting an edge from a 3x3 Mesh2d.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+
+    """
+    meshkernel = _get_meshkernel_with_mesh(3, 3)
+
+    x_coordinate = np.array([delete_x], dtype=np.double)
+    y_coordinate = np.array([delete_y], dtype=np.double)
+    geometry_list = GeometryList(x_coordinate, y_coordinate)
+
+    meshkernel.delete_edge_mesh2d(geometry_list)
+
+    mesh2d = meshkernel.get_mesh2d()
+
+    assert mesh2d.node_x.size == 9
+    assert mesh2d.edge_x.size == 11
+    assert mesh2d.face_x.size == 3
+
+    for x, y in zip(mesh2d.edge_x, mesh2d.edge_y):
+        assert x != delete_x or y != delete_y
+
+
 cases_delete_mesh2d_small_polygon = [
     (True, DeleteMeshOption.ALLNODES, 4, 4, 1),
     (True, DeleteMeshOption.ALLFACECIRCUMCENTERS, 16, 24, 9),

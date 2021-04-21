@@ -211,6 +211,22 @@ class MeshKernel:
             c_int(node_index),
         )
 
+    def delete_edge_mesh2d(self, geometry_list: GeometryList):
+        """Deletes the closest mesh2d edge to a point.
+        The coordinates of the edge middle points are used for calculating the distances to the point.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_delete_edge_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
     def count_hanging_edges_mesh2d(self) -> int:
         """Count the number of hanging edges in a Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
