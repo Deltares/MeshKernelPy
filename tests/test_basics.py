@@ -211,6 +211,37 @@ def test_delete_edge_mesh2d(delete_x: float, delete_y: float):
         assert x != delete_x or y != delete_y
 
 
+cases_find_edge_mesh2d = [
+    (0.5, 0.0, 2),
+    (1.0, 0.5, 1),
+    (0.5, 1.0, 3),
+    (0.0, 0.5, 0),
+]
+
+
+@pytest.mark.parametrize("x, y, exp_index", cases_find_edge_mesh2d)
+def test_find_edge_mesh2d(x: float, y: float, exp_index: int):
+    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
+
+        (3)
+       2---3
+    (0)|   |(1)
+       0---1
+        (2)
+
+    """
+    
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
+
+    x_coordinate = np.array([x], dtype=np.double)
+    y_coordinate = np.array([y], dtype=np.double)
+    geometry_list = GeometryList(x_coordinate, y_coordinate)
+
+    edge_index = meshkernel.find_edge_mesh2d(geometry_list)
+
+    assert edge_index == exp_index
+
+
 cases_delete_mesh2d_small_polygon = [
     (True, DeleteMeshOption.ALLNODES, 4, 4, 1),
     (True, DeleteMeshOption.ALLFACECIRCUMCENTERS, 16, 24, 9),

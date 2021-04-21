@@ -227,6 +227,28 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def find_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+        """Finds the closest mesh2d edge to a point.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+
+        Returns:
+            int: The index of the edge
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        index = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_find_edge_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            byref(index),
+        )
+
+        return index.value
+
     def count_hanging_edges_mesh2d(self) -> int:
         """Count the number of hanging edges in a Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
