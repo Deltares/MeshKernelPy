@@ -261,6 +261,56 @@ def test_find_edge_mesh2d(x: float, y: float, exp_index: int):
     assert edge_index == exp_index
 
 
+cases_get_node_index_mesh2d = [
+    (0.0, 0.0, 0),
+    (0.4, 0.0, 0),
+    (0.0, 0.4, 0),
+    (1.0, 0.0, 1),
+    (0.6, 0.0, 1),
+    (1.0, 0.4, 1),
+    (0.0, 1.0, 2),
+    (0.4, 1.0, 2),
+    (0.0, 0.6, 2),
+    (1.0, 1.0, 3),
+    (0.6, 1.0, 3),
+    (1.0, 0.6, 3),
+]
+
+
+@pytest.mark.parametrize("x, y, exp_index", cases_get_node_index_mesh2d)
+def test_get_node_index_mesh2d(x: float, y: float, exp_index: int):
+    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
+
+    2---3
+    |   |
+    0---1
+
+    """
+
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
+
+    x_coordinate = np.array([x], dtype=np.double)
+    y_coordinate = np.array([y], dtype=np.double)
+    geometry_list = GeometryList(x_coordinate, y_coordinate)
+
+    edge_index = meshkernel.get_node_index_mesh2d(geometry_list, 0.5)
+
+    assert edge_index == exp_index
+
+
+def test_get_node_index_mesh2d_no_node_in_search_radius():
+    """Test `find_edge_mesh2d` when there is no node within the search radius."""
+
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
+
+    x_coordinate = np.array([0.5], dtype=np.double)
+    y_coordinate = np.array([0.5], dtype=np.double)
+    geometry_list = GeometryList(x_coordinate, y_coordinate)
+
+    with pytest.raises(MeshKernelError):
+        meshkernel.get_node_index_mesh2d(geometry_list, 0.4)
+
+
 cases_delete_mesh2d_small_polygon = [
     (True, DeleteMeshOption.ALLNODES, 4, 4, 1),
     (True, DeleteMeshOption.ALLFACECIRCUMCENTERS, 16, 24, 9),

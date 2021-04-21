@@ -249,6 +249,32 @@ class MeshKernel:
 
         return index.value
 
+    def get_node_index_mesh2d(
+        self, geometry_list: GeometryList, search_radius: float
+    ) -> int:
+        """Finds the node closest to a point within a given search radius.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+            search_radius (float): The search radius
+
+        Returns:
+            int: The index of node
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        index = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_get_node_index_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_double(search_radius),
+            byref(index),
+        )
+
+        return index.value
+
     def count_hanging_edges_mesh2d(self) -> int:
         """Count the number of hanging edges in a Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
