@@ -126,23 +126,21 @@ class CGeometryList(Structure):
     Used for communicating with the MeshKernel dll.
 
     Attributes:
-        type (c_int): The type
         geometry_separator (c_double): The value used as a separator in the coordinates.
         inner_outer_separator (c_double): The value used to separate the inner part of a polygon from its outer part.
         n_coordinates (c_int): The number of coordinate values.
         x_coordinates (POINTER(c_double)): The x coordinates.
         y_coordinates (POINTER(c_double)): The y coordinates.
-        z_coordinates (POINTER(c_double)): The z coordinates.
+        values (POINTER(c_double)): The z coordinates.
     """
 
     _fields_ = [
-        ("type", c_int),
         ("geometry_separator", c_double),
         ("inner_outer_separator", c_double),
         ("n_coordinates", c_int),
         ("x_coordinates", POINTER(c_double)),
         ("y_coordinates", POINTER(c_double)),
-        ("z_coordinates", POINTER(c_double)),
+        ("values", POINTER(c_double)),
     ]
 
     @staticmethod
@@ -158,7 +156,6 @@ class CGeometryList(Structure):
 
         c_geometry_list = CGeometryList()
 
-        c_geometry_list.type = 0
         c_geometry_list.geometry_separator = geometry_list.geometry_separator
         c_geometry_list.inner_outer_separator = geometry_list.inner_outer_separator
         c_geometry_list.n_coordinates = geometry_list.x_coordinates.size
@@ -168,8 +165,6 @@ class CGeometryList(Structure):
         c_geometry_list.y_coordinates = np.ctypeslib.as_ctypes(
             geometry_list.y_coordinates
         )
-        c_geometry_list.z_coordinates = np.ctypeslib.as_ctypes(
-            np.empty(0, dtype=np.double)
-        )
+        c_geometry_list.values = np.ctypeslib.as_ctypes(np.empty(0, dtype=np.double))
 
         return c_geometry_list
