@@ -135,7 +135,7 @@ class MeshKernel:
         Args:
             geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
             delete_option (DeleteMeshOption): The option describing the strategy to delete the mesh.
-            invert_deletion (bool): Whether or not to invert the polygon.
+            invert_deletion (bool): Whether or not to invert the deletion.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)

@@ -147,40 +147,69 @@ def test_move_node_mesh2d_invalid_node_index():
         meshkernel.move_node_mesh2d(geometry_list, -1)
 
 
-def test_delete_mesh2d_small_polygon():
-    """Test `delete_mesh2d` by deleting a polygon from a 5x5 mesh2d.
+cases_delete_mesh2d_small_polygon = [
+    (True, DeleteMeshOption.ALLNODES, 4, 4, 1),
+    (True, DeleteMeshOption.ALLFACECIRCUMCENTERS, 16, 24, 9),
+    (True, DeleteMeshOption.ALLCOMPLETEFACES, 4, 4, 1),
+    (False, DeleteMeshOption.ALLNODES, 32, 48, 16),
+    (False, DeleteMeshOption.ALLFACECIRCUMCENTERS, 32, 48, 16),
+    (False, DeleteMeshOption.ALLCOMPLETEFACES, 36, 60, 25),
+]
 
-    20--21--22--23--24
-    |   |   |   |   |
-    15--16--17--18--19
-    |   |   |   |   |
-    10--11--12--13--14
-    |   |   |   |   |
-    5---6---7---8---9
-    |   |   |   |   |
-    0---1---2---3---4
+
+@pytest.mark.parametrize(
+    "invert_deletion, delete_option, exp_nodes, exp_edges, exp_faces",
+    cases_delete_mesh2d_small_polygon,
+)
+def test_delete_mesh2d_small_polygon(
+    invert_deletion: bool,
+    delete_option: DeleteMeshOption,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
+    """Test `delete_mesh2d` by deleting a polygon from a 6x6 mesh2d.
+
+    30--31--32--33--34--35
+    |   |   |   |   |   |
+    24--25--26--27--28--29
+    |   | * |   | * |   |
+    18--19--20--21--22--23
+    |   |   |   |   |   |
+    12--13--14--15--16--17
+    |   | * |   | * |   |
+    6---7---8---9---10--11
+    |   |   |   |   |   |
+    0---1---2---3---4---5
 
     """
-    meshkernel = _get_meshkernel_with_mesh(5, 5)
+    meshkernel = _get_meshkernel_with_mesh(6, 6)
 
-    x_coordinates = np.array([0.5, 3.5, 3.5, 0.5, 0.5], dtype=np.double)
-    y_coordinates = np.array([0.5, 0.5, 3.5, 3.5, 0.5], dtype=np.double)
+    # Polygon around nodes 14, 15, 21 & 20 (through the face circum centers)
+    x_coordinates = np.array([1.5, 3.5, 3.5, 1.5, 1.5], dtype=np.double)
+    y_coordinates = np.array([1.5, 1.5, 3.5, 3.5, 1.5], dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
-    delete_option = DeleteMeshOption.ALLNODES
-    invert_deletion = False
 
     meshkernel.delete_mesh2d(geometry_list, delete_option, invert_deletion)
     mesh2d = meshkernel.get_mesh2d()
 
-    assert mesh2d.node_x.size == 16
-    assert mesh2d.edge_x.size == 16
-    # TODO: Check why face_x.size == 0
-    # assert mesh2d.face_x.size == 1
+    assert mesh2d.node_x.size == exp_nodes
+    assert mesh2d.edge_x.size == exp_edges
+    assert mesh2d.face_x.size == exp_faces
 
 
-def test_delete_mesh2d_empty_polygon():
-    """Test `delete_mesh2d` by deleting a polygon from a 5x5 mesh2d.
+cases_delete_mesh2d_empty_polygon = [(False, 0, 0, 0), (True, 25, 40, 16)]
+
+
+@pytest.mark.parametrize(
+    "invert_deletion, exp_nodes, exp_edges, exp_faces",
+    cases_delete_mesh2d_empty_polygon,
+)
+def test_delete_mesh2d_empty_polygon(
+    invert_deletion: bool, exp_nodes: int, exp_edges: int, exp_faces: int
+):
+    """Test `delete_mesh2d` by deleting a an empty polygon from a 5x5 mesh2d.
 
     20--21--22--23--24
     |   |   |   |   |
@@ -200,14 +229,13 @@ def test_delete_mesh2d_empty_polygon():
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     delete_option = DeleteMeshOption.ALLNODES
-    invert_deletion = False
 
     meshkernel.delete_mesh2d(geometry_list, delete_option, invert_deletion)
     mesh2d = meshkernel.get_mesh2d()
 
-    assert mesh2d.node_x.size == 0
-    assert mesh2d.edge_x.size == 0
-    assert mesh2d.face_x.size == 0
+    assert mesh2d.node_x.size == exp_nodes
+    assert mesh2d.edge_x.size == exp_edges
+    assert mesh2d.face_x.size == exp_faces
 
 
 cases_count_hanging_edges_mesh2d = [
