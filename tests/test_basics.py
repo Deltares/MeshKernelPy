@@ -79,7 +79,7 @@ cases_delete_node_mesh2d = [
 
 
 @pytest.mark.parametrize("node_index, deleted_x, deleted_y", cases_delete_node_mesh2d)
-def test_delete_node_mesh2d(node_index: int, deleted_y: float, deleted_x: float):
+def test_delete_node_mesh2d(node_index: int, deleted_x: float, deleted_y: float):
     """Test `delete_node_mesh2d` by deleting a node from a 3x3 Mesh2d.
 
     6---7---8
@@ -110,27 +110,46 @@ def test_delete_node_mesh2d_invalid_node_index():
         meshkernel.delete_node_mesh2d(-1)
 
 
-def test_move_node_mesh2d():
+cases_move_node_mesh2d = [
+    (0, 0.0, 0.0),
+    (1, 1.0, 0.0),
+    (2, 2.0, 0.0),
+    (3, 0.0, 1.0),
+    (4, 1.0, 1.0),
+    (5, 2.0, 1.0),
+    (6, 0.0, 2.0),
+    (7, 1.0, 2.0),
+    (8, 2.0, 2.0),
+]
+
+
+@pytest.mark.parametrize("node_index, moved_x, moved_y", cases_move_node_mesh2d)
+def test_move_node_mesh2d(node_index: int, moved_x: float, moved_y: float):
     """Test to move a node in a simple Mesh2d to new location.
 
-    2---3
-    |   |
-    0---1
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+
     """
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = _get_meshkernel_with_mesh(3, 3)
 
     x_coordinates = np.array([5.0], dtype=np.double)
     y_coordinates = np.array([7.0], dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
-    node_index = 3
     meshkernel.move_node_mesh2d(geometry_list, node_index)
 
     mesh2d = meshkernel.get_mesh2d()
 
     assert mesh2d.node_x[node_index] == 5.0
     assert mesh2d.node_y[node_index] == 7.0
+
+    for x, y in zip(mesh2d.node_x, mesh2d.node_y):
+        assert x != moved_x or y != moved_y
 
 
 def test_move_node_mesh2d_invalid_node_index():
