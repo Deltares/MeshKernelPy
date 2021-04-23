@@ -65,7 +65,7 @@ def test_set_mesh():
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
 
 
-def test_insert_edge_mesh2d():
+def test_insert_edge_mesh2d(meshkernel_with_mesh2d: MeshKernel):
     """Test `insert_edge_mesh2d` by inserting one edge within a 2x2 Mesh2d.
 
     2---3
@@ -73,7 +73,7 @@ def test_insert_edge_mesh2d():
     0---1
     """
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     edge_index = meshkernel.insert_edge_mesh2d(0, 3)
 
@@ -85,7 +85,7 @@ def test_insert_edge_mesh2d():
     assert mesh2d.face_x.size == 2
 
 
-def test_insert_node_mesh2d():
+def test_insert_node_mesh2d(meshkernel_with_mesh2d: MeshKernel):
     """Test `insert_node_mesh2d` with a 2x2 Mesh2d.
 
     2---3
@@ -93,7 +93,7 @@ def test_insert_node_mesh2d():
     0---1
     """
 
-    # meshkernel = _get_meshkernel_with_mesh(2, 2)
+    # meshkernel = meshkernel_with_mesh2d(2, 2)
 
     # node_index = meshkernel.insert_node_mesh2d(0.5, 0.0)
 
@@ -117,7 +117,12 @@ cases_delete_node_mesh2d = [
 
 
 @pytest.mark.parametrize("node_index, deleted_x, deleted_y", cases_delete_node_mesh2d)
-def test_delete_node_mesh2d(node_index: int, deleted_x: float, deleted_y: float):
+def test_delete_node_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    node_index: int,
+    deleted_x: float,
+    deleted_y: float,
+):
     """Test `delete_node_mesh2d` by deleting a node from a 3x3 Mesh2d.
 
     6---7---8
@@ -127,7 +132,7 @@ def test_delete_node_mesh2d(node_index: int, deleted_x: float, deleted_y: float)
     0---1---2
 
     """
-    meshkernel = _get_meshkernel_with_mesh(3, 3)
+    meshkernel = meshkernel_with_mesh2d(3, 3)
 
     meshkernel.delete_node_mesh2d(node_index)
 
@@ -139,10 +144,10 @@ def test_delete_node_mesh2d(node_index: int, deleted_x: float, deleted_y: float)
         assert x != deleted_x or y != deleted_y
 
 
-def test_delete_node_mesh2d_invalid_node_index():
+def test_delete_node_mesh2d_invalid_node_index(meshkernel_with_mesh2d: MeshKernel):
     """Test `delete_node_mesh2d` by passing a negative `node_index`."""
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     with pytest.raises(InputError):
         meshkernel.delete_node_mesh2d(-1)
@@ -162,7 +167,9 @@ cases_move_node_mesh2d = [
 
 
 @pytest.mark.parametrize("node_index, moved_x, moved_y", cases_move_node_mesh2d)
-def test_move_node_mesh2d(node_index: int, moved_x: float, moved_y: float):
+def test_move_node_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel, node_index: int, moved_x: float, moved_y: float
+):
     """Test to move a node in a simple Mesh2d to new location.
 
     6---7---8
@@ -173,7 +180,7 @@ def test_move_node_mesh2d(node_index: int, moved_x: float, moved_y: float):
 
     """
 
-    meshkernel = _get_meshkernel_with_mesh(3, 3)
+    meshkernel = meshkernel_with_mesh2d(3, 3)
 
     x_coordinates = np.array([5.0], dtype=np.double)
     y_coordinates = np.array([7.0], dtype=np.double)
@@ -190,10 +197,10 @@ def test_move_node_mesh2d(node_index: int, moved_x: float, moved_y: float):
         assert x != moved_x or y != moved_y
 
 
-def test_move_node_mesh2d_invalid_node_index():
+def test_move_node_mesh2d_invalid_node_index(meshkernel_with_mesh2d: MeshKernel):
     """Test `move_node_mesh2d` by passing a negative `node_index`."""
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     x_coordinates = np.array([5.0], dtype=np.double)
     y_coordinates = np.array([7.0], dtype=np.double)
@@ -221,7 +228,9 @@ cases_delete_edge_mesh2d = [
 
 
 @pytest.mark.parametrize("delete_x, delete_y", cases_delete_edge_mesh2d)
-def test_delete_edge_mesh2d(delete_x: float, delete_y: float):
+def test_delete_edge_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel, delete_x: float, delete_y: float
+):
     """Test `delete_edge_mesh2d` by deleting an edge from a 3x3 Mesh2d.
 
     6---7---8
@@ -231,7 +240,7 @@ def test_delete_edge_mesh2d(delete_x: float, delete_y: float):
     0---1---2
 
     """
-    meshkernel = _get_meshkernel_with_mesh(3, 3)
+    meshkernel = meshkernel_with_mesh2d(3, 3)
 
     x_coordinate = np.array([delete_x], dtype=np.double)
     y_coordinate = np.array([delete_y], dtype=np.double)
@@ -258,7 +267,9 @@ cases_find_edge_mesh2d = [
 
 
 @pytest.mark.parametrize("x, y, exp_index", cases_find_edge_mesh2d)
-def test_find_edge_mesh2d(x: float, y: float, exp_index: int):
+def test_find_edge_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
+):
     """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
 
         (3)
@@ -269,7 +280,7 @@ def test_find_edge_mesh2d(x: float, y: float, exp_index: int):
 
     """
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     x_coordinate = np.array([x], dtype=np.double)
     y_coordinate = np.array([y], dtype=np.double)
@@ -297,7 +308,9 @@ cases_get_node_index_mesh2d = [
 
 
 @pytest.mark.parametrize("x, y, exp_index", cases_get_node_index_mesh2d)
-def test_get_node_index_mesh2d(x: float, y: float, exp_index: int):
+def test_get_node_index_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
+):
     """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
 
     2---3
@@ -306,7 +319,7 @@ def test_get_node_index_mesh2d(x: float, y: float, exp_index: int):
 
     """
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     x_coordinate = np.array([x], dtype=np.double)
     y_coordinate = np.array([y], dtype=np.double)
@@ -317,10 +330,12 @@ def test_get_node_index_mesh2d(x: float, y: float, exp_index: int):
     assert edge_index == exp_index
 
 
-def test_get_node_index_mesh2d_no_node_in_search_radius():
+def test_get_node_index_mesh2d_no_node_in_search_radius(
+    meshkernel_with_mesh2d: MeshKernel,
+):
     """Test `find_edge_mesh2d` when there is no node within the search radius."""
 
-    meshkernel = _get_meshkernel_with_mesh(2, 2)
+    meshkernel = meshkernel_with_mesh2d(2, 2)
 
     x_coordinate = np.array([0.5], dtype=np.double)
     y_coordinate = np.array([0.5], dtype=np.double)
@@ -345,6 +360,7 @@ cases_delete_mesh2d_small_polygon = [
     cases_delete_mesh2d_small_polygon,
 )
 def test_delete_mesh2d_small_polygon(
+    meshkernel_with_mesh2d: MeshKernel,
     invert_deletion: bool,
     delete_option: DeleteMeshOption,
     exp_nodes: int,
@@ -366,7 +382,7 @@ def test_delete_mesh2d_small_polygon(
     0---1---2---3---4---5
 
     """
-    meshkernel = _get_meshkernel_with_mesh(6, 6)
+    meshkernel = meshkernel_with_mesh2d(6, 6)
 
     # Polygon around nodes 14, 15, 21 & 20 (through the face circum centers)
     x_coordinates = np.array([1.5, 3.5, 3.5, 1.5, 1.5], dtype=np.double)
@@ -390,7 +406,11 @@ cases_delete_mesh2d_empty_polygon = [(False, 0, 0, 0), (True, 25, 40, 16)]
     cases_delete_mesh2d_empty_polygon,
 )
 def test_delete_mesh2d_empty_polygon(
-    invert_deletion: bool, exp_nodes: int, exp_edges: int, exp_faces: int
+    meshkernel_with_mesh2d: MeshKernel,
+    invert_deletion: bool,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Test `delete_mesh2d` by deleting a an empty polygon from a 5x5 mesh2d.
 
@@ -405,7 +425,7 @@ def test_delete_mesh2d_empty_polygon(
     0---1---2---3---4
 
     """
-    meshkernel = _get_meshkernel_with_mesh(5, 5)
+    meshkernel = meshkernel_with_mesh2d(5, 5)
 
     x_coordinates = np.empty(0, dtype=np.double)
     y_coordinates = np.empty(0, dtype=np.double)
@@ -496,7 +516,8 @@ def test_delete_hanging_edges_mesh2d():
     assert mesh2d.face_x.size == 1
 
 
-def _get_meshkernel_with_mesh(rows: int, columns: int) -> MeshKernel:
+@pytest.fixture(scope="function")
+def meshkernel_with_mesh2d() -> MeshKernel:
     """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
 
     Args:
@@ -507,9 +528,12 @@ def _get_meshkernel_with_mesh(rows: int, columns: int) -> MeshKernel:
         MeshKernel: The created instance of `meshkernel`
     """
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
-    meshkernel = MeshKernel(False)
+    def _create(rows: int, columns: int):
+        mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
+        meshkernel = MeshKernel(False)
 
-    meshkernel.set_mesh2d(mesh2d)
+        meshkernel.set_mesh2d(mesh2d)
 
-    return meshkernel
+        return meshkernel
+
+    return _create
