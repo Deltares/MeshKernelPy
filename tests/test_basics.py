@@ -65,23 +65,30 @@ def test_set_mesh():
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
 
 
-cases_delete_node_mesh2d = [
-    (0, 0.0, 0.0),
-    (1, 1.0, 0.0),
-    (2, 2.0, 0.0),
-    (3, 0.0, 1.0),
-    (4, 1.0, 1.0),
-    (5, 2.0, 1.0),
-    (6, 0.0, 2.0),
-    (7, 1.0, 2.0),
-    (8, 2.0, 2.0),
-]
+def test_insert_edge_mesh2d():
+    """Test `insert_edge_mesh2d` by inserting one edge within a 2x2 Mesh2d.
+
+    2---3
+    |   |
+    0---1
+    """
+
+    meshkernel = _get_meshkernel_with_mesh(2, 2)
+
+    edge_index = meshkernel.insert_edge_mesh2d(0, 3)
+
+    mesh2d = meshkernel.get_mesh2d()
+
+    assert edge_index == 4
+    assert mesh2d.node_x.size == 4
+    assert mesh2d.edge_x.size == 5
+    assert mesh2d.face_x.size == 2
 
 
 def test_insert_node_mesh2d():
     """Test `insert_node_mesh2d` with a 2x2 Mesh2d.
 
-    3---2
+    2---3
     |   |
     0---1
     """
@@ -94,6 +101,19 @@ def test_insert_node_mesh2d():
 
     # assert node_index == 4 TODO
     # assert mesh2d.node_x.size == 5
+
+
+cases_delete_node_mesh2d = [
+    (0, 0.0, 0.0),
+    (1, 1.0, 0.0),
+    (2, 2.0, 0.0),
+    (3, 0.0, 1.0),
+    (4, 1.0, 1.0),
+    (5, 2.0, 1.0),
+    (6, 0.0, 2.0),
+    (7, 1.0, 2.0),
+    (8, 2.0, 2.0),
+]
 
 
 @pytest.mark.parametrize("node_index, deleted_x, deleted_y", cases_delete_node_mesh2d)

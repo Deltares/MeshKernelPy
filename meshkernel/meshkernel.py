@@ -37,6 +37,17 @@ class DeleteMeshOption(IntEnum):
     ALLCOMPLETEFACES = 2
 
 
+@unique
+class ProjectToLandBoundaryOption(IntEnum):
+    """Option how to project to the land boundary."""
+
+    DONOTPROJECTTOLANDBOUNDARY = (0,)
+    TOORIGINALNETBOUNDARY = (1,)
+    OUTERMESHBOUNDARYTOLANDBOUNDARY = (2,)
+    INNERANDOUTERMESHBOUNDARYTOLANDBOUNDARY = (3,)
+    WHOLEMESH = 4
+
+
 class MeshKernel:
     """This class is the low-level entry point
     for interacting with the MeshKernel library
@@ -147,6 +158,28 @@ class MeshKernel:
             c_int(delete_option),
             c_bool(invert_deletion),
         )
+
+    def insert_edge_mesh2d(self, start_node: int, end_node: int) -> int:
+        """Insert a new mesh2d edge connecting two given nodes.
+
+        Args:
+            start_node (int): The index of the first node.
+            end_node (int): The index of the second node.
+
+        Returns:
+            int: The index of the new edge.
+        """
+
+        edge_index = c_int()
+        self._execute_function(
+            self.lib.mkernel_insert_edge_mesh2d,
+            self._meshkernelid,
+            c_int(start_node),
+            c_int(end_node),
+            byref(edge_index),
+        )
+
+        return edge_index.value
 
     def insert_node_mesh2d(self, x: float, y: float) -> int:
         """Insert a new node at the specified coordinates
