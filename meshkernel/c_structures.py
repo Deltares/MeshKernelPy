@@ -144,7 +144,7 @@ class CGeometryList(Structure):
     ]
 
     @staticmethod
-    def from_geometrylist(geometry_list: GeometryList) -> "CGeometryList":
+    def from_geometrylist(geometry_list: GeometryList) -> CGeometryList:
         """Creates a new `CGeometryList` instance from the given GeometryList instance.
 
         Args:
@@ -198,7 +198,7 @@ class COrthogonalizationParameters(Structure):
     @staticmethod
     def from_orthogonalizationparameters(
         orthogonalization_parameters: OrthogonalizationParameters,
-    ) -> "COrthogonalizationParameters":
+    ) -> COrthogonalizationParameters:
         """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
 
         Args:
