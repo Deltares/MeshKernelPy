@@ -4,7 +4,7 @@ from ctypes import POINTER, Structure, c_double, c_int
 
 import numpy as np
 
-from meshkernel.py_structures import GeometryList, Mesh2d
+from meshkernel.py_structures import GeometryList, Mesh2d, OrthogonalizationParameters
 
 
 class CMesh2d(Structure):
@@ -168,3 +168,62 @@ class CGeometryList(Structure):
         c_geometry_list.values = np.ctypeslib.as_ctypes(np.empty(0, dtype=np.double))
 
         return c_geometry_list
+
+
+class COrthogonalizationParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an OrthogonalizationParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        outer_iterations (c_int): Number of outer iterations in orthogonalization.
+        boundary_iterations (c_int): Number of boundary iterations in grid/net orthogonalization within itatp.
+        inner_iterations (c_int): Number of inner iterations in grid/net orthogonalization within itbnd.
+        orthogonalization_to_smoothing_factor (c_double): Factor from 0 to 1. between grid smoothing and grid
+                                                          orthogonality.
+        orthogonalization_to_smoothing_factor_at_boundary (c_double): Minimum ATPF on the boundary.
+        areal_to_angle_smoothing_factor (c_double): Factor between smoother 1d0 and area-homogenizer 0d0.
+    """
+
+    _fields_ = [
+        ("outer_iterations", c_int),
+        ("boundary_iterations", c_int),
+        ("inner_iterations", c_int),
+        ("orthogonalization_to_smoothing_factor", c_double),
+        ("orthogonalization_to_smoothing_factor_at_boundary", c_double),
+        ("areal_to_angle_smoothing_factor", c_double),
+    ]
+
+    @staticmethod
+    def from_orthogonalizationparameters(
+        orthogonalization_parameters: OrthogonalizationParameters,
+    ) -> "COrthogonalizationParameters":
+        """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
+
+        Args:
+            orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
+
+        Returns:
+            COrthogonalizationParameters: The created C-Structure for the given OrthogonalizationParameters.
+        """
+
+        c_orthogonalizationparameters = COrthogonalizationParameters()
+        c_orthogonalizationparameters.outer_iterations = (
+            orthogonalization_parameters.outer_iterations
+        )
+        c_orthogonalizationparameters.boundary_iterations = (
+            orthogonalization_parameters.boundary_iterations
+        )
+        c_orthogonalizationparameters.inner_iterations = (
+            orthogonalization_parameters.inner_iterations
+        )
+        c_orthogonalizationparameters.orthogonalization_to_smoothing_factor = (
+            orthogonalization_parameters.orthogonalization_to_smoothing_factor
+        )
+        c_orthogonalizationparameters.orthogonalization_to_smoothing_factor_at_boundary = (
+            orthogonalization_parameters.orthogonalization_to_smoothing_factor_at_boundary
+        )
+        c_orthogonalizationparameters.areal_to_angle_smoothing_factor = (
+            orthogonalization_parameters.areal_to_angle_smoothing_factor
+        )
