@@ -429,10 +429,10 @@ cases_count_hanging_edges_mesh2d = [
 def test_count_hanging_edges_mesh2d(
     node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
 ):
-    """Test to count the hanging edges in a simple Mesh2d
-    5*
+    """Tests `count_hanging_edges_mesh2d` by counting the hanging edges in a simple Mesh2d
+    4*
     |
-    2---3---4*
+    3---2---5*
     |   |
     0---1
     """
@@ -446,6 +446,34 @@ def test_count_hanging_edges_mesh2d(
     result = meshkernel.count_hanging_edges_mesh2d()
 
     assert result == expected
+
+
+def test_delete_hanging_edges_mesh2d():
+    """Tests `delete_hanging_edges_mesh2d` by deleting 2 hanging edges in a simple Mesh2d
+    4*
+    |
+    3---2---5*
+    |   |
+    0---1
+    """
+
+    meshkernel = MeshKernel(False)
+
+    node_x = np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0, 3, 4, 2, 5], dtype=np.int32)
+
+    mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+
+    meshkernel.set_mesh2d(mesh2d)
+
+    meshkernel.delete_hanging_edges_mesh2d()
+
+    mesh2d = meshkernel.get_mesh2d()
+
+    assert mesh2d.node_x.size == 4
+    assert mesh2d.edge_x.size == 4
+    assert mesh2d.face_x.size == 1
 
 
 def _get_meshkernel_with_mesh(rows: int, columns: int) -> MeshKernel:

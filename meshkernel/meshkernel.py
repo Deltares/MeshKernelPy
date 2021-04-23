@@ -256,7 +256,7 @@ class MeshKernel:
 
         Args:
             geometry_list (GeometryList): A geometry list containing the coordinate of the point.
-            search_radius (float): The search radius
+            search_radius (float): The search radius.
 
         Returns:
             int: The index of node
@@ -290,6 +290,15 @@ class MeshKernel:
             byref(count),
         )
         return count.value
+
+    def delete_hanging_edges_mesh2d(self):
+        """Delete the hanging edges in the Mesh2d.
+        A hanging edge is an edge where one of the two nodes is not connected.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
+        )
 
     @staticmethod
     def _execute_function(function: Callable, *args):
