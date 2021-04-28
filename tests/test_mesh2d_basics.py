@@ -584,3 +584,57 @@ def test_make_mesh_from_samples_mesh2d():
     assert mesh2d.node_x.size == 6
     assert mesh2d.edge_x.size == 9
     assert mesh2d.face_x.size == 4
+
+
+def test_refine_polygon():
+    """Tests `refine_polygon` by refining a polygon with a simple mesh."""
+
+    mk = MeshKernel(False)
+
+    # 3---2
+    # |   |
+    # 0---1
+    x_coordinates = np.array([0.0, 1.0, 1.0, 0.0, 0.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    geom = mk.refine_polygon(polygon, 0, 0, 0.5)
+
+    assert geom.x_coordinates.size == 9
+
+    assert_array_equal(
+        geom.x_coordinates, np.array([0.0, 0.5, 1.0, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0])
+    )
+    assert_array_equal(
+        geom.y_coordinates, np.array([0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 0.5, 0.0])
+    )
+
+
+test_refine_polygon()
+
+
+def _draw_mesh(width: int, heigth: int):
+    total_nodes = width * heigth
+
+    print("result")
+    for row in range(heigth):
+        start = total_nodes - width - (row * width)
+        end = start + width
+        nodes = "# " + str(start)
+        for index in range(start + 1, end, 1):
+            if index < 11:
+                nodes += f"---{index}"
+            else:
+                nodes += f"--{index}"
+        print(nodes)
+
+        if row is not heigth - 1:
+            lines = "# |"
+            for j in range(start + 1, end, 1):
+                lines += "   |"
+
+            print(lines)
+
+
+def test_ie():
+    _draw_mesh(5, 5)

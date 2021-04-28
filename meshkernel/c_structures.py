@@ -169,6 +169,25 @@ class CGeometryList(Structure):
 
         return c_geometry_list
 
+    def allocate_memory(self) -> GeometryList:
+        """Allocate data according to the number of coordinates.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the GeometryList instance which is returned by this method.
+
+        Returns:
+            GeometryList: The object owning the allocated memory
+        """
+
+        x_coordinates = np.empty(self.n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(self.n_coordinates, dtype=np.double)
+        values = np.empty(self.n_coordinates, dtype=np.double)
+
+        self.x_coordinates = np.ctypeslib.as_ctypes(x_coordinates)
+        self.y_coordinates = np.ctypeslib.as_ctypes(y_coordinates)
+        self.values = np.ctypeslib.as_ctypes(values)
+
+        return GeometryList(x_coordinates, y_coordinates)
+
 
 class COrthogonalizationParameters(Structure):
     """C-structure intended for internal use only.

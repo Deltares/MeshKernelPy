@@ -345,6 +345,69 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def refine_polygon(
+        self,
+        polygon: GeometryList,
+        first_node: int,
+        second_node: int,
+        target_edge_length: float,
+    ) -> GeometryList:
+        """Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.
+        The function is often used before mkernel_make_mesh_from_polygon_mesh2d,
+        for generating a triangular mesh where edges have a desired length.
+
+        Args:
+            polygon (GeometryList): The input polygon to refine.
+            first_node (int): The first index of the refinement interval.
+            second_node (int): The second index of the refinement interval.
+            target_edge_length (float): The target interval edge length.
+
+        Returns:
+            int: The refined polygon.
+        """
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        c_n_polygon_nodes = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_count_refine_polygon,
+            self._meshkernelid,
+            byref(c_polygon),
+            c_int(first_node),
+            c_int(second_node),
+            c_double(target_edge_length),
+            byref(c_n_polygon_nodes),
+        )
+
+        c_refined_polygon = CGeometryList()
+        c_refined_polygon.n_coordinates = c_n_polygon_nodes.value
+
+        refined_polygon = c_refined_polygon.allocate_memory()
+
+        self._execute_function(
+            self.lib.mkernel_refine_polygon,
+            self._meshkernelid,
+            byref(c_polygon),
+            c_int(first_node),
+            c_int(second_node),
+            c_double(target_edge_length),
+            byref(c_refined_polygon),
+        )
+
+        return refined_polygon
+
+        #        cmesh2d = CMesh2d()
+        # self._execute_function(
+        #    self.lib.mkernel_get_dimensions_mesh2d, self._meshkernelid, byref(cmesh2d)
+        # )
+
+        #
+        # mesh2d = cmesh2d.allocate_memory()
+        # self._execute_function(
+        #    self.lib.mkernel_get_data_mesh2d, self._meshkernelid, byref(cmesh2d)
+        # )
+        #
+        # return mesh2d
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
