@@ -314,6 +314,42 @@ class MeshKernel:
             self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
         )
 
+    def get_splines(
+        self, geometry_list: GeometryList, number_of_points_between_nodes: int
+    ) -> GeometryList:
+        """Get the computed spline points between two corner nodes.
+
+        Args:
+            geometry_list (GeometryList): The input corner nodes of the splines
+            number_of_points_between_nodes (int): The number of spline points to generate between two corner nodes.
+
+        Returns:
+            GeometryList: The output spline.
+        """
+
+        # Allocate space for output
+        original_number_of_coordinates = geometry_list.x_coordinates.size
+        number_of_coordinates = (
+            original_number_of_coordinates - 1
+        ) * number_of_points_between_nodes + original_number_of_coordinates
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        geometry_list_out = GeometryList(x_coordinates, y_coordinates, values)
+
+        # Convert to CGeometryList
+        c_geometry_list_in = CGeometryList.from_geometrylist(geometry_list)
+        c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
+
+        self._execute_function(
+            self.lib.mkernel_get_splines,
+            byref(c_geometry_list_in),
+            byref(c_geometry_list_out),
+            c_int(number_of_points_between_nodes),
+        )
+
+        return geometry_list_out
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
