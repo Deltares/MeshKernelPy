@@ -113,3 +113,12 @@ def test_create_rectilinear_mesh_reject_negative_spacing():
 
     with pytest.raises(InputError):
         Mesh2dFactory.create_rectilinear_mesh(3, 3, spacing_y=-1.0)
+
+
+def test_create_rectilinear_mesh_reject_negative_rows_columns():
+    """Tests if `create_rectilinear_mesh` rejects negative spacing."""
+    with pytest.raises(InputError):
+        Mesh2dFactory.create_rectilinear_mesh(-1, 3)
+
+    with pytest.raises(InputError):
+        Mesh2dFactory.create_rectilinear_mesh(3, -1)
