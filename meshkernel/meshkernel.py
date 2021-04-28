@@ -353,8 +353,6 @@ class MeshKernel:
         target_edge_length: float,
     ) -> GeometryList:
         """Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.
-        The function is often used before mkernel_make_mesh_from_polygon_mesh2d,
-        for generating a triangular mesh where edges have a desired length.
 
         Args:
             polygon (GeometryList): The input polygon to refine.
@@ -380,6 +378,10 @@ class MeshKernel:
 
         c_refined_polygon = CGeometryList()
         c_refined_polygon.n_coordinates = c_n_polygon_nodes.value
+        c_refined_polygon.inner_outer_separator = c_double(
+            polygon.inner_outer_separator
+        )
+        c_refined_polygon.geometry_separator = c_double(polygon.geometry_separator)
 
         refined_polygon = c_refined_polygon.allocate_memory()
 
@@ -394,19 +396,6 @@ class MeshKernel:
         )
 
         return refined_polygon
-
-        #        cmesh2d = CMesh2d()
-        # self._execute_function(
-        #    self.lib.mkernel_get_dimensions_mesh2d, self._meshkernelid, byref(cmesh2d)
-        # )
-
-        #
-        # mesh2d = cmesh2d.allocate_memory()
-        # self._execute_function(
-        #    self.lib.mkernel_get_data_mesh2d, self._meshkernelid, byref(cmesh2d)
-        # )
-        #
-        # return mesh2d
 
     @staticmethod
     def _execute_function(function: Callable, *args):

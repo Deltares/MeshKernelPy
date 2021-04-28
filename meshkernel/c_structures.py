@@ -186,7 +186,13 @@ class CGeometryList(Structure):
         self.y_coordinates = np.ctypeslib.as_ctypes(y_coordinates)
         self.values = np.ctypeslib.as_ctypes(values)
 
-        return GeometryList(x_coordinates, y_coordinates)
+        return GeometryList(
+            x_coordinates,
+            y_coordinates,
+            values,
+            self.geometry_separator,
+            self.inner_outer_separator,
+        )
 
 
 class COrthogonalizationParameters(Structure):

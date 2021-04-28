@@ -586,55 +586,33 @@ def test_make_mesh_from_samples_mesh2d():
     assert mesh2d.face_x.size == 4
 
 
-def test_refine_polygon():
-    """Tests `refine_polygon` by refining a polygon with a simple mesh."""
+cases_refine_polygon = [
+    (0, 0, 30.0, 9),
+    (0, 1, 30.0, 6),
+    (0, 2, 30.0, 7),
+    (0, 3, 30.0, 8),
+    (0, 4, 30.0, 9),
+    (0, 0, 20.0, 13),
+    (0, 1, 20.0, 7),
+    (0, 2, 20.0, 9),
+    (0, 3, 20.0, 11),
+    (0, 4, 20.0, 13),
+]
+
+
+@pytest.mark.parametrize("start, end, length, exp_nodes", cases_refine_polygon)
+def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
+    """Tests `refine_polygon` by refining a simple polygon."""
 
     mk = MeshKernel(False)
 
     # 3---2
     # |   |
     # 0---1
-    x_coordinates = np.array([0.0, 1.0, 1.0, 0.0, 0.0], dtype=np.double)
-    y_coordinates = np.array([0.0, 0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    x_coordinates = np.array([0.0, 60.0, 60.0, 0.0, 0.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 0.0, 60.0, 60.0, 0.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    geom = mk.refine_polygon(polygon, 0, 0, 0.5)
+    geom = mk.refine_polygon(polygon, start, end, length)
 
-    assert geom.x_coordinates.size == 9
-
-    assert_array_equal(
-        geom.x_coordinates, np.array([0.0, 0.5, 1.0, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0])
-    )
-    assert_array_equal(
-        geom.y_coordinates, np.array([0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 0.5, 0.0])
-    )
-
-
-test_refine_polygon()
-
-
-def _draw_mesh(width: int, heigth: int):
-    total_nodes = width * heigth
-
-    print("result")
-    for row in range(heigth):
-        start = total_nodes - width - (row * width)
-        end = start + width
-        nodes = "# " + str(start)
-        for index in range(start + 1, end, 1):
-            if index < 11:
-                nodes += f"---{index}"
-            else:
-                nodes += f"--{index}"
-        print(nodes)
-
-        if row is not heigth - 1:
-            lines = "# |"
-            for j in range(start + 1, end, 1):
-                lines += "   |"
-
-            print(lines)
-
-
-def test_ie():
-    _draw_mesh(5, 5)
+    assert geom.x_coordinates.size == exp_nodes
