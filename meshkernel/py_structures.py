@@ -31,6 +31,15 @@ class ProjectToLandBoundaryOption(IntEnum):
     WHOLE_MESH = 4
 
 
+@unique
+class RefinementType(IntEnum):
+    """Refinement type"""
+
+    RIDGE_REFINEMENT = 1
+    WAVE_COURANT = 2
+    REFINEMENT_LEVELS = 3
+
+
 @dataclass
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data
@@ -127,3 +136,24 @@ class InterpolationParameters:
     interpolate_to: int
     refine_intersected: bool
     use_mass_center_when_refining: bool
+
+
+@dataclass
+class SampleRefineParameters:
+    """A class holding the parameters for sample refinement.
+
+    Attributes:
+        max_refinement_iterations (int): Maximum number of refinement iterations.
+        min_face_size (float): Minimum cell size.
+        refinement_type (RefinementType): Refinement criterion type.
+        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
+        max_time_step (float): Maximum time-step in Courant grid.
+        account_for_samples_outside (bool): Whether to take samples outside face into account.
+    """
+
+    max_refinement_iterations: int
+    min_face_size: float
+    refinement_type: RefinementType
+    connect_hanging_nodes: bool
+    max_time_step: float
+    account_for_samples_outside_face: bool
