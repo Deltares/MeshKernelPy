@@ -2,16 +2,16 @@ import logging
 import os
 import platform
 import sys
-from ctypes import CDLL, POINTER, byref, c_char_p, c_double, c_int
+from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_double, c_int
 from enum import Enum, IntEnum, unique
 from pathlib import Path
 from typing import Callable, Iterable, Tuple
 
 import numpy as np
 
-from meshkernel.c_structures import CMesh2d
+from meshkernel.c_structures import CGeometryList, CMesh2d
 from meshkernel.errors import InputError, MeshKernelError
-from meshkernel.py_structures import Mesh2d
+from meshkernel.py_structures import DeleteMeshOption, GeometryList, Mesh2d
 
 logger = logging.getLogger(__name__)
 
@@ -118,6 +118,52 @@ class MeshKernel:
 
         return mesh2d
 
+    def delete_mesh2d(
+        self,
+        geometry_list: GeometryList,
+        delete_option: DeleteMeshOption,
+        invert_deletion: bool,
+    ):
+        """Deletes a mesh in a polygon using several options.
+
+        Args:
+            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
+            delete_option (DeleteMeshOption): The option describing the strategy to delete the mesh.
+            invert_deletion (bool): Whether or not to invert the deletion.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_delete_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_int(delete_option),
+            c_bool(invert_deletion),
+        )
+
+    def insert_edge_mesh2d(self, start_node: int, end_node: int) -> int:
+        """Insert a new mesh2d edge connecting two given nodes.
+
+        Args:
+            start_node (int): The index of the first node.
+            end_node (int): The index of the second node.
+
+        Returns:
+            int: The index of the new edge.
+        """
+
+        edge_index = c_int()
+        self._execute_function(
+            self.lib.mkernel_insert_edge_mesh2d,
+            self._meshkernelid,
+            c_int(start_node),
+            c_int(end_node),
+            byref(edge_index),
+        )
+
+        return edge_index.value
+
     def insert_node_mesh2d(self, x: float, y: float) -> int:
         """Insert a new node at the specified coordinates
 
@@ -138,6 +184,135 @@ class MeshKernel:
             byref(index),
         )
         return index.value
+
+    def delete_node_mesh2d(self, node_index: int):
+        """Deletes a Mesh2d node with the given `index`.
+
+        Args:
+            node_index (int): The index of the node to be deleted.
+
+        Raises:
+            InputError: Raised when `node_index` is smaller than 0.
+        """
+
+        if node_index < 0:
+            raise InputError("node_index needs to be a positive integer")
+
+        self._execute_function(
+            self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
+        )
+
+    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int):
+        """Moves a Mesh2d node with the given `index` to the .
+
+        Args:
+            geometry_list: The geometry list describing the new position of the node.
+            node_index (int): The index of the node to be moved.
+
+        Raises:
+            InputError: Raised when `node_index` is smaller than 0.
+        """
+
+        if node_index < 0:
+            raise InputError("node_index needs to be a positive integer")
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_move_node_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_int(node_index),
+        )
+
+    def delete_edge_mesh2d(self, geometry_list: GeometryList):
+        """Deletes the closest mesh2d edge to a point.
+        The coordinates of the edge middle points are used for calculating the distances to the point.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_delete_edge_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+    def find_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+        """Finds the closest mesh2d edge to a point.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+
+        Returns:
+            int: The index of the edge
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        index = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_find_edge_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            byref(index),
+        )
+
+        return index.value
+
+    def get_node_index_mesh2d(
+        self, geometry_list: GeometryList, search_radius: float
+    ) -> int:
+        """Finds the node closest to a point within a given search radius.
+
+        Args:
+            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+            search_radius (float): The search radius.
+
+        Returns:
+            int: The index of node
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        index = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_get_node_index_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_double(search_radius),
+            byref(index),
+        )
+
+        return index.value
+
+    def count_hanging_edges_mesh2d(self) -> int:
+        """Count the number of hanging edges in a Mesh2d.
+        A hanging edge is an edge where one of the two nodes is not connected.
+
+        Returns:
+            int: The number of hanging edges
+        """
+
+        count = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_hanging_edges_mesh2d,
+            self._meshkernelid,
+            byref(count),
+        )
+        return count.value
+
+    def delete_hanging_edges_mesh2d(self):
+        """Delete the hanging edges in the Mesh2d.
+        A hanging edge is an edge where one of the two nodes is not connected.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
+        )
 
     @staticmethod
     def _execute_function(function: Callable, *args):
