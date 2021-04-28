@@ -11,7 +11,7 @@ import numpy as np
 
 from meshkernel.c_structures import CGeometryList, CMesh2d
 from meshkernel.errors import InputError, MeshKernelError
-from meshkernel.py_structures import GeometryList, Mesh2d
+from meshkernel.py_structures import DeleteMeshOption, GeometryList, Mesh2d
 
 logger = logging.getLogger(__name__)
 
@@ -21,31 +21,6 @@ class Status(IntEnum):
     SUCCESS = 0
     EXCEPTION = 1
     INVALID_GEOMETRY = 2
-
-
-@unique
-class DeleteMeshOption(IntEnum):
-    """Option to delete the mesh inside a polygon """
-
-    """Delete all nodes inside the polygon. """
-    ALLNODES = 0
-
-    """ Delete all faces of which the circum center is inside the polygon """
-    ALLFACECIRCUMCENTERS = 1
-
-    """ Delete all faces of which the complete face is inside the polygon. """
-    ALLCOMPLETEFACES = 2
-
-
-@unique
-class ProjectToLandBoundaryOption(IntEnum):
-    """Option how to project to the land boundary."""
-
-    DONOTPROJECTTOLANDBOUNDARY = (0,)
-    TOORIGINALNETBOUNDARY = (1,)
-    OUTERMESHBOUNDARYTOLANDBOUNDARY = (2,)
-    INNERANDOUTERMESHBOUNDARYTOLANDBOUNDARY = (3,)
-    WHOLEMESH = 4
 
 
 class MeshKernel:
@@ -203,7 +178,6 @@ class MeshKernel:
         return index.value
 
     def delete_node_mesh2d(self, node_index: int):
-
         """Deletes a Mesh2d node with the given `index`.
 
         Args:
@@ -221,7 +195,6 @@ class MeshKernel:
         )
 
     def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int):
-
         """Moves a Mesh2d node with the given `index` to the .
 
         Args:

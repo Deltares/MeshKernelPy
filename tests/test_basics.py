@@ -14,10 +14,34 @@ from meshkernel import (
     MeshKernelError,
 )
 
-cases_constructor = [(True), (False)]
+
+@pytest.fixture(scope="function")
+def meshkernel_with_mesh2d() -> MeshKernel:
+    """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
+
+    Args:
+        rows (int): Number of node rows
+        columns (int): Number of node columns
+
+    Returns:
+        MeshKernel: The created instance of `meshkernel`
+    """
+
+    def _create(rows: int, columns: int):
+        mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
+        meshkernel = MeshKernel(False)
+
+        meshkernel.set_mesh2d(mesh2d)
+
+        return meshkernel
+
+    return _create
 
 
-@pytest.mark.parametrize("is_geometric", cases_constructor)
+cases_is_geometric_constructor = [(True), (False)]
+
+
+@pytest.mark.parametrize("is_geometric", cases_is_geometric_constructor)
 def test_constructor(is_geometric: bool):
     """Test if the constructor works"""
     MeshKernel(is_geometric)
@@ -346,12 +370,12 @@ def test_get_node_index_mesh2d_no_node_in_search_radius(
 
 
 cases_delete_mesh2d_small_polygon = [
-    (True, DeleteMeshOption.ALLNODES, 4, 4, 1),
-    (True, DeleteMeshOption.ALLFACECIRCUMCENTERS, 16, 24, 9),
-    (True, DeleteMeshOption.ALLCOMPLETEFACES, 4, 4, 1),
-    (False, DeleteMeshOption.ALLNODES, 32, 48, 16),
-    (False, DeleteMeshOption.ALLFACECIRCUMCENTERS, 32, 48, 16),
-    (False, DeleteMeshOption.ALLCOMPLETEFACES, 36, 60, 25),
+    (True, DeleteMeshOption.ALL_NODES, 4, 4, 1),
+    (True, DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 16, 24, 9),
+    (True, DeleteMeshOption.ALL_COMPLETE_FACES, 4, 4, 1),
+    (False, DeleteMeshOption.ALL_NODES, 32, 48, 16),
+    (False, DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 32, 48, 16),
+    (False, DeleteMeshOption.ALL_COMPLETE_FACES, 36, 60, 25),
 ]
 
 
@@ -431,7 +455,7 @@ def test_delete_mesh2d_empty_polygon(
     y_coordinates = np.empty(0, dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
-    delete_option = DeleteMeshOption.ALLNODES
+    delete_option = DeleteMeshOption.ALL_NODES
 
     meshkernel.delete_mesh2d(geometry_list, delete_option, invert_deletion)
     mesh2d = meshkernel.get_mesh2d()
@@ -514,26 +538,3 @@ def test_delete_hanging_edges_mesh2d():
     assert mesh2d.node_x.size == 4
     assert mesh2d.edge_x.size == 4
     assert mesh2d.face_x.size == 1
-
-
-@pytest.fixture(scope="function")
-def meshkernel_with_mesh2d() -> MeshKernel:
-    """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
-
-    Args:
-        rows (int): Number of node rows
-        columns (int): Number of node columns
-
-    Returns:
-        MeshKernel: The created instance of `meshkernel`
-    """
-
-    def _create(rows: int, columns: int):
-        mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
-        meshkernel = MeshKernel(False)
-
-        meshkernel.set_mesh2d(mesh2d)
-
-        return meshkernel
-
-    return _create
