@@ -544,13 +544,14 @@ def test_delete_hanging_edges_mesh2d():
 
 
 def test_make_mesh_from_polygon_mesh2d():
-    """Tests `mkernel_make_mesh_from_polygon_mesh2d` by creating a mesh2d from a simple hexagon."""
+    """Tests `make_mesh_from_polygon_mesh2d` by creating a mesh2d from a simple hexagon."""
 
     mk = MeshKernel(False)
 
-    #  ___
-    # /   \
-    # \___/
+    #   5__4
+    #  /    \
+    # 0      3
+    #  \1__2/
     x_coordinates = np.array([0.0, 0.5, 1.5, 2.0, 1.5, 0.5, 0.0], dtype=np.double)
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
@@ -562,3 +563,24 @@ def test_make_mesh_from_polygon_mesh2d():
     assert mesh2d.node_x.size == 7
     assert mesh2d.edge_x.size == 12
     assert mesh2d.face_x.size == 6
+
+
+def test_make_mesh_from_samples_mesh2d():
+    """Tests `make_mesh_from_samples_mesh2d` by creating a mesh2d from six sample points."""
+
+    mk = MeshKernel(False)
+
+    #  5  4
+    # 0    3
+    #  1  2
+    x_coordinates = np.array([0.0, 0.5, 1.5, 2.0, 1.5, 0.5, 0.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    mk.make_mesh_from_samples_mesh2d(polygon)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 6
+    assert mesh2d.edge_x.size == 9
+    assert mesh2d.face_x.size == 4

@@ -330,6 +330,21 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def make_mesh_from_samples_mesh2d(self, sample_points: GeometryList):
+        """Makes a triangular mesh from a set of samples, triangulating the sample points.
+
+        Args:
+            sample_points (GeometryList): The sample points.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(sample_points)
+
+        self._execute_function(
+            self.lib.mkernel_make_mesh_from_samples_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
