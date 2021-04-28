@@ -47,7 +47,7 @@ def test_constructor(is_geometric: bool):
     MeshKernel(is_geometric)
 
 
-def test_different_id():
+def test_different_instances_have_different_ids():
     """Test if the meshkernelid of two instances differs"""
     meshkernel_1 = MeshKernel(False)
     meshkernel_2 = MeshKernel(False)
@@ -55,7 +55,7 @@ def test_different_id():
     assert meshkernel_1._meshkernelid != meshkernel_2._meshkernelid
 
 
-def test_set_mesh():
+def test_set_mesh_and_get_mesh():
     """Test to set a simple mesh and then get it again with new parameters
 
     3---2

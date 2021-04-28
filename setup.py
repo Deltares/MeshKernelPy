@@ -44,7 +44,15 @@ setup(
     platforms="Windows, Linux",
     install_requires=["numpy"],
     extras_require={
-        "dev": ["pytest", "pytest-cov", "matplotlib", "flake8", "black", "isort"]
+        "dev": [
+            "pytest",
+            "pytest-cov",
+            "matplotlib",
+            "flake8",
+            "black",
+            "isort",
+            "jupyterlab_code_formatter",
+        ]
     },
     python_requires=">=3.8",
     packages=find_namespace_packages(exclude=("tests", "examples")),

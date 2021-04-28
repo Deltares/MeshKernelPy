@@ -29,6 +29,14 @@ class MeshKernel:
     """
 
     def __init__(self, is_geographic: bool):
+        """Constructor of MeshKernel
+
+        Args:
+            is_geographic (bool): Cartesian (False) or spherical (True) mesh
+
+        Raises:
+            OSError: This gets raised in case MeshKernel is used within an unsupported OS.
+        """
 
         # Determine OS
         if platform.system() == "Windows":
