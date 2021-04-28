@@ -1,8 +1,34 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum, IntEnum, unique
 
 import numpy as np
+
+
+@unique
+class DeleteMeshOption(IntEnum):
+    """Option to delete the mesh inside a polygon"""
+
+    """Delete all nodes inside the polygon. """
+    ALL_NODES = 0
+
+    """ Delete all faces of which the circum center is inside the polygon """
+    ALL_FACE_CIRCUMCENTERS = 1
+
+    """ Delete all faces of which the complete face is inside the polygon. """
+    ALL_COMPLETE_FACES = 2
+
+
+@unique
+class ProjectToLandBoundaryOption(IntEnum):
+    """Option how to project to the land boundary."""
+
+    DO_NOT_PROJECT_TO_LANDBOUNDARY = 0
+    TO_ORIGINAL_NETBOUNDARY = 1
+    OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY = 2
+    INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY = 3
+    WHOLE_MESH = 4
 
 
 @dataclass

@@ -131,7 +131,7 @@ class CGeometryList(Structure):
         n_coordinates (c_int): The number of coordinate values.
         x_coordinates (POINTER(c_double)): The x coordinates.
         y_coordinates (POINTER(c_double)): The y coordinates.
-        values (POINTER(c_double)): The z coordinates.
+        values (POINTER(c_double)): The values on this mesh2d.
     """
 
     _fields_ = [
@@ -180,8 +180,8 @@ class COrthogonalizationParameters(Structure):
         outer_iterations (c_int): Number of outer iterations in orthogonalization.
         boundary_iterations (c_int): Number of boundary iterations in grid/net orthogonalization within itatp.
         inner_iterations (c_int): Number of inner iterations in grid/net orthogonalization within itbnd.
-        orthogonalization_to_smoothing_factor (c_double): Factor from 0 to 1. between grid smoothing and grid
-                                                          orthogonality.
+        orthogonalization_to_smoothing_factor (c_double): Factor from between grid smoothing (0) and
+                                                          grid orthogonality (1).
         orthogonalization_to_smoothing_factor_at_boundary (c_double): Minimum ATPF on the boundary.
         areal_to_angle_smoothing_factor (c_double): Factor between smoother 1d0 and area-homogenizer 0d0.
     """
