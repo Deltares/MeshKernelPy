@@ -266,7 +266,8 @@ class CInterpolationParameters(Structure):
     Used for communicating with the MeshKernel dll.
 
     Attributes:
-        max_num_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement is wanted.
+        max_num_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement
+                                               is wanted.
         averaging_method (c_int): Averaging method : 1 = simple averaging, 2 = closest point, 3 = max, 4 = min,
                                   5 = inverse weighted distance, 6 = minabs, 7 = kdtree.
         minimum_num_points (c_int): Minimum number of points needed inside cell to handle the cell.
