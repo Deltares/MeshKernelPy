@@ -8,7 +8,7 @@ import numpy as np
 
 @unique
 class DeleteMeshOption(IntEnum):
-    """Option to delete the mesh inside a polygon """
+    """Option to delete the mesh inside a polygon"""
 
     """Delete all nodes inside the polygon. """
     ALL_NODES = 0
