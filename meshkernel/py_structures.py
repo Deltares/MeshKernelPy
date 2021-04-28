@@ -32,6 +32,17 @@ class ProjectToLandBoundaryOption(IntEnum):
 
 
 @unique
+class AveragingMethod(IntEnum):
+    SIMPLE_AVERAGING = 1
+    CLOSEST_POINT = 2
+    MAX = 3
+    MIN = 4
+    INVERSE_WEIGHTED_DISTANCE = 5
+    MINABS = 6
+    KDTREE = 7
+
+
+@unique
 class RefinementType(IntEnum):
     """Refinement type"""
 
