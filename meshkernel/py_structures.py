@@ -31,3 +31,44 @@ class Mesh2d:
     edge_y: np.ndarray = np.empty(0, dtype=np.double)
     face_x: np.ndarray = np.empty(0, dtype=np.double)
     face_y: np.ndarray = np.empty(0, dtype=np.double)
+
+
+@dataclass
+class GeometryList:
+    """A class to describe a list of geometries.
+
+    Attributes:
+        x_coordinates (np.ndarray(np.double)): The x coordinates.
+        y_coordinates (np.ndarray(np.double)): The y coordinates.
+        geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
+        inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer
+                                                 part. Default is `-998.0`
+    """
+
+    x_coordinates: np.ndarray
+    y_coordinates: np.ndarray
+    geometry_separator: float = -999.0
+    inner_outer_separator: float = -998.0
+
+
+@dataclass
+class OrthogonalizationParameters:
+    """A class holding the parameters for orthogonalization.
+
+    Attributes:
+        outer_iterations (int): Number of outer iterations in orthogonalization. Increase this parameter for complex
+                                grids..
+        boundary_iterations (int): Number of boundary iterations in grid/net orthogonalization within itatp.
+        inner_iterations (int): Number of inner iterations in grid/net orthogonalization within itbnd.
+        orthogonalization_to_smoothing_factor (float): Factor from 0 to 1. between grid smoothing and grid
+                                                       orthogonality.
+        orthogonalization_to_smoothing_factor_at_boundary (float): Minimum ATPF on the boundary.
+        areal_to_angle_smoothing_factor (float): Factor between smoother 1d0 and area-homogenizer 0d0.
+    """
+
+    outer_iterations: int
+    boundary_iterations: int
+    inner_iterations: int
+    orthogonalization_to_smoothing_factor: float
+    orthogonalization_to_smoothing_factor_at_boundary: float
+    areal_to_angle_smoothing_factor: float
