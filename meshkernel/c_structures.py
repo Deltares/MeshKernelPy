@@ -4,7 +4,12 @@ from ctypes import POINTER, Structure, c_double, c_int
 
 import numpy as np
 
-from meshkernel.py_structures import GeometryList, Mesh2d, OrthogonalizationParameters
+from meshkernel.py_structures import (
+    GeometryList,
+    InterpolationParameters,
+    Mesh2d,
+    OrthogonalizationParameters,
+)
 
 
 class CMesh2d(Structure):
@@ -251,4 +256,70 @@ class COrthogonalizationParameters(Structure):
         )
         c_orthogonalizationparameters.areal_to_angle_smoothing_factor = (
             orthogonalization_parameters.areal_to_angle_smoothing_factor
+        )
+
+
+class CInterpolationParameters:
+    """C-structure intended for internal use only.
+    It represents an InterpolationParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        max_num_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement is wanted.
+        averaging_method (c_int): Averaging method : 1 = simple averaging, 2 = closest point, 3 = max, 4 = min,
+                                  5 = inverse weighted distance, 6 = minabs, 7 = kdtree.
+        minimum_num_points (c_int): Minimum number of points needed inside cell to handle the cell.
+        relative_search_radius (c_double): Relative search cell size, 1 = actual cell size, 2 = twice as large,
+                                           search radius can be larger than cell so more sample are included.
+        interpolate_to (c_int): Interpolation settings, 1 = bathy, 2 = zk, 3 = s1, 4 = Zc.
+        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
+        use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
+                                               process (yes=1/no=0)
+    """
+
+    _fields_ = [
+        ("max_num_refinement_iterations", c_int),
+        ("averaging_method", c_int),
+        ("minimum_num_points", c_int),
+        ("relative_search_radius", c_double),
+        ("interpolate_to", c_int),
+        ("refine_intersected", c_int),
+        ("use_mass_center_when_refining", c_int),
+    ]
+
+    @staticmethod
+    def from_interpolationparameters(
+        interpolation_parameters: InterpolationParameters,
+    ) -> CInterpolationParameters:
+        """Creates a new `CInterpolationParameters` instance from the given InterpolationParameters instance.
+
+        Args:
+            interpolation_parameters (InterpolationParameters): The interpolation parameters.
+
+        Returns:
+            CInterpolationParameters: The created C-Structure for the given InterpolationParameters.
+        """
+
+        c_interpolationparameters = CInterpolationParameters()
+        c_interpolationparameters.max_num_refinement_iterations = (
+            interpolation_parameters.max_refinement_iterations
+        )
+        c_interpolationparameters.averaging_method = (
+            interpolation_parameters.averaging_method
+        )
+        c_interpolationparameters.minimum_num_points = (
+            interpolation_parameters.minimum_points
+        )
+        c_interpolationparameters.relative_search_radius = (
+            interpolation_parameters.relative_search_radius
+        )
+        c_interpolationparameters.interpolate_to = (
+            interpolation_parameters.interpolate_to
+        )
+        c_interpolationparameters.refine_intersected = (
+            interpolation_parameters.refine_intersected
+        )
+        c_interpolationparameters.use_mass_center_when_refining = (
+            interpolation_parameters.use_mass_center_when_refining
         )
