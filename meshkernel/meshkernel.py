@@ -314,6 +314,22 @@ class MeshKernel:
             self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
         )
 
+    def make_mesh_from_polygon_mesh2d(self, polygon: GeometryList):
+        """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
+        the polygon edges.
+
+        Args:
+            polygon (GeometryList): The polygon.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(polygon)
+
+        self._execute_function(
+            self.lib.mkernel_make_mesh_from_polygon_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
