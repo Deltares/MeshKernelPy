@@ -64,8 +64,9 @@ class GeometryList:
     """A class to describe a list of geometries.
 
     Attributes:
-        x_coordinates (np.ndarray(np.double)): The x coordinates.
-        y_coordinates (np.ndarray(np.double)): The y coordinates.
+        x_coordinates (np.ndarray): A 1D double array describing the x-coordinates of the nodes.
+        y_coordinates (np.ndarray): A 1D double array describing the y-coordinates of the nodes.
+        values (np.ndarray, optional): A 1D double array describing the values of the nodes.
         geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
         inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer
                                                  part. Default is `-998.0`
@@ -73,6 +74,7 @@ class GeometryList:
 
     x_coordinates: np.ndarray
     y_coordinates: np.ndarray
+    values: np.ndarray = np.empty(0, dtype=np.double)
     geometry_separator: float = -999.0
     inner_outer_separator: float = -998.0
 

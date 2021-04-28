@@ -165,7 +165,7 @@ class CGeometryList(Structure):
         c_geometry_list.y_coordinates = np.ctypeslib.as_ctypes(
             geometry_list.y_coordinates
         )
-        c_geometry_list.values = np.ctypeslib.as_ctypes(np.empty(0, dtype=np.double))
+        c_geometry_list.values = np.ctypeslib.as_ctypes(geometry_list.values)
 
         return c_geometry_list
 
