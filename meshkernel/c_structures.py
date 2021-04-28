@@ -259,7 +259,7 @@ class COrthogonalizationParameters(Structure):
         )
 
 
-class CInterpolationParameters:
+class CInterpolationParameters(Structure):
     """C-structure intended for internal use only.
     It represents an InterpolationParameters struct as described by the MeshKernel API.
 
