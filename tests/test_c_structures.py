@@ -59,3 +59,25 @@ def test_cmesh2d_from_mesh2d():
     assert cmesh2d.num_edges == 4
     assert cmesh2d.num_faces == 1
     assert cmesh2d.num_face_nodes == 4
+
+
+def test_cmesh2d_allocate_memory():
+    """Tests `allocate_memory` of the `CMesh2D` class."""
+
+    cmesh2d = CMesh2d()
+    cmesh2d.num_nodes = 4
+    cmesh2d.num_edges = 4
+    cmesh2d.num_faces = 1
+    cmesh2d.num_face_nodes = 4
+
+    mesh2d = cmesh2d.allocate_memory()
+
+    assert mesh2d.node_x.size == 4
+    assert mesh2d.node_y.size == 4
+    assert mesh2d.edge_nodes.size == 8
+    assert mesh2d.face_nodes.size == 4
+    assert mesh2d.nodes_per_face.size == 1
+    assert mesh2d.edge_x.size == 4
+    assert mesh2d.edge_y.size == 4
+    assert mesh2d.face_x.size == 1
+    assert mesh2d.face_y.size == 1
