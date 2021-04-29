@@ -445,6 +445,30 @@ class MeshKernel:
             byref(c_sample_refine_params),
         )
 
+    def refine_based_on_polygon_mesh2d(
+        self,
+        polygon: GeometryList,
+        interpolation_params: InterpolationParameters,
+    ):
+        """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
+
+        Args:
+            samples (GeometryList): The closed polygon.
+            interpolation_params (InterpolationParameters): The interpolation parameters.
+        """
+
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
+            interpolation_params
+        )
+
+        self._execute_function(
+            self.lib.mkernel_refine_based_on_polygon_mesh2d,
+            self._meshkernelid,
+            byref(c_polygon),
+            byref(c_interpolation_params),
+        )
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
