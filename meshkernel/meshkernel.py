@@ -9,9 +9,20 @@ from typing import Callable, Iterable, Tuple
 
 import numpy as np
 
-from meshkernel.c_structures import CGeometryList, CMesh2d
+from meshkernel.c_structures import (
+    CGeometryList,
+    CInterpolationParameters,
+    CMesh2d,
+    CSampleRefineParameters,
+)
 from meshkernel.errors import InputError, MeshKernelError
-from meshkernel.py_structures import DeleteMeshOption, GeometryList, Mesh2d
+from meshkernel.py_structures import (
+    DeleteMeshOption,
+    GeometryList,
+    InterpolationParameters,
+    Mesh2d,
+    SampleRefineParameters,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -396,6 +407,43 @@ class MeshKernel:
         )
 
         return refined_polygon
+
+    def refine_based_on_samples_mesh2d(
+        self,
+        samples: GeometryList,
+        interpolation_params: InterpolationParameters,
+        sample_refine_params: SampleRefineParameters,
+    ):
+        """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
+        The number of successive splits is indicated on the sample value.
+        For example:
+        - a value of 0 means no split and hence no refinement;
+        - a value of 1 means a single split (a quadrilateral face generates 4 faces);
+        - a value of 2 two splits (a quadrilateral face generates 16 faces);
+
+        Args:
+            samples (GeometryList): The samples.
+            interpolation_params (InterpolationParameters): The interpolation parameters.
+            sample_refine_params (SampleRefineParameters): The sample refinement parameters.
+        """
+
+        c_samples = CGeometryList.from_geometrylist(samples)
+        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
+            interpolation_params
+        )
+        c_sample_refine_params = (
+            CSampleRefineParameters.from_samplerefinementparameters(
+                sample_refine_params
+            )
+        )
+
+        self._execute_function(
+            self.lib.mkernel_refine_based_on_samples_mesh2d,
+            self._meshkernelid,
+            byref(c_samples),
+            byref(c_interpolation_params),
+            byref(c_sample_refine_params),
+        )
 
     @staticmethod
     def _execute_function(function: Callable, *args):

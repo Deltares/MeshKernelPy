@@ -6,10 +6,12 @@ from meshkernel import (
     DeleteMeshOption,
     GeometryList,
     InputError,
+    InterpolationParameters,
     Mesh2d,
     Mesh2dFactory,
     MeshKernel,
     MeshKernelError,
+    SampleRefineParameters,
 )
 
 
@@ -614,3 +616,33 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
     geom = mk.refine_polygon(polygon, start, end, length)
 
     assert geom.x_coordinates.size == exp_nodes
+
+
+def test_refine_based_on_samples_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `refine_based_on_samples_mesh2d` with a simple 3x3 mesh.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0], dtype=np.double)
+    values = np.array([0, 1, 2, 3], dtype=np.double)
+    samples = GeometryList(x_coordinates, y_coordinates, values)
+
+    interpolation_params = InterpolationParameters(False, False)
+    sample_refine_params = SampleRefineParameters(1, 0.5, 2, 1, 0.0, False)
+
+    mk.refine_based_on_samples_mesh2d(
+        samples, interpolation_params, sample_refine_params
+    )
+
+    mesdh2d = mk.get_mesh2d()
+
+    assert mesdh2d.node_x.size == 25
+    assert mesdh2d.edge_x.size == 40
+    assert mesdh2d.face_x.size == 16
