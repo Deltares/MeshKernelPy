@@ -8,6 +8,7 @@ from meshkernel.py_structures import (
     InterpolationParameters,
     Mesh2d,
     OrthogonalizationParameters,
+    SampleRefineParameters,
 )
 
 __version__ = "0.1.0"

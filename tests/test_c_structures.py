@@ -8,12 +8,14 @@ from meshkernel import (
     InterpolationParameters,
     Mesh2d,
     OrthogonalizationParameters,
+    SampleRefineParameters,
 )
 from meshkernel.c_structures import (
     CGeometryList,
     CInterpolationParameters,
     CMesh2d,
     COrthogonalizationParameters,
+    CSampleRefineParameters,
 )
 
 
@@ -182,3 +184,18 @@ def test_cinterpolationparameters_from_interpolationparameters():
     assert c_parameters.min_points == 4
     assert c_parameters.relative_search_radius == 5.0
     assert c_parameters.interpolate_to == 6
+
+
+def test_csamplerefineparameters_from_samplerefinementparameters():
+    """Tests `from_samplerefinementparameters` of the `CSampleRefineParameters` class."""
+
+    parameters = SampleRefineParameters(4, 3.0, 2, True, 5, False)
+
+    c_parameters = CSampleRefineParameters.from_samplerefinementparameters(parameters)
+
+    assert c_parameters.max_refinement_iterations == 4
+    assert c_parameters.min_face_size == 3.0
+    assert c_parameters.refinement_type == 2
+    assert c_parameters.connect_hanging_nodes == 1
+    assert c_parameters.max_time_step == 5
+    assert c_parameters.account_for_samples_outside_face == 0
