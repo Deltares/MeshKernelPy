@@ -9,6 +9,7 @@ from meshkernel.py_structures import (
     InterpolationParameters,
     Mesh2d,
     OrthogonalizationParameters,
+    SampleRefineParameters,
 )
 
 
@@ -258,6 +259,8 @@ class COrthogonalizationParameters(Structure):
             orthogonalization_parameters.areal_to_angle_smoothing_factor
         )
 
+        return c_orthogonalizationparameters
+
 
 class CInterpolationParameters(Structure):
     """C-structure intended for internal use only.
@@ -324,3 +327,60 @@ class CInterpolationParameters(Structure):
         c_interpolationparameters.use_mass_center_when_refining = (
             interpolation_parameters.use_mass_center_when_refining
         )
+
+
+class CSampleRefineParameters(Structure):
+    """A class holding the parameters for sample refinement.
+
+    Attributes:
+        max_refinement_iterations (c_int): Maximum number of refinement iterations.
+        min_face_size (c_double): Minimum cell size.
+        refinement_type (c_int): Refinement criterion type.
+        connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
+        max_time_step (c_double): Maximum time-step in Courant grid.
+        account_for_samples_outside (c_int): Whether to take samples outside face into account.
+    """
+
+    _fields_ = [
+        ("max_refinement_iterations", c_int),
+        ("min_face_size", c_double),
+        ("refinement_type", c_int),
+        ("connect_hanging_nodes", c_int),
+        ("max_time_step", c_double),
+        ("account_for_samples_outside_face", c_int),
+    ]
+
+    @staticmethod
+    def from_samplerefinementparameters(
+        samlple_refinement_parameters: SampleRefineParameters,
+    ) -> CSampleRefineParameters:
+        """Creates a new `CSampleRefineParameters` instance from the given SampleRefineParameters instance.
+
+        Args:
+            samlple_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
+
+        Returns:
+            CSampleRefineParameters: The created C-Structure for the given SampleRefineParameters.
+        """
+
+        c_samplerefinementparameters = CSampleRefineParameters()
+        c_samplerefinementparameters.max_refinement_iterations = (
+            samlple_refinement_parameters.max_refinement_iterations
+        )
+        c_samplerefinementparameters.min_face_size = (
+            samlple_refinement_parameters.min_face_size
+        )
+        c_samplerefinementparameters.refinement_type = (
+            samlple_refinement_parameters.refinement_type
+        )
+        c_samplerefinementparameters.connect_hanging_nodes = (
+            samlple_refinement_parameters.connect_hanging_nodes
+        )
+        c_samplerefinementparameters.max_time_step = (
+            samlple_refinement_parameters.max_time_step
+        )
+        c_samplerefinementparameters.account_for_samples_outside_face = (
+            samlple_refinement_parameters.account_for_samples_outside_face
+        )
+
+        return c_samplerefinementparameters

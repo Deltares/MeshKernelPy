@@ -43,6 +43,14 @@ class AveragingMethod(IntEnum):
 
 
 @unique
+class InterpolateToOption(IntEnum):
+    BATHY = 1
+    ZK = 2
+    S1 = 3
+    ZC = 4
+
+
+@unique
 class RefinementType(IntEnum):
     """Refinement type"""
 
@@ -129,22 +137,21 @@ class InterpolationParameters:
     Attributes:
         max_refinement_iterations (int): Maximum number of refinement iterations, set to 1 if only one refinement is
                                          wanted.
-        averaging_method (int): Averaging method : 1 = simple averaging, 2 = closest point, 3 = max, 4 = min,
-                                5 = inverse weighted distance, 6 = minabs, 7 = kdtree.
-        minimum_points (int): Minimum number of points needed inside cell to handle the cell
+        averaging_method (AveragingMethod): The averaging method.
+        minimum_points (int): Minimum number of points needed inside cell to handle the cell.
         relative_search_radius (float): Relative search cell size, 1 = actual cell size, 2 = twice as large,
-                                        search radius can be larger than cell so more sample are included.
-        interpolate_to (int): Interpolation settings, 1 = bathy, 2 = zk, 3 = s1, 4 = Zc.
+                                        search radius can be larger than the cell so more samples are included.
+        interpolate_to (InterpolateToOption): Interpolate to option.
         refine_intersected (bool): Whether to compute faces intersected by polygon.
         use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
                                               process.
     """
 
     max_refinement_iterations: int
-    averaging_method: int
+    averaging_method: AveragingMethod
     minimum_points: int
     relative_search_radius: float
-    interpolate_to: int
+    interpolate_to: InterpolateToOption
     refine_intersected: bool
     use_mass_center_when_refining: bool
 
