@@ -96,15 +96,16 @@ def test_cmesh2d_allocate_memory():
 def test_cgeometrylist_from_geometrylist():
     """Tests `from_geometrylist` of the `CGeometryList` class."""
 
-    x_coordinates = np.array([0.0, 2.0, 4.0, 6.0, 8.0], dtype=np.double)
-    y_coordinates = np.array([1.0, 3.0, 5.0, 7.0, 9.0], dtype=np.double)
-    values = np.array([1.0, 2.0, 3.0, 4.0, 5.0], dtype=np.double)
-    geometry_separator = -12.3
-    inner_outer_separator = 45.6
+    x_coordinates = np.array([0.0, 1.0, 2.0, 3.0, 4.0], dtype=np.double)
+    y_coordinates = np.array([5.0, 6.0, 7.0, 8.0, 9.0], dtype=np.double)
+    values = np.array([10.0, 11.0, 12.0, 13.0, 14.0], dtype=np.double)
+    geometry_separator = 15.0
+    inner_outer_separator = 16.0
 
-    geometry_list = GeometryList(
-        x_coordinates, y_coordinates, values, geometry_separator, inner_outer_separator
-    )
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+    geometry_list.values = values
+    geometry_list.geometry_separator = geometry_separator
+    geometry_list.inner_outer_separator = inner_outer_separator
 
     c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
@@ -117,78 +118,67 @@ def test_cgeometrylist_from_geometrylist():
     assert_array_equal(c_geometry_list_y_coordinates, y_coordinates)
     assert_array_equal(c_geometry_list_values, values)
 
-    assert c_geometry_list.geometry_separator == -12.3
-    assert c_geometry_list.inner_outer_separator == 45.6
-    assert c_geometry_list.n_coordinates == 5
+    assert c_geometry_list.geometry_separator == geometry_separator
+    assert c_geometry_list.inner_outer_separator == inner_outer_separator
+    assert c_geometry_list.n_coordinates == x_coordinates.size
 
 
 def test_cgeometrylist_allocate_memory():
     """Tests `allocate_memory` of the `CGeometryList` class."""
 
     c_geometry_list = CGeometryList()
-    c_geometry_list.n_coordinates = 5
-    c_geometry_list.geometry_separator = -12.3
-    c_geometry_list.inner_outer_separator = 45.6
+    c_geometry_list.n_coordinates = 2
+    c_geometry_list.geometry_separator = 1.0
+    c_geometry_list.inner_outer_separator = 0.0
 
     geometry_list = c_geometry_list.allocate_memory()
 
-    assert geometry_list.x_coordinates.size == 5
-    assert geometry_list.y_coordinates.size == 5
-    assert geometry_list.values.size == 5
-    assert geometry_list.geometry_separator == -12.3
-    assert geometry_list.inner_outer_separator == 45.6
+    assert geometry_list.x_coordinates.size == 2
+    assert geometry_list.y_coordinates.size == 2
+    assert geometry_list.values.size == 2
+    assert geometry_list.geometry_separator == 1.0
+    assert geometry_list.inner_outer_separator == 0.0
 
 
 def test_corthogonalizationparameters_from_orthogonalizationparameters():
     """Tests `from_orthogonalizationparameters` of the `COrthogonalizationParameters` class."""
 
-    orthogonalization_parameters = OrthogonalizationParameters()
-    orthogonalization_parameters.outer_iterations = 1
-    orthogonalization_parameters.boundary_iterations = 2
-    orthogonalization_parameters.inner_iterations = 3
-    orthogonalization_parameters.orthogonalization_to_smoothing_factor = 4.0
-    orthogonalization_parameters.orthogonalization_to_smoothing_factor_at_boundary = 5.0
-    orthogonalization_parameters.areal_to_angle_smoothing_factor = 6.0
+    parameters = OrthogonalizationParameters()
+    parameters.outer_iterations = 0
+    parameters.boundary_iterations = 1
+    parameters.inner_iterations = 2
+    parameters.orthogonalization_to_smoothing_factor = 3.0
+    parameters.orthogonalization_to_smoothing_factor_at_boundary = 4.0
+    parameters.areal_to_angle_smoothing_factor = 5.0
 
-    c_orthogonalization_parameters = (
-        COrthogonalizationParameters.from_orthogonalizationparameters(
-            orthogonalization_parameters
-        )
+    c_parameters = COrthogonalizationParameters.from_orthogonalizationparameters(
+        parameters
     )
 
-    assert c_orthogonalization_parameters.outer_iterations == 1
-    assert c_orthogonalization_parameters.boundary_iterations == 2
-    assert c_orthogonalization_parameters.inner_iterations == 3
-    assert c_orthogonalization_parameters.orthogonalization_to_smoothing_factor == 4.0
-    assert (
-        c_orthogonalization_parameters.orthogonalization_to_smoothing_factor_at_boundary
-        == 5.0
-    )
-    assert c_orthogonalization_parameters.areal_to_angle_smoothing_factor == 6.0
+    assert c_parameters.outer_iterations == 0
+    assert c_parameters.boundary_iterations == 1
+    assert c_parameters.inner_iterations == 2
+    assert c_parameters.orthogonalization_to_smoothing_factor == 3.0
+    assert c_parameters.orthogonalization_to_smoothing_factor_at_boundary == 4.0
+    assert c_parameters.areal_to_angle_smoothing_factor == 5.0
 
 
 def test_cinterpolationparameters_from_interpolationparameters():
     """Tests `from_interpolationparameters` of the `CInterpolationParameters` class."""
 
-    interpolation_parameters = InterpolationParameters(False, True)
-    interpolation_parameters.max_refinement_iterations = 2
-    interpolation_parameters.averaging_method = 3
-    interpolation_parameters.min_points = 4
-    interpolation_parameters.relative_search_radius = 5.0
-    interpolation_parameters.interpolate_to = 6
+    parameters = InterpolationParameters(0, 1)
+    parameters.max_refinement_iterations = 2
+    parameters.averaging_method = 3
+    parameters.min_points = 4
+    parameters.relative_search_radius = 5.0
+    parameters.interpolate_to = 6
 
-    c_interpolation_parameters = CInterpolationParameters.from_interpolationparameters(
-        interpolation_parameters
-    )
+    c_parameters = CInterpolationParameters.from_interpolationparameters(parameters)
 
-    assert c_interpolation_parameters.refine_intersected == 0
-    assert c_interpolation_parameters.use_mass_center_when_refining == 1
-    assert c_interpolation_parameters.max_refinement_iterations == 2
-    assert c_interpolation_parameters.averaging_method == 3
-    assert c_interpolation_parameters.min_points == 4
-    assert c_interpolation_parameters.relative_search_radius == 5.0
-    assert c_interpolation_parameters.interpolate_to == 6
-
-
-def test_csamplerefineparameters_from_samplerefinementparameters():
-    pass
+    assert c_parameters.refine_intersected == 0
+    assert c_parameters.use_mass_center_when_refining == 1
+    assert c_parameters.max_refinement_iterations == 2
+    assert c_parameters.averaging_method == 3
+    assert c_parameters.min_points == 4
+    assert c_parameters.relative_search_radius == 5.0
+    assert c_parameters.interpolate_to == 6
