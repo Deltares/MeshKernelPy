@@ -145,7 +145,7 @@ class InterpolationParameters:
         max_refinement_iterations (int, optional): Maximum number of refinement iterations.
                                                    Set to 1 if only one refinement is wanted. Default is `10`.
         averaging_method (AveragingMethod, optional): The averaging method. Default is `SIMPLE_AVERAGING`.
-        minimum_points (int, optional): Minimum number of points needed inside cell to handle the cell. Default is `1`.
+        min_points (int, optional): Minimum number of points needed inside cell to handle the cell. Default is `1`.
         relative_search_radius (float, optional): Relative search cell size, 1 = actual cell size, 2 = twice as large.
                                                   Search radius can be larger than the cell so more samples are
                                                   included. Default is `1.01`.
@@ -157,7 +157,7 @@ class InterpolationParameters:
     use_mass_center_when_refining: bool
     max_refinement_iterations: int = 10
     averaging_method: AveragingMethod = AveragingMethod.SIMPLE_AVERAGING
-    minimum_points: int = 1
+    min_points: int = 1
     relative_search_radius: float = 1.01
     interpolate_to: InterpolateToOption = InterpolateToOption.ZK
 

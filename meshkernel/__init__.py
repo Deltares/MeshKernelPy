@@ -5,6 +5,7 @@ from meshkernel.meshkernel import MeshKernel
 from meshkernel.py_structures import (
     DeleteMeshOption,
     GeometryList,
+    InterpolationParameters,
     Mesh2d,
     OrthogonalizationParameters,
 )

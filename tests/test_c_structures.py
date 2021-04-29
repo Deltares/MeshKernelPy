@@ -3,8 +3,18 @@ import pytest
 from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 
-from meshkernel import GeometryList, Mesh2d, OrthogonalizationParameters
-from meshkernel.c_structures import CGeometryList, CMesh2d, COrthogonalizationParameters
+from meshkernel import (
+    GeometryList,
+    InterpolationParameters,
+    Mesh2d,
+    OrthogonalizationParameters,
+)
+from meshkernel.c_structures import (
+    CGeometryList,
+    CInterpolationParameters,
+    CMesh2d,
+    COrthogonalizationParameters,
+)
 
 
 def test_cmesh2d_from_mesh2d():
@@ -128,7 +138,10 @@ def test_cgeometrylist_allocate_memory():
     assert geometry_list.geometry_separator == -12.3
     assert geometry_list.inner_outer_separator == 45.6
 
+
 def test_corthogonalizationparameters_from_orthogonalizationparameters():
+    """Tests `from_orthogonalizationparameters` of the `COrthogonalizationParameters` class."""
+
     orthogonalization_parameters = OrthogonalizationParameters()
     orthogonalization_parameters.outer_iterations = 1
     orthogonalization_parameters.boundary_iterations = 2
@@ -155,7 +168,26 @@ def test_corthogonalizationparameters_from_orthogonalizationparameters():
 
 
 def test_cinterpolationparameters_from_interpolationparameters():
-    pass
+    """Tests `from_interpolationparameters` of the `CInterpolationParameters` class."""
+
+    interpolation_parameters = InterpolationParameters(False, True)
+    interpolation_parameters.max_refinement_iterations = 2
+    interpolation_parameters.averaging_method = 3
+    interpolation_parameters.min_points = 4
+    interpolation_parameters.relative_search_radius = 5.0
+    interpolation_parameters.interpolate_to = 6
+
+    c_interpolation_parameters = CInterpolationParameters.from_interpolationparameters(
+        interpolation_parameters
+    )
+
+    assert c_interpolation_parameters.refine_intersected == 0
+    assert c_interpolation_parameters.use_mass_center_when_refining == 1
+    assert c_interpolation_parameters.max_refinement_iterations == 2
+    assert c_interpolation_parameters.averaging_method == 3
+    assert c_interpolation_parameters.min_points == 4
+    assert c_interpolation_parameters.relative_search_radius == 5.0
+    assert c_interpolation_parameters.interpolate_to == 6
 
 
 def test_csamplerefineparameters_from_samplerefinementparameters():

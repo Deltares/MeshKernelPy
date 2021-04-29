@@ -269,11 +269,11 @@ class CInterpolationParameters(Structure):
     Used for communicating with the MeshKernel dll.
 
     Attributes:
-        max_num_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement
-                                               is wanted.
+        max_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement
+                                           is wanted.
         averaging_method (c_int): Averaging method : 1 = simple averaging, 2 = closest point, 3 = max, 4 = min,
                                   5 = inverse weighted distance, 6 = minabs, 7 = kdtree.
-        minimum_num_points (c_int): Minimum number of points needed inside cell to handle the cell.
+        min_points (c_int): Minimum number of points needed inside cell to handle the cell.
         relative_search_radius (c_double): Relative search cell size, 1 = actual cell size, 2 = twice as large,
                                            search radius can be larger than cell so more sample are included.
         interpolate_to (c_int): Interpolation settings, 1 = bathy, 2 = zk, 3 = s1, 4 = Zc.
@@ -283,9 +283,9 @@ class CInterpolationParameters(Structure):
     """
 
     _fields_ = [
-        ("max_num_refinement_iterations", c_int),
+        ("max_refinement_iterations", c_int),
         ("averaging_method", c_int),
-        ("minimum_num_points", c_int),
+        ("min_points", c_int),
         ("relative_search_radius", c_double),
         ("interpolate_to", c_int),
         ("refine_intersected", c_int),
@@ -306,15 +306,13 @@ class CInterpolationParameters(Structure):
         """
 
         c_interpolationparameters = CInterpolationParameters()
-        c_interpolationparameters.max_num_refinement_iterations = (
+        c_interpolationparameters.max_refinement_iterations = (
             interpolation_parameters.max_refinement_iterations
         )
         c_interpolationparameters.averaging_method = (
             interpolation_parameters.averaging_method
         )
-        c_interpolationparameters.minimum_num_points = (
-            interpolation_parameters.minimum_points
-        )
+        c_interpolationparameters.min_points = interpolation_parameters.min_points
         c_interpolationparameters.relative_search_radius = (
             interpolation_parameters.relative_search_radius
         )
@@ -327,6 +325,8 @@ class CInterpolationParameters(Structure):
         c_interpolationparameters.use_mass_center_when_refining = (
             interpolation_parameters.use_mass_center_when_refining
         )
+
+        return c_interpolationparameters
 
 
 class CSampleRefineParameters(Structure):
