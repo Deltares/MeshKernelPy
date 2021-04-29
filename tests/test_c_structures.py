@@ -3,8 +3,8 @@ import pytest
 from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 
-from meshkernel import GeometryList, Mesh2d
-from meshkernel.c_structures import CGeometryList, CMesh2d
+from meshkernel import GeometryList, Mesh2d, OrthogonalizationParameters
+from meshkernel.c_structures import CGeometryList, CMesh2d, COrthogonalizationParameters
 
 
 def test_cmesh2d_from_mesh2d():
@@ -31,46 +31,46 @@ def test_cmesh2d_from_mesh2d():
     mesh2d.face_x = face_x
     mesh2d.face_y = face_y
 
-    cmesh2d = CMesh2d.from_mesh2d(mesh2d)
+    c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
 
     # Get the numpy arrays from the ctypes object
-    cmesh2d_node_x = as_array(cmesh2d.node_x, (4,))
-    cmesh2d_node_y = as_array(cmesh2d.node_y, (4,))
-    cmesh2d_edge_nodes = as_array(cmesh2d.edge_nodes, (8,))
-    cmesh2d_face_nodes = as_array(cmesh2d.face_nodes, (4,))
-    cmesh2d_nodes_per_face = as_array(cmesh2d.nodes_per_face, (1,))
-    cmesh2d_edge_x = as_array(cmesh2d.edge_x, (4,))
-    cmesh2d_edge_y = as_array(cmesh2d.edge_y, (4,))
-    cmesh2d_face_x = as_array(cmesh2d.face_x, (1,))
-    cmesh2d_face_y = as_array(cmesh2d.face_y, (1,))
+    c_mesh2d_node_x = as_array(c_mesh2d.node_x, (4,))
+    c_mesh2d_node_y = as_array(c_mesh2d.node_y, (4,))
+    c_mesh2d_edge_nodes = as_array(c_mesh2d.edge_nodes, (8,))
+    c_mesh2d_face_nodes = as_array(c_mesh2d.face_nodes, (4,))
+    c_mesh2d_nodes_per_face = as_array(c_mesh2d.nodes_per_face, (1,))
+    c_mesh2d_edge_x = as_array(c_mesh2d.edge_x, (4,))
+    c_mesh2d_edge_y = as_array(c_mesh2d.edge_y, (4,))
+    c_mesh2d_face_x = as_array(c_mesh2d.face_x, (1,))
+    c_mesh2d_face_y = as_array(c_mesh2d.face_y, (1,))
 
     # Assert data is correct
-    assert_array_equal(cmesh2d_node_x, node_x)
-    assert_array_equal(cmesh2d_node_y, node_y)
-    assert_array_equal(cmesh2d_edge_nodes, edge_nodes)
-    assert_array_equal(cmesh2d_face_nodes, face_nodes)
-    assert_array_equal(cmesh2d_nodes_per_face, nodes_per_face)
-    assert_array_equal(cmesh2d_edge_x, edge_x)
-    assert_array_equal(cmesh2d_edge_y, edge_y)
-    assert_array_equal(cmesh2d_face_x, face_x)
-    assert_array_equal(cmesh2d_face_y, face_y)
+    assert_array_equal(c_mesh2d_node_x, node_x)
+    assert_array_equal(c_mesh2d_node_y, node_y)
+    assert_array_equal(c_mesh2d_edge_nodes, edge_nodes)
+    assert_array_equal(c_mesh2d_face_nodes, face_nodes)
+    assert_array_equal(c_mesh2d_nodes_per_face, nodes_per_face)
+    assert_array_equal(c_mesh2d_edge_x, edge_x)
+    assert_array_equal(c_mesh2d_edge_y, edge_y)
+    assert_array_equal(c_mesh2d_face_x, face_x)
+    assert_array_equal(c_mesh2d_face_y, face_y)
 
-    assert cmesh2d.num_nodes == 4
-    assert cmesh2d.num_edges == 4
-    assert cmesh2d.num_faces == 1
-    assert cmesh2d.num_face_nodes == 4
+    assert c_mesh2d.num_nodes == 4
+    assert c_mesh2d.num_edges == 4
+    assert c_mesh2d.num_faces == 1
+    assert c_mesh2d.num_face_nodes == 4
 
 
 def test_cmesh2d_allocate_memory():
     """Tests `allocate_memory` of the `CMesh2D` class."""
 
-    cmesh2d = CMesh2d()
-    cmesh2d.num_nodes = 4
-    cmesh2d.num_edges = 4
-    cmesh2d.num_faces = 1
-    cmesh2d.num_face_nodes = 4
+    c_mesh2d = CMesh2d()
+    c_mesh2d.num_nodes = 4
+    c_mesh2d.num_edges = 4
+    c_mesh2d.num_faces = 1
+    c_mesh2d.num_face_nodes = 4
 
-    mesh2d = cmesh2d.allocate_memory()
+    mesh2d = c_mesh2d.allocate_memory()
 
     assert mesh2d.node_x.size == 4
     assert mesh2d.node_y.size == 4
@@ -92,45 +92,66 @@ def test_cgeometrylist_from_geometrylist():
     geometry_separator = -12.3
     inner_outer_separator = 45.6
 
-    geometrylist = GeometryList(
+    geometry_list = GeometryList(
         x_coordinates, y_coordinates, values, geometry_separator, inner_outer_separator
     )
 
-    cgeometrylist = CGeometryList.from_geometrylist(geometrylist)
+    c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
     # Get the numpy arrays from the ctypes object
-    cgeometrylist_x_coordinates = as_array(cgeometrylist.x_coordinates, (5,))
-    cgeometrylist_y_coordinates = as_array(cgeometrylist.y_coordinates, (5,))
-    cgeometrylist_values = as_array(cgeometrylist.values, (5,))
+    c_geometry_list_x_coordinates = as_array(c_geometry_list.x_coordinates, (5,))
+    c_geometry_list_y_coordinates = as_array(c_geometry_list.y_coordinates, (5,))
+    c_geometry_list_values = as_array(c_geometry_list.values, (5,))
 
-    assert_array_equal(cgeometrylist_x_coordinates, x_coordinates)
-    assert_array_equal(cgeometrylist_y_coordinates, y_coordinates)
-    assert_array_equal(cgeometrylist_values, values)
+    assert_array_equal(c_geometry_list_x_coordinates, x_coordinates)
+    assert_array_equal(c_geometry_list_y_coordinates, y_coordinates)
+    assert_array_equal(c_geometry_list_values, values)
 
-    assert cgeometrylist.geometry_separator == -12.3
-    assert cgeometrylist.inner_outer_separator == 45.6
-    assert cgeometrylist.n_coordinates == 5
+    assert c_geometry_list.geometry_separator == -12.3
+    assert c_geometry_list.inner_outer_separator == 45.6
+    assert c_geometry_list.n_coordinates == 5
 
 
 def test_cgeometrylist_allocate_memory():
     """Tests `allocate_memory` of the `CGeometryList` class."""
 
-    cgeometrylist = CGeometryList()
-    cgeometrylist.n_coordinates = 5
-    cgeometrylist.geometry_separator = -12.3
-    cgeometrylist.inner_outer_separator = 45.6
+    c_geometry_list = CGeometryList()
+    c_geometry_list.n_coordinates = 5
+    c_geometry_list.geometry_separator = -12.3
+    c_geometry_list.inner_outer_separator = 45.6
 
-    geometrylist = cgeometrylist.allocate_memory()
+    geometry_list = c_geometry_list.allocate_memory()
 
-    assert geometrylist.x_coordinates.size == 5
-    assert geometrylist.y_coordinates.size == 5
-    assert geometrylist.values.size == 5
-    assert geometrylist.geometry_separator == -12.3
-    assert geometrylist.inner_outer_separator == 45.6
-
+    assert geometry_list.x_coordinates.size == 5
+    assert geometry_list.y_coordinates.size == 5
+    assert geometry_list.values.size == 5
+    assert geometry_list.geometry_separator == -12.3
+    assert geometry_list.inner_outer_separator == 45.6
 
 def test_corthogonalizationparameters_from_orthogonalizationparameters():
-    pass
+    orthogonalization_parameters = OrthogonalizationParameters()
+    orthogonalization_parameters.outer_iterations = 1
+    orthogonalization_parameters.boundary_iterations = 2
+    orthogonalization_parameters.inner_iterations = 3
+    orthogonalization_parameters.orthogonalization_to_smoothing_factor = 4.0
+    orthogonalization_parameters.orthogonalization_to_smoothing_factor_at_boundary = 5.0
+    orthogonalization_parameters.areal_to_angle_smoothing_factor = 6.0
+
+    c_orthogonalization_parameters = (
+        COrthogonalizationParameters.from_orthogonalizationparameters(
+            orthogonalization_parameters
+        )
+    )
+
+    assert c_orthogonalization_parameters.outer_iterations == 1
+    assert c_orthogonalization_parameters.boundary_iterations == 2
+    assert c_orthogonalization_parameters.inner_iterations == 3
+    assert c_orthogonalization_parameters.orthogonalization_to_smoothing_factor == 4.0
+    assert (
+        c_orthogonalization_parameters.orthogonalization_to_smoothing_factor_at_boundary
+        == 5.0
+    )
+    assert c_orthogonalization_parameters.areal_to_angle_smoothing_factor == 6.0
 
 
 def test_cinterpolationparameters_from_interpolationparameters():
