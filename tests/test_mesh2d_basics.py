@@ -541,3 +541,26 @@ def test_delete_hanging_edges_mesh2d():
     assert mesh2d.node_x.size == 4
     assert mesh2d.edge_x.size == 4
     assert mesh2d.face_x.size == 1
+
+
+def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `get_mesh_boundaries_as_polygons_mesh2d` by checking if the resulted boundary is as expected
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mesh_boundary = mk.get_mesh_boundaries_as_polygons_mesh2d()
+    assert_array_equal(
+        mesh_boundary.x_coordinates,
+        np.array([0.0, 0.0, 0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0], dtype=np.double),
+    )
+    assert_array_equal(
+        mesh_boundary.y_coordinates,
+        np.array([0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0], dtype=np.double),
+    )

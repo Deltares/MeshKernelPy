@@ -350,6 +350,39 @@ class MeshKernel:
 
         return geometry_list_out
 
+    def get_mesh_boundaries_as_polygons_mesh2d(self) -> GeometryList:
+        """Retrieves the boundaries of a mesh as a series of separated polygons.
+
+        For example, if a mesh has an single inner hole, two polygons will be generated,
+        one for the inner boundary and one for the outer boundary.
+
+        Returns:
+            GeometryList: The output network boundary polygon.
+        """
+
+        # Get number of polygon nodes
+        number_of_polygon_nodes = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_mesh_boundaries_to_polygon_mesh2d,
+            self._meshkernelid,
+            byref(number_of_polygon_nodes),
+        )
+
+        # Create GeometryList instance
+        x_coordinates = np.empty(number_of_polygon_nodes.value, dtype=np.double)
+        y_coordinates = np.empty(number_of_polygon_nodes.value, dtype=np.double)
+        geometry_list_out = GeometryList(x_coordinates, y_coordinates)
+
+        # Get mesh boundary
+        c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
+        self._execute_function(
+            self.lib.mkernel_get_mesh_boundaries_to_polygon_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list_out),
+        )
+
+        return geometry_list_out
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
