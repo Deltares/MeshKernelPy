@@ -209,11 +209,7 @@ def test_move_node_mesh2d(
 
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinates = np.array([5.0], dtype=np.double)
-    y_coordinates = np.array([7.0], dtype=np.double)
-
-    geometry_list = GeometryList(x_coordinates, y_coordinates)
-    mk.move_node_mesh2d(geometry_list, node_index)
+    mk.move_node_mesh2d(5.0, 7.0, node_index)
 
     mesh2d = mk.get_mesh2d()
 
@@ -228,14 +224,8 @@ def test_move_node_mesh2d_invalid_node_index(meshkernel_with_mesh2d: MeshKernel)
     """Test `move_node_mesh2d` by passing a negative `node_index`."""
 
     mk = meshkernel_with_mesh2d(2, 2)
-
-    x_coordinates = np.array([5.0], dtype=np.double)
-    y_coordinates = np.array([7.0], dtype=np.double)
-
-    geometry_list = GeometryList(x_coordinates, y_coordinates)
-
     with pytest.raises(InputError):
-        mk.move_node_mesh2d(geometry_list, -1)
+        mk.move_node_mesh2d(5.0, 7.0, -1)
 
 
 cases_delete_edge_mesh2d = [

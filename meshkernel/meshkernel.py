@@ -176,7 +176,9 @@ class MeshKernel:
             int: The index of the new node
         """
 
-        geometry_list = GeometryList(np.array([x]), np.array([y]))
+        x_array = np.array([x], dtype=np.double)
+        y_array = np.array([y], dtype=np.double)
+        geometry_list = GeometryList(x_array, y_array)
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
 
@@ -205,11 +207,12 @@ class MeshKernel:
             self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
         )
 
-    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int) -> None:
+    def move_node_mesh2d(self, x: float, y: float, node_index: int) -> None:
         """Moves a Mesh2d node with the given `index` to the .
 
         Args:
-            geometry_list: The geometry list describing the new position of the node.
+            x (float): The x-coordinate of the new position of the node
+            y (float): The y-coordinate of the new position of the node
             node_index (int): The index of the node to be moved.
 
         Raises:
@@ -219,6 +222,9 @@ class MeshKernel:
         if node_index < 0:
             raise InputError("node_index needs to be a positive integer")
 
+        x_array = np.array([x], dtype=np.double)
+        y_array = np.array([y], dtype=np.double)
+        geometry_list = GeometryList(x_array, y_array)
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
