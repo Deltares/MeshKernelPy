@@ -49,7 +49,10 @@ def test_get_splines(
 
     original_number_of_coordinates = geometry_list_in.x_coordinates.size
     expected_new_number_of_coordinates = (
-        original_number_of_coordinates - 1
-    ) * number_of_points_between_nodes + original_number_of_coordinates
+        original_number_of_coordinates * number_of_points_between_nodes
+        - number_of_points_between_nodes
+        + original_number_of_coordinates
+        + 1
+    )
 
     assert expected_new_number_of_coordinates == geometry_list_out.x_coordinates.size

@@ -176,12 +176,14 @@ class MeshKernel:
             int: The index of the new node
         """
 
+        geometry_list = GeometryList(np.array([x]), np.array([y]))
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
+
         self._execute_function(
             self.lib.mkernel_insert_node_mesh2d,
             self._meshkernelid,
-            c_double(x),
-            c_double(y),
+            byref(c_geometry_list),
             byref(index),
         )
         return index.value
@@ -242,8 +244,8 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
-    def find_edge_mesh2d(self, geometry_list: GeometryList) -> int:
-        """Finds the closest mesh2d edge to a point.
+    def get_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+        """Gets the closest mesh2d edge to a point.
 
         Args:
             geometry_list (GeometryList): A geometry list containing the coordinate of the point.
@@ -256,7 +258,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_find_edge_mesh2d,
+            self.lib.mkernel_get_edge_mesh2d,
             self._meshkernelid,
             byref(c_geometry_list),
             byref(index),
@@ -331,8 +333,11 @@ class MeshKernel:
         # Allocate space for output
         original_number_of_coordinates = geometry_list.x_coordinates.size
         number_of_coordinates = (
-            original_number_of_coordinates - 1
-        ) * number_of_points_between_nodes + original_number_of_coordinates
+            original_number_of_coordinates * number_of_points_between_nodes
+            - number_of_points_between_nodes
+            + original_number_of_coordinates
+            + 1
+        )
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         values = np.empty(number_of_coordinates, dtype=np.double)
@@ -364,7 +369,7 @@ class MeshKernel:
         # Get number of polygon nodes
         number_of_polygon_nodes = c_int()
         self._execute_function(
-            self.lib.mkernel_count_mesh_boundaries_to_polygon_mesh2d,
+            self.lib.mkernel_count_mesh_boundaries_as_polygons_mesh2d,
             self._meshkernelid,
             byref(number_of_polygon_nodes),
         )
@@ -377,7 +382,7 @@ class MeshKernel:
         # Get mesh boundary
         c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
         self._execute_function(
-            self.lib.mkernel_get_mesh_boundaries_to_polygon_mesh2d,
+            self.lib.mkernel_get_mesh_boundaries_as_polygons_mesh2d,
             self._meshkernelid,
             byref(c_geometry_list_out),
         )
