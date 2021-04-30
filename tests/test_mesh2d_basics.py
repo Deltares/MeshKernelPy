@@ -11,6 +11,7 @@ from meshkernel import (
     Mesh2dFactory,
     MeshKernel,
     MeshKernelError,
+    RefinementType,
     SampleRefineParameters,
 )
 
@@ -618,7 +619,25 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
     assert geom.x_coordinates.size == exp_nodes
 
 
-def test_refine_based_on_samples_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+cases_refine_based_on_samples_mesh2d = [
+    #(0.5, 1, 9, 12, 4), TODO throws refinement_type =1 throws error.
+    (0.5, 2, 25, 40, 16),
+    (0.5, 3, 9, 12, 4),
+]
+
+
+@pytest.mark.parametrize(
+    "min_face_size, refinement_type, exp_nodes, exp_edges, exp_faces",
+    cases_refine_based_on_samples_mesh2d,
+)
+def test_refine_based_on_samples_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    min_face_size: float,
+    refinement_type: RefinementType,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
     """Tests `refine_based_on_samples_mesh2d` with a simple 3x3 mesh.
 
     6---7---8
@@ -631,11 +650,13 @@ def test_refine_based_on_samples_mesh2d(meshkernel_with_mesh2d: MeshKernel):
 
     x_coordinates = np.array([0.0, 0.0, 2.0, 2.0], dtype=np.double)
     y_coordinates = np.array([0.0, 2.0, 2.0, 0.0], dtype=np.double)
-    values = np.array([0, 1, 2, 3], dtype=np.double)
+    values = np.array([0, 0, 0, 0], dtype=np.double)
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
     interpolation_params = InterpolationParameters(False, False)
-    sample_refine_params = SampleRefineParameters(1, 0.5, 2, 1, 0.0, False)
+    sample_refine_params = SampleRefineParameters(
+        1, min_face_size, refinement_type, 1, 0.0, False
+    )
 
     mk.refine_based_on_samples_mesh2d(
         samples, interpolation_params, sample_refine_params
@@ -643,6 +664,51 @@ def test_refine_based_on_samples_mesh2d(meshkernel_with_mesh2d: MeshKernel):
 
     mesdh2d = mk.get_mesh2d()
 
-    assert mesdh2d.node_x.size == 25
-    assert mesdh2d.edge_x.size == 40
-    assert mesdh2d.face_x.size == 16
+    assert mesdh2d.node_x.size == exp_nodes
+    assert mesdh2d.edge_x.size == exp_edges
+    assert mesdh2d.face_x.size == exp_faces
+
+
+cases_refine_based_on_polygon_mesh2d = [
+    (1, 25, 40, 16),
+    (2, 81, 144, 64),
+    (3, 289, 544, 256),
+]
+
+
+@pytest.mark.parametrize(
+    "max_iterations, exp_nodes, exp_edges, exp_faces",
+    cases_refine_based_on_polygon_mesh2d,
+)
+def test_refine_based_on_polygon_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    max_iterations: int,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
+    """Tests `refine_based_on_polygon_mesh2d` with a simple 3x3 mesh.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0, 0.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0, 0.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    interpolation_params = InterpolationParameters(
+        True, False, max_refinement_iterations=max_iterations
+    )
+    mk.refine_based_on_polygon_mesh2d(polygon, interpolation_params)
+
+    mesdh2d = mk.get_mesh2d()
+
+    assert mesdh2d.node_x.size == exp_nodes
+    assert mesdh2d.edge_x.size == exp_edges
+    assert mesdh2d.face_x.size == exp_faces
