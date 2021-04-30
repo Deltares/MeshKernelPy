@@ -415,7 +415,7 @@ class MeshKernel:
         sample_refine_params: SampleRefineParameters,
     ):
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
-        The number of successive splits is indicated on the sample value.
+        The number of successive splits is indicated by the sample value.
         For example:
         - a value of 0 means no split and hence no refinement;
         - a value of 1 means a single split (a quadrilateral face generates 4 faces);
