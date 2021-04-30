@@ -123,7 +123,7 @@ class MeshKernel:
         geometry_list: GeometryList,
         delete_option: DeleteMeshOption,
         invert_deletion: bool,
-    ):
+    ) -> None:
         """Deletes a mesh in a polygon using several options.
 
         Args:
@@ -185,7 +185,7 @@ class MeshKernel:
         )
         return index.value
 
-    def delete_node_mesh2d(self, node_index: int):
+    def delete_node_mesh2d(self, node_index: int) -> None:
         """Deletes a Mesh2d node with the given `index`.
 
         Args:
@@ -202,7 +202,7 @@ class MeshKernel:
             self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
         )
 
-    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int):
+    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int) -> None:
         """Moves a Mesh2d node with the given `index` to the .
 
         Args:
@@ -225,7 +225,7 @@ class MeshKernel:
             c_int(node_index),
         )
 
-    def delete_edge_mesh2d(self, geometry_list: GeometryList):
+    def delete_edge_mesh2d(self, geometry_list: GeometryList) -> None:
         """Deletes the closest mesh2d edge to a point.
         The coordinates of the edge middle points are used for calculating the distances to the point.
 
@@ -305,7 +305,7 @@ class MeshKernel:
         )
         return count.value
 
-    def delete_hanging_edges_mesh2d(self):
+    def delete_hanging_edges_mesh2d(self) -> None:
         """Delete the hanging edges in the Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
         """
@@ -382,6 +382,19 @@ class MeshKernel:
         )
 
         return geometry_list_out
+
+    def merge_nodes_mesh2d(self, geometry_list: GeometryList) -> None:
+        """Merges the mesh2d nodes, effectively removing all small edges
+
+        Args:
+            geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
+        """
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        self._execute_function(
+            self.lib.mkernel_merge_nodes_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
 
     @staticmethod
     def _execute_function(function: Callable, *args):

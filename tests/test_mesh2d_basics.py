@@ -564,3 +564,31 @@ def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKern
         mesh_boundary.y_coordinates,
         np.array([0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0], dtype=np.double),
     )
+
+
+def test_merge_nodes_mesh2d():
+    """Test if merge nodes reduces the number of close nodes
+
+    4---3
+    |   |
+    01--2
+    """
+    mk = MeshKernel()
+
+    # Set up mesh
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4, 4, 0], dtype=np.int32)
+    node_x = np.array([0.0, 1e-6, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+    mk.set_mesh2d(input_mesh2d)
+
+    # Define polygon where we want to merge
+    x_coordinates = np.array([-1.0, 2.0, 2.0, -1.0, -1.0], dtype=np.double)
+    y_coordinates = np.array([-1.0, -1.0, 2.0, 2.0, -1.0], dtype=np.double)
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+    mk.merge_nodes_mesh2d(geometry_list)
+
+    output_mesh2d = mk.get_mesh2d()
+
+    assert output_mesh2d.node_x.size == 4
