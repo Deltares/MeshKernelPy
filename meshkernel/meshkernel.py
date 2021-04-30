@@ -28,11 +28,11 @@ class MeshKernel:
     for interacting with the MeshKernel library
     """
 
-    def __init__(self, is_geographic: bool):
+    def __init__(self, is_geographic: bool = False):
         """Constructor of MeshKernel
 
         Args:
-            is_geographic (bool): Cartesian (False) or spherical (True) mesh
+            is_geographic (bool, optional): [description]. Defaults to False.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.

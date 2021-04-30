@@ -29,7 +29,7 @@ def meshkernel_with_mesh2d() -> MeshKernel:
 
     def _create(rows: int, columns: int):
         mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
-        mk = MeshKernel(False)
+        mk = MeshKernel()
 
         mk.set_mesh2d(mesh2d)
 
@@ -49,8 +49,8 @@ def test_constructor(is_geometric: bool):
 
 def test_different_instances_have_different_ids():
     """Test if the meshkernelid of two instances differs"""
-    mk_1 = MeshKernel(False)
-    mk_2 = MeshKernel(False)
+    mk_1 = MeshKernel()
+    mk_2 = MeshKernel()
 
     assert mk_1._meshkernelid != mk_2._meshkernelid
 
@@ -62,7 +62,7 @@ def test_set_mesh_and_get_mesh():
     |   |
     0---1
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
@@ -504,7 +504,7 @@ def test_count_hanging_edges_mesh2d(
     0---1
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     mesh2d = Mesh2d(node_x, node_y, edge_nodes)
 
@@ -524,7 +524,7 @@ def test_delete_hanging_edges_mesh2d():
     0---1
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double)

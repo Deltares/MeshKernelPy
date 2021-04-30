@@ -42,7 +42,7 @@ def test_get_splines(
     y_coordinates: np.array,
 ):
     """Test `get_splines` by checking if the dimensions of the generated spline are correct"""
-    mk = MeshKernel(False)
+    mk = MeshKernel()
     geometry_list_in = GeometryList(x_coordinates, y_coordinates)
 
     geometry_list_out = mk.get_splines(geometry_list_in, number_of_points_between_nodes)
