@@ -803,7 +803,7 @@ def test_flip_edges_mesh2d(
 
 
 def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
-    """Tests `flip_edges_mesh2d` with a simple triangular mesh.
+    """Tests `flip_edges_mesh2d` with a simple 3x3 mesh.
 
     6---7---8       6---7---8
     |   |   |       | / | / |
