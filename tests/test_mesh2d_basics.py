@@ -824,3 +824,62 @@ def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
 
     assert mesh2d.nodes_per_face.size
     assert np.all(mesh2d.nodes_per_face == 3)
+
+
+def test_count_obtuse_triangles_mesh2d():
+    """Tests `count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
+
+    6---7---8
+    | /  \\ |
+    3----4--5
+    | \  // |
+    0---1---2
+
+    """
+    mk = MeshKernel(False)
+
+    node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            1,
+            3,
+            1,
+            5,
+            3,
+            7,
+            5,
+            7,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    n_obtuse_triangles = mk.count_obtuse_triangles_mesh2d()
+
+    assert n_obtuse_triangles == 2

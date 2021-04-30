@@ -520,6 +520,24 @@ class MeshKernel:
             c_int(project_to_land_boundary_required),
         )
 
+    def count_obtuse_triangles_mesh2d(self) -> int:
+        """Gets the number of obtuse mesh2d triangles.
+        Obtuse triangles are those having one angle larger than 90°.
+
+        Returns:
+            int: The number of obtuse triangles.
+        """
+
+        n_obtuse_triangles = c_int(0)
+
+        self._execute_function(
+            self.lib.mkernel_count_obtuse_triangles_mesh2d,
+            self._meshkernelid,
+            byref(n_obtuse_triangles),
+        )
+
+        return n_obtuse_triangles.value
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
