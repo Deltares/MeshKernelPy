@@ -768,3 +768,59 @@ def test_get_points_in_polygon(
     selection = mk.get_points_in_polygon(selecting_polygon, selected_polygon)
 
     assert_array_equal(selection.values, exp_values)
+
+
+@pytest.mark.parametrize("triangulate", [True, False])
+@pytest.mark.parametrize("project_to_land_boundaries", [True, False])
+def test_flip_edges_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    triangulate: bool,
+    project_to_land_boundaries: bool,
+):
+    """Tests `flip_edges_mesh2d` with a simple triangular mesh.
+
+    3---2     3---2
+    | / | --> |\\ |
+    0---1     0---1
+    """
+
+    mk = meshkernel_with_mesh2d(2, 2)
+
+    node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0, 0, 2], dtype=np.int32)
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    mk.flip_edges_mesh2d(triangulate, project_to_land_boundaries)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 4
+    assert mesh2d.edge_x.size == 5
+    assert mesh2d.face_x.size == 2
+    # TODO assert_array_equal(mesh2d.edge_nodes, np.array([0, 1, 1, 2, 2, 3, 3, 0, 3, 1]))
+
+
+def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `flip_edges_mesh2d` with a simple triangular mesh.
+
+    6---7---8       6---7---8
+    |   |   |       | / | / |
+    3---4---5  -->  3---4---5
+    |   |   |       | / | / |
+    0---1---2       0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mk.flip_edges_mesh2d(True, False)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 9
+    assert mesh2d.edge_x.size == 16
+    assert mesh2d.face_x.size == 8
+
+    assert mesh2d.nodes_per_face.size
+    assert np.all(mesh2d.nodes_per_face == 3)

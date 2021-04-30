@@ -499,6 +499,27 @@ class MeshKernel:
 
         return selection
 
+    def flip_edges_mesh2d(
+        self,
+        triangulation_required: bool,
+        project_to_land_boundary_required: bool,
+    ):
+        """Flips mesh2d edges to optimize the mesh smoothness.
+        Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
+        shape and wildly varying areas.
+
+        Args:
+            triangulation_required (bool): Whether to triangulate non-triangular cells.
+            project_to_land_boundary_required: Whether projection to land boundaries is required.
+
+        """
+        self._execute_function(
+            self.lib.mkernel_flip_edges_mesh2d,
+            self._meshkernelid,
+            c_bool(triangulation_required),
+            c_int(project_to_land_boundary_required),
+        )
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
