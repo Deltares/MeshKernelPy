@@ -594,7 +594,18 @@ def test_merge_nodes_mesh2d():
     assert output_mesh2d.node_x.size == 4
 
 
-def test_merge_two_nodes_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+cases_merge_two_nodes_mesh2d = [(0, 1, 4), (4, 5, 4), (0, 4, 3)]
+
+
+@pytest.mark.parametrize(
+    "first_node, second_node, num_faces", cases_merge_two_nodes_mesh2d
+)
+def test_merge_two_nodes_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    first_node: int,
+    second_node: int,
+    num_faces: int,
+):
     """Tests `test_merge_two_nodes_mesh2d` by checking if two selected nodes are properly merged
 
     6---7---8
@@ -606,8 +617,9 @@ def test_merge_two_nodes_mesh2d(meshkernel_with_mesh2d: MeshKernel):
 
     mk = meshkernel_with_mesh2d(3, 3)
 
-    mk.merge_two_nodes_mesh2d(4, 5)
+    mk.merge_two_nodes_mesh2d(first_node, second_node)
 
     output_mesh2d = mk.get_mesh2d()
 
     assert output_mesh2d.node_x.size == 8
+    assert output_mesh2d.face_x.size == num_faces
