@@ -396,6 +396,21 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def merge_two_nodes_mesh2d(self, first_node: int, second_node: int) -> None:
+        """Merges two mesh2d nodes into one.
+
+        Args:
+            first_node (int): The index of the first node to merge.
+            second_node (int): The index of the second node to merge.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_merge_two_nodes_mesh2d,
+            self._meshkernelid,
+            c_int(first_node),
+            c_int(second_node),
+        )
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status

@@ -592,3 +592,22 @@ def test_merge_nodes_mesh2d():
     output_mesh2d = mk.get_mesh2d()
 
     assert output_mesh2d.node_x.size == 4
+
+
+def test_merge_two_nodes_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `test_merge_two_nodes_mesh2d` by checking if two selected nodes are properly merged
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mk.merge_two_nodes_mesh2d(4, 5)
+
+    output_mesh2d = mk.get_mesh2d()
+
+    assert output_mesh2d.node_x.size == 8
