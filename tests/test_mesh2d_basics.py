@@ -620,7 +620,7 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
 
 
 cases_refine_based_on_samples_mesh2d = [
-    #(0.5, 1, 9, 12, 4), TODO throws refinement_type =1 throws error.
+    # (0.5, 1, 9, 12, 4), TODO throws refinement_type =1 throws error.
     (0.5, 2, 25, 40, 16),
     (0.5, 3, 9, 12, 4),
 ]
@@ -712,3 +712,59 @@ def test_refine_based_on_polygon_mesh2d(
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
     assert mesdh2d.face_x.size == exp_faces
+
+
+cases_get_points_in_polygon = [
+    (
+        # Select all
+        np.array([0.0, 3.0, 3.0, 0.0, 0.0]),
+        np.array([0.0, 0.0, 3.0, 3.0, 0.0]),
+        np.array([1.0, 1.0, 1.0, 1.0, 1.0]),
+    ),
+    (
+        # Select right half
+        np.array([1.5, 3.0, 3.0, 1.5, 1.5]),
+        np.array([0.0, 0.0, 3.0, 3.0, 0.0]),
+        np.array([0.0, 1.0, 1.0, 0.0, 0.0]),
+    ),
+    (
+        # Select bottom-right
+        np.array([1.5, 3.0, 3.0, 1.5, 1.5]),
+        np.array([0.0, 0.0, 1.5, 1.5, 0.0]),
+        np.array([0.0, 1.0, 0.0, 0.0, 0.0]),
+    ),
+    (
+        # Select top half
+        np.array([0.0, 3.0, 3.0, 0.0, 0.0]),
+        np.array([1.5, 1.5, 3.0, 3.0, 1.5]),
+        np.array([0.0, 0.0, 1.0, 1.0, 0.0]),
+    ),
+    (
+        # Select top-left
+        np.array([0.0, 1.5, 1.5, 0.0, 0.0]),
+        np.array([1.5, 1.5, 3.0, 3.0, 1.5]),
+        np.array([0.0, 0.0, 0.0, 1.0, 0.0]),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "selecting_x, selecting_y, exp_values",
+    cases_get_points_in_polygon,
+)
+def test_get_points_in_polygon(
+    selecting_x: np.array, selecting_y: np.array, exp_values: np.array
+):
+    """Tests `get_points_in_polygon` with a simple polygon and various selecting polygons."""
+
+    selecting_polygon = GeometryList(selecting_x, selecting_y)
+
+    x_coordinates = np.array([1.0, 2.0, 2.0, 1.0, 1.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    selected_polygon = GeometryList(x_coordinates, y_coordinates)
+
+    mk = MeshKernel(False)
+
+    selection = mk.get_points_in_polygon(selecting_polygon, selected_polygon)
+
+    assert_array_equal(selection.values, exp_values)

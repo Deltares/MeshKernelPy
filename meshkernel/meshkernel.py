@@ -469,6 +469,36 @@ class MeshKernel:
             byref(c_interpolation_params),
         )
 
+    def get_points_in_polygon(
+        self, selecting_polygon: GeometryList, selected_polygon: GeometryList
+    ) -> GeometryList:
+        """Selects the polygon points within another polygon.
+
+        Args:
+            selecting_polygon (GeometryList): The selection polygon.
+            selected_polygon (GeometryList): The polygon of which to get the selected points.
+
+        Returns:
+            GeometryList: The selection result. The selected points are contained in the values array of the returned
+                          GeometryList (0.0 not selected, 1.0 selected).
+        """
+
+        c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
+        c_selected_polygon = CGeometryList.from_geometrylist(selected_polygon)
+        c_selection = CGeometryList.from_geometrylist(selected_polygon)
+
+        selection = c_selection.allocate_memory()
+
+        self._execute_function(
+            self.lib.mkernel_get_points_in_polygon,
+            self._meshkernelid,
+            byref(c_selecting_polygon),
+            byref(c_selected_polygon),
+            byref(c_selection),
+        )
+
+        return selection
+
     @staticmethod
     def _execute_function(function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
