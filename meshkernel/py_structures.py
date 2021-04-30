@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, IntEnum, unique
 
 import numpy as np
+from numpy import ndarray
 
 
 @unique
@@ -36,27 +37,27 @@ class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data
 
     Attributes:
-        node_x (np.ndarray): A 1D double array describing the x-coordinates of the nodes.
-        node_y (np.ndarray): A 1D double array describing the y-coordinates of the nodes.
-        edge_nodes (np.ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d edge.
-        face_nodes (np.ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d face.
-        nodes_per_face (np.ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d face.
-        edge_x (np.ndarray, optional): A 1D double array describing x-coordinates of the mesh edges' middle points.
-        edge_y (np.ndarray, optional): A 1D double array describing x-coordinates of the mesh edges' middle points.
-        face_x (np.ndarray, optional): A 1D double array describing x-coordinates of the mesh faces' mass centers.
-        face_y (np.ndarray, optional): A 1D double array describing y-coordinates of the mesh faces' mass centers.
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        edge_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d edge.
+        face_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d face.
+        nodes_per_face (ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d face.
+        edge_x (ndarray, optional): A 1D double array describing x-coordinates of the mesh edges' middle points.
+        edge_y (ndarray, optional): A 1D double array describing x-coordinates of the mesh edges' middle points.
+        face_x (ndarray, optional): A 1D double array describing x-coordinates of the mesh faces' mass centers.
+        face_y (ndarray, optional): A 1D double array describing y-coordinates of the mesh faces' mass centers.
 
     """
 
-    node_x: np.ndarray
-    node_y: np.ndarray
-    edge_nodes: np.ndarray
-    face_nodes: np.ndarray = np.empty(0, dtype=np.int32)
-    nodes_per_face: np.ndarray = np.empty(0, dtype=np.int32)
-    edge_x: np.ndarray = np.empty(0, dtype=np.double)
-    edge_y: np.ndarray = np.empty(0, dtype=np.double)
-    face_x: np.ndarray = np.empty(0, dtype=np.double)
-    face_y: np.ndarray = np.empty(0, dtype=np.double)
+    node_x: ndarray
+    node_y: ndarray
+    edge_nodes: ndarray
+    face_nodes: ndarray = np.empty(0, dtype=np.int32)
+    nodes_per_face: ndarray = np.empty(0, dtype=np.int32)
+    edge_x: ndarray = np.empty(0, dtype=np.double)
+    edge_y: ndarray = np.empty(0, dtype=np.double)
+    face_x: ndarray = np.empty(0, dtype=np.double)
+    face_y: ndarray = np.empty(0, dtype=np.double)
 
 
 @dataclass
@@ -64,17 +65,17 @@ class GeometryList:
     """A class to describe a list of geometries.
 
     Attributes:
-        x_coordinates (np.ndarray): A 1D double array describing the x-coordinates of the nodes.
-        y_coordinates (np.ndarray): A 1D double array describing the y-coordinates of the nodes.
-        values (np.ndarray, optional): A 1D double array describing the values of the nodes.
+        x_coordinates (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        y_coordinates (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        values (ndarray, optional): A 1D double array describing the values of the nodes.
         geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
         inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer
                                                  part. Default is `-998.0`
     """
 
-    x_coordinates: np.ndarray
-    y_coordinates: np.ndarray
-    values: np.ndarray = np.empty(0, dtype=np.double)
+    x_coordinates: ndarray
+    y_coordinates: ndarray
+    values: ndarray = np.empty(0, dtype=np.double)
     geometry_separator: float = -999.0
     inner_outer_separator: float = -998.0
 

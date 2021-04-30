@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Callable, Iterable, Tuple
 
 import numpy as np
+from numpy import ndarray
 
 from meshkernel.c_structures import CGeometryList, CMesh2d
 from meshkernel.errors import InputError, MeshKernelError
@@ -410,6 +411,11 @@ class MeshKernel:
             c_int(first_node),
             c_int(second_node),
         )
+
+    def nodes_in_polygons_mesh2d(
+        self, geometry_list: GeometryList, inside: bool, selected_nodes: ndarray
+    ) -> ndarray:
+        pass
 
     @staticmethod
     def _execute_function(function: Callable, *args):
