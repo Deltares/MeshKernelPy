@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pytest
+from numpy import ndarray
 from numpy.testing import assert_array_equal
 
 from meshkernel import (
@@ -556,8 +557,12 @@ def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKern
     )
 
 
-def test_merge_nodes_mesh2d():
-    """Test if merge nodes reduces the number of close nodes
+cases_merge_nodes_mesh2d = [(1e-2, 4), (1e-4, 5)]
+
+
+@pytest.mark.parametrize("merging_distance, number_of_nodes", cases_merge_nodes_mesh2d)
+def test_merge_nodes_mesh2d(merging_distance: float, number_of_nodes: int):
+    """Test if `merge_nodes_mesh2d` reduces the number of close nodes
 
     4---3
     |   |
@@ -567,7 +572,7 @@ def test_merge_nodes_mesh2d():
 
     # Set up mesh
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4, 4, 0], dtype=np.int32)
-    node_x = np.array([0.0, 1e-6, 1.0, 1.0, 0.0], dtype=np.double)
+    node_x = np.array([0.0, 1e-3, 1.0, 1.0, 0.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0], dtype=np.double)
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mk.set_mesh2d(input_mesh2d)
@@ -577,11 +582,11 @@ def test_merge_nodes_mesh2d():
     y_coordinates = np.array([-1.0, -1.0, 2.0, 2.0, -1.0], dtype=np.double)
     geometry_list = GeometryList(x_coordinates, y_coordinates)
 
-    mk.merge_nodes_mesh2d(geometry_list)
+    mk.merge_nodes_mesh2d(geometry_list, merging_distance)
 
     output_mesh2d = mk.get_mesh2d()
 
-    assert output_mesh2d.node_x.size == 4
+    assert output_mesh2d.node_x.size == number_of_nodes
 
 
 cases_merge_two_nodes_mesh2d = [(0, 1, 4), (4, 5, 4), (0, 4, 3)]
@@ -596,7 +601,7 @@ def test_merge_two_nodes_mesh2d(
     second_node: int,
     num_faces: int,
 ):
-    """Tests `test_merge_two_nodes_mesh2d` by checking if two selected nodes are properly merged
+    """Tests `merge_two_nodes_mesh2d` by checking if two selected nodes are properly merged
 
     6---7---8
     |   |   |
@@ -613,3 +618,47 @@ def test_merge_two_nodes_mesh2d(
 
     assert output_mesh2d.node_x.size == 8
     assert output_mesh2d.face_x.size == num_faces
+
+
+cases_nodes_in_polygons_mesh2d = [
+    (np.array([1.5, 2.5, 2.5, 1.5, 1.5]), np.array([1.5, 1.5, 2.5, 2.5, 1.5]), True, 1),
+    (
+        np.array([1.5, 2.5, 2.5, 1.5, 1.5]),
+        np.array([1.5, 1.5, 2.5, 2.5, 1.5]),
+        False,
+        8,
+    ),
+    (
+        np.array([]),
+        np.array([]),
+        True,
+        9,
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "x_coordinates, y_coordinates, inside, num_nodes",
+    cases_nodes_in_polygons_mesh2d,
+)
+def test_nodes_in_polygons_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    x_coordinates: ndarray,
+    y_coordinates: ndarray,
+    inside: bool,
+    num_nodes: int,
+):
+    """Tests `nodes_in_polygons_mesh2d` by checking if two selected nodes are properly merged
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+    selected_nodes = mk.get_nodes_in_polygons_mesh2d(geometry_list, inside)
+
+    assert selected_nodes.size == num_nodes

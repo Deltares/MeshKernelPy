@@ -395,17 +395,21 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def merge_nodes_mesh2d(self, geometry_list: GeometryList) -> None:
+    def merge_nodes_mesh2d(
+        self, geometry_list: GeometryList, merging_distance: float
+    ) -> None:
         """Merges the mesh2d nodes, effectively removing all small edges
 
         Args:
             geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
+            geometry_list (float): The distance below which two nodes will be merged
         """
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         self._execute_function(
             self.lib.mkernel_merge_nodes_mesh2d,
             self._meshkernelid,
             byref(c_geometry_list),
+            c_double(merging_distance),
         )
 
     def merge_two_nodes_mesh2d(self, first_node: int, second_node: int) -> None:
@@ -423,10 +427,45 @@ class MeshKernel:
             c_int(second_node),
         )
 
-    def nodes_in_polygons_mesh2d(
-        self, geometry_list: GeometryList, inside: bool, selected_nodes: ndarray
+    def get_nodes_in_polygons_mesh2d(
+        self, geometry_list: GeometryList, inside: bool
     ) -> ndarray:
-        pass
+        """Gets the indices of the mesh2d nodes selected with a polygon.
+
+        Args:
+            geometry_list (GeometryList): The input polygon.
+            inside (bool): Selection of the nodes inside the polygon (True) or outside (False)
+
+        Returns:
+            ndarray: The integer array describing the selected nodes indices
+        """
+
+        c_inside = c_int(inside)
+        c_number_of_mesh_nodes = c_int()
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        # Get number of mesh nodes
+        self._execute_function(
+            self.lib.mkernel_count_nodes_in_polygons_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_inside,
+            byref(c_number_of_mesh_nodes),
+        )
+
+        selected_nodes = np.empty(c_number_of_mesh_nodes.value, dtype=np.int32)
+        c_selected_nodes = np.ctypeslib.as_ctypes(selected_nodes)
+
+        # Get selected nodes
+        self._execute_function(
+            self.lib.mkernel_get_nodes_in_polygons_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_inside,
+            c_selected_nodes,
+        )
+
+        return selected_nodes
 
     @staticmethod
     def _execute_function(function: Callable, *args):
