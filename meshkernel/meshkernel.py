@@ -691,8 +691,12 @@ class MeshKernel:
 
         return selected_nodes
 
-    @staticmethod
-    def _execute_function(function: Callable, *args):
+    def _get_error(self) -> str:
+        c_error_message = c_char_p()
+        self.lib.mkernel_get_error(byref(c_error_message))
+        return c_error_message.value.decode("ASCII")
+
+    def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
 
         Args:
@@ -704,6 +708,5 @@ class MeshKernel:
                              if the MeshKernel library reports an error.
         """
         if function(*args) != Status.SUCCESS:
-            msg = f"MeshKernel exception in: {function.__name__}"
-            # TODO: Report errors from MeshKernel
-            raise MeshKernelError(msg)
+            error_message = self._get_error()
+            raise MeshKernelError(error_message)
