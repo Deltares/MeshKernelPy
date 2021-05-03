@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Callable, Iterable, Tuple
 
 import numpy as np
+from numpy import ndarray
 
 from meshkernel.c_structures import (
     CGeometryList,
@@ -39,11 +40,11 @@ class MeshKernel:
     for interacting with the MeshKernel library
     """
 
-    def __init__(self, is_geographic: bool):
+    def __init__(self, is_geographic: bool = False):
         """Constructor of MeshKernel
 
         Args:
-            is_geographic (bool): Cartesian (False) or spherical (True) mesh
+            is_geographic (bool, optional): [description]. Defaults to False.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -134,7 +135,7 @@ class MeshKernel:
         geometry_list: GeometryList,
         delete_option: DeleteMeshOption,
         invert_deletion: bool,
-    ):
+    ) -> None:
         """Deletes a mesh in a polygon using several options.
 
         Args:
@@ -186,17 +187,21 @@ class MeshKernel:
             int: The index of the new node
         """
 
+        x_array = np.array([x], dtype=np.double)
+        y_array = np.array([y], dtype=np.double)
+        geometry_list = GeometryList(x_array, y_array)
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
+
         self._execute_function(
             self.lib.mkernel_insert_node_mesh2d,
             self._meshkernelid,
-            c_double(x),
-            c_double(y),
+            byref(c_geometry_list),
             byref(index),
         )
         return index.value
 
-    def delete_node_mesh2d(self, node_index: int):
+    def delete_node_mesh2d(self, node_index: int) -> None:
         """Deletes a Mesh2d node with the given `index`.
 
         Args:
@@ -213,11 +218,12 @@ class MeshKernel:
             self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
         )
 
-    def move_node_mesh2d(self, geometry_list: GeometryList, node_index: int):
+    def move_node_mesh2d(self, x: float, y: float, node_index: int) -> None:
         """Moves a Mesh2d node with the given `index` to the .
 
         Args:
-            geometry_list: The geometry list describing the new position of the node.
+            x (float): The x-coordinate of the new position of the node
+            y (float): The y-coordinate of the new position of the node
             node_index (int): The index of the node to be moved.
 
         Raises:
@@ -227,6 +233,9 @@ class MeshKernel:
         if node_index < 0:
             raise InputError("node_index needs to be a positive integer")
 
+        x_array = np.array([x], dtype=np.double)
+        y_array = np.array([y], dtype=np.double)
+        geometry_list = GeometryList(x_array, y_array)
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
@@ -236,7 +245,7 @@ class MeshKernel:
             c_int(node_index),
         )
 
-    def delete_edge_mesh2d(self, geometry_list: GeometryList):
+    def delete_edge_mesh2d(self, geometry_list: GeometryList) -> None:
         """Deletes the closest mesh2d edge to a point.
         The coordinates of the edge middle points are used for calculating the distances to the point.
 
@@ -252,8 +261,8 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
-    def find_edge_mesh2d(self, geometry_list: GeometryList) -> int:
-        """Finds the closest mesh2d edge to a point.
+    def get_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+        """Gets the closest mesh2d edge to a point.
 
         Args:
             geometry_list (GeometryList): A geometry list containing the coordinate of the point.
@@ -266,7 +275,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_find_edge_mesh2d,
+            self.lib.mkernel_get_edge_mesh2d,
             self._meshkernelid,
             byref(c_geometry_list),
             byref(index),
@@ -316,7 +325,7 @@ class MeshKernel:
         )
         return count.value
 
-    def delete_hanging_edges_mesh2d(self):
+    def delete_hanging_edges_mesh2d(self) -> None:
         """Delete the hanging edges in the Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
         """
@@ -537,6 +546,150 @@ class MeshKernel:
         )
 
         return n_obtuse_triangles.value
+
+    def get_splines(
+        self, geometry_list: GeometryList, number_of_points_between_nodes: int
+    ) -> GeometryList:
+        """Get the computed spline points between two corner nodes.
+
+        Args:
+            geometry_list (GeometryList): The input corner nodes of the splines
+            number_of_points_between_nodes (int): The number of spline points to generate between two corner nodes.
+
+        Returns:
+            GeometryList: The output spline.
+        """
+
+        # Allocate space for output
+        original_number_of_coordinates = geometry_list.x_coordinates.size
+        number_of_coordinates = (
+            original_number_of_coordinates * number_of_points_between_nodes
+            - number_of_points_between_nodes
+            + original_number_of_coordinates
+            + 1
+        )
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        geometry_list_out = GeometryList(x_coordinates, y_coordinates, values)
+
+        # Convert to CGeometryList
+        c_geometry_list_in = CGeometryList.from_geometrylist(geometry_list)
+        c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
+
+        self._execute_function(
+            self.lib.mkernel_get_splines,
+            byref(c_geometry_list_in),
+            byref(c_geometry_list_out),
+            c_int(number_of_points_between_nodes),
+        )
+
+        return geometry_list_out
+
+    def get_mesh_boundaries_as_polygons_mesh2d(self) -> GeometryList:
+        """Retrieves the boundaries of a mesh as a series of separated polygons.
+
+        For example, if a mesh has an single inner hole, two polygons will be generated,
+        one for the inner boundary and one for the outer boundary.
+
+        Returns:
+            GeometryList: The output network boundary polygon.
+        """
+
+        # Get number of polygon nodes
+        number_of_polygon_nodes = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_mesh_boundaries_as_polygons_mesh2d,
+            self._meshkernelid,
+            byref(number_of_polygon_nodes),
+        )
+
+        # Create GeometryList instance
+        x_coordinates = np.empty(number_of_polygon_nodes.value, dtype=np.double)
+        y_coordinates = np.empty(number_of_polygon_nodes.value, dtype=np.double)
+        geometry_list_out = GeometryList(x_coordinates, y_coordinates)
+
+        # Get mesh boundary
+        c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
+        self._execute_function(
+            self.lib.mkernel_get_mesh_boundaries_as_polygons_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list_out),
+        )
+
+        return geometry_list_out
+
+    def merge_nodes_mesh2d(
+        self, geometry_list: GeometryList, merging_distance: float
+    ) -> None:
+        """Merges the mesh2d nodes, effectively removing all small edges
+
+        Args:
+            geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
+            geometry_list (float): The distance below which two nodes will be merged
+        """
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        self._execute_function(
+            self.lib.mkernel_merge_nodes_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_double(merging_distance),
+        )
+
+    def merge_two_nodes_mesh2d(self, first_node: int, second_node: int) -> None:
+        """Merges two mesh2d nodes into one.
+
+        Args:
+            first_node (int): The index of the first node to merge.
+            second_node (int): The index of the second node to merge.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_merge_two_nodes_mesh2d,
+            self._meshkernelid,
+            c_int(first_node),
+            c_int(second_node),
+        )
+
+    def get_nodes_in_polygons_mesh2d(
+        self, geometry_list: GeometryList, inside: bool
+    ) -> ndarray:
+        """Gets the indices of the mesh2d nodes selected with a polygon.
+
+        Args:
+            geometry_list (GeometryList): The input polygon.
+            inside (bool): Selection of the nodes inside the polygon (True) or outside (False)
+
+        Returns:
+            ndarray: The integer array describing the selected nodes indices
+        """
+
+        c_inside = c_int(inside)
+        c_number_of_mesh_nodes = c_int()
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        # Get number of mesh nodes
+        self._execute_function(
+            self.lib.mkernel_count_nodes_in_polygons_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_inside,
+            byref(c_number_of_mesh_nodes),
+        )
+
+        selected_nodes = np.empty(c_number_of_mesh_nodes.value, dtype=np.int32)
+        c_selected_nodes = np.ctypeslib.as_ctypes(selected_nodes)
+
+        # Get selected nodes
+        self._execute_function(
+            self.lib.mkernel_get_nodes_in_polygons_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+            c_inside,
+            c_selected_nodes,
+        )
+
+        return selected_nodes
 
     @staticmethod
     def _execute_function(function: Callable, *args):
