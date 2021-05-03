@@ -298,7 +298,7 @@ cases_find_edge_mesh2d = [
 def test_find_edge_mesh2d(
     meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
-    """Test `get_edge_mesh2d` on a 2x2 Mesh2d.
+    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
 
         (3)
        2---3
@@ -314,7 +314,7 @@ def test_find_edge_mesh2d(
     y_coordinate = np.array([y], dtype=np.double)
     geometry_list = GeometryList(x_coordinate, y_coordinate)
 
-    edge_index = mk.get_edge_mesh2d(geometry_list)
+    edge_index = mk.find_edge_mesh2d(geometry_list)
 
     assert edge_index == exp_index
 
@@ -339,7 +339,7 @@ cases_get_node_index_mesh2d = [
 def test_get_node_index_mesh2d(
     meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
-    """Test `get_node_index` on a 2x2 Mesh2d.
+    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
 
     2---3
     |   |
@@ -361,7 +361,7 @@ def test_get_node_index_mesh2d(
 def test_get_node_index_mesh2d_no_node_in_search_radius(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Test `get_node_index_mesh2d` when there is no node within the search radius."""
+    """Test `find_edge_mesh2d` when there is no node within the search radius."""
 
     mk = meshkernel_with_mesh2d(2, 2)
 
