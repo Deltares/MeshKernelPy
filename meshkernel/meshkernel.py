@@ -659,7 +659,7 @@ class MeshKernel:
                                                    a triangular face is small.
         """
 
-        self._exectute_function(
+        self._execute_function(
             self.lib.mkernel_delete_small_flow_edges_and_small_triangles_mesh2d,
             self._meshkernelid,
             c_double(small_flow_edges_length_threshold),
