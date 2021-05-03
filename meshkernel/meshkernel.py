@@ -298,21 +298,31 @@ class MeshKernel:
 
         return index.value
 
-    def count_hanging_edges_mesh2d(self) -> int:
-        """Count the number of hanging edges in a Mesh2d.
-        A hanging edge is an edge where one of the two nodes is not connected.
+    def get_hanging_edges_mesh2d(self) -> ndarray:
+        """Gets the indices of hanging edges. An hanging edge is an edge where one of the two nodes is not connected.
 
         Returns:
-            int: The number of hanging edges
+            ndarray:  The integer array describing the indices of the hanging edges.
         """
 
-        count = c_int()
+        # Get number of hanging edges
+        c_number_hanging_edges = c_int()
         self._execute_function(
             self.lib.mkernel_count_hanging_edges_mesh2d,
             self._meshkernelid,
-            byref(count),
+            byref(c_number_hanging_edges),
         )
-        return count.value
+
+        # Get hanging edges
+        hanging_edges = np.empty(c_number_hanging_edges.value, dtype=np.int32)
+        c_hanging_edges = np.ctypeslib.as_ctypes(hanging_edges)
+        self._execute_function(
+            self.lib.mkernel_get_hanging_edges_mesh2d,
+            self._meshkernelid,
+            byref(c_hanging_edges),
+        )
+
+        return hanging_edges
 
     def delete_hanging_edges_mesh2d(self) -> None:
         """Delete the hanging edges in the Mesh2d.
