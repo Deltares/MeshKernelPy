@@ -644,6 +644,28 @@ class MeshKernel:
 
         return geometry_list
 
+    def delete_small_flow_edges_and_small_triangles_mesh2d(
+        self,
+        small_flow_edges_length_threshold: float,
+        min_fractional_area_triangles: float,
+    ):
+        """Deletes all small mesh2d flow edges and small triangles.
+        The flow edges are the edges connecting faces circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+            min_fractional_area_triangles (float): The ratio of the face area to the average area of neighboring
+                                                   non-triangular faces. This parameter is used for determining whether
+                                                   a triangular face is small.
+        """
+
+        self._exectute_function(
+            self.lib.mkernel_delete_small_flow_edges_and_small_triangles_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            c_double(min_fractional_area_triangles),
+        )
+
     def get_splines(
         self, geometry_list: GeometryList, number_of_points_between_nodes: int
     ) -> GeometryList:
