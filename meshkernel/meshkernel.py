@@ -186,12 +186,16 @@ class MeshKernel:
             int: The index of the new node
         """
 
+        x_array = np.array([x], dtype=np.double)
+        y_array = np.array([y], dtype=np.double)
+        geometry_list = GeometryList(x_array, y_array)
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
+
         self._execute_function(
             self.lib.mkernel_insert_node_mesh2d,
             self._meshkernelid,
-            c_double(x),
-            c_double(y),
+            byref(c_geometry_list),
             byref(index),
         )
         return index.value
