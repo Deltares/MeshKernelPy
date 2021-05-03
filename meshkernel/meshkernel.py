@@ -585,6 +585,28 @@ class MeshKernel:
 
         return geometry_list
 
+    def count_small_flow_edge_centers_mesh2d(
+        self, small_flow_edges_length_threshold: float
+    ) -> int:
+        """Counts the number of small mesh2d flow edges. The flow edges are the edges connecting faces circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+
+        Returns:
+            int: The number of the small flow edges.
+        """
+
+        n_small_flow_edge_centers = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_small_flow_edge_centers_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            byref(n_small_flow_edge_centers),
+        )
+
+        return n_small_flow_edge_centers.value
+
     def get_splines(
         self, geometry_list: GeometryList, number_of_points_between_nodes: int
     ) -> GeometryList:
