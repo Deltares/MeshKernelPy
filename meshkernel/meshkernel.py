@@ -252,7 +252,7 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
-    def find_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+    def get_edge_mesh2d(self, geometry_list: GeometryList) -> int:
         """Finds the closest mesh2d edge to a point.
 
         Args:
@@ -266,7 +266,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_find_edge_mesh2d,
+            self.lib.mkernel_get_edge_mesh2d,
             self._meshkernelid,
             byref(c_geometry_list),
             byref(index),
