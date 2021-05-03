@@ -958,7 +958,7 @@ def test_count_obtuse_triangles_mesh2d():
 
 
 def test_get_obtuse_triangles_mass_centers_mesh2d():
-    """Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
+    r"""Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
     | /  \\ |
