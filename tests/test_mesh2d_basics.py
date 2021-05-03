@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
+from pytest import approx
 
 from meshkernel import (
     DeleteMeshOption,
@@ -908,6 +909,7 @@ def test_count_obtuse_triangles_mesh2d():
     """
     mk = MeshKernel(False)
 
+    # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
     node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
     edge_nodes = np.array(
@@ -953,6 +955,72 @@ def test_count_obtuse_triangles_mesh2d():
     n_obtuse_triangles = mk.count_obtuse_triangles_mesh2d()
 
     assert n_obtuse_triangles == 2
+
+
+def test_get_obtuse_triangles_mass_centers_mesh2d():
+    """Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
+
+    6---7---8
+    | /  \\ |
+    3----4--5
+    | \  // |
+    0---1---2
+
+    """
+    mk = MeshKernel(False)
+
+    # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
+    node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            1,
+            3,
+            1,
+            5,
+            3,
+            7,
+            5,
+            7,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    obtuse_triangles = mk.get_obtuse_triangles_mass_centers_mesh2d()
+
+    assert obtuse_triangles.x_coordinates.size == 2
+
+    assert obtuse_triangles.x_coordinates[0] == 1.5
+    assert obtuse_triangles.y_coordinates[0] == approx(0.666, 0.01)
+
+    assert obtuse_triangles.x_coordinates[1] == 1.5
+    assert obtuse_triangles.y_coordinates[1] == approx(1.333, 0.01)
 
 
 cases_nodes_in_polygons_mesh2d = [

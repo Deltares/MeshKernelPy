@@ -96,6 +96,18 @@ class MeshKernel:
             self._meshkernelid,
         )
 
+    def _get_separator(self) -> float:
+        """Gets the value used in the MeshKernel library as separator and missing value."""
+
+        self.lib.mkernel_get_separator.restype = c_double
+        return self.lib.mkernel_get_separator()
+
+    def _get_inner_outer_separator(self) -> float:
+        """Gets the value used in the MeshKernel as separator for the inner and outer part of a polygon."""
+
+        self.lib.mkernel_get_inner_outer_separator.restype = c_double
+        return self.lib.mkernel_get_inner_outer_separator()
+
     def set_mesh2d(self, mesh2d: Mesh2d) -> None:
         """Sets the two-dimensional mesh state of the MeshKernel.
 
@@ -546,6 +558,32 @@ class MeshKernel:
         )
 
         return n_obtuse_triangles.value
+
+    def get_obtuse_triangles_mass_centers_mesh2d(self) -> GeometryList:
+        """Gets the mass centers of obtuse mesh2d triangles.
+        Obtuse triangles are those having one angle larger than 90°.
+
+        Returns:
+            GeometryList: The geometry list with the mass center coordinates.
+        """
+        n_obtuse_triangles = self.count_obtuse_triangles_mesh2d()
+
+        c_geometry_list = CGeometryList()
+        c_geometry_list.n_coordinates = n_obtuse_triangles
+        c_geometry_list.inner_outer_separator = c_double(
+            self._get_inner_outer_separator()
+        )
+        c_geometry_list.geometry_separator = c_double(self._get_separator())
+
+        geometry_list = c_geometry_list.allocate_memory()
+
+        self._execute_function(
+            self.lib.mkernel_get_obtuse_triangles_mass_centers_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+        return geometry_list
 
     def get_splines(
         self, geometry_list: GeometryList, number_of_points_between_nodes: int
