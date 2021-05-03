@@ -588,7 +588,8 @@ class MeshKernel:
     def count_small_flow_edge_centers_mesh2d(
         self, small_flow_edges_length_threshold: float
     ) -> int:
-        """Counts the number of small mesh2d flow edges. The flow edges are the edges connecting faces circumcenters.
+        """Counts the number of small mesh2d flow edges.
+        The flow edges are the edges connecting face circumcenters.
 
         Args:
             small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
@@ -606,6 +607,42 @@ class MeshKernel:
         )
 
         return n_small_flow_edge_centers.value
+
+    def get_small_flow_edge_centers_mesh2d(
+        self, small_flow_edges_length_threshold: float
+    ) -> GeometryList:
+        """Gets the small mesh2d flow edges centers.
+        The flow edges are the edges connecting face circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+
+        Returns:
+            int: The geometry list with the small flow edge center coordinates.
+        """
+
+        n_small_flow_edge_centers = self.count_small_flow_edge_centers_mesh2d(
+            small_flow_edges_length_threshold
+        )
+
+        c_geometry_list = CGeometryList()
+        c_geometry_list.n_coordinates = n_small_flow_edge_centers
+        c_geometry_list.inner_outer_separator = c_double(
+            self._get_inner_outer_separator()
+        )
+        c_geometry_list.geometry_separator = c_double(self._get_separator())
+
+        geometry_list = c_geometry_list.allocate_memory()
+
+        n_small_flow_edge_centers = c_int()
+        self._execute_function(
+            self.lib.mkernel_get_small_flow_edge_centers_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            byref(c_geometry_list),
+        )
+
+        return geometry_list
 
     def get_splines(
         self, geometry_list: GeometryList, number_of_points_between_nodes: int

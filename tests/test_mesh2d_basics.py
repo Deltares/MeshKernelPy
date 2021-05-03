@@ -1033,9 +1033,9 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
     """Tests `count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
 
     6---7---8
-    | 11--12|
+    | 11|-12|
     3-|-4-|-5
-    | 9---10|
+    | 9-|-10|
     0---1---2
     """
 
@@ -1092,6 +1092,80 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
     n_small_flow_edges = mk.count_small_flow_edge_centers_mesh2d(threshold)
 
     assert n_small_flow_edges == exp_int
+
+
+def test_get_small_flow_edge_centers_mesh2d():
+    """Tests `get_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
+
+    6---7---8
+    | 11|-12|
+    3-|-4-|-5
+    | 9-|-10|
+    0---1---2
+    """
+
+    mk = MeshKernel(False)
+
+    node_x = np.array(
+        [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 0.5, 0.5, 1.5, 1.5],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            9,
+            10,
+            11,
+            12,
+            9,
+            11,
+            10,
+            12,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    small_flow_edge_centers = mk.get_small_flow_edge_centers_mesh2d(1.1)
+
+    assert small_flow_edge_centers.x_coordinates.size == 4
+
+    assert small_flow_edge_centers.x_coordinates[0] == 0.5
+    assert small_flow_edge_centers.y_coordinates[0] == 1.0
+    assert small_flow_edge_centers.x_coordinates[1] == 1.5
+    assert small_flow_edge_centers.y_coordinates[1] == 1.0
+    assert small_flow_edge_centers.x_coordinates[2] == 1.0
+    assert small_flow_edge_centers.y_coordinates[2] == 0.5
+    assert small_flow_edge_centers.x_coordinates[3] == 1.0
+    assert small_flow_edge_centers.y_coordinates[3] == 1.5
 
 
 cases_nodes_in_polygons_mesh2d = [
