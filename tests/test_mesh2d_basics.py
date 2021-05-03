@@ -611,7 +611,7 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
 
 
 cases_refine_based_on_samples_mesh2d = [
-    # (0.5, 1, 9, 12, 4), TODO throws refinement_type =1 throws error.
+    # (0.5, 1, 9, 12, 4),  # TODO throws refinement_type =1 throws error.
     (0.5, 2, 25, 40, 16),
     (0.5, 3, 9, 12, 4),
 ]
@@ -691,55 +691,6 @@ def test_refine_based_on_polygon_mesh2d(
 
     x_coordinates = np.array([0.0, 0.0, 2.0, 2.0, 0.0], dtype=np.double)
     y_coordinates = np.array([0.0, 2.0, 2.0, 0.0, 0.0], dtype=np.double)
-    polygon = GeometryList(x_coordinates, y_coordinates)
-
-    interpolation_params = InterpolationParameters(
-        True, False, max_refinement_iterations=max_iterations
-    )
-    mk.refine_based_on_polygon_mesh2d(polygon, interpolation_params)
-
-    mesdh2d = mk.get_mesh2d()
-
-    assert mesdh2d.node_x.size == exp_nodes
-    assert mesdh2d.edge_x.size == exp_edges
-    assert mesdh2d.face_x.size == exp_faces
-
-
-cases_refine_based_on_polygon_mesh2d_5x5 = [
-    (1, 25, 40, 16),  # TODO
-    (2, 81, 144, 64),
-    (3, 289, 544, 256),
-]
-
-
-@pytest.mark.parametrize(
-    "max_iterations, exp_nodes, exp_edges, exp_faces",
-    cases_refine_based_on_polygon_mesh2d_5x5,
-)
-def test_refine_based_on_polygon_mesh2d_5x5(
-    meshkernel_with_mesh2d: MeshKernel,
-    max_iterations: int,
-    exp_nodes: int,
-    exp_edges: int,
-    exp_faces: int,
-):
-    """Tests `refine_based_on_polygon_mesh2d` with a simple 5x5 mesh.
-
-    20--21--22--23--24
-    |   |   |   |   |
-    15--16--17--18--19
-    |   |   |   |   |
-    10--11--12--13--14
-    |   |   |   |   |
-    5---6---7---8---9
-    |   |   |   |   |
-    0---1---2---3---4
-    """
-
-    mk = meshkernel_with_mesh2d(5, 5)
-
-    x_coordinates = np.array([0.5, 3.5, 3.5, 0.5, 0.5], dtype=np.double)
-    y_coordinates = np.array([0.5, 0.5, 3.5, 3.5, 0.5], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
     interpolation_params = InterpolationParameters(
@@ -896,10 +847,10 @@ def test_flip_edges_mesh2d(
     triangulate: bool,
     project_to_land_boundaries: bool,
 ):
-    """Tests `flip_edges_mesh2d` with a simple triangular mesh.
+    r"""Tests `flip_edges_mesh2d` with a simple triangular mesh.
 
     3---2     3---2
-    | / | --> |\\ |
+    | / | --> | \ |
     0---1     0---1
     """
 
@@ -946,12 +897,12 @@ def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
 
 
 def test_count_obtuse_triangles_mesh2d():
-    """Tests `count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
+    r"""Tests `count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
-    | /  \\ |
-    3----4--5
-    | \  // |
+    | /   \ |
+    3---4---5
+    | \   / |
     0---1---2
 
     """
