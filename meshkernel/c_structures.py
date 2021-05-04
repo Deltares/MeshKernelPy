@@ -62,26 +62,26 @@ class CMesh2d(Structure):
             CMesh2d: The created CMesh2d instance
         """
 
-        cmesh2d = CMesh2d()
+        c_mesh2d = CMesh2d()
 
         # Set the pointers
-        cmesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
-        cmesh2d.face_nodes = np.ctypeslib.as_ctypes(mesh2d.face_nodes)
-        cmesh2d.nodes_per_face = np.ctypeslib.as_ctypes(mesh2d.nodes_per_face)
-        cmesh2d.node_x = np.ctypeslib.as_ctypes(mesh2d.node_x)
-        cmesh2d.node_y = np.ctypeslib.as_ctypes(mesh2d.node_y)
-        cmesh2d.edge_x = np.ctypeslib.as_ctypes(mesh2d.edge_x)
-        cmesh2d.edge_y = np.ctypeslib.as_ctypes(mesh2d.edge_y)
-        cmesh2d.face_x = np.ctypeslib.as_ctypes(mesh2d.face_x)
-        cmesh2d.face_y = np.ctypeslib.as_ctypes(mesh2d.face_y)
+        c_mesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
+        c_mesh2d.face_nodes = np.ctypeslib.as_ctypes(mesh2d.face_nodes)
+        c_mesh2d.nodes_per_face = np.ctypeslib.as_ctypes(mesh2d.nodes_per_face)
+        c_mesh2d.node_x = np.ctypeslib.as_ctypes(mesh2d.node_x)
+        c_mesh2d.node_y = np.ctypeslib.as_ctypes(mesh2d.node_y)
+        c_mesh2d.edge_x = np.ctypeslib.as_ctypes(mesh2d.edge_x)
+        c_mesh2d.edge_y = np.ctypeslib.as_ctypes(mesh2d.edge_y)
+        c_mesh2d.face_x = np.ctypeslib.as_ctypes(mesh2d.face_x)
+        c_mesh2d.face_y = np.ctypeslib.as_ctypes(mesh2d.face_y)
 
         # Set the sizes
-        cmesh2d.num_nodes = mesh2d.node_x.size
-        cmesh2d.num_edges = mesh2d.edge_nodes.size // 2
-        cmesh2d.num_faces = mesh2d.face_x.size
-        cmesh2d.num_face_nodes = mesh2d.face_nodes.size
+        c_mesh2d.num_nodes = mesh2d.node_x.size
+        c_mesh2d.num_edges = mesh2d.edge_nodes.size // 2
+        c_mesh2d.num_faces = mesh2d.face_x.size
+        c_mesh2d.num_face_nodes = mesh2d.face_nodes.size
 
-        return cmesh2d
+        return c_mesh2d
 
     def allocate_memory(self) -> Mesh2d:
         """Allocate data according to the parameters with the "num_" prefix.

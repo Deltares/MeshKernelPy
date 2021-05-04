@@ -19,7 +19,7 @@ from meshkernel import (
 
 
 @pytest.fixture(scope="function")
-def meshkernel_with_mesh2d() -> MeshKernel:
+def meshkernel_with_mesh2d():
     """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
 
     Args:
@@ -487,7 +487,7 @@ cases_get_hanging_edges_mesh2d = [
     "node_x, node_y, edge_nodes, expected", cases_get_hanging_edges_mesh2d
 )
 def test_get_hanging_edges_mesh2d(
-    node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
+    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
 ):
     """Tests `get_hanging_edges_mesh2d` by comparing the returned hanging edges with the expected ones
     4*
@@ -1198,16 +1198,17 @@ cases_nodes_in_polygons_mesh2d = [
 
 
 @pytest.mark.parametrize(
-    "x_coordinates, y_coordinates, inside, num_nodes", cases_nodes_in_polygons_mesh2d
+    "x_coordinates, y_coordinates, inside, exp_num_nodes",
+    cases_nodes_in_polygons_mesh2d,
 )
 def test_nodes_in_polygons_mesh2d(
     meshkernel_with_mesh2d: MeshKernel,
     x_coordinates: ndarray,
     y_coordinates: ndarray,
     inside: bool,
-    num_nodes: int,
+    exp_num_nodes: int,
 ):
-    """Tests `nodes_in_polygons_mesh2d` by checking if two selected nodes are properly merged
+    """Tests `nodes_in_polygons_mesh2d` by checking if it returns the correct number of nodes
 
     6---7---8
     |   |   |
@@ -1220,4 +1221,4 @@ def test_nodes_in_polygons_mesh2d(
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     selected_nodes = mk.get_nodes_in_polygons_mesh2d(geometry_list, inside)
 
-    assert selected_nodes.size == num_nodes
+    assert selected_nodes.size == exp_num_nodes

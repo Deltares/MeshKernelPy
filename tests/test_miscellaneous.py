@@ -38,8 +38,8 @@ cases_get_splines = [
 )
 def test_get_splines(
     number_of_points_between_nodes: int,
-    x_coordinates: np.array,
-    y_coordinates: np.array,
+    x_coordinates: np.ndarray,
+    y_coordinates: np.ndarray,
 ):
     """Test `get_splines` by checking if the dimensions of the generated spline are correct"""
     mk = MeshKernel()
