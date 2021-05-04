@@ -905,9 +905,9 @@ def test_get_obtuse_triangles_mass_centers_mesh2d():
     r"""Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
-    | /  \\ |
-    3----4--5
-    | \  // |
+    | /   \ |
+    3---4---5
+    | \   / |
     0---1---2
 
     """
