@@ -17,7 +17,7 @@ from meshkernel import (
 
 
 @pytest.fixture(scope="function")
-def meshkernel_with_mesh2d() -> MeshKernel:
+def meshkernel_with_mesh2d():
     """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
 
     Args:
@@ -485,7 +485,7 @@ cases_get_hanging_edges_mesh2d = [
     "node_x, node_y, edge_nodes, expected", cases_get_hanging_edges_mesh2d
 )
 def test_get_hanging_edges_mesh2d(
-    node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
+    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
 ):
     """Tests `get_hanging_edges_mesh2d` by comparing the returned hanging edges with the expected ones
     4*
