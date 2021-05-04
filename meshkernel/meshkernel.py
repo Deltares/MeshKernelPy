@@ -44,7 +44,8 @@ class MeshKernel:
         """Constructor of MeshKernel
 
         Args:
-            is_geographic (bool, optional): [description]. Defaults to False.
+            is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
+                                            Defaults is `False`.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -418,14 +419,13 @@ class MeshKernel:
             byref(c_n_polygon_nodes),
         )
 
-        c_refined_polygon = CGeometryList()
-        c_refined_polygon.n_coordinates = c_n_polygon_nodes.value
-        c_refined_polygon.inner_outer_separator = c_double(
-            polygon.inner_outer_separator
-        )
-        c_refined_polygon.geometry_separator = c_double(polygon.geometry_separator)
+        n_coordinates = c_n_polygon_nodes.value
 
-        refined_polygon = c_refined_polygon.allocate_memory()
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+        refined_polygon = GeometryList(x_coordinates, y_coordinates)
+
+        c_refined_polygon = CGeometryList.from_geometrylist(refined_polygon)
 
         self._execute_function(
             self.lib.mkernel_refine_polygon,
@@ -516,9 +516,15 @@ class MeshKernel:
 
         c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
         c_selected_polygon = CGeometryList.from_geometrylist(selected_polygon)
-        c_selection = CGeometryList.from_geometrylist(selected_polygon)
 
-        selection = c_selection.allocate_memory()
+        n_coordinates = selected_polygon.x_coordinates.size
+
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+        values = np.empty(n_coordinates, dtype=np.double)
+        selection = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_selection = CGeometryList.from_geometrylist(selection)
 
         self._execute_function(
             self.lib.mkernel_get_points_in_polygon,
@@ -557,14 +563,11 @@ class MeshKernel:
         """
         n_obtuse_triangles = self.count_obtuse_triangles_mesh2d()
 
-        c_geometry_list = CGeometryList()
-        c_geometry_list.n_coordinates = n_obtuse_triangles
-        c_geometry_list.inner_outer_separator = c_double(
-            self._get_inner_outer_separator()
-        )
-        c_geometry_list.geometry_separator = c_double(self._get_separator())
+        x_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
+        y_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
+        geometry_list = GeometryList(x_coordinates, y_coordinates)
 
-        geometry_list = c_geometry_list.allocate_memory()
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
             self.lib.mkernel_get_obtuse_triangles_mass_centers_mesh2d,
@@ -614,16 +617,12 @@ class MeshKernel:
             small_flow_edges_length_threshold
         )
 
-        c_geometry_list = CGeometryList()
-        c_geometry_list.n_coordinates = n_small_flow_edge_centers
-        c_geometry_list.inner_outer_separator = c_double(
-            self._get_inner_outer_separator()
-        )
-        c_geometry_list.geometry_separator = c_double(self._get_separator())
+        x_coordinates = np.empty(n_small_flow_edge_centers, dtype=np.double)
+        y_coordinates = np.empty(n_small_flow_edge_centers, dtype=np.double)
+        geometry_list = GeometryList(x_coordinates, y_coordinates)
 
-        geometry_list = c_geometry_list.allocate_memory()
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
-        n_small_flow_edge_centers = c_int()
         self._execute_function(
             self.lib.mkernel_get_small_flow_edge_centers_mesh2d,
             self._meshkernelid,
