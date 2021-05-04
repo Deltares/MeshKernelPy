@@ -539,7 +539,7 @@ def test_delete_hanging_edges_mesh2d():
 def test_make_mesh_from_polygon_mesh2d():
     """Tests `make_mesh_from_polygon_mesh2d` by creating a mesh2d from a simple hexagon."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     #   5__4
     #  /    \
@@ -561,7 +561,7 @@ def test_make_mesh_from_polygon_mesh2d():
 def test_make_mesh_from_samples_mesh2d():
     """Tests `make_mesh_from_samples_mesh2d` by creating a mesh2d from six sample points."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     #  5  4
     # 0    3
@@ -597,7 +597,7 @@ cases_refine_polygon = [
 def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
     """Tests `refine_polygon` by refining a simple polygon."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # 3---2
     # |   |
@@ -834,7 +834,7 @@ def test_get_points_in_polygon(
     y_coordinates = np.array([1.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     selected_polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     selection = mk.get_points_in_polygon(selecting_polygon, selected_polygon)
 
@@ -851,7 +851,7 @@ def test_count_obtuse_triangles_mesh2d():
     0---1---2
 
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
     node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
@@ -911,7 +911,7 @@ def test_get_obtuse_triangles_mass_centers_mesh2d():
     0---1---2
 
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
     node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
@@ -983,7 +983,7 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
@@ -1048,7 +1048,7 @@ def test_get_small_flow_edge_centers_mesh2d():
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
@@ -1120,7 +1120,7 @@ def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_flow_ed
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5],
@@ -1154,7 +1154,7 @@ def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_triangl
     0---1---2/
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 2.1],
