@@ -352,12 +352,12 @@ class CSampleRefineParameters(Structure):
 
     @staticmethod
     def from_samplerefinementparameters(
-        samlple_refinement_parameters: SampleRefineParameters,
+        sample_refinement_parameters: SampleRefineParameters,
     ) -> CSampleRefineParameters:
         """Creates a new `CSampleRefineParameters` instance from the given SampleRefineParameters instance.
 
         Args:
-            samlple_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
+            sample_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
 
         Returns:
             CSampleRefineParameters: The created C-Structure for the given SampleRefineParameters.
@@ -365,22 +365,22 @@ class CSampleRefineParameters(Structure):
 
         c_samplerefinementparameters = CSampleRefineParameters()
         c_samplerefinementparameters.max_refinement_iterations = (
-            samlple_refinement_parameters.max_refinement_iterations
+            sample_refinement_parameters.max_refinement_iterations
         )
         c_samplerefinementparameters.min_face_size = (
-            samlple_refinement_parameters.min_face_size
+            sample_refinement_parameters.min_face_size
         )
         c_samplerefinementparameters.refinement_type = (
-            samlple_refinement_parameters.refinement_type
+            sample_refinement_parameters.refinement_type
         )
         c_samplerefinementparameters.connect_hanging_nodes = (
-            samlple_refinement_parameters.connect_hanging_nodes
+            sample_refinement_parameters.connect_hanging_nodes
         )
         c_samplerefinementparameters.max_time_step = (
-            samlple_refinement_parameters.max_time_step
+            sample_refinement_parameters.max_time_step
         )
         c_samplerefinementparameters.account_for_samples_outside_face = (
-            samlple_refinement_parameters.account_for_samples_outside_face
+            sample_refinement_parameters.account_for_samples_outside_face
         )
 
         return c_samplerefinementparameters
