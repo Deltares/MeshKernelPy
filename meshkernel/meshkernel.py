@@ -579,10 +579,12 @@ class MeshKernel:
 
         return geometry_list
 
-    def count_small_flow_edge_centers_mesh2d(
+    def _count_small_flow_edge_centers_mesh2d(
         self, small_flow_edges_length_threshold: float
     ) -> int:
-        """Counts the number of small mesh2d flow edges.
+        """For internal use only.
+
+        Counts the number of small mesh2d flow edges.
         The flow edges are the edges connecting face circumcenters.
 
         Args:
@@ -615,7 +617,7 @@ class MeshKernel:
             int: The geometry list with the small flow edge center coordinates.
         """
 
-        n_small_flow_edge_centers = self.count_small_flow_edge_centers_mesh2d(
+        n_small_flow_edge_centers = self._count_small_flow_edge_centers_mesh2d(
             small_flow_edges_length_threshold
         )
 

@@ -974,7 +974,7 @@ cases_count_small_flow_edge_centers_mesh2d = [(0.9, 0), (1.0, 0), (1.1, 4)]
     "threshold, exp_int", cases_count_small_flow_edge_centers_mesh2d
 )
 def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
-    """Tests `count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
+    """Tests `_count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
 
     6---7---8
     | 11|-12|
@@ -1033,7 +1033,7 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
 
     mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
 
-    n_small_flow_edges = mk.count_small_flow_edge_centers_mesh2d(threshold)
+    n_small_flow_edges = mk._count_small_flow_edge_centers_mesh2d(threshold)
 
     assert n_small_flow_edges == exp_int
 
