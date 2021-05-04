@@ -125,23 +125,6 @@ def test_cgeometrylist_from_geometrylist():
     assert c_geometry_list.n_coordinates == x_coordinates.size
 
 
-def test_cgeometrylist_allocate_memory():
-    """Tests `allocate_memory` of the `CGeometryList` class."""
-
-    c_geometry_list = CGeometryList()
-    c_geometry_list.n_coordinates = 2
-    c_geometry_list.geometry_separator = 1.0
-    c_geometry_list.inner_outer_separator = 0.0
-
-    geometry_list = c_geometry_list.allocate_memory()
-
-    assert geometry_list.x_coordinates.size == 2
-    assert geometry_list.y_coordinates.size == 2
-    assert geometry_list.values.size == 2
-    assert geometry_list.geometry_separator == 1.0
-    assert geometry_list.inner_outer_separator == 0.0
-
-
 def test_corthogonalizationparameters_from_orthogonalizationparameters():
     """Tests `from_orthogonalizationparameters` of the `COrthogonalizationParameters` class."""
 
