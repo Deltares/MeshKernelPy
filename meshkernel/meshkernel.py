@@ -97,18 +97,6 @@ class MeshKernel:
             self._meshkernelid,
         )
 
-    def _get_separator(self) -> float:
-        """Gets the value used in the MeshKernel library as separator and missing value."""
-
-        self.lib.mkernel_get_separator.restype = c_double
-        return self.lib.mkernel_get_separator()
-
-    def _get_inner_outer_separator(self) -> float:
-        """Gets the value used in the MeshKernel as separator for the inner and outer part of a polygon."""
-
-        self.lib.mkernel_get_inner_outer_separator.restype = c_double
-        return self.lib.mkernel_get_inner_outer_separator()
-
     def set_mesh2d(self, mesh2d: Mesh2d) -> None:
         """Sets the two-dimensional mesh state of the MeshKernel.
 
