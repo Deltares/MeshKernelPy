@@ -536,8 +536,10 @@ class MeshKernel:
 
         return selection
 
-    def count_obtuse_triangles_mesh2d(self) -> int:
-        """Gets the number of obtuse mesh2d triangles.
+    def _count_obtuse_triangles_mesh2d(self) -> int:
+        """For internal use only.
+
+        Gets the number of obtuse mesh2d triangles.
         Obtuse triangles are those having one angle larger than 90°.
 
         Returns:
@@ -561,7 +563,7 @@ class MeshKernel:
         Returns:
             GeometryList: The geometry list with the mass center coordinates.
         """
-        n_obtuse_triangles = self.count_obtuse_triangles_mesh2d()
+        n_obtuse_triangles = self._count_obtuse_triangles_mesh2d()
 
         x_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
         y_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)

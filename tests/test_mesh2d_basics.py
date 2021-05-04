@@ -842,7 +842,7 @@ def test_get_points_in_polygon(
 
 
 def test_count_obtuse_triangles_mesh2d():
-    r"""Tests `count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
+    r"""Tests `_count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
     | /   \ |
@@ -896,7 +896,7 @@ def test_count_obtuse_triangles_mesh2d():
 
     mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
 
-    n_obtuse_triangles = mk.count_obtuse_triangles_mesh2d()
+    n_obtuse_triangles = mk._count_obtuse_triangles_mesh2d()
 
     assert n_obtuse_triangles == 2
 
