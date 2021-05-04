@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pytest
+from numpy import ndarray
 from numpy.testing import assert_array_equal
 
 from meshkernel import (
@@ -16,7 +17,7 @@ from meshkernel import (
 
 
 @pytest.fixture(scope="function")
-def meshkernel_with_mesh2d() -> MeshKernel:
+def meshkernel_with_mesh2d():
     """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
 
     Args:
@@ -29,7 +30,7 @@ def meshkernel_with_mesh2d() -> MeshKernel:
 
     def _create(rows: int, columns: int):
         mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
-        mk = MeshKernel(False)
+        mk = MeshKernel()
 
         mk.set_mesh2d(mesh2d)
 
@@ -49,8 +50,8 @@ def test_constructor(is_geometric: bool):
 
 def test_different_instances_have_different_ids():
     """Test if the meshkernelid of two instances differs"""
-    mk_1 = MeshKernel(False)
-    mk_2 = MeshKernel(False)
+    mk_1 = MeshKernel()
+    mk_2 = MeshKernel()
 
     assert mk_1._meshkernelid != mk_2._meshkernelid
 
@@ -62,7 +63,7 @@ def test_set_mesh_and_get_mesh():
     |   |
     0---1
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
     node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
@@ -209,11 +210,7 @@ def test_move_node_mesh2d(
 
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinates = np.array([5.0], dtype=np.double)
-    y_coordinates = np.array([7.0], dtype=np.double)
-
-    geometry_list = GeometryList(x_coordinates, y_coordinates)
-    mk.move_node_mesh2d(geometry_list, node_index)
+    mk.move_node_mesh2d(5.0, 7.0, node_index)
 
     mesh2d = mk.get_mesh2d()
 
@@ -228,14 +225,8 @@ def test_move_node_mesh2d_invalid_node_index(meshkernel_with_mesh2d: MeshKernel)
     """Test `move_node_mesh2d` by passing a negative `node_index`."""
 
     mk = meshkernel_with_mesh2d(2, 2)
-
-    x_coordinates = np.array([5.0], dtype=np.double)
-    y_coordinates = np.array([7.0], dtype=np.double)
-
-    geometry_list = GeometryList(x_coordinates, y_coordinates)
-
     with pytest.raises(InputError):
-        mk.move_node_mesh2d(geometry_list, -1)
+        mk.move_node_mesh2d(5.0, 7.0, -1)
 
 
 cases_delete_edge_mesh2d = [
@@ -285,7 +276,7 @@ def test_delete_edge_mesh2d(
         assert x != delete_x or y != delete_y
 
 
-cases_find_edge_mesh2d = [
+cases_get_edge_mesh2d = [
     (0.5, 0.0, 2),
     (1.0, 0.5, 1),
     (0.5, 1.0, 3),
@@ -293,11 +284,11 @@ cases_find_edge_mesh2d = [
 ]
 
 
-@pytest.mark.parametrize("x, y, exp_index", cases_find_edge_mesh2d)
-def test_find_edge_mesh2d(
+@pytest.mark.parametrize("x, y, exp_index", cases_get_edge_mesh2d)
+def test_get_edge_mesh2d(
     meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
-    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
+    """Test `get_edge_mesh2d` on a 2x2 Mesh2d.
 
         (3)
        2---3
@@ -313,7 +304,7 @@ def test_find_edge_mesh2d(
     y_coordinate = np.array([y], dtype=np.double)
     geometry_list = GeometryList(x_coordinate, y_coordinate)
 
-    edge_index = mk.find_edge_mesh2d(geometry_list)
+    edge_index = mk.get_edge_mesh2d(geometry_list)
 
     assert edge_index == exp_index
 
@@ -338,7 +329,7 @@ cases_get_node_index_mesh2d = [
 def test_get_node_index_mesh2d(
     meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
-    """Test `find_edge_mesh2d` on a 2x2 Mesh2d.
+    """Test `get_node_index_mesh2d` on a 2x2 Mesh2d.
 
     2---3
     |   |
@@ -360,7 +351,7 @@ def test_get_node_index_mesh2d(
 def test_get_node_index_mesh2d_no_node_in_search_radius(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Test `find_edge_mesh2d` when there is no node within the search radius."""
+    """Test `get_node_index` when there is no node within the search radius."""
 
     mk = meshkernel_with_mesh2d(2, 2)
 
@@ -468,35 +459,35 @@ def test_delete_mesh2d_empty_polygon(
     assert mesh2d.face_x.size == exp_faces
 
 
-cases_count_hanging_edges_mesh2d = [
+cases_get_hanging_edges_mesh2d = [
     (
         np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0], dtype=np.int32),  # edge_nodes
-        0,
+        np.array([], dtype=np.int32),  # expected
     ),
     (
         np.array([0.0, 1.0, 1.0, 0.0, 0.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0, 2.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4], dtype=np.int32),  # edge_nodes
-        1,
+        np.array([4], dtype=np.int32),  # expected
     ),
     (
         np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4, 2, 5], dtype=np.int32),  # edge_nodes
-        2,
+        np.array([4, 5], dtype=np.int32),  # expected
     ),
 ]
 
 
 @pytest.mark.parametrize(
-    "node_x, node_y, edge_nodes, expected", cases_count_hanging_edges_mesh2d
+    "node_x, node_y, edge_nodes, expected", cases_get_hanging_edges_mesh2d
 )
-def test_count_hanging_edges_mesh2d(
-    node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
+def test_get_hanging_edges_mesh2d(
+    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
 ):
-    """Tests `count_hanging_edges_mesh2d` by counting the hanging edges in a simple Mesh2d
+    """Tests `get_hanging_edges_mesh2d` by comparing the returned hanging edges with the expected ones
     4*
     |
     3---2---5*
@@ -504,15 +495,15 @@ def test_count_hanging_edges_mesh2d(
     0---1
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     mesh2d = Mesh2d(node_x, node_y, edge_nodes)
 
     mk.set_mesh2d(mesh2d)
 
-    result = mk.count_hanging_edges_mesh2d()
+    result = mk.get_hanging_edges_mesh2d()
 
-    assert result == expected
+    assert_array_equal(result, expected)
 
 
 def test_delete_hanging_edges_mesh2d():
@@ -524,7 +515,7 @@ def test_delete_hanging_edges_mesh2d():
     0---1
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double)
     node_y = np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double)
@@ -541,3 +532,133 @@ def test_delete_hanging_edges_mesh2d():
     assert mesh2d.node_x.size == 4
     assert mesh2d.edge_x.size == 4
     assert mesh2d.face_x.size == 1
+
+
+def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `get_mesh_boundaries_as_polygons_mesh2d` by checking if the resulted boundary is as expected
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mesh_boundary = mk.get_mesh_boundaries_as_polygons_mesh2d()
+    assert_array_equal(
+        mesh_boundary.x_coordinates,
+        np.array([0.0, 0.0, 0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0], dtype=np.double),
+    )
+    assert_array_equal(
+        mesh_boundary.y_coordinates,
+        np.array([0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0], dtype=np.double),
+    )
+
+
+cases_merge_nodes_mesh2d = [(1e-2, 4), (1e-4, 5)]
+
+
+@pytest.mark.parametrize("merging_distance, number_of_nodes", cases_merge_nodes_mesh2d)
+def test_merge_nodes_mesh2d(merging_distance: float, number_of_nodes: int):
+    """Test if `merge_nodes_mesh2d` reduces the number of close nodes
+
+    4---3
+    |   |
+    01--2
+    """
+    mk = MeshKernel()
+
+    # Set up mesh
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4, 4, 0], dtype=np.int32)
+    node_x = np.array([0.0, 1e-3, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+    mk.set_mesh2d(input_mesh2d)
+
+    # Define polygon where we want to merge
+    x_coordinates = np.array([-1.0, 2.0, 2.0, -1.0, -1.0], dtype=np.double)
+    y_coordinates = np.array([-1.0, -1.0, 2.0, 2.0, -1.0], dtype=np.double)
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+    mk.merge_nodes_mesh2d(geometry_list, merging_distance)
+
+    output_mesh2d = mk.get_mesh2d()
+
+    assert output_mesh2d.node_x.size == number_of_nodes
+
+
+cases_merge_two_nodes_mesh2d = [(0, 1, 4), (4, 5, 4), (0, 4, 3)]
+
+
+@pytest.mark.parametrize(
+    "first_node, second_node, num_faces", cases_merge_two_nodes_mesh2d
+)
+def test_merge_two_nodes_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    first_node: int,
+    second_node: int,
+    num_faces: int,
+):
+    """Tests `merge_two_nodes_mesh2d` by checking if two selected nodes are properly merged
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mk.merge_two_nodes_mesh2d(first_node, second_node)
+
+    output_mesh2d = mk.get_mesh2d()
+
+    assert output_mesh2d.node_x.size == 8
+    assert output_mesh2d.face_x.size == num_faces
+
+
+cases_nodes_in_polygons_mesh2d = [
+    (np.array([1.5, 2.5, 2.5, 1.5, 1.5]), np.array([1.5, 1.5, 2.5, 2.5, 1.5]), True, 1),
+    (
+        np.array([1.5, 2.5, 2.5, 1.5, 1.5]),
+        np.array([1.5, 1.5, 2.5, 2.5, 1.5]),
+        False,
+        8,
+    ),
+    (
+        np.array([]),
+        np.array([]),
+        True,
+        9,
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "x_coordinates, y_coordinates, inside, exp_num_nodes",
+    cases_nodes_in_polygons_mesh2d,
+)
+def test_nodes_in_polygons_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    x_coordinates: ndarray,
+    y_coordinates: ndarray,
+    inside: bool,
+    exp_num_nodes: int,
+):
+    """Tests `nodes_in_polygons_mesh2d` by checking if it returns the correct number of nodes
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+    selected_nodes = mk.get_nodes_in_polygons_mesh2d(geometry_list, inside)
+
+    assert selected_nodes.size == exp_num_nodes
