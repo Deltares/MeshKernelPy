@@ -33,7 +33,8 @@ class MeshKernel:
         """Constructor of MeshKernel
 
         Args:
-            is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True). Defaults to False.
+            is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
+                                            Defaults to False.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -119,7 +120,7 @@ class MeshKernel:
     def _get_dimensions_mesh2d(self) -> CMesh2d:
         """Gets the Mesh2d dimensions.
         The integer parameters of the Mesh2D struct are set to the corresponding dimensions.
-        The pointers are set to null, and must be set to correctly sized memory before passing the struct to mkernel_get_data_mesh2d.
+        The pointers must be set to correctly sized memory before passing the struct to `get_mesh2d`.
 
         Returns:
             Mesh2d: The Mesh2d dimensions.
@@ -331,7 +332,8 @@ class MeshKernel:
         return hanging_edges
 
     def _count_hanging_edges_mesh2d(self) -> int:
-        """Count the number of hanging edges in a mesh2d. An hanging edge is an edge where one of the two nodes is not connected.
+        """Count the number of hanging edges in a mesh2d.
+        An hanging edge is an edge where one of the two nodes is not connected.
 
         Returns:
             int: The number of hanging edges.
