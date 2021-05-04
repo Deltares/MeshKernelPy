@@ -4,7 +4,13 @@ from ctypes import POINTER, Structure, c_double, c_int
 
 import numpy as np
 
-from meshkernel.py_structures import GeometryList, Mesh2d, OrthogonalizationParameters
+from meshkernel.py_structures import (
+    GeometryList,
+    InterpolationParameters,
+    Mesh2d,
+    OrthogonalizationParameters,
+    SampleRefineParameters,
+)
 
 
 class CMesh2d(Structure):
@@ -227,3 +233,129 @@ class COrthogonalizationParameters(Structure):
         c_orthogonalizationparameters.areal_to_angle_smoothing_factor = (
             orthogonalization_parameters.areal_to_angle_smoothing_factor
         )
+
+        return c_orthogonalizationparameters
+
+
+class CInterpolationParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an InterpolationParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        max_refinement_iterations (c_int): Maximum number of refinement iterations, set to 1 if only one refinement
+                                           is wanted.
+        averaging_method (c_int): Averaging method : 1 = simple averaging, 2 = closest point, 3 = max, 4 = min,
+                                  5 = inverse weighted distance, 6 = minabs, 7 = kdtree.
+        min_points (c_int): Minimum number of points needed inside cell to handle the cell.
+        relative_search_radius (c_double): Relative search cell size, 1 = actual cell size, 2 = twice as large,
+                                           search radius can be larger than cell so more sample are included.
+        interpolate_to (c_int): Interpolation settings, 1 = bathy, 2 = zk, 3 = s1, 4 = Zc.
+        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
+        use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
+                                               process (yes=1/no=0)
+    """
+
+    _fields_ = [
+        ("max_refinement_iterations", c_int),
+        ("averaging_method", c_int),
+        ("min_points", c_int),
+        ("relative_search_radius", c_double),
+        ("interpolate_to", c_int),
+        ("refine_intersected", c_int),
+        ("use_mass_center_when_refining", c_int),
+    ]
+
+    @staticmethod
+    def from_interpolationparameters(
+        interpolation_parameters: InterpolationParameters,
+    ) -> CInterpolationParameters:
+        """Creates a new `CInterpolationParameters` instance from the given InterpolationParameters instance.
+
+        Args:
+            interpolation_parameters (InterpolationParameters): The interpolation parameters.
+
+        Returns:
+            CInterpolationParameters: The created C-Structure for the given InterpolationParameters.
+        """
+
+        c_interpolationparameters = CInterpolationParameters()
+        c_interpolationparameters.max_refinement_iterations = (
+            interpolation_parameters.max_refinement_iterations
+        )
+        c_interpolationparameters.averaging_method = (
+            interpolation_parameters.averaging_method
+        )
+        c_interpolationparameters.min_points = interpolation_parameters.min_points
+        c_interpolationparameters.relative_search_radius = (
+            interpolation_parameters.relative_search_radius
+        )
+        c_interpolationparameters.interpolate_to = (
+            interpolation_parameters.interpolate_to
+        )
+        c_interpolationparameters.refine_intersected = (
+            interpolation_parameters.refine_intersected
+        )
+        c_interpolationparameters.use_mass_center_when_refining = (
+            interpolation_parameters.use_mass_center_when_refining
+        )
+
+        return c_interpolationparameters
+
+
+class CSampleRefineParameters(Structure):
+    """A class holding the parameters for sample refinement.
+
+    Attributes:
+        max_refinement_iterations (c_int): Maximum number of refinement iterations.
+        min_face_size (c_double): Minimum cell size.
+        refinement_type (c_int): Refinement criterion type.
+        connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
+        max_time_step (c_double): Maximum time-step in Courant grid.
+        account_for_samples_outside (c_int): Whether to take samples outside face into account.
+    """
+
+    _fields_ = [
+        ("max_refinement_iterations", c_int),
+        ("min_face_size", c_double),
+        ("refinement_type", c_int),
+        ("connect_hanging_nodes", c_int),
+        ("max_time_step", c_double),
+        ("account_for_samples_outside_face", c_int),
+    ]
+
+    @staticmethod
+    def from_samplerefinementparameters(
+        sample_refinement_parameters: SampleRefineParameters,
+    ) -> CSampleRefineParameters:
+        """Creates a new `CSampleRefineParameters` instance from the given SampleRefineParameters instance.
+
+        Args:
+            sample_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
+
+        Returns:
+            CSampleRefineParameters: The created C-Structure for the given SampleRefineParameters.
+        """
+
+        c_samplerefinementparameters = CSampleRefineParameters()
+        c_samplerefinementparameters.max_refinement_iterations = (
+            sample_refinement_parameters.max_refinement_iterations
+        )
+        c_samplerefinementparameters.min_face_size = (
+            sample_refinement_parameters.min_face_size
+        )
+        c_samplerefinementparameters.refinement_type = (
+            sample_refinement_parameters.refinement_type
+        )
+        c_samplerefinementparameters.connect_hanging_nodes = (
+            sample_refinement_parameters.connect_hanging_nodes
+        )
+        c_samplerefinementparameters.max_time_step = (
+            sample_refinement_parameters.max_time_step
+        )
+        c_samplerefinementparameters.account_for_samples_outside_face = (
+            sample_refinement_parameters.account_for_samples_outside_face
+        )
+
+        return c_samplerefinementparameters

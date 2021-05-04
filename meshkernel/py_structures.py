@@ -32,6 +32,34 @@ class ProjectToLandBoundaryOption(IntEnum):
     WHOLE_MESH = 4
 
 
+@unique
+class AveragingMethod(IntEnum):
+    SIMPLE_AVERAGING = 1
+    CLOSEST_POINT = 2
+    MAX = 3
+    MIN = 4
+    INVERSE_WEIGHTED_DISTANCE = 5
+    MINABS = 6
+    KDTREE = 7
+
+
+@unique
+class InterpolateToOption(IntEnum):
+    BATHY = 1
+    ZK = 2
+    S1 = 3
+    ZC = 4
+
+
+@unique
+class RefinementType(IntEnum):
+    """Refinement type"""
+
+    RIDGE_REFINEMENT = 1
+    WAVE_COURANT = 2
+    REFINEMENT_LEVELS = 3
+
+
 @dataclass
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data
@@ -85,19 +113,72 @@ class OrthogonalizationParameters:
     """A class holding the parameters for orthogonalization.
 
     Attributes:
-        outer_iterations (int): Number of outer iterations in orthogonalization. Increase this parameter for complex
-                                grids..
-        boundary_iterations (int): Number of boundary iterations in grid/net orthogonalization within itatp.
-        inner_iterations (int): Number of inner iterations in grid/net orthogonalization within itbnd.
-        orthogonalization_to_smoothing_factor (float): Factor from 0 to 1. between grid smoothing and grid
-                                                       orthogonality.
-        orthogonalization_to_smoothing_factor_at_boundary (float): Minimum ATPF on the boundary.
-        areal_to_angle_smoothing_factor (float): Factor between smoother 1d0 and area-homogenizer 0d0.
+        outer_iterations (int, optional): Number of outer iterations in orthogonalization. Increase this parameter
+                                          for complex grids. Default is `2`.
+        boundary_iterations (int, optional): Number of boundary iterations in grid/net orthogonalization within itatp.
+                                             Default is `25`.
+        inner_iterations (int, optional): Number of inner iterations in grid/net orthogonalization within itbnd.
+                                          Default is `25`.
+        orthogonalization_to_smoothing_factor (float, optional): Factor from between grid smoothing (0) and
+                                                                 grid orthogonality (1). Default is `0.975`.
+        orthogonalization_to_smoothing_factor_at_boundary (float, optional): Minimum ATPF on the boundary.
+                                                                             Default is `1.0`.
+        areal_to_angle_smoothing_factor (float, optional): Factor between smoother 1d0 and area-homogenizer 0d0.
+                                                           Default is `1.0`.
     """
 
-    outer_iterations: int
-    boundary_iterations: int
-    inner_iterations: int
-    orthogonalization_to_smoothing_factor: float
-    orthogonalization_to_smoothing_factor_at_boundary: float
-    areal_to_angle_smoothing_factor: float
+    outer_iterations: int = 2
+    boundary_iterations: int = 25
+    inner_iterations: int = 25
+    orthogonalization_to_smoothing_factor: float = 0.975
+    orthogonalization_to_smoothing_factor_at_boundary: float = 1.0
+    areal_to_angle_smoothing_factor: float = 1.0
+
+
+@dataclass
+class InterpolationParameters:
+    """A class holding the parameters for interpolation.
+
+    Attributes:
+        refine_intersected (bool): Whether to compute faces intersected by polygon.
+        use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
+                                              process.
+        max_refinement_iterations (int, optional): Maximum number of refinement iterations.
+                                                   Set to 1 if only one refinement is wanted. Default is `10`.
+        averaging_method (AveragingMethod, optional): The averaging method. Default is `SIMPLE_AVERAGING`.
+        min_points (int, optional): Minimum number of points needed inside cell to handle the cell. Default is `1`.
+        relative_search_radius (float, optional): Relative search cell size, 1 = actual cell size, 2 = twice as large.
+                                                  Search radius can be larger than the cell so more samples are
+                                                  included. Default is `1.01`.
+        interpolate_to (InterpolateToOption, optional): Interpolate to option. Default is `ZK`.
+
+    """
+
+    refine_intersected: bool
+    use_mass_center_when_refining: bool
+    max_refinement_iterations: int = 10
+    averaging_method: AveragingMethod = AveragingMethod.SIMPLE_AVERAGING
+    min_points: int = 1
+    relative_search_radius: float = 1.01
+    interpolate_to: InterpolateToOption = InterpolateToOption.ZK
+
+
+@dataclass
+class SampleRefineParameters:
+    """A class holding the parameters for sample refinement.
+
+    Attributes:
+        max_refinement_iterations (int): Maximum number of refinement iterations.
+        min_face_size (float): Minimum cell size.
+        refinement_type (RefinementType): Refinement criterion type.
+        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
+        max_time_step (float): Maximum time-step in Courant grid.
+        account_for_samples_outside (bool): Whether to take samples outside face into account.
+    """
+
+    max_refinement_iterations: int
+    min_face_size: float
+    refinement_type: RefinementType
+    connect_hanging_nodes: bool
+    max_time_step: float
+    account_for_samples_outside_face: bool

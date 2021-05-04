@@ -1,18 +1,20 @@
-import math
-
 import numpy as np
 import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
+from pytest import approx
 
 from meshkernel import (
     DeleteMeshOption,
     GeometryList,
     InputError,
+    InterpolationParameters,
     Mesh2d,
     Mesh2dFactory,
     MeshKernel,
     MeshKernelError,
+    RefinementType,
+    SampleRefineParameters,
 )
 
 
@@ -534,8 +536,101 @@ def test_delete_hanging_edges_mesh2d():
     assert mesh2d.face_x.size == 1
 
 
-def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKernel):
-    """Tests `get_mesh_boundaries_as_polygons_mesh2d` by checking if the resulted boundary is as expected
+def test_make_mesh_from_polygon_mesh2d():
+    """Tests `make_mesh_from_polygon_mesh2d` by creating a mesh2d from a simple hexagon."""
+
+    mk = MeshKernel()
+
+    #   5__4
+    #  /    \
+    # 0      3
+    #  \1__2/
+    x_coordinates = np.array([0.0, 0.5, 1.5, 2.0, 1.5, 0.5, 0.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    mk.make_mesh_from_polygon_mesh2d(polygon)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 7
+    assert mesh2d.edge_x.size == 12
+    assert mesh2d.face_x.size == 6
+
+
+def test_make_mesh_from_samples_mesh2d():
+    """Tests `make_mesh_from_samples_mesh2d` by creating a mesh2d from six sample points."""
+
+    mk = MeshKernel()
+
+    #  5  4
+    # 0    3
+    #  1  2
+    x_coordinates = np.array([0.0, 0.5, 1.5, 2.0, 1.5, 0.5, 0.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    mk.make_mesh_from_samples_mesh2d(polygon)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 6
+    assert mesh2d.edge_x.size == 9
+    assert mesh2d.face_x.size == 4
+
+
+cases_refine_polygon = [
+    (0, 0, 30.0, 9),
+    (0, 1, 30.0, 6),
+    (0, 2, 30.0, 7),
+    (0, 3, 30.0, 8),
+    (0, 4, 30.0, 9),
+    (0, 0, 20.0, 13),
+    (0, 1, 20.0, 7),
+    (0, 2, 20.0, 9),
+    (0, 3, 20.0, 11),
+    (0, 4, 20.0, 13),
+]
+
+
+@pytest.mark.parametrize("start, end, length, exp_nodes", cases_refine_polygon)
+def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
+    """Tests `refine_polygon` by refining a simple polygon."""
+
+    mk = MeshKernel()
+
+    # 3---2
+    # |   |
+    # 0---1
+    x_coordinates = np.array([0.0, 60.0, 60.0, 0.0, 0.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 0.0, 60.0, 60.0, 0.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    geom = mk.refine_polygon(polygon, start, end, length)
+
+    assert geom.x_coordinates.size == exp_nodes
+
+
+cases_refine_based_on_samples_mesh2d = [
+    # (0.5, 1, 9, 12, 4),  # TODO throws refinement_type =1 throws error.
+    (0.5, 2, 25, 40, 16),
+    (0.5, 3, 9, 12, 4),
+]
+
+
+@pytest.mark.parametrize(
+    "min_face_size, refinement_type, exp_nodes, exp_edges, exp_faces",
+    cases_refine_based_on_samples_mesh2d,
+)
+def test_refine_based_on_samples_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    min_face_size: float,
+    refinement_type: RefinementType,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
+    """Tests `refine_based_on_samples_mesh2d` with a simple 3x3 mesh.
 
     6---7---8
     |   |   |
@@ -543,6 +638,76 @@ def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKern
     |   |   |
     0---1---2
     """
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0], dtype=np.double)
+    values = np.array([0, 0, 0, 0], dtype=np.double)
+    samples = GeometryList(x_coordinates, y_coordinates, values)
+
+    interpolation_params = InterpolationParameters(False, False)
+    sample_refine_params = SampleRefineParameters(
+        1, min_face_size, refinement_type, 1, 0.0, False
+    )
+
+    mk.refine_based_on_samples_mesh2d(
+        samples, interpolation_params, sample_refine_params
+    )
+
+    mesdh2d = mk.get_mesh2d()
+
+    assert mesdh2d.node_x.size == exp_nodes
+    assert mesdh2d.edge_x.size == exp_edges
+    assert mesdh2d.face_x.size == exp_faces
+
+
+cases_refine_based_on_polygon_mesh2d = [
+    (1, 25, 40, 16),
+    (2, 81, 144, 64),
+    (3, 289, 544, 256),
+]
+
+
+@pytest.mark.parametrize(
+    "max_iterations, exp_nodes, exp_edges, exp_faces",
+    cases_refine_based_on_polygon_mesh2d,
+)
+def test_refine_based_on_polygon_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    max_iterations: int,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
+    """Tests `refine_based_on_polygon_mesh2d` with a simple 3x3 mesh.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0, 0.0], dtype=np.double)
+    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0, 0.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    interpolation_params = InterpolationParameters(
+        True, False, max_refinement_iterations=max_iterations
+    )
+    mk.refine_based_on_polygon_mesh2d(polygon, interpolation_params)
+
+    mesdh2d = mk.get_mesh2d()
+
+    assert mesdh2d.node_x.size == exp_nodes
+    assert mesdh2d.edge_x.size == exp_edges
+    assert mesdh2d.face_x.size == exp_faces
+
+
+def test_get_mesh_boundaries_as_polygons_mesh2d(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `get_mesh_boundaries_as_polygons_mesh2d` by checking if the resulted boundary is as expected"""
 
     mk = meshkernel_with_mesh2d(3, 3)
 
@@ -618,6 +783,401 @@ def test_merge_two_nodes_mesh2d(
 
     assert output_mesh2d.node_x.size == 8
     assert output_mesh2d.face_x.size == num_faces
+
+
+cases_get_points_in_polygon = [
+    (
+        # Select all
+        np.array([0.0, 3.0, 3.0, 0.0, 0.0]),
+        np.array([0.0, 0.0, 3.0, 3.0, 0.0]),
+        np.array([1.0, 1.0, 1.0, 1.0, 1.0]),
+    ),
+    (
+        # Select right half
+        np.array([1.5, 3.0, 3.0, 1.5, 1.5]),
+        np.array([0.0, 0.0, 3.0, 3.0, 0.0]),
+        np.array([0.0, 1.0, 1.0, 0.0, 0.0]),
+    ),
+    (
+        # Select bottom-right
+        np.array([1.5, 3.0, 3.0, 1.5, 1.5]),
+        np.array([0.0, 0.0, 1.5, 1.5, 0.0]),
+        np.array([0.0, 1.0, 0.0, 0.0, 0.0]),
+    ),
+    (
+        # Select top half
+        np.array([0.0, 3.0, 3.0, 0.0, 0.0]),
+        np.array([1.5, 1.5, 3.0, 3.0, 1.5]),
+        np.array([0.0, 0.0, 1.0, 1.0, 0.0]),
+    ),
+    (
+        # Select top-left
+        np.array([0.0, 1.5, 1.5, 0.0, 0.0]),
+        np.array([1.5, 1.5, 3.0, 3.0, 1.5]),
+        np.array([0.0, 0.0, 0.0, 1.0, 0.0]),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "selecting_x, selecting_y, exp_values",
+    cases_get_points_in_polygon,
+)
+def test_get_points_in_polygon(
+    selecting_x: np.array, selecting_y: np.array, exp_values: np.array
+):
+    """Tests `get_points_in_polygon` with a simple polygon and various selecting polygons."""
+
+    selecting_polygon = GeometryList(selecting_x, selecting_y)
+
+    x_coordinates = np.array([1.0, 2.0, 2.0, 1.0, 1.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    selected_polygon = GeometryList(x_coordinates, y_coordinates)
+
+    mk = MeshKernel()
+
+    selection = mk.get_points_in_polygon(selecting_polygon, selected_polygon)
+
+    assert_array_equal(selection.values, exp_values)
+
+
+def test_count_obtuse_triangles_mesh2d():
+    r"""Tests `_count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
+
+    6---7---8
+    | /   \ |
+    3---4---5
+    | \   / |
+    0---1---2
+
+    """
+    mk = MeshKernel()
+
+    # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
+    node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            1,
+            3,
+            1,
+            5,
+            3,
+            7,
+            5,
+            7,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    n_obtuse_triangles = mk._count_obtuse_triangles_mesh2d()
+
+    assert n_obtuse_triangles == 2
+
+
+def test_get_obtuse_triangles_mass_centers_mesh2d():
+    r"""Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
+
+    6---7---8
+    | /   \ |
+    3---4---5
+    | \   / |
+    0---1---2
+
+    """
+    mk = MeshKernel()
+
+    # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
+    node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            1,
+            3,
+            1,
+            5,
+            3,
+            7,
+            5,
+            7,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    obtuse_triangles = mk.get_obtuse_triangles_mass_centers_mesh2d()
+
+    assert obtuse_triangles.x_coordinates.size == 2
+
+    assert obtuse_triangles.x_coordinates[0] == 1.5
+    assert obtuse_triangles.y_coordinates[0] == approx(0.666, 0.01)
+
+    assert obtuse_triangles.x_coordinates[1] == 1.5
+    assert obtuse_triangles.y_coordinates[1] == approx(1.333, 0.01)
+
+
+cases_count_small_flow_edge_centers_mesh2d = [(0.9, 0), (1.0, 0), (1.1, 4)]
+
+
+@pytest.mark.parametrize(
+    "threshold, exp_int", cases_count_small_flow_edge_centers_mesh2d
+)
+def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
+    """Tests `_count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
+
+    6---7---8
+    | 11|-12|
+    3-|-4-|-5
+    | 9-|-10|
+    0---1---2
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 0.5, 0.5, 1.5, 1.5],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            9,
+            10,
+            11,
+            12,
+            9,
+            11,
+            10,
+            12,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    n_small_flow_edges = mk._count_small_flow_edge_centers_mesh2d(threshold)
+
+    assert n_small_flow_edges == exp_int
+
+
+def test_get_small_flow_edge_centers_mesh2d():
+    """Tests `get_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
+
+    6---7---8
+    | 11|-12|
+    3-|-4-|-5
+    | 9-|-10|
+    0---1---2
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 0.5, 0.5, 1.5, 1.5],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            4,
+            5,
+            6,
+            7,
+            7,
+            8,
+            0,
+            3,
+            1,
+            4,
+            2,
+            5,
+            3,
+            6,
+            4,
+            7,
+            5,
+            8,
+            9,
+            10,
+            11,
+            12,
+            9,
+            11,
+            10,
+            12,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    small_flow_edge_centers = mk.get_small_flow_edge_centers_mesh2d(1.1)
+
+    assert small_flow_edge_centers.x_coordinates.size == 4
+
+    assert small_flow_edge_centers.x_coordinates[0] == 0.5
+    assert small_flow_edge_centers.y_coordinates[0] == 1.0
+    assert small_flow_edge_centers.x_coordinates[1] == 1.5
+    assert small_flow_edge_centers.y_coordinates[1] == 1.0
+    assert small_flow_edge_centers.x_coordinates[2] == 1.0
+    assert small_flow_edge_centers.y_coordinates[2] == 0.5
+    assert small_flow_edge_centers.x_coordinates[3] == 1.0
+    assert small_flow_edge_centers.y_coordinates[3] == 1.5
+
+
+def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_flow_edges():
+    r"""Tests `get_small_flow_edge_centers_mesh2d` with a simple mesh with one small flow link.
+
+    3---4---5
+    | 6-|-7 |
+    0---1---2
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.5, 0.5],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [0, 1, 1, 2, 3, 4, 4, 5, 0, 3, 1, 4, 2, 5, 6, 7],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    mk.delete_small_flow_edges_and_small_triangles_mesh2d(1.1, 0.01)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 8
+    assert mesh2d.edge_x.size == 7
+    assert mesh2d.face_x.size == 1
+
+
+def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_triangles():
+    r"""Tests `get_small_flow_edge_centers_mesh2d` with a simple mesh with one small triangle.
+
+    3---4---5\
+    |   |   | 6
+    0---1---2/
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 2.1],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.5],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [0, 1, 1, 2, 3, 4, 4, 5, 0, 3, 1, 4, 2, 5, 5, 6, 6, 2],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    mk.delete_small_flow_edges_and_small_triangles_mesh2d(1.0, 0.01)
+
+    mesh2d = mk.get_mesh2d()
+
+    assert mesh2d.node_x.size == 7
+    assert mesh2d.edge_x.size == 8
+    assert mesh2d.face_x.size == 2
 
 
 cases_nodes_in_polygons_mesh2d = [

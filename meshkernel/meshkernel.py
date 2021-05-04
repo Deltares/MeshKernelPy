@@ -10,9 +10,20 @@ from typing import Callable, Iterable, Tuple
 import numpy as np
 from numpy import ndarray
 
-from meshkernel.c_structures import CGeometryList, CMesh2d
+from meshkernel.c_structures import (
+    CGeometryList,
+    CInterpolationParameters,
+    CMesh2d,
+    CSampleRefineParameters,
+)
 from meshkernel.errors import InputError, MeshKernelError
-from meshkernel.py_structures import DeleteMeshOption, GeometryList, Mesh2d
+from meshkernel.py_structures import (
+    DeleteMeshOption,
+    GeometryList,
+    InterpolationParameters,
+    Mesh2d,
+    SampleRefineParameters,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +45,7 @@ class MeshKernel:
 
         Args:
             is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
-                                            Defaults to False.
+                                            Defaults is `False`.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -353,6 +364,307 @@ class MeshKernel:
 
         self._execute_function(
             self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
+        )
+
+    def make_mesh_from_polygon_mesh2d(self, polygon: GeometryList):
+        """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
+        the polygon edges.
+
+        Args:
+            polygon (GeometryList): The polygon.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(polygon)
+
+        self._execute_function(
+            self.lib.mkernel_make_mesh_from_polygon_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+    def make_mesh_from_samples_mesh2d(self, sample_points: GeometryList):
+        """Makes a triangular mesh from a set of samples, triangulating the sample points.
+
+        Args:
+            sample_points (GeometryList): The sample points.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(sample_points)
+
+        self._execute_function(
+            self.lib.mkernel_make_mesh_from_samples_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+    def refine_polygon(
+        self,
+        polygon: GeometryList,
+        first_node: int,
+        second_node: int,
+        target_edge_length: float,
+    ) -> GeometryList:
+        """Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.
+
+        Args:
+            polygon (GeometryList): The input polygon to refine.
+            first_node (int): The first index of the refinement interval.
+            second_node (int): The second index of the refinement interval.
+            target_edge_length (float): The target interval edge length.
+
+        Returns:
+            int: The refined polygon.
+        """
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        c_n_polygon_nodes = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_count_refine_polygon,
+            self._meshkernelid,
+            byref(c_polygon),
+            c_int(first_node),
+            c_int(second_node),
+            c_double(target_edge_length),
+            byref(c_n_polygon_nodes),
+        )
+
+        n_coordinates = c_n_polygon_nodes.value
+
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+        refined_polygon = GeometryList(x_coordinates, y_coordinates)
+
+        c_refined_polygon = CGeometryList.from_geometrylist(refined_polygon)
+
+        self._execute_function(
+            self.lib.mkernel_refine_polygon,
+            self._meshkernelid,
+            byref(c_polygon),
+            c_int(first_node),
+            c_int(second_node),
+            c_double(target_edge_length),
+            byref(c_refined_polygon),
+        )
+
+        return refined_polygon
+
+    def refine_based_on_samples_mesh2d(
+        self,
+        samples: GeometryList,
+        interpolation_params: InterpolationParameters,
+        sample_refine_params: SampleRefineParameters,
+    ):
+        """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
+        The number of successive splits is indicated by the sample value.
+        For example:
+        - a value of 0 means no split and hence no refinement;
+        - a value of 1 means a single split (a quadrilateral face generates 4 faces);
+        - a value of 2 two splits (a quadrilateral face generates 16 faces);
+
+        Args:
+            samples (GeometryList): The samples.
+            interpolation_params (InterpolationParameters): The interpolation parameters.
+            sample_refine_params (SampleRefineParameters): The sample refinement parameters.
+        """
+
+        c_samples = CGeometryList.from_geometrylist(samples)
+        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
+            interpolation_params
+        )
+        c_sample_refine_params = (
+            CSampleRefineParameters.from_samplerefinementparameters(
+                sample_refine_params
+            )
+        )
+
+        self._execute_function(
+            self.lib.mkernel_refine_based_on_samples_mesh2d,
+            self._meshkernelid,
+            byref(c_samples),
+            byref(c_interpolation_params),
+            byref(c_sample_refine_params),
+        )
+
+    def refine_based_on_polygon_mesh2d(
+        self,
+        polygon: GeometryList,
+        interpolation_params: InterpolationParameters,
+    ):
+        """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
+
+        Args:
+            samples (GeometryList): The closed polygon.
+            interpolation_params (InterpolationParameters): The interpolation parameters.
+        """
+
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
+            interpolation_params
+        )
+
+        self._execute_function(
+            self.lib.mkernel_refine_based_on_polygon_mesh2d,
+            self._meshkernelid,
+            byref(c_polygon),
+            byref(c_interpolation_params),
+        )
+
+    def get_points_in_polygon(
+        self, selecting_polygon: GeometryList, selected_polygon: GeometryList
+    ) -> GeometryList:
+        """Selects the polygon points within another polygon.
+
+        Args:
+            selecting_polygon (GeometryList): The selection polygon.
+            selected_polygon (GeometryList): The polygon of which to get the selected points.
+
+        Returns:
+            GeometryList: The selection result. The selected points are contained in the values array of the returned
+                          GeometryList (0.0 not selected, 1.0 selected).
+        """
+
+        c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
+        c_selected_polygon = CGeometryList.from_geometrylist(selected_polygon)
+
+        n_coordinates = selected_polygon.x_coordinates.size
+
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+        values = np.empty(n_coordinates, dtype=np.double)
+        selection = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_selection = CGeometryList.from_geometrylist(selection)
+
+        self._execute_function(
+            self.lib.mkernel_get_points_in_polygon,
+            self._meshkernelid,
+            byref(c_selecting_polygon),
+            byref(c_selected_polygon),
+            byref(c_selection),
+        )
+
+        return selection
+
+    def _count_obtuse_triangles_mesh2d(self) -> int:
+        """For internal use only.
+
+        Gets the number of obtuse mesh2d triangles.
+        Obtuse triangles are those having one angle larger than 90°.
+
+        Returns:
+            int: The number of obtuse triangles.
+        """
+
+        n_obtuse_triangles = c_int(0)
+
+        self._execute_function(
+            self.lib.mkernel_count_obtuse_triangles_mesh2d,
+            self._meshkernelid,
+            byref(n_obtuse_triangles),
+        )
+
+        return n_obtuse_triangles.value
+
+    def get_obtuse_triangles_mass_centers_mesh2d(self) -> GeometryList:
+        """Gets the mass centers of obtuse mesh2d triangles.
+        Obtuse triangles are those having one angle larger than 90°.
+
+        Returns:
+            GeometryList: The geometry list with the mass center coordinates.
+        """
+        n_obtuse_triangles = self._count_obtuse_triangles_mesh2d()
+
+        x_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
+        y_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
+        geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_get_obtuse_triangles_mass_centers_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+        return geometry_list
+
+    def _count_small_flow_edge_centers_mesh2d(
+        self, small_flow_edges_length_threshold: float
+    ) -> int:
+        """For internal use only.
+
+        Counts the number of small mesh2d flow edges.
+        The flow edges are the edges connecting face circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+
+        Returns:
+            int: The number of the small flow edges.
+        """
+
+        n_small_flow_edge_centers = c_int()
+        self._execute_function(
+            self.lib.mkernel_count_small_flow_edge_centers_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            byref(n_small_flow_edge_centers),
+        )
+
+        return n_small_flow_edge_centers.value
+
+    def get_small_flow_edge_centers_mesh2d(
+        self, small_flow_edges_length_threshold: float
+    ) -> GeometryList:
+        """Gets the small mesh2d flow edges centers.
+        The flow edges are the edges connecting face circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+
+        Returns:
+            int: The geometry list with the small flow edge center coordinates.
+        """
+
+        n_small_flow_edge_centers = self._count_small_flow_edge_centers_mesh2d(
+            small_flow_edges_length_threshold
+        )
+
+        x_coordinates = np.empty(n_small_flow_edge_centers, dtype=np.double)
+        y_coordinates = np.empty(n_small_flow_edge_centers, dtype=np.double)
+        geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_get_small_flow_edge_centers_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            byref(c_geometry_list),
+        )
+
+        return geometry_list
+
+    def delete_small_flow_edges_and_small_triangles_mesh2d(
+        self,
+        small_flow_edges_length_threshold: float,
+        min_fractional_area_triangles: float,
+    ):
+        """Deletes all small mesh2d flow edges and small triangles.
+        The flow edges are the edges connecting faces circumcenters.
+
+        Args:
+            small_flow_edges_length_threshold (float): The configurable length for detecting a small flow edge.
+            min_fractional_area_triangles (float): The ratio of the face area to the average area of neighboring
+                                                   non-triangular faces. This parameter is used for determining whether
+                                                   a triangular face is small.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_delete_small_flow_edges_and_small_triangles_mesh2d,
+            self._meshkernelid,
+            c_double(small_flow_edges_length_threshold),
+            c_double(min_fractional_area_triangles),
         )
 
     def get_splines(
