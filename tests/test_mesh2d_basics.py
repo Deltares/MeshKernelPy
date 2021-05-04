@@ -461,35 +461,35 @@ def test_delete_mesh2d_empty_polygon(
     assert mesh2d.face_x.size == exp_faces
 
 
-cases_count_hanging_edges_mesh2d = [
+cases_get_hanging_edges_mesh2d = [
     (
         np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0], dtype=np.int32),  # edge_nodes
-        0,
+        np.array([], dtype=np.int32),  # expected
     ),
     (
         np.array([0.0, 1.0, 1.0, 0.0, 0.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0, 2.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4], dtype=np.int32),  # edge_nodes
-        1,
+        np.array([4], dtype=np.int32),  # expected
     ),
     (
         np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double),  # node_x
         np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double),  # node_y
         np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4, 2, 5], dtype=np.int32),  # edge_nodes
-        2,
+        np.array([4, 5], dtype=np.int32),  # expected
     ),
 ]
 
 
 @pytest.mark.parametrize(
-    "node_x, node_y, edge_nodes, expected", cases_count_hanging_edges_mesh2d
+    "node_x, node_y, edge_nodes, expected", cases_get_hanging_edges_mesh2d
 )
-def test_count_hanging_edges_mesh2d(
+def test_get_hanging_edges_mesh2d(
     node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
 ):
-    """Tests `count_hanging_edges_mesh2d` by counting the hanging edges in a simple Mesh2d
+    """Tests `get_hanging_edges_mesh2d` by comparing the returned hanging edges with the expected ones
     4*
     |
     3---2---5*
@@ -503,9 +503,9 @@ def test_count_hanging_edges_mesh2d(
 
     mk.set_mesh2d(mesh2d)
 
-    result = mk.count_hanging_edges_mesh2d()
+    result = mk.get_hanging_edges_mesh2d()
 
-    assert result == expected
+    assert_array_equal(result, expected)
 
 
 def test_delete_hanging_edges_mesh2d():
