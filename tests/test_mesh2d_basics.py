@@ -638,7 +638,7 @@ cases_nodes_in_polygons_mesh2d = [
 
 
 @pytest.mark.parametrize(
-    "x_coordinates, y_coordinates, inside, num_nodes",
+    "x_coordinates, y_coordinates, inside, exp_num_nodes",
     cases_nodes_in_polygons_mesh2d,
 )
 def test_nodes_in_polygons_mesh2d(
@@ -646,9 +646,9 @@ def test_nodes_in_polygons_mesh2d(
     x_coordinates: ndarray,
     y_coordinates: ndarray,
     inside: bool,
-    num_nodes: int,
+    exp_num_nodes: int,
 ):
-    """Tests `nodes_in_polygons_mesh2d` by checking if two selected nodes are properly merged
+    """Tests `nodes_in_polygons_mesh2d` by checking if it returns the correct number of nodes
 
     6---7---8
     |   |   |
@@ -661,4 +661,4 @@ def test_nodes_in_polygons_mesh2d(
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     selected_nodes = mk.get_nodes_in_polygons_mesh2d(geometry_list, inside)
 
-    assert selected_nodes.size == num_nodes
+    assert selected_nodes.size == exp_num_nodes
