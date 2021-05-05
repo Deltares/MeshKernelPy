@@ -454,6 +454,7 @@ class CContacts(Structure):
         ("num_contacts", c_int),
     ]
 
+    @staticmethod
     def from_contacts(contacts: Contacts) -> CContacts:
         """Creates a new `CContacts` instance from the given Contacts instance.
 
