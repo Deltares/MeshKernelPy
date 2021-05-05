@@ -182,3 +182,18 @@ class SampleRefineParameters:
     connect_hanging_nodes: bool
     max_time_step: float
     account_for_samples_outside_face: bool
+
+
+@dataclass
+class Mesh1d:
+    """This class is used for getting and setting one-dimensional mesh data.
+
+    Attributes:
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        edge_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh edge.
+    """
+
+    node_x: ndarray
+    node_y: ndarray
+    edge_nodes: ndarray
