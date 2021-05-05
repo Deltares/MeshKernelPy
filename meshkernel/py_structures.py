@@ -197,3 +197,15 @@ class Mesh1d:
     node_x: ndarray
     node_y: ndarray
     edge_nodes: ndarray
+
+
+class Contacts:
+    """This class describes the contacts between a mesh1d and mesh2d.
+
+    Attributes:
+        mesh1d_indices (ndarray): A 1D integer array describing the mesh1d node indices.
+        mesh2d_indices (ndarray): A 1D integer array describing the mesh2d face indices.
+    """
+
+    mesh1d_indices: ndarray
+    mesh2d_indices: ndarray
