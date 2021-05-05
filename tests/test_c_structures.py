@@ -187,11 +187,13 @@ def test_csamplerefineparameters_from_samplerefinementparameters():
 
 
 def test_cmesh1d_from_mesh1d():
-    """Tests `from_mesh1d` of the `CMesh1D` class with a simple mesh."""
+    r"""Tests `from_mesh1d` of the `CMesh1D` class with a simple mesh.
 
-    #   1   3
-    #  / \ /
-    # 0   2
+      1   3
+     / \ /
+    0   2
+    """
+
     node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
     node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)

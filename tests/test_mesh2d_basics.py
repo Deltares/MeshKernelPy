@@ -58,7 +58,7 @@ def test_different_instances_have_different_ids():
     assert mk_1._meshkernelid != mk_2._meshkernelid
 
 
-def test_set_mesh_and_get_mesh():
+def test_set_mesh2d_and_get_mesh2d():
     """Test to set a simple mesh and then get it again with new parameters
 
     3---2

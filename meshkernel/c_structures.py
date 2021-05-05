@@ -407,3 +407,26 @@ class CMesh1d(Structure):
         c_mesh1d.num_edges = mesh1d.edge_nodes.size // 2
 
         return c_mesh1d
+
+    def allocate_memory(self) -> Mesh1d:
+        """Allocate data according to the parameters with the "num_" prefix.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the Mesh1d instance which is returned by this method.
+
+        Returns:
+            Mesh1d: The object owning the allocated memory
+        """
+
+        edge_nodes = np.empty(self.num_edges * 2, dtype=np.int32)
+        node_x = np.empty(self.num_nodes, dtype=np.double)
+        node_y = np.empty(self.num_nodes, dtype=np.double)
+
+        self.edge_nodes = np.ctypeslib.as_ctypes(edge_nodes)
+        self.node_x = np.ctypeslib.as_ctypes(node_x)
+        self.node_y = np.ctypeslib.as_ctypes(node_y)
+
+        return Mesh1d(
+            node_x,
+            node_y,
+            edge_nodes,
+        )

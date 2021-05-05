@@ -13,6 +13,7 @@ from numpy import ndarray
 from meshkernel.c_structures import (
     CGeometryList,
     CInterpolationParameters,
+    CMesh1d,
     CMesh2d,
     CSampleRefineParameters,
 )
@@ -21,6 +22,7 @@ from meshkernel.py_structures import (
     DeleteMeshOption,
     GeometryList,
     InterpolationParameters,
+    Mesh1d,
     Mesh2d,
     SampleRefineParameters,
 )
@@ -841,6 +843,53 @@ class MeshKernel:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
         return c_error_message.value.decode("ASCII")
+
+    def set_mesh1d(self, mesh1d: Mesh1d) -> None:
+        """Sets the one-dimensional mesh state of the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            mesh1d (Mesh1d): The input data used for setting the state.
+        """
+
+        c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
+
+        self._execute_function(
+            self.lib.mkernel_set_mesh1d, self._meshkernelid, byref(c_mesh1d)
+        )
+
+    def get_mesh1d(self) -> Mesh1d:
+        """Gets the one-dimensional mesh state from the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Returns:
+            Mesh1d: A copy of the two-dimensional mesh state.
+        """
+
+        c_mesh1d = self._get_dimensions_mesh1d()
+
+        mesh1d = c_mesh1d.allocate_memory()
+        self._execute_function(
+            self.lib.mkernel_get_data_mesh1d, self._meshkernelid, byref(c_mesh1d)
+        )
+
+        return mesh1d
+
+    def _get_dimensions_mesh1d(self) -> CMesh1d:
+        """Gets the Mesh1d dimensions.
+        The integer parameters of the Mesh2D struct are set to the corresponding dimensions.
+        The pointers must be set to correctly sized memory before passing the struct to `get_mesh1d`.
+
+        Returns:
+            Mesh1d: The Mesh1d dimensions.
+        """
+        c_mesh1d = CMesh1d()
+        self._execute_function(
+            self.lib.mkernel_get_dimensions_mesh1d, self._meshkernelid, byref(c_mesh1d)
+        )
+        return c_mesh1d
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
