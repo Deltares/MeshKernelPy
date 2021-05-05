@@ -549,6 +549,8 @@ class MeshKernel:
         self,
         triangulation_required: bool,
         project_to_land_boundary_required: bool,
+        selecting_polygon: GeometryList,
+        land_boundaries: GeometryList,
     ):
         """Flips mesh2d edges to optimize the mesh smoothness.
         Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
@@ -557,13 +559,21 @@ class MeshKernel:
         Args:
             triangulation_required (bool): Whether to triangulate non-triangular cells.
             project_to_land_boundary_required: Whether projection to land boundaries is required.
+            selecting_polygon (GeometryList): The polygon where to perform the edge flipping.
+            land_boundaries (GeometryList): The land boundaries to account for when flipping the edges.
 
         """
+
+        c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
+        c_land_boundaries = CGeometryList.from_geometrylist(land_boundaries)
+
         self._execute_function(
             self.lib.mkernel_flip_edges_mesh2d,
             self._meshkernelid,
             c_bool(triangulation_required),
             c_int(project_to_land_boundary_required),
+            byref(c_selecting_polygon),
+            byref(c_land_boundaries),
         )
 
     def _count_obtuse_triangles_mesh2d(self) -> int:

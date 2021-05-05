@@ -848,29 +848,65 @@ def test_flip_edges_mesh2d(
     triangulate: bool,
     project_to_land_boundaries: bool,
 ):
-    r"""Tests `flip_edges_mesh2d` with a simple triangular mesh.
-
-    3---2     3---2
-    | / | --> | \ |
-    0---1     0---1
-    """
+    """Tests `flip_edges_mesh2d` with a simple triangular mesh (heptagon)."""
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
-    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
-    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0, 0, 2], dtype=np.int32)
+    node_x = np.array([0, -8, -10, -4, 4, 10, 8, 0], dtype=np.double)
+    node_y = np.array([10, 6, -2, -9, -9, -2, 6, -5], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            0,
+            0,
+            7,
+            1,
+            7,
+            2,
+            7,
+            3,
+            7,
+            4,
+            7,
+            5,
+            7,
+            6,
+            7,
+        ],
+        dtype=np.int32,
+    )
 
     mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
 
-    mk.flip_edges_mesh2d(triangulate, project_to_land_boundaries)
+    polygon_x = np.array([-11, 11, 11, -11, -11], dtype=np.double)
+    polygon_y = np.array([-11, -11, 11, 11, -11], dtype=np.double)
+    polygon = GeometryList(polygon_x, polygon_y)
+
+    land_boundaries_x = np.array([-10, -4, 4, 10], dtype=np.double)
+    land_boundaries_y = np.array([-2, -9, -9, -2], dtype=np.double)
+    land_boundaries = GeometryList(land_boundaries_x, land_boundaries_y)
+
+    mk.flip_edges_mesh2d(
+        triangulate, project_to_land_boundaries, polygon, land_boundaries
+    )
 
     mesh2d = mk.get_mesh2d()
 
-    assert mesh2d.node_x.size == 4
-    assert mesh2d.edge_x.size == 5
-    assert mesh2d.face_x.size == 2
-    # TODO assert_array_equal(mesh2d.edge_nodes, np.array([0, 1, 1, 2, 2, 3, 3, 0, 3, 1]))
+    assert mesh2d.node_x.size == 8
+    assert mesh2d.edge_x.size == 14
+    assert mesh2d.face_x.size == 7
 
 
 def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
@@ -885,7 +921,12 @@ def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
 
     mk = meshkernel_with_mesh2d(3, 3)
 
-    mk.flip_edges_mesh2d(True, False)
+    mk.flip_edges_mesh2d(
+        True,
+        True,
+        GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)),
+        GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)),
+    )
 
     mesh2d = mk.get_mesh2d()
 
@@ -893,7 +934,6 @@ def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
     assert mesh2d.edge_x.size == 16
     assert mesh2d.face_x.size == 8
 
-    assert mesh2d.nodes_per_face.size
     assert np.all(mesh2d.nodes_per_face == 3)
 
 
