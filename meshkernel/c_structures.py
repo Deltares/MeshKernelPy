@@ -7,6 +7,7 @@ import numpy as np
 from meshkernel.py_structures import (
     GeometryList,
     InterpolationParameters,
+    Mesh1d,
     Mesh2d,
     OrthogonalizationParameters,
     SampleRefineParameters,
@@ -359,3 +360,50 @@ class CSampleRefineParameters(Structure):
         )
 
         return c_samplerefinementparameters
+
+
+class CMesh1d(Structure):
+    """C-structure intended for internal use only.
+    It represents a Mesh1D struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        edge_nodes (POINTER(c_int)): The nodes composing each mesh 1d edge.
+        node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        num_nodes (c_int): The number of nodes.
+        num_edges (c_int): The number of edges.
+    """
+
+    _fields_ = [
+        ("edge_nodes", POINTER(c_int)),
+        ("node_x", POINTER(c_double)),
+        ("node_y", POINTER(c_double)),
+        ("num_nodes", c_int),
+        ("num_edges", c_int),
+    ]
+
+    @staticmethod
+    def from_mesh1d(mesh1d: Mesh1d) -> CMesh1d:
+        """Creates a new CMesh instance from a given Mesh1d instance.
+
+        Args:
+            mesh1d (Mesh1d): Class of numpy instances owning the state.
+
+        Returns:
+            CMesh1d: The created CMesh1d instance.
+        """
+
+        c_mesh1d = CMesh1d()
+
+        # Set the pointers
+        c_mesh1d.edge_nodes = np.ctypeslib.as_ctypes(mesh1d.edge_nodes)
+        c_mesh1d.node_x = np.ctypeslib.as_ctypes(mesh1d.node_x)
+        c_mesh1d.node_y = np.ctypeslib.as_ctypes(mesh1d.node_y)
+
+        # Set the sizes
+        c_mesh1d.num_nodes = mesh1d.node_x.size
+        c_mesh1d.num_edges = mesh1d.edge_nodes.size // 2
+
+        return c_mesh1d

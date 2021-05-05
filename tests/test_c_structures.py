@@ -6,6 +6,7 @@ from numpy.testing import assert_array_equal
 from meshkernel import (
     GeometryList,
     InterpolationParameters,
+    Mesh1d,
     Mesh2d,
     OrthogonalizationParameters,
     SampleRefineParameters,
@@ -13,6 +14,7 @@ from meshkernel import (
 from meshkernel.c_structures import (
     CGeometryList,
     CInterpolationParameters,
+    CMesh1d,
     CMesh2d,
     COrthogonalizationParameters,
     CSampleRefineParameters,
@@ -182,3 +184,31 @@ def test_csamplerefineparameters_from_samplerefinementparameters():
     assert c_parameters.connect_hanging_nodes == 1
     assert c_parameters.max_time_step == 5
     assert c_parameters.account_for_samples_outside_face == 0
+
+
+def test_cmesh1d_from_mesh1d():
+    """Tests `from_mesh1d` of the `CMesh1D` class with a simple mesh."""
+
+    #   1   3
+    #  / \ /
+    # 0   2
+    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
+    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
+
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
+
+    # Get the numpy arrays from the ctypes object
+    c_mesh1d_node_x = as_array(c_mesh1d.node_x, (4,))
+    c_mesh1d_node_y = as_array(c_mesh1d.node_y, (4,))
+    c_mesh1d_edge_nodes = as_array(c_mesh1d.edge_nodes, (6,))
+
+    # Assert data is correct
+    assert_array_equal(c_mesh1d_node_x, node_x)
+    assert_array_equal(c_mesh1d_node_y, node_y)
+    assert_array_equal(c_mesh1d_edge_nodes, edge_nodes)
+
+    assert c_mesh1d.num_nodes == 4
+    assert c_mesh1d.num_edges == 3
