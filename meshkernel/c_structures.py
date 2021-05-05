@@ -62,26 +62,26 @@ class CMesh2d(Structure):
             CMesh2d: The created CMesh2d instance
         """
 
-        cmesh2d = CMesh2d()
+        c_mesh2d = CMesh2d()
 
         # Set the pointers
-        cmesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
-        cmesh2d.face_nodes = np.ctypeslib.as_ctypes(mesh2d.face_nodes)
-        cmesh2d.nodes_per_face = np.ctypeslib.as_ctypes(mesh2d.nodes_per_face)
-        cmesh2d.node_x = np.ctypeslib.as_ctypes(mesh2d.node_x)
-        cmesh2d.node_y = np.ctypeslib.as_ctypes(mesh2d.node_y)
-        cmesh2d.edge_x = np.ctypeslib.as_ctypes(mesh2d.edge_x)
-        cmesh2d.edge_y = np.ctypeslib.as_ctypes(mesh2d.edge_y)
-        cmesh2d.face_x = np.ctypeslib.as_ctypes(mesh2d.face_x)
-        cmesh2d.face_y = np.ctypeslib.as_ctypes(mesh2d.face_y)
+        c_mesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
+        c_mesh2d.face_nodes = np.ctypeslib.as_ctypes(mesh2d.face_nodes)
+        c_mesh2d.nodes_per_face = np.ctypeslib.as_ctypes(mesh2d.nodes_per_face)
+        c_mesh2d.node_x = np.ctypeslib.as_ctypes(mesh2d.node_x)
+        c_mesh2d.node_y = np.ctypeslib.as_ctypes(mesh2d.node_y)
+        c_mesh2d.edge_x = np.ctypeslib.as_ctypes(mesh2d.edge_x)
+        c_mesh2d.edge_y = np.ctypeslib.as_ctypes(mesh2d.edge_y)
+        c_mesh2d.face_x = np.ctypeslib.as_ctypes(mesh2d.face_x)
+        c_mesh2d.face_y = np.ctypeslib.as_ctypes(mesh2d.face_y)
 
         # Set the sizes
-        cmesh2d.num_nodes = mesh2d.node_x.size
-        cmesh2d.num_edges = mesh2d.edge_nodes.size // 2
-        cmesh2d.num_faces = mesh2d.face_x.size
-        cmesh2d.num_face_nodes = mesh2d.face_nodes.size
+        c_mesh2d.num_nodes = mesh2d.node_x.size
+        c_mesh2d.num_edges = mesh2d.edge_nodes.size // 2
+        c_mesh2d.num_faces = mesh2d.face_x.size
+        c_mesh2d.num_face_nodes = mesh2d.face_nodes.size
 
-        return cmesh2d
+        return c_mesh2d
 
     def allocate_memory(self) -> Mesh2d:
         """Allocate data according to the parameters with the "num_" prefix.
@@ -174,31 +174,6 @@ class CGeometryList(Structure):
         c_geometry_list.values = np.ctypeslib.as_ctypes(geometry_list.values)
 
         return c_geometry_list
-
-    def allocate_memory(self) -> GeometryList:
-        """Allocate data according to the number of coordinates.
-        The pointers are then set to the freshly allocated memory.
-        The memory is owned by the GeometryList instance which is returned by this method.
-
-        Returns:
-            GeometryList: The object owning the allocated memory
-        """
-
-        x_coordinates = np.empty(self.n_coordinates, dtype=np.double)
-        y_coordinates = np.empty(self.n_coordinates, dtype=np.double)
-        values = np.empty(self.n_coordinates, dtype=np.double)
-
-        self.x_coordinates = np.ctypeslib.as_ctypes(x_coordinates)
-        self.y_coordinates = np.ctypeslib.as_ctypes(y_coordinates)
-        self.values = np.ctypeslib.as_ctypes(values)
-
-        return GeometryList(
-            x_coordinates,
-            y_coordinates,
-            values,
-            self.geometry_separator,
-            self.inner_outer_separator,
-        )
 
 
 class COrthogonalizationParameters(Structure):
@@ -352,12 +327,12 @@ class CSampleRefineParameters(Structure):
 
     @staticmethod
     def from_samplerefinementparameters(
-        samlple_refinement_parameters: SampleRefineParameters,
+        sample_refinement_parameters: SampleRefineParameters,
     ) -> CSampleRefineParameters:
         """Creates a new `CSampleRefineParameters` instance from the given SampleRefineParameters instance.
 
         Args:
-            samlple_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
+            sample_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
 
         Returns:
             CSampleRefineParameters: The created C-Structure for the given SampleRefineParameters.
@@ -365,22 +340,22 @@ class CSampleRefineParameters(Structure):
 
         c_samplerefinementparameters = CSampleRefineParameters()
         c_samplerefinementparameters.max_refinement_iterations = (
-            samlple_refinement_parameters.max_refinement_iterations
+            sample_refinement_parameters.max_refinement_iterations
         )
         c_samplerefinementparameters.min_face_size = (
-            samlple_refinement_parameters.min_face_size
+            sample_refinement_parameters.min_face_size
         )
         c_samplerefinementparameters.refinement_type = (
-            samlple_refinement_parameters.refinement_type
+            sample_refinement_parameters.refinement_type
         )
         c_samplerefinementparameters.connect_hanging_nodes = (
-            samlple_refinement_parameters.connect_hanging_nodes
+            sample_refinement_parameters.connect_hanging_nodes
         )
         c_samplerefinementparameters.max_time_step = (
-            samlple_refinement_parameters.max_time_step
+            sample_refinement_parameters.max_time_step
         )
         c_samplerefinementparameters.account_for_samples_outside_face = (
-            samlple_refinement_parameters.account_for_samples_outside_face
+            sample_refinement_parameters.account_for_samples_outside_face
         )
 
         return c_samplerefinementparameters

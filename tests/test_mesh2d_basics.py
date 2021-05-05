@@ -19,7 +19,7 @@ from meshkernel import (
 
 
 @pytest.fixture(scope="function")
-def meshkernel_with_mesh2d() -> MeshKernel:
+def meshkernel_with_mesh2d():
     """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
 
     Args:
@@ -487,7 +487,7 @@ cases_get_hanging_edges_mesh2d = [
     "node_x, node_y, edge_nodes, expected", cases_get_hanging_edges_mesh2d
 )
 def test_get_hanging_edges_mesh2d(
-    node_x: np.array, node_y: np.array, edge_nodes: np.array, expected: int
+    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
 ):
     """Tests `get_hanging_edges_mesh2d` by comparing the returned hanging edges with the expected ones
     4*
@@ -539,7 +539,7 @@ def test_delete_hanging_edges_mesh2d():
 def test_make_mesh_from_polygon_mesh2d():
     """Tests `make_mesh_from_polygon_mesh2d` by creating a mesh2d from a simple hexagon."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     #   5__4
     #  /    \
@@ -561,7 +561,7 @@ def test_make_mesh_from_polygon_mesh2d():
 def test_make_mesh_from_samples_mesh2d():
     """Tests `make_mesh_from_samples_mesh2d` by creating a mesh2d from six sample points."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     #  5  4
     # 0    3
@@ -597,7 +597,7 @@ cases_refine_polygon = [
 def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
     """Tests `refine_polygon` by refining a simple polygon."""
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # 3---2
     # |   |
@@ -834,7 +834,7 @@ def test_get_points_in_polygon(
     y_coordinates = np.array([1.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     selected_polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     selection = mk.get_points_in_polygon(selecting_polygon, selected_polygon)
 
@@ -898,7 +898,7 @@ def test_flip_edges_mesh2d2_triangulate(meshkernel_with_mesh2d: MeshKernel):
 
 
 def test_count_obtuse_triangles_mesh2d():
-    r"""Tests `count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
+    r"""Tests `_count_obtuse_triangles_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
     | /   \ |
@@ -907,7 +907,7 @@ def test_count_obtuse_triangles_mesh2d():
     0---1---2
 
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
     node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
@@ -952,7 +952,7 @@ def test_count_obtuse_triangles_mesh2d():
 
     mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
 
-    n_obtuse_triangles = mk.count_obtuse_triangles_mesh2d()
+    n_obtuse_triangles = mk._count_obtuse_triangles_mesh2d()
 
     assert n_obtuse_triangles == 2
 
@@ -961,13 +961,13 @@ def test_get_obtuse_triangles_mass_centers_mesh2d():
     r"""Tests `get_obtuse_triangles_mass_centers_mesh2d` on a 3x3 mesh with two obtuse triangles.
 
     6---7---8
-    | /  \\ |
-    3----4--5
-    | \  // |
+    | /   \ |
+    3---4---5
+    | \   / |
     0---1---2
 
     """
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     # Mesh with obtuse triangles (4, 5, 7 and 1, 5, 4)
     node_x = np.array([0.0, 1.0, 2.0, 0.0, 1.5, 2.0, 0.0, 1.0, 2.0], dtype=np.double)
@@ -1030,7 +1030,7 @@ cases_count_small_flow_edge_centers_mesh2d = [(0.9, 0), (1.0, 0), (1.1, 4)]
     "threshold, exp_int", cases_count_small_flow_edge_centers_mesh2d
 )
 def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
-    """Tests `count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
+    """Tests `_count_small_flow_edge_centers_mesh2d` with a simple 3x3 mesh with 4 small flow edges.
 
     6---7---8
     | 11|-12|
@@ -1039,7 +1039,7 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
@@ -1089,7 +1089,7 @@ def test_count_small_flow_edge_centers_mesh2d(threshold: float, exp_int: int):
 
     mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
 
-    n_small_flow_edges = mk.count_small_flow_edge_centers_mesh2d(threshold)
+    n_small_flow_edges = mk._count_small_flow_edge_centers_mesh2d(threshold)
 
     assert n_small_flow_edges == exp_int
 
@@ -1104,7 +1104,7 @@ def test_get_small_flow_edge_centers_mesh2d():
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5, 0.5, 1.5],
@@ -1176,7 +1176,7 @@ def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_flow_ed
     0---1---2
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 0.5, 1.5],
@@ -1210,7 +1210,7 @@ def test_delete_small_flow_edges_and_small_triangles_mesh2d_delete_small_triangl
     0---1---2/
     """
 
-    mk = MeshKernel(False)
+    mk = MeshKernel()
 
     node_x = np.array(
         [0.0, 1.0, 2.0, 0.0, 1.0, 2.0, 2.1],
@@ -1254,16 +1254,17 @@ cases_nodes_in_polygons_mesh2d = [
 
 
 @pytest.mark.parametrize(
-    "x_coordinates, y_coordinates, inside, num_nodes", cases_nodes_in_polygons_mesh2d
+    "x_coordinates, y_coordinates, inside, exp_num_nodes",
+    cases_nodes_in_polygons_mesh2d,
 )
 def test_nodes_in_polygons_mesh2d(
     meshkernel_with_mesh2d: MeshKernel,
     x_coordinates: ndarray,
     y_coordinates: ndarray,
     inside: bool,
-    num_nodes: int,
+    exp_num_nodes: int,
 ):
-    """Tests `nodes_in_polygons_mesh2d` by checking if two selected nodes are properly merged
+    """Tests `nodes_in_polygons_mesh2d` by checking if it returns the correct number of nodes
 
     6---7---8
     |   |   |
@@ -1276,4 +1277,4 @@ def test_nodes_in_polygons_mesh2d(
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     selected_nodes = mk.get_nodes_in_polygons_mesh2d(geometry_list, inside)
 
-    assert selected_nodes.size == num_nodes
+    assert selected_nodes.size == exp_num_nodes
