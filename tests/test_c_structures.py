@@ -4,6 +4,7 @@ from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 
 from meshkernel import (
+    Contacts,
     GeometryList,
     InterpolationParameters,
     Mesh1d,
@@ -12,6 +13,7 @@ from meshkernel import (
     SampleRefineParameters,
 )
 from meshkernel.c_structures import (
+    CContacts,
     CGeometryList,
     CInterpolationParameters,
     CMesh1d,
@@ -214,3 +216,23 @@ def test_cmesh1d_from_mesh1d():
 
     assert c_mesh1d.num_nodes == 4
     assert c_mesh1d.num_edges == 3
+
+
+def test_ccontacts_from_contacts():
+    """Tests `from_contacts` of the `CContacts` class."""
+
+    mesh1d_indices = np.array([0, 2, 4], dtype=np.int32)
+    mesh2d_indices = np.array([1, 3, 5], dtype=np.int32)
+
+    contacts = Contacts(mesh1d_indices, mesh2d_indices)
+
+    c_contacts = CContacts.from_contacts(contacts)
+
+    # Get the numpy arrays from the ctypes object
+    c_contacts_mesh1d_indices = as_array(c_contacts.mesh1d_indices, (3,))
+    c_contacts_mesh2d_indices = as_array(c_contacts.mesh2d_indices, (3,))
+
+    assert_array_equal(c_contacts_mesh1d_indices, mesh1d_indices)
+    assert_array_equal(c_contacts_mesh2d_indices, mesh2d_indices)
+
+    assert c_contacts.num_contacts == 3

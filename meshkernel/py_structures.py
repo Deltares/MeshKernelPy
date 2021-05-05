@@ -199,6 +199,7 @@ class Mesh1d:
     edge_nodes: ndarray
 
 
+@dataclass
 class Contacts:
     """This class describes the contacts between a mesh1d and mesh2d.
 

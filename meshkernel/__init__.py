@@ -4,6 +4,7 @@ from meshkernel.factories import Mesh2dFactory
 from meshkernel.meshkernel import MeshKernel
 from meshkernel.py_structures import (
     AveragingMethod,
+    Contacts,
     DeleteMeshOption,
     GeometryList,
     InterpolateToOption,

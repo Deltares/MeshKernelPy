@@ -5,6 +5,7 @@ from ctypes import POINTER, Structure, c_double, c_int
 import numpy as np
 
 from meshkernel.py_structures import (
+    Contacts,
     GeometryList,
     InterpolationParameters,
     Mesh1d,
@@ -452,3 +453,21 @@ class CContacts(Structure):
         ("mesh2d_indices", POINTER(c_int)),
         ("num_contacts", c_int),
     ]
+
+    def from_contacts(contacts: Contacts) -> CContacts:
+        """Creates a new `CContacts` instance from the given Contacts instance.
+
+        Args:
+            contacts (Contacts): The contacts.
+
+        Returns:
+            CContacts: The created C-Structure for the given Contacts.
+        """
+
+        c_contacts = CContacts()
+
+        c_contacts.mesh1d_indices = np.ctypeslib.as_ctypes(contacts.mesh1d_indices)
+        c_contacts.mesh2d_indices = np.ctypeslib.as_ctypes(contacts.mesh2d_indices)
+        c_contacts.num_contacts = contacts.mesh1d_indices.size
+
+        return c_contacts
