@@ -306,7 +306,10 @@ class CInterpolationParameters(Structure):
 
 
 class CSampleRefineParameters(Structure):
-    """A class holding the parameters for sample refinement.
+    """C-structure intended for internal use only.
+    It represents a SampleRefineParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
 
     Attributes:
         max_refinement_iterations (c_int): Maximum number of refinement iterations.
@@ -414,7 +417,7 @@ class CMesh1d(Structure):
         The memory is owned by the Mesh1d instance which is returned by this method.
 
         Returns:
-            Mesh1d: The object owning the allocated memory
+            Mesh1d: The object owning the allocated memory.
         """
 
         edge_nodes = np.empty(self.num_edges * 2, dtype=np.int32)
@@ -430,3 +433,22 @@ class CMesh1d(Structure):
             node_y,
             edge_nodes,
         )
+
+
+class CContacts(Structure):
+    """C-structure intended for internal use only.
+    It represents a Contacts struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        mesh1d_indices (POINTER(c_int)): The indices of the mesh1d nodes.
+        mesh2d_indices (POINTER(c_int)): The indices of the mesh2d faces.
+        num_contacts (c_int): The number of contacts.
+    """
+
+    _fields_ = [
+        ("mesh1d_indices", POINTER(c_int)),
+        ("mesh2d_indices", POINTER(c_int)),
+        ("num_contacts", c_int),
+    ]
