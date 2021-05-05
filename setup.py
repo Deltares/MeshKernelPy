@@ -47,11 +47,9 @@ setup(
         "dev": [
             "pytest",
             "pytest-cov",
-            "matplotlib",
             "flake8",
             "black==21.4b1",
             "isort",
-            "jupyterlab_code_formatter",
         ]
     },
     python_requires=">=3.8",

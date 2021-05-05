@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 from meshkernel.py_structures import Mesh2d
 
 
@@ -9,6 +7,7 @@ def plot_edges(mesh2d: Mesh2d):
     Args:
         mesh2d (Mesh2d): The Mesh2d for which to plot the edges.
     """
+    import matplotlib.pyplot as plt
 
     for edge_index in range(0, mesh2d.edge_nodes.size, 2):
         first_edge_node_index = mesh2d.edge_nodes[edge_index]
@@ -34,6 +33,8 @@ def plot_nodes(mesh2d: Mesh2d):
     Args:
         mesh2d (Mesh2d): The Mesh2d for which to plot the nodes.
     """
+    import matplotlib.pyplot as plt
+
     # Plot white points only for scaling the plot
     plt.plot(mesh2d.node_x, mesh2d.node_y, "ow")
 
@@ -57,6 +58,7 @@ def plot_faces(mesh2d: Mesh2d):
     Args:
         mesh2d (Mesh2d): The Mesh2d for which to plot the faces.
     """
+    import matplotlib.pyplot as plt
 
     node_position = 0
     for face_index, num_nodes in enumerate(mesh2d.nodes_per_face):
