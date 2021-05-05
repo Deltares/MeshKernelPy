@@ -53,13 +53,13 @@ class CMesh2d(Structure):
 
     @staticmethod
     def from_mesh2d(mesh2d: Mesh2d) -> CMesh2d:
-        """Creates a new CMesh instance from a given Mesh2d instance
+        """Creates a new CMesh instance from a given Mesh2d instance.
 
         Args:
-            mesh2d (Mesh2d): Class of numpy instances owning the state
+            mesh2d (Mesh2d): Class of numpy instances owning the state.
 
         Returns:
-            CMesh2d: The created CMesh2d instance
+            CMesh2d: The created CMesh2d instance.
         """
 
         c_mesh2d = CMesh2d()
@@ -89,7 +89,7 @@ class CMesh2d(Structure):
         The memory is owned by the Mesh2d instance which is returned by this method.
 
         Returns:
-            Mesh2d: The object owning the allocated memory
+            Mesh2d: The object owning the allocated memory.
         """
 
         edge_nodes = np.empty(self.num_edges * 2, dtype=np.int32)
@@ -252,9 +252,9 @@ class CInterpolationParameters(Structure):
         relative_search_radius (c_double): Relative search cell size, 1 = actual cell size, 2 = twice as large,
                                            search radius can be larger than cell so more sample are included.
         interpolate_to (c_int): Interpolation settings, 1 = bathy, 2 = zk, 3 = s1, 4 = Zc.
-        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
+        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0).
         use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
-                                               process (yes=1/no=0)
+                                               process (yes=1/no=0).
     """
 
     _fields_ = [

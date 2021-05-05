@@ -45,7 +45,7 @@ class MeshKernel:
 
         Args:
             is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
-                                            Defaults is `False`.
+                                            Default is `False`.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -74,7 +74,7 @@ class MeshKernel:
         """Creates a new empty mesh.
 
         Args:
-            isGeographic (bool): Cartesian (False) or spherical (True) mesh
+            is_geographic (bool): Cartesian (False) or spherical (True) mesh.
         """
 
         self._meshkernelid = c_int()
@@ -189,14 +189,14 @@ class MeshKernel:
         return edge_index.value
 
     def insert_node_mesh2d(self, x: float, y: float) -> int:
-        """Insert a new node at the specified coordinates
+        """Insert a new node at the specified coordinates.
 
         Args:
-            x (float): The x-coordinate of the new node
-            y (float): The y-coordinate of the new node
+            x (float): The x-coordinate of the new node.
+            y (float): The y-coordinate of the new node.
 
         Returns:
-            int: The index of the new node
+            int: The index of the new node.
         """
 
         x_array = np.array([x], dtype=np.double)
@@ -231,11 +231,11 @@ class MeshKernel:
         )
 
     def move_node_mesh2d(self, x: float, y: float, node_index: int) -> None:
-        """Moves a Mesh2d node with the given `index` to the .
+        """Moves a Mesh2d node with the given `index` to the specified coordinates.
 
         Args:
-            x (float): The x-coordinate of the new position of the node
-            y (float): The y-coordinate of the new position of the node
+            x (float): The x-coordinate of the new position of the node.
+            y (float): The y-coordinate of the new position of the node.
             node_index (int): The index of the node to be moved.
 
         Raises:
@@ -280,7 +280,7 @@ class MeshKernel:
             geometry_list (GeometryList): A geometry list containing the coordinate of the point.
 
         Returns:
-            int: The index of the edge
+            int: The index of the edge.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
@@ -305,7 +305,7 @@ class MeshKernel:
             search_radius (float): The search radius.
 
         Returns:
-            int: The index of node
+            int: The index of node.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
@@ -459,7 +459,7 @@ class MeshKernel:
         For example:
         - a value of 0 means no split and hence no refinement;
         - a value of 1 means a single split (a quadrilateral face generates 4 faces);
-        - a value of 2 two splits (a quadrilateral face generates 16 faces);
+        - a value of 2 two splits (a quadrilateral face generates 16 faces).
 
         Args:
             samples (GeometryList): The samples.
@@ -704,7 +704,7 @@ class MeshKernel:
         """Get the computed spline points between two corner nodes.
 
         Args:
-            geometry_list (GeometryList): The input corner nodes of the splines
+            geometry_list (GeometryList): The input corner nodes of the splines.
             number_of_points_between_nodes (int): The number of spline points to generate between two corner nodes.
 
         Returns:
@@ -783,11 +783,11 @@ class MeshKernel:
     def merge_nodes_mesh2d(
         self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
-        """Merges the mesh2d nodes, effectively removing all small edges
+        """Merges the mesh2d nodes, effectively removing all small edges.
 
         Args:
             geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
-            geometry_list (float): The distance below which two nodes will be merged
+            geometry_list (float): The distance below which two nodes will be merged.
         """
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         self._execute_function(
@@ -819,10 +819,10 @@ class MeshKernel:
 
         Args:
             geometry_list (GeometryList): The input polygon.
-            inside (bool): Selection of the nodes inside the polygon (True) or outside (False)
+            inside (bool): Selection of the nodes inside the polygon (True) or outside (False).
 
         Returns:
-            ndarray: The integer array describing the selected nodes indices
+            ndarray: The integer array describing the selected nodes indices.
         """
 
         # Get number of mesh nodes
@@ -874,11 +874,11 @@ class MeshKernel:
         return c_error_message.value.decode("ASCII")
 
     def _execute_function(self, function: Callable, *args):
-        """Utility function to execute a C function of MeshKernel and checks its status
+        """Utility function to execute a C function of MeshKernel and checks its status.
 
         Args:
-            function (Callable): The function which we want to call
-            args: Arguments which will be passed to `function`
+            function (Callable): The function which we want to call.
+            args: Arguments which will be passed to `function`.
 
         Raises:
             MeshKernelError: This exception gets raised,
