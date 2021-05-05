@@ -53,18 +53,13 @@ class MeshKernel:
 
         # Determine OS
         if platform.system() == "Windows":
-            lib_path = Path(__file__).parent.parent / "lib" / "MeshKernelApi.dll"
+            lib_path = Path(__file__).parent / "MeshKernelApi.dll"
         elif platform.system() == "Linux":
-            lib_path = Path(__file__).parent.parent / "lib" / "libMeshKernelApi.so"
+            lib_path = Path(__file__).parent / "libMeshKernelApi.so"
         else:
             raise OSError("Unsupported operating system")
 
-        # LoadLibraryEx flag: LOAD_WITH_ALTERED_SEARCH_PATH 0x08
-        # -> uses the altered search path for resolving dll dependencies
-        # `winmode` has no effect while running on Linux or macOS
-        self.lib = CDLL(str(lib_path), winmode=0x08)
-
-        self.libname = os.path.basename(lib_path)
+        self.lib = CDLL(str(lib_path))
         self._allocate_state(is_geographic)
 
     def __del__(self):

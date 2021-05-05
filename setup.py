@@ -1,8 +1,10 @@
 import codecs
 import os.path
+import platform
 import sys
+from pathlib import Path
 
-from setuptools import find_namespace_packages, setup
+from setuptools import Distribution, find_namespace_packages, setup
 
 # edit author dictionary as necessary
 author_dict = {
@@ -28,8 +30,20 @@ def get_version(rel_path):
     raise RuntimeError("Unable to find version string.")
 
 
-long_description = read("README.md")
+class BinaryDistribution(Distribution):
+    def has_ext_modules(foo):
+        return True
 
+
+def get_meshkernel_name():
+    if platform.system() == "Windows":
+        return "MeshKernelApi.dll"
+    elif platform.system() == "Linux":
+        return "libMeshKernelApi.so"
+    raise OSError("Unsupported operating system")
+
+
+long_description = read("README.md")
 
 setup(
     name="meshkernel",
@@ -39,8 +53,7 @@ setup(
     author=__author__,
     author_email=__author_email__,
     url="https://github.com/Deltares/MeshKernelPy",
-    # TODO: specify license
-    license="",
+    license="MIT",
     platforms="Windows, Linux",
     install_requires=["numpy"],
     extras_require={
@@ -53,7 +66,11 @@ setup(
         ]
     },
     python_requires=">=3.8",
-    packages=find_namespace_packages(exclude=("tests", "examples")),
+    packages=find_namespace_packages(include=("meshkernel")),
+    package_data={
+        "meshkernel": [get_meshkernel_name()],
+    },
+    distclass=BinaryDistribution,
     version=get_version("meshkernel/__init__.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
 )
