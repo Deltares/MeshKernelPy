@@ -3,6 +3,7 @@ from __future__ import annotations
 from ctypes import POINTER, Structure, c_double, c_int
 
 import numpy as np
+from numpy.ctypeslib import as_ctypes
 
 from meshkernel.py_structures import (
     Contacts,
@@ -67,15 +68,15 @@ class CMesh2d(Structure):
         c_mesh2d = CMesh2d()
 
         # Set the pointers
-        c_mesh2d.edge_nodes = np.ctypeslib.as_ctypes(mesh2d.edge_nodes)
-        c_mesh2d.face_nodes = np.ctypeslib.as_ctypes(mesh2d.face_nodes)
-        c_mesh2d.nodes_per_face = np.ctypeslib.as_ctypes(mesh2d.nodes_per_face)
-        c_mesh2d.node_x = np.ctypeslib.as_ctypes(mesh2d.node_x)
-        c_mesh2d.node_y = np.ctypeslib.as_ctypes(mesh2d.node_y)
-        c_mesh2d.edge_x = np.ctypeslib.as_ctypes(mesh2d.edge_x)
-        c_mesh2d.edge_y = np.ctypeslib.as_ctypes(mesh2d.edge_y)
-        c_mesh2d.face_x = np.ctypeslib.as_ctypes(mesh2d.face_x)
-        c_mesh2d.face_y = np.ctypeslib.as_ctypes(mesh2d.face_y)
+        c_mesh2d.edge_nodes = as_ctypes(mesh2d.edge_nodes)
+        c_mesh2d.face_nodes = as_ctypes(mesh2d.face_nodes)
+        c_mesh2d.nodes_per_face = as_ctypes(mesh2d.nodes_per_face)
+        c_mesh2d.node_x = as_ctypes(mesh2d.node_x)
+        c_mesh2d.node_y = as_ctypes(mesh2d.node_y)
+        c_mesh2d.edge_x = as_ctypes(mesh2d.edge_x)
+        c_mesh2d.edge_y = as_ctypes(mesh2d.edge_y)
+        c_mesh2d.face_x = as_ctypes(mesh2d.face_x)
+        c_mesh2d.face_y = as_ctypes(mesh2d.face_y)
 
         # Set the sizes
         c_mesh2d.num_nodes = mesh2d.node_x.size
@@ -104,15 +105,15 @@ class CMesh2d(Structure):
         face_x = np.empty(self.num_faces, dtype=np.double)
         face_y = np.empty(self.num_faces, dtype=np.double)
 
-        self.edge_nodes = np.ctypeslib.as_ctypes(edge_nodes)
-        self.face_nodes = np.ctypeslib.as_ctypes(face_nodes)
-        self.nodes_per_face = np.ctypeslib.as_ctypes(nodes_per_face)
-        self.node_x = np.ctypeslib.as_ctypes(node_x)
-        self.node_y = np.ctypeslib.as_ctypes(node_y)
-        self.edge_x = np.ctypeslib.as_ctypes(edge_x)
-        self.edge_y = np.ctypeslib.as_ctypes(edge_y)
-        self.face_x = np.ctypeslib.as_ctypes(face_x)
-        self.face_y = np.ctypeslib.as_ctypes(face_y)
+        self.edge_nodes = as_ctypes(edge_nodes)
+        self.face_nodes = as_ctypes(face_nodes)
+        self.nodes_per_face = as_ctypes(nodes_per_face)
+        self.node_x = as_ctypes(node_x)
+        self.node_y = as_ctypes(node_y)
+        self.edge_x = as_ctypes(edge_x)
+        self.edge_y = as_ctypes(edge_y)
+        self.face_x = as_ctypes(face_x)
+        self.face_y = as_ctypes(face_y)
 
         return Mesh2d(
             node_x,
@@ -167,13 +168,9 @@ class CGeometryList(Structure):
         c_geometry_list.geometry_separator = geometry_list.geometry_separator
         c_geometry_list.inner_outer_separator = geometry_list.inner_outer_separator
         c_geometry_list.n_coordinates = geometry_list.x_coordinates.size
-        c_geometry_list.x_coordinates = np.ctypeslib.as_ctypes(
-            geometry_list.x_coordinates
-        )
-        c_geometry_list.y_coordinates = np.ctypeslib.as_ctypes(
-            geometry_list.y_coordinates
-        )
-        c_geometry_list.values = np.ctypeslib.as_ctypes(geometry_list.values)
+        c_geometry_list.x_coordinates = as_ctypes(geometry_list.x_coordinates)
+        c_geometry_list.y_coordinates = as_ctypes(geometry_list.y_coordinates)
+        c_geometry_list.values = as_ctypes(geometry_list.values)
 
         return c_geometry_list
 
@@ -402,9 +399,9 @@ class CMesh1d(Structure):
         c_mesh1d = CMesh1d()
 
         # Set the pointers
-        c_mesh1d.edge_nodes = np.ctypeslib.as_ctypes(mesh1d.edge_nodes)
-        c_mesh1d.node_x = np.ctypeslib.as_ctypes(mesh1d.node_x)
-        c_mesh1d.node_y = np.ctypeslib.as_ctypes(mesh1d.node_y)
+        c_mesh1d.edge_nodes = as_ctypes(mesh1d.edge_nodes)
+        c_mesh1d.node_x = as_ctypes(mesh1d.node_x)
+        c_mesh1d.node_y = as_ctypes(mesh1d.node_y)
 
         # Set the sizes
         c_mesh1d.num_nodes = mesh1d.node_x.size
@@ -425,9 +422,9 @@ class CMesh1d(Structure):
         node_x = np.empty(self.num_nodes, dtype=np.double)
         node_y = np.empty(self.num_nodes, dtype=np.double)
 
-        self.edge_nodes = np.ctypeslib.as_ctypes(edge_nodes)
-        self.node_x = np.ctypeslib.as_ctypes(node_x)
-        self.node_y = np.ctypeslib.as_ctypes(node_y)
+        self.edge_nodes = as_ctypes(edge_nodes)
+        self.node_x = as_ctypes(node_x)
+        self.node_y = as_ctypes(node_y)
 
         return Mesh1d(
             node_x,
@@ -467,8 +464,8 @@ class CContacts(Structure):
 
         c_contacts = CContacts()
 
-        c_contacts.mesh1d_indices = np.ctypeslib.as_ctypes(contacts.mesh1d_indices)
-        c_contacts.mesh2d_indices = np.ctypeslib.as_ctypes(contacts.mesh2d_indices)
+        c_contacts.mesh1d_indices = as_ctypes(contacts.mesh1d_indices)
+        c_contacts.mesh2d_indices = as_ctypes(contacts.mesh2d_indices)
         c_contacts.num_contacts = contacts.mesh1d_indices.size
 
         return c_contacts
