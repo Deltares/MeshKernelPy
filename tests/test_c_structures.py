@@ -218,6 +218,20 @@ def test_cmesh1d_from_mesh1d():
     assert c_mesh1d.num_edges == 3
 
 
+def test_cmesh1d_allocate_memory():
+    """Tests `allocate_memory` of the `CMesh1d` class."""
+
+    c_mesh1d = CMesh1d()
+    c_mesh1d.num_nodes = 4
+    c_mesh1d.num_edges = 3
+
+    mesh1d = c_mesh1d.allocate_memory()
+
+    assert mesh1d.node_x.size == 4
+    assert mesh1d.node_y.size == 4
+    assert mesh1d.edge_nodes.size == 6
+
+
 def test_ccontacts_from_contacts():
     """Tests `from_contacts` of the `CContacts` class."""
 
