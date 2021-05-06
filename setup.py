@@ -66,7 +66,7 @@ setup(
         ]
     },
     python_requires=">=3.8",
-    packages=find_namespace_packages(include=("meshkernel")),
+    packages=["meshkernel"],
     package_data={
         "meshkernel": [get_meshkernel_name()],
     },
