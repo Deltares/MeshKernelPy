@@ -250,3 +250,15 @@ def test_ccontacts_from_contacts():
     assert_array_equal(c_contacts_mesh2d_indices, mesh2d_indices)
 
     assert c_contacts.num_contacts == 3
+
+
+def test_ccontacts_allocate_memory():
+    """Tests `allocate_memory` of the `CContacts` class."""
+
+    c_contacts = CContacts()
+    c_contacts.num_contacts = 3
+
+    contacts = c_contacts.allocate_memory()
+
+    assert contacts.mesh1d_indices.size == 3
+    assert contacts.mesh2d_indices.size == 3

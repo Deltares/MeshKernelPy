@@ -469,3 +469,20 @@ class CContacts(Structure):
         c_contacts.num_contacts = contacts.mesh1d_indices.size
 
         return c_contacts
+
+    def allocate_memory(self) -> Contacts:
+        """Allocate data according to the parameters with the "num_" prefix.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the Contacts instance which is returned by this method.
+
+        Returns:
+            Contacts: The object owning the allocated memory.
+        """
+
+        mesh1d_indices = np.empty(self.num_contacts, dtype=np.int32)
+        mesh2d_indices = np.empty(self.num_contacts, dtype=np.int32)
+
+        self.mesh1d_indices = as_ctypes(mesh1d_indices)
+        self.mesh2d_indices = as_ctypes(mesh2d_indices)
+
+        return Contacts(mesh1d_indices, mesh2d_indices)
