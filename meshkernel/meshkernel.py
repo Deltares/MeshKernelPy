@@ -11,6 +11,7 @@ import numpy as np
 from numpy import ndarray
 
 from meshkernel.c_structures import (
+    CContacts,
     CGeometryList,
     CInterpolationParameters,
     CMesh1d,
@@ -19,6 +20,7 @@ from meshkernel.c_structures import (
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
+    Contacts,
     DeleteMeshOption,
     GeometryList,
     InterpolationParameters,
@@ -879,17 +881,53 @@ class MeshKernel:
 
     def _get_dimensions_mesh1d(self) -> CMesh1d:
         """Gets the Mesh1d dimensions.
-        The integer parameters of the Mesh2D struct are set to the corresponding dimensions.
+        The integer parameters of the Mesh1D struct are set to the corresponding dimensions.
         The pointers must be set to correctly sized memory before passing the struct to `get_mesh1d`.
 
         Returns:
-            Mesh1d: The Mesh1d dimensions.
+            CMesh1d: The CMesh1d with the set dimensions.
         """
         c_mesh1d = CMesh1d()
         self._execute_function(
             self.lib.mkernel_get_dimensions_mesh1d, self._meshkernelid, byref(c_mesh1d)
         )
         return c_mesh1d
+
+    def _get_dimensions_contacts(self) -> CContacts:
+        """Gets the Contacts dimensions.
+        The integer parameters of the Contacts struct are set to the corresponding dimensions.
+        The pointers must be set to correctly sized memory before passing the struct to `get_contacts`.
+
+        Returns:
+            CContacts: The Contacts with the set dimensions.
+        """
+        c_contacts = CContacts()
+
+        self._execute_function(
+            self.lib.mkernel_get_dimensions_contacts,
+            self._meshkernelid,
+            byref(c_contacts),
+        )
+
+        return c_contacts
+
+    def get_contacts(self) -> Contacts:
+        """Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Returns:
+            Contacts: The contacts.
+        """
+        c_contacts = self._get_dimensions_contacts()
+
+        contacts = c_contacts.allocate_memory()
+
+        self._execute_function(
+            self.lib.mkernel_get_data_contacts, self._meshkernelid, byref(c_contacts)
+        )
+
+        return contacts
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
