@@ -127,3 +127,59 @@ def test_compute_multiple_contacts():
     assert contacts.mesh2d_indices[1] == 6
     assert contacts.mesh2d_indices[2] == 12
     assert contacts.mesh2d_indices[3] == 18
+
+
+def test_compute_with_polygons_contacts():
+    """Tests `compute_single_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+
+    30--31--32--33--34--35
+    |   |   |   |   | / |
+    24--25--26--27--28--29
+    |   |   |   | / |   |
+    18--19--20--21--22--23
+    |   |   | / |   |   |
+    12--13--14--15--16--17
+    |   | / |   |   |   |
+    6---7---8---9---10--11
+    | / |   |   |   |   |
+    0---1---2---3---4---5
+    """
+
+    mk = MeshKernel()
+
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(6, 6)
+
+    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    mk.set_mesh2d(mesh2d)
+    mk.set_mesh1d(mesh1d)
+
+    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+
+    # Two polygons around Mesh2d nodes 4, 5, 23, 22 and 12, 13, 31, 30
+    separator = -999.0
+    polygon_x = np.array(
+        [-0.1, 1.1, 1.1, -0.1, -0.1, separator, 3.9, 5.1, 5.1, 3.9, 3.9],
+        dtype=np.double,
+    )
+    polygon_y = np.array(
+        [1.9, 1.9, 5.1, 5.1, 1.9, separator, -0.1, -0.1, 3.1, 3.1, -0.1],
+        dtype=np.double,
+    )
+    polygon = GeometryList(polygon_x, polygon_y)
+
+    mk.compute_with_polygons_contacts(compute_nodes, polygon)
+
+    contacts = mk.get_contacts()
+
+    assert contacts.mesh1d_indices.size == 2
+    assert contacts.mesh2d_indices.size == 2
+
+    assert contacts.mesh1d_indices[0] == 1
+    assert contacts.mesh1d_indices[1] == 3
+
+    assert contacts.mesh2d_indices[0] == 10
+    assert contacts.mesh2d_indices[1] == 14

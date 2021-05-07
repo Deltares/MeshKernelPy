@@ -926,7 +926,8 @@ class MeshKernel:
         return contacts
 
     def compute_single_contacts(self, compute_nodes: ndarray, polygons: GeometryList):
-        """Computes Mesh1d-Mesh2d contacts, where each single 1d node is connected to one mesh2d face circumcenter
+        """Computes Mesh1d-Mesh2d contacts, where each single 1d node is connected to one Mesh2d face circumcenter.
+        The boundary nodes of Mesh1d (those sharing only one 1d edge) are not connected to any Mesh2d face.
 
         Args:
             compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
@@ -957,6 +958,28 @@ class MeshKernel:
             self.lib.mkernel_compute_multiple_contacts,
             self._meshkernelid,
             c_compute_nodes,
+        )
+
+    def compute_with_polygons_contacts(
+        self, compute_nodes: ndarray, polygons: GeometryList
+    ):
+        """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
+
+        Args:
+            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+                                     or not (0).
+            polygons (GeometryList): The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.
+
+        """
+
+        c_compute_nodes = as_ctypes(compute_nodes)
+        c_polygons = CGeometryList.from_geometrylist(polygons)
+
+        self._execute_function(
+            self.lib.mkernel_compute_with_polygons_contacts,
+            self._meshkernelid,
+            c_compute_nodes,
+            byref(c_polygons),
         )
 
     def _get_error(self) -> str:
