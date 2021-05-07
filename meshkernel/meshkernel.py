@@ -9,6 +9,7 @@ from typing import Callable, Iterable, Tuple
 
 import numpy as np
 from numpy import ndarray
+from numpy.ctypeslib import as_ctypes
 
 from meshkernel.c_structures import (
     CContacts,
@@ -841,11 +842,6 @@ class MeshKernel:
         )
         return c_number_of_mesh_nodes.value
 
-    def _get_error(self) -> str:
-        c_error_message = c_char_p()
-        self.lib.mkernel_get_error(byref(c_error_message))
-        return c_error_message.value.decode("ASCII")
-
     def set_mesh1d(self, mesh1d: Mesh1d) -> None:
         """Sets the one-dimensional mesh state of the MeshKernel.
 
@@ -928,6 +924,45 @@ class MeshKernel:
         )
 
         return contacts
+
+    def compute_single_contacts(self, compute_nodes: ndarray, polygons: GeometryList):
+        """Computes Mesh1d-Mesh2d contacts, where each single 1d node is connected to one mesh2d face circumcenter
+
+        Args:
+            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+                                     or not (0).
+            polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
+        """
+        c_compute_nodes = as_ctypes(compute_nodes)
+        c_polygons = CGeometryList.from_geometrylist(polygons)
+
+        self._execute_function(
+            self.lib.mkernel_compute_single_contacts,
+            self._meshkernelid,
+            c_compute_nodes,
+            byref(c_polygons),
+        )
+
+    def compute_multiple_contacts(self, compute_nodes: ndarray):
+        """Computes Mesh1d-Mesh2d contacts, where a single 1d node is connected to multiple 2d face circumcenters.
+
+        Args:
+            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+                                     or not (0).
+        """
+
+        c_compute_nodes = as_ctypes(compute_nodes)
+
+        self._execute_function(
+            self.lib.mkernel_compute_multiple_contacts,
+            self._meshkernelid,
+            c_compute_nodes,
+        )
+
+    def _get_error(self) -> str:
+        c_error_message = c_char_p()
+        self.lib.mkernel_get_error(byref(c_error_message))
+        return c_error_message.value.decode("ASCII")
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
