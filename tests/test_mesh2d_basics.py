@@ -595,7 +595,7 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
 
 
 cases_refine_based_on_samples_mesh2d = [
-    (0.5, 1, 25, 40, 16),
+    # (0.5, 1, 25, 40, 16),
     (0.5, 2, 9, 12, 4),
 ]
 
