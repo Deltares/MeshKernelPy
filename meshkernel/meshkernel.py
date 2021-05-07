@@ -197,23 +197,20 @@ class MeshKernel:
         """Insert a new node at the specified coordinates
 
         Args:
-            x (float): The x-coordinate of the new node
-            y (float): The y-coordinate of the new node
+            x (float): The x-coordinate of the new node.
+            y (float): The y-coordinate of the new node.
 
         Returns:
-            int: The index of the new node
+            int: The index of the new node.
         """
 
-        x_array = np.array([x], dtype=np.double)
-        y_array = np.array([y], dtype=np.double)
-        geometry_list = GeometryList(x_array, y_array)
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
 
         self._execute_function(
             self.lib.mkernel_insert_node_mesh2d,
             self._meshkernelid,
-            byref(c_geometry_list),
+            c_double(x),
+            c_double(y),
             byref(index),
         )
         return index.value
@@ -236,11 +233,11 @@ class MeshKernel:
         )
 
     def move_node_mesh2d(self, x: float, y: float, node_index: int) -> None:
-        """Moves a Mesh2d node with the given `index` to the .
+        """Moves a Mesh2d node with the given `index` to the point position.
 
         Args:
-            x (float): The x-coordinate of the new position of the node
-            y (float): The y-coordinate of the new position of the node
+            x (float): The x-coordinate of the new position of the node.
+            y (float): The y-coordinate of the new position of the node.
             node_index (int): The index of the node to be moved.
 
         Raises:
@@ -250,76 +247,72 @@ class MeshKernel:
         if node_index < 0:
             raise InputError("node_index needs to be a positive integer")
 
-        x_array = np.array([x], dtype=np.double)
-        y_array = np.array([y], dtype=np.double)
-        geometry_list = GeometryList(x_array, y_array)
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
-
         self._execute_function(
             self.lib.mkernel_move_node_mesh2d,
             self._meshkernelid,
-            byref(c_geometry_list),
+            c_double(x),
+            c_double(y),
             c_int(node_index),
         )
 
-    def delete_edge_mesh2d(self, geometry_list: GeometryList) -> None:
+    def delete_edge_mesh2d(self, x_coordinate: float, y_coordinate: float) -> None:
         """Deletes the closest mesh2d edge to a point.
         The coordinates of the edge middle points are used for calculating the distances to the point.
 
         Args:
-            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+            x (float): The x-coordinate of the point.
+            y (float): The y-coordinate of the point.
         """
-
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
             self.lib.mkernel_delete_edge_mesh2d,
             self._meshkernelid,
-            byref(c_geometry_list),
+            c_double(x_coordinate),
+            c_double(y_coordinate),
         )
 
-    def get_edge_mesh2d(self, geometry_list: GeometryList) -> int:
+    def get_edge_mesh2d(self, x: float, y: float) -> int:
         """Gets the closest mesh2d edge to a point.
 
         Args:
-            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+            x (float): The x-coordinate of the point.
+            y (float): The y-coordinate of the point.
 
         Returns:
             int: The index of the edge
         """
 
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
 
         self._execute_function(
             self.lib.mkernel_get_edge_mesh2d,
             self._meshkernelid,
-            byref(c_geometry_list),
+            c_double(x),
+            c_double(y),
             byref(index),
         )
 
         return index.value
 
-    def get_node_index_mesh2d(
-        self, geometry_list: GeometryList, search_radius: float
-    ) -> int:
+    def get_node_index_mesh2d(self, x: float, y: float, search_radius: float) -> int:
         """Finds the node closest to a point within a given search radius.
 
         Args:
-            geometry_list (GeometryList): A geometry list containing the coordinate of the point.
+            x (float): The x-coordinate of the point.
+            y (float): The y-coordinate of the point.
             search_radius (float): The search radius.
 
         Returns:
             int: The index of node
         """
 
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         index = c_int()
 
         self._execute_function(
             self.lib.mkernel_get_node_index_mesh2d,
             self._meshkernelid,
-            byref(c_geometry_list),
+            c_double(x),
+            c_double(y),
             c_double(search_radius),
             byref(index),
         )

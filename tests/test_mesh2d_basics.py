@@ -262,11 +262,7 @@ def test_delete_edge_mesh2d(
     """
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinate = np.array([delete_x], dtype=np.double)
-    y_coordinate = np.array([delete_y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    mk.delete_edge_mesh2d(geometry_list)
+    mk.delete_edge_mesh2d(delete_x, delete_y)
 
     mesh2d = mk.get_mesh2d()
 
@@ -302,11 +298,7 @@ def test_get_edge_mesh2d(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([x], dtype=np.double)
-    y_coordinate = np.array([y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    edge_index = mk.get_edge_mesh2d(geometry_list)
+    edge_index = mk.get_edge_mesh2d(x, y)
 
     assert edge_index == exp_index
 
@@ -341,11 +333,7 @@ def test_get_node_index_mesh2d(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([x], dtype=np.double)
-    y_coordinate = np.array([y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    edge_index = mk.get_node_index_mesh2d(geometry_list, 0.5)
+    edge_index = mk.get_node_index_mesh2d(x, y, 0.5)
 
     assert edge_index == exp_index
 
@@ -357,12 +345,8 @@ def test_get_node_index_mesh2d_no_node_in_search_radius(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([0.5], dtype=np.double)
-    y_coordinate = np.array([0.5], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
     with pytest.raises(MeshKernelError):
-        mk.get_node_index_mesh2d(geometry_list, 0.4)
+        mk.get_node_index_mesh2d(0.5, 0.5, 0.4)
 
 
 cases_delete_mesh2d_small_polygon = [
