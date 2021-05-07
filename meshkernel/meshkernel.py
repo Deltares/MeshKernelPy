@@ -14,20 +14,18 @@ from numpy.ctypeslib import as_ctypes
 from meshkernel.c_structures import (
     CContacts,
     CGeometryList,
-    CInterpolationParameters,
     CMesh1d,
     CMesh2d,
-    CSampleRefineParameters,
+    CMeshRefinementParameters,
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
     Contacts,
     DeleteMeshOption,
     GeometryList,
-    InterpolationParameters,
     Mesh1d,
     Mesh2d,
-    SampleRefineParameters,
+    MeshRefinementParameters,
 )
 
 logger = logging.getLogger(__name__)
@@ -447,10 +445,7 @@ class MeshKernel:
         return refined_polygon
 
     def refine_based_on_samples_mesh2d(
-        self,
-        samples: GeometryList,
-        interpolation_params: InterpolationParameters,
-        sample_refine_params: SampleRefineParameters,
+        self, samples: GeometryList, mesh_refinement_params: MeshRefinementParameters
     ):
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -461,50 +456,43 @@ class MeshKernel:
 
         Args:
             samples (GeometryList): The samples.
-            interpolation_params (InterpolationParameters): The interpolation parameters.
-            sample_refine_params (SampleRefineParameters): The sample refinement parameters.
+            mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
         """
 
         c_samples = CGeometryList.from_geometrylist(samples)
-        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
-            interpolation_params
-        )
-        c_sample_refine_params = (
-            CSampleRefineParameters.from_samplerefinementparameters(
-                sample_refine_params
-            )
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
+            mesh_refinement_params
         )
 
         self._execute_function(
             self.lib.mkernel_refine_based_on_samples_mesh2d,
             self._meshkernelid,
             byref(c_samples),
-            byref(c_interpolation_params),
-            byref(c_sample_refine_params),
+            byref(c_refinement_params),
         )
 
     def refine_based_on_polygon_mesh2d(
         self,
         polygon: GeometryList,
-        interpolation_params: InterpolationParameters,
+        mesh_refinement_params: MeshRefinementParameters,
     ):
         """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
 
         Args:
             samples (GeometryList): The closed polygon.
-            interpolation_params (InterpolationParameters): The interpolation parameters.
+            mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
         """
 
         c_polygon = CGeometryList.from_geometrylist(polygon)
-        c_interpolation_params = CInterpolationParameters.from_interpolationparameters(
-            interpolation_params
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
+            mesh_refinement_params
         )
 
         self._execute_function(
             self.lib.mkernel_refine_based_on_polygon_mesh2d,
             self._meshkernelid,
             byref(c_polygon),
-            byref(c_interpolation_params),
+            byref(c_refinement_params),
         )
 
     def get_points_in_polygon(

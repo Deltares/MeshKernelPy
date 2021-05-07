@@ -6,20 +6,18 @@ from numpy.testing import assert_array_equal
 from meshkernel import (
     Contacts,
     GeometryList,
-    InterpolationParameters,
     Mesh1d,
     Mesh2d,
+    MeshRefinementParameters,
     OrthogonalizationParameters,
-    SampleRefineParameters,
 )
 from meshkernel.c_structures import (
     CContacts,
     CGeometryList,
-    CInterpolationParameters,
     CMesh1d,
     CMesh2d,
+    CMeshRefinementParameters,
     COrthogonalizationParameters,
-    CSampleRefineParameters,
 )
 
 
@@ -152,40 +150,20 @@ def test_corthogonalizationparameters_from_orthogonalizationparameters():
     assert c_parameters.areal_to_angle_smoothing_factor == 5.0
 
 
-def test_cinterpolationparameters_from_interpolationparameters():
-    """Tests `from_interpolationparameters` of the `CInterpolationParameters` class."""
+def test_cmeshrefinementparameters_from_meshrefinementparameters():
+    """Tests `from_samplerefinementparameters` of the `CMeshRefinementParameters` class."""
 
-    parameters = InterpolationParameters(0, 1)
-    parameters.max_refinement_iterations = 2
-    parameters.averaging_method = 3
-    parameters.min_points = 4
-    parameters.relative_search_radius = 5.0
-    parameters.interpolate_to = 6
+    parameters = MeshRefinementParameters(False, True, 1.0, 2, False, True, 3)
 
-    c_parameters = CInterpolationParameters.from_interpolationparameters(parameters)
+    c_parameters = CMeshRefinementParameters.from_meshrefinementparameters(parameters)
 
+    assert c_parameters.max_refinement_iterations == 3
     assert c_parameters.refine_intersected == 0
     assert c_parameters.use_mass_center_when_refining == 1
-    assert c_parameters.max_refinement_iterations == 2
-    assert c_parameters.averaging_method == 3
-    assert c_parameters.min_points == 4
-    assert c_parameters.relative_search_radius == 5.0
-    assert c_parameters.interpolate_to == 6
-
-
-def test_csamplerefineparameters_from_samplerefinementparameters():
-    """Tests `from_samplerefinementparameters` of the `CSampleRefineParameters` class."""
-
-    parameters = SampleRefineParameters(4, 3.0, 2, True, 5, False)
-
-    c_parameters = CSampleRefineParameters.from_samplerefinementparameters(parameters)
-
-    assert c_parameters.max_refinement_iterations == 4
-    assert c_parameters.min_face_size == 3.0
+    assert c_parameters.min_face_size == 1.0
     assert c_parameters.refinement_type == 2
-    assert c_parameters.connect_hanging_nodes == 1
-    assert c_parameters.max_time_step == 5
-    assert c_parameters.account_for_samples_outside_face == 0
+    assert c_parameters.connect_hanging_nodes == 0
+    assert c_parameters.account_for_samples_outside_face == 1
 
 
 def test_cmesh1d_from_mesh1d():

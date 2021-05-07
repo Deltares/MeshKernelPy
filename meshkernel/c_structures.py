@@ -8,11 +8,10 @@ from numpy.ctypeslib import as_ctypes
 from meshkernel.py_structures import (
     Contacts,
     GeometryList,
-    InterpolationParameters,
     Mesh1d,
     Mesh2d,
+    MeshRefinementParameters,
     OrthogonalizationParameters,
-    SampleRefineParameters,
 )
 
 
@@ -293,74 +292,68 @@ class CInterpolationParameters(Structure):
         c_interpolationparameters.interpolate_to = (
             interpolation_parameters.interpolate_to
         )
-        c_interpolationparameters.refine_intersected = (
-            interpolation_parameters.refine_intersected
-        )
-        c_interpolationparameters.use_mass_center_when_refining = (
-            interpolation_parameters.use_mass_center_when_refining
-        )
 
         return c_interpolationparameters
 
 
-class CSampleRefineParameters(Structure):
+class CMeshRefinementParameters(Structure):
     """C-structure intended for internal use only.
-    It represents a SampleRefineParameters struct as described by the MeshKernel API.
+    It represents a MeshRefinementParameters struct as described by the MeshKernel API.
 
     Used for communicating with the MeshKernel dll.
 
     Attributes:
         max_refinement_iterations (c_int): Maximum number of refinement iterations.
+        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
+        use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
+                                               process (yes=1/no=0)
         min_face_size (c_double): Minimum cell size.
         refinement_type (c_int): Refinement criterion type.
         connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
-        max_time_step (c_double): Maximum time-step in Courant grid.
         account_for_samples_outside (c_int): Whether to take samples outside face into account.
     """
 
     _fields_ = [
         ("max_refinement_iterations", c_int),
+        ("refine_intersected", c_int),
+        ("use_mass_center_when_refining", c_int),
         ("min_face_size", c_double),
         ("refinement_type", c_int),
         ("connect_hanging_nodes", c_int),
-        ("max_time_step", c_double),
         ("account_for_samples_outside_face", c_int),
     ]
 
     @staticmethod
-    def from_samplerefinementparameters(
-        sample_refinement_parameters: SampleRefineParameters,
-    ) -> CSampleRefineParameters:
-        """Creates a new `CSampleRefineParameters` instance from the given SampleRefineParameters instance.
+    def from_meshrefinementparameters(
+        mesh_refinement_parameters: MeshRefinementParameters,
+    ) -> CMeshRefinementParameters:
+        """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
 
         Args:
-            sample_refinement_parameters (SampleRefineParameters): The sample refinement parameters.
+            mesh_refinement_parameters (MeshRefinementParameters): The mesh refinement parameters.
 
         Returns:
-            CSampleRefineParameters: The created C-Structure for the given SampleRefineParameters.
+            CMeshRefinementParameters: The created C-Structure for the given MeshRefinementParameters.
         """
 
-        c_samplerefinementparameters = CSampleRefineParameters()
-        c_samplerefinementparameters.max_refinement_iterations = (
-            sample_refinement_parameters.max_refinement_iterations
+        c_parameters = CMeshRefinementParameters()
+        c_parameters.max_refinement_iterations = (
+            mesh_refinement_parameters.max_refinement_iterations
         )
-        c_samplerefinementparameters.min_face_size = (
-            sample_refinement_parameters.min_face_size
+        c_parameters.refine_intersected = mesh_refinement_parameters.refine_intersected
+        c_parameters.use_mass_center_when_refining = (
+            mesh_refinement_parameters.use_mass_center_when_refining
         )
-        c_samplerefinementparameters.refinement_type = (
-            sample_refinement_parameters.refinement_type
+        c_parameters.min_face_size = mesh_refinement_parameters.min_face_size
+        c_parameters.refinement_type = mesh_refinement_parameters.refinement_type
+        c_parameters.connect_hanging_nodes = (
+            mesh_refinement_parameters.connect_hanging_nodes
         )
-        c_samplerefinementparameters.connect_hanging_nodes = (
-            sample_refinement_parameters.connect_hanging_nodes
-        )
-        c_samplerefinementparameters.max_time_step = (
-            sample_refinement_parameters.max_time_step
-        )
-        c_samplerefinementparameters.account_for_samples_outside_face = (
-            sample_refinement_parameters.account_for_samples_outside_face
+        c_parameters.account_for_samples_outside_face = (
+            mesh_refinement_parameters.account_for_samples_outside_face
         )
 
-        return c_samplerefinementparameters
+        return c_parameters
 
 
 class CMesh1d(Structure):
