@@ -596,7 +596,7 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
 
 cases_refine_based_on_samples_mesh2d = [
     # (0.5, 1, 25, 40, 16),
-    (0.5, 2, 9, 12, 4),
+    # (0.5, 2, 9, 12, 4),
 ]
 
 
@@ -622,9 +622,9 @@ def test_refine_based_on_samples_mesh2d(
     """
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0], dtype=np.double)
-    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0], dtype=np.double)
-    values = np.array([0, 0, 0, 0], dtype=np.double)
+    x_coordinates = np.array([0.5, 0.5, 1.5, 1.5], dtype=np.double)
+    y_coordinates = np.array([0.5, 1.5, 1.5, 0.5], dtype=np.double)
+    values = np.array([2, 2, 2, 2], dtype=np.double)
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
     refinement_params = MeshRefinementParameters(
