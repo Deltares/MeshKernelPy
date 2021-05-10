@@ -83,7 +83,7 @@ try:
         def get_tag(self):
             python, abi, plat = _bdist_wheel.get_tag(self)
             # We don't contain any python source
-            python, abi = "py2.py3", "none"
+            python, abi = "py3", "none"
             return python, abi, plat
 
 
