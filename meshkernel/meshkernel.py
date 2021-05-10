@@ -907,11 +907,11 @@ class MeshKernel:
         return contacts
 
     def compute_single_contacts(self, compute_nodes: ndarray, polygons: GeometryList):
-        """Computes Mesh1d-Mesh2d contacts, where each single 1d node is connected to one Mesh2d face circumcenter.
-        The boundary nodes of Mesh1d (those sharing only one 1d edge) are not connected to any Mesh2d face.
+        """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
+        The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
 
         Args:
-            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
                                      or not (0).
             polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
         """
@@ -926,10 +926,10 @@ class MeshKernel:
         )
 
     def compute_multiple_contacts(self, compute_nodes: ndarray):
-        """Computes Mesh1d-Mesh2d contacts, where a single 1d node is connected to multiple 2d face circumcenters.
+        """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
 
         Args:
-            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
                                      or not (0).
         """
 
@@ -947,7 +947,7 @@ class MeshKernel:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
         Args:
-            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
                                      or not (0).
             polygons (GeometryList): The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.
 
@@ -970,9 +970,9 @@ class MeshKernel:
         the input point.
 
         Args:
-            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
                                      or not (0).
-            points (GeometryList): The points selecting the faces to connect.
+            points (GeometryList): The points selecting the Mesh2dfaces to connect.
 
         """
         c_compute_nodes = as_ctypes(compute_nodes)
@@ -983,6 +983,31 @@ class MeshKernel:
             self._meshkernelid,
             c_compute_nodes,
             byref(c_points),
+        )
+
+    def compute_boundary_contacts(
+        self, compute_nodes: ndarray, polygons: GeometryList, search_radius: float
+    ):
+        """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
+
+        Args:
+            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
+                                     or not (0).
+            points (GeometryList): The points selecting the Mesh2d faces to connect.
+            search_radius (float): The radius used for searching neighboring Mesh2d faces, if equal to the missing
+                                   value double (-999.0), the search radius will be calculated internally.
+
+        """
+
+        c_compute_nodes = as_ctypes(compute_nodes)
+        c_polygons = CGeometryList.from_geometrylist(polygons)
+
+        self._execute_function(
+            self.lib.mkernel_compute_boundary_contacts,
+            self._meshkernelid,
+            c_compute_nodes,
+            byref(c_polygons),
+            c_double(search_radius),
         )
 
     def _get_error(self) -> str:
