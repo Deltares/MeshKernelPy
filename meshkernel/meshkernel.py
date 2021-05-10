@@ -132,7 +132,9 @@ class MeshKernel:
         return mesh2d
 
     def _get_dimensions_mesh2d(self) -> CMesh2d:
-        """Gets the Mesh2d dimensions.
+        """For internal use only.
+
+        Gets the Mesh2d dimensions.
         The integer parameters of the Mesh2D struct are set to the corresponding dimensions.
         The pointers must be set to correctly sized memory before passing the struct to `get_mesh2d`.
 
@@ -339,7 +341,9 @@ class MeshKernel:
         return hanging_edges
 
     def _count_hanging_edges_mesh2d(self) -> int:
-        """Count the number of hanging edges in a mesh2d.
+        """For internal use only.
+
+        Count the number of hanging edges in a mesh2d.
         An hanging edge is an edge where one of the two nodes is not connected.
 
         Returns:
@@ -721,7 +725,9 @@ class MeshKernel:
         return geometry_list_out
 
     def _count_mesh_boundaries_as_polygons_mesh2d(self) -> int:
-        """Counts the number of polygon nodes contained in the mesh boundary polygons
+        """For internal use only.
+
+        Counts the number of polygon nodes contained in the mesh boundary polygons
         computed in function get_mesh_boundaries_as_polygons_mesh2d.
 
         Returns:
@@ -803,7 +809,9 @@ class MeshKernel:
     def _count_nodes_in_polygons_mesh2d(
         self, geometry_list: GeometryList, inside: int
     ) -> int:
-        """Counts the number of selected mesh node indices.
+        """For internal use only.
+
+        Counts the number of selected mesh node indices.
         This function should be used by clients before `get_nodes_in_polygons_mesh2d`
         for allocating an integer array storing the selection results.
 
@@ -857,7 +865,9 @@ class MeshKernel:
         return mesh1d
 
     def _get_dimensions_mesh1d(self) -> CMesh1d:
-        """Gets the Mesh1d dimensions.
+        """For internal use only.
+
+        Gets the Mesh1d dimensions.
         The integer parameters of the Mesh1D struct are set to the corresponding dimensions.
         The pointers must be set to correctly sized memory before passing the struct to `get_mesh1d`.
 
@@ -871,7 +881,9 @@ class MeshKernel:
         return c_mesh1d
 
     def _get_dimensions_contacts(self) -> CContacts:
-        """Gets the Contacts dimensions.
+        """For internal use only.
+
+        Gets the Contacts dimensions.
         The integer parameters of the Contacts struct are set to the corresponding dimensions.
         The pointers must be set to correctly sized memory before passing the struct to `get_contacts`.
 
@@ -907,107 +919,107 @@ class MeshKernel:
         return contacts
 
     def compute_single_contacts(
-        self, compute_nodes: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
 
         Args:
-            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
-                                     or not (0).
+            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
+                                 should not (0) be connected
             polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
         """
-        c_compute_nodes = as_ctypes(compute_nodes)
+        c_node_mask = as_ctypes(node_mask)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
             self.lib.mkernel_compute_single_contacts,
             self._meshkernelid,
-            c_compute_nodes,
+            c_node_mask,
             byref(c_polygons),
         )
 
-    def compute_multiple_contacts(self, compute_nodes: ndarray) -> None:
+    def compute_multiple_contacts(self, node_mask: ndarray) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
 
         Args:
-            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
-                                     or not (0).
+            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
+                                 should not (0) be connected
         """
 
-        c_compute_nodes = as_ctypes(compute_nodes)
+        c_node_mask = as_ctypes(node_mask)
 
         self._execute_function(
             self.lib.mkernel_compute_multiple_contacts,
             self._meshkernelid,
-            c_compute_nodes,
+            c_node_mask,
         )
 
     def compute_with_polygons_contacts(
-        self, compute_nodes: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
         Args:
-            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
-                                     or not (0).
+            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
+                                 should not (0) be connected
             polygons (GeometryList): The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.
 
         """
 
-        c_compute_nodes = as_ctypes(compute_nodes)
+        c_node_mask = as_ctypes(node_mask)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
             self.lib.mkernel_compute_with_polygons_contacts,
             self._meshkernelid,
-            c_compute_nodes,
+            c_node_mask,
             byref(c_polygons),
         )
 
     def compute_with_points_contacts(
-        self, compute_nodes: ndarray, points: GeometryList
+        self, node_mask: ndarray, points: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
         the input point.
 
         Args:
-            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
-                                     or not (0).
+            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
+                                 should not (0) be connected
             points (GeometryList): The points selecting the Mesh2dfaces to connect.
 
         """
-        c_compute_nodes = as_ctypes(compute_nodes)
+        c_node_mask = as_ctypes(node_mask)
         c_points = CGeometryList.from_geometrylist(points)
 
         self._execute_function(
             self.lib.mkernel_compute_with_points_contacts,
             self._meshkernelid,
-            c_compute_nodes,
+            c_node_mask,
             byref(c_points),
         )
 
     def compute_boundary_contacts(
-        self, compute_nodes: ndarray, polygons: GeometryList, search_radius: float
+        self, node_mask: ndarray, polygons: GeometryList, search_radius: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
         Args:
-            compute_nodes (ndarray): An array masking the Mesh1d nodes describing whether they should be connected (1)
-                                     or not (0).
+            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
+                                 should not (0) be connected
             points (GeometryList): The points selecting the Mesh2d faces to connect.
             search_radius (float): The radius used for searching neighboring Mesh2d faces, if equal to the missing
                                    value double (-999.0), the search radius will be calculated internally.
 
         """
 
-        c_compute_nodes = as_ctypes(compute_nodes)
+        c_node_mask = as_ctypes(node_mask)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
             self.lib.mkernel_compute_boundary_contacts,
             self._meshkernelid,
-            c_compute_nodes,
+            c_node_mask,
             byref(c_polygons),
             c_double(search_radius),
         )

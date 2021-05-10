@@ -59,13 +59,13 @@ def test_compute_single_contacts():
     mk.set_mesh2d(mesh2d)
     mk.set_mesh1d(mesh1d)
 
-    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
     polygon_x = np.array([-1.0, 6.0, 6.0, -1.0, -1.0], dtype=np.double)
     polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_single_contacts(compute_nodes, polygon)
+    mk.compute_single_contacts(node_mask, polygon)
 
     contacts = mk.get_contacts()
 
@@ -109,9 +109,9 @@ def test_compute_multiple_contacts():
     mk.set_mesh2d(mesh2d)
     mk.set_mesh1d(mesh1d)
 
-    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
-    mk.compute_multiple_contacts(compute_nodes)
+    mk.compute_multiple_contacts(node_mask)
 
     contacts = mk.get_contacts()
 
@@ -157,7 +157,7 @@ def test_compute_with_polygons_contacts():
     mk.set_mesh2d(mesh2d)
     mk.set_mesh1d(mesh1d)
 
-    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
     # Two polygons around Mesh2d nodes 4, 5, 23, 22 and 12, 13, 31, 30
     separator = -999.0
@@ -171,7 +171,7 @@ def test_compute_with_polygons_contacts():
     )
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_with_polygons_contacts(compute_nodes, polygon)
+    mk.compute_with_polygons_contacts(node_mask, polygon)
 
     contacts = mk.get_contacts()
 
@@ -213,14 +213,14 @@ def test_compute_with_points_contacts():
     mk.set_mesh2d(mesh2d)
     mk.set_mesh1d(mesh1d)
 
-    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
     # Three points in Mesh2d faces 10, 8, 14
     points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
     points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.compute_with_points_contacts(compute_nodes, points)
+    mk.compute_with_points_contacts(node_mask, points)
 
     contacts = mk.get_contacts()
 
@@ -238,32 +238,32 @@ def test_compute_with_points_contacts():
 
 cases_compute_boundary_contacts = [
     (
-        np.array([1, 1, 1, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([1, 1, 1, 1, 1], dtype=np.int32),  # node_mask
         np.array([0, 2, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([1, 0, 0, 0, 1], dtype=np.int32),  # compute_nodes
+        np.array([1, 0, 0, 0, 1], dtype=np.int32),  # node_mask
         np.array([0, 0, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 1, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([0, 0, 1, 1, 1], dtype=np.int32),  # node_mask
         np.array([2, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([1, 0, 0, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([1, 0, 0, 1, 1], dtype=np.int32),  # node_mask
         np.array([0, 3, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 1, 0, 0], dtype=np.int32),  # compute_nodes
+        np.array([0, 0, 1, 0, 0], dtype=np.int32),  # node_mask
         np.array([2], dtype=np.int32),  # exp_mesh1d_indices
         np.array([2], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 0, 0, 0], dtype=np.int32),  # compute_nodes
+        np.array([0, 0, 0, 0, 0], dtype=np.int32),  # node_mask
         np.array([], dtype=np.int32),  # exp_mesh1d_indices
         np.array([], dtype=np.int32),  # exp_mesh2d_indices
     ),
@@ -271,11 +271,11 @@ cases_compute_boundary_contacts = [
 
 
 @pytest.mark.parametrize(
-    "compute_nodes, exp_mesh1d_indices, exp_mesh2d_indices",
+    "node_mask, exp_mesh1d_indices, exp_mesh2d_indices",
     cases_compute_boundary_contacts,
 )
 def test_compute_boundary_contacts(
-    compute_nodes: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
+    node_mask: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
 ):
     """Tests `compute_boundary_contacts` with a 3x3 Mesh2d and a Mesh1d with 5 nodes.
 
@@ -305,7 +305,7 @@ def test_compute_boundary_contacts(
     polygon_y = np.array([-0.1, -0.1, 3.1, 3.1, -0.1], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_boundary_contacts(compute_nodes, polygon, 2.0)
+    mk.compute_boundary_contacts(node_mask, polygon, 2.0)
 
     contacts = mk.get_contacts()
 
