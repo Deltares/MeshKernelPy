@@ -17,6 +17,7 @@ from meshkernel.c_structures import (
     CMesh1d,
     CMesh2d,
     CMeshRefinementParameters,
+    COrthogonalizationParameters,
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
@@ -26,6 +27,8 @@ from meshkernel.py_structures import (
     Mesh1d,
     Mesh2d,
     MeshRefinementParameters,
+    OrthogonalizationParameters,
+    ProjectToLandBoundaryOption,
 )
 
 logger = logging.getLogger(__name__)
@@ -1022,6 +1025,42 @@ class MeshKernel:
             c_node_mask,
             byref(c_polygons),
             c_double(search_radius),
+        )
+
+    def compute_orthogonalization_mesh2d(
+        self,
+        project_to_land_boundary_option: ProjectToLandBoundaryOption,
+        orthogonalization_parameters: OrthogonalizationParameters,
+        selecting_polygon: GeometryList,
+        land_boundaries: GeometryList,
+    ) -> None:
+        """Orthogonalizes the Mesh2d.
+        The function modifies the mesh for achieving orthogonality between the edges
+        and the segments connecting the face circumcenters.
+        The amount of orthogonality is traded against the mesh smoothing (in this case the equality of face areas).
+
+        Args:
+            project_to_land_boundary_option (ProjectToLandBoundaryOption): 	The option to determine how to snap to land boundaries.
+            orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
+            selecting_polygon (GeometryList): The polygon where to perform the orthogonalization.
+            land_boundaries (GeometryList): The land boundaries to account for in the orthogonalization process.
+        """
+
+        c_orthogonalization_params = (
+            COrthogonalizationParameters.from_orthogonalizationparameters(
+                orthogonalization_parameters
+            )
+        )
+        c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
+        c_land_boundaries = CGeometryList.from_geometrylist(land_boundaries)
+
+        self._execute_function(
+            self.lib.mkernel_compute_orthogonalization_mesh2d,
+            self._meshkernelid,
+            c_int(project_to_land_boundary_option),
+            byref(c_orthogonalization_params),
+            byref(c_selecting_polygon),
+            byref(c_land_boundaries),
         )
 
     def _get_error(self) -> str:
