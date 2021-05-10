@@ -963,6 +963,28 @@ class MeshKernel:
             byref(c_polygons),
         )
 
+    def compute_with_points_contacts(
+        self, compute_nodes: ndarray, points: GeometryList
+    ):
+        """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
+        the input point.
+
+        Args:
+            compute_nodes (ndarray): An array masking the 1d nodes describing whether they should be connected (1)
+                                     or not (0).
+            points (GeometryList): The points selecting the faces to connect.
+
+        """
+        c_compute_nodes = as_ctypes(compute_nodes)
+        c_points = CGeometryList.from_geometrylist(points)
+
+        self._execute_function(
+            self.lib.mkernel_compute_with_points_contacts,
+            self._meshkernelid,
+            c_compute_nodes,
+            byref(c_points),
+        )
+
     def _get_error(self) -> str:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
