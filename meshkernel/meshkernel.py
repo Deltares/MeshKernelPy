@@ -362,7 +362,7 @@ class MeshKernel:
             self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
         )
 
-    def make_mesh_from_polygon_mesh2d(self, polygon: GeometryList):
+    def make_mesh_from_polygon_mesh2d(self, polygon: GeometryList) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
 
@@ -378,7 +378,7 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
-    def make_mesh_from_samples_mesh2d(self, sample_points: GeometryList):
+    def make_mesh_from_samples_mesh2d(self, sample_points: GeometryList) -> None:
         """Makes a triangular mesh from a set of samples, triangulating the sample points.
 
         Args:
@@ -446,7 +446,7 @@ class MeshKernel:
 
     def refine_based_on_samples_mesh2d(
         self, samples: GeometryList, mesh_refinement_params: MeshRefinementParameters
-    ):
+    ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
         For example:
@@ -475,7 +475,7 @@ class MeshKernel:
         self,
         polygon: GeometryList,
         mesh_refinement_params: MeshRefinementParameters,
-    ):
+    ) -> None:
         """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
 
         Args:
@@ -635,7 +635,7 @@ class MeshKernel:
         self,
         small_flow_edges_length_threshold: float,
         min_fractional_area_triangles: float,
-    ):
+    ) -> None:
         """Deletes all small mesh2d flow edges and small triangles.
         The flow edges are the edges connecting faces circumcenters.
 
@@ -906,7 +906,9 @@ class MeshKernel:
 
         return contacts
 
-    def compute_single_contacts(self, compute_nodes: ndarray, polygons: GeometryList):
+    def compute_single_contacts(
+        self, compute_nodes: ndarray, polygons: GeometryList
+    ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
 
@@ -925,7 +927,7 @@ class MeshKernel:
             byref(c_polygons),
         )
 
-    def compute_multiple_contacts(self, compute_nodes: ndarray):
+    def compute_multiple_contacts(self, compute_nodes: ndarray) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
 
         Args:
@@ -943,7 +945,7 @@ class MeshKernel:
 
     def compute_with_polygons_contacts(
         self, compute_nodes: ndarray, polygons: GeometryList
-    ):
+    ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
         Args:
@@ -965,7 +967,7 @@ class MeshKernel:
 
     def compute_with_points_contacts(
         self, compute_nodes: ndarray, points: GeometryList
-    ):
+    ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
         the input point.
 
@@ -987,7 +989,7 @@ class MeshKernel:
 
     def compute_boundary_contacts(
         self, compute_nodes: ndarray, polygons: GeometryList, search_radius: float
-    ):
+    ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
         Args:
