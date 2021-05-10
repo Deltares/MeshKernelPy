@@ -130,7 +130,7 @@ def test_compute_multiple_contacts():
 
 
 def test_compute_with_polygons_contacts():
-    """Tests `compute_single_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `compute_with_polygons_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   | / |

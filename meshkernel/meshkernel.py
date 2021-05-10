@@ -986,7 +986,7 @@ class MeshKernel:
         Args:
             node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
                                  should not (0) be connected
-            points (GeometryList): The points selecting the Mesh2dfaces to connect.
+            points (GeometryList): The points selecting the Mesh2d faces to connect.
 
         """
         c_node_mask = as_ctypes(node_mask)
@@ -1008,8 +1008,8 @@ class MeshKernel:
             node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
                                  should not (0) be connected
             points (GeometryList): The points selecting the Mesh2d faces to connect.
-            search_radius (float): The radius used for searching neighboring Mesh2d faces, if equal to the missing
-                                   value double (-999.0), the search radius will be calculated internally.
+            search_radius (float): The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
+                                   value double, the search radius will be calculated internally.
 
         """
 
