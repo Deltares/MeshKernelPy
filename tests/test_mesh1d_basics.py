@@ -236,12 +236,52 @@ def test_compute_with_points_contacts():
     assert contacts.mesh2d_indices[2] == 14
 
 
-def test_compute_boundary_contacts():
+cases_compute_boundary_contacts = [
+    (
+        np.array([1, 1, 1, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([0, 2, 4], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+    (
+        np.array([1, 0, 0, 0, 1], dtype=np.int32),  # compute_nodes
+        np.array([0, 0, 4], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+    (
+        np.array([0, 0, 1, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([2, 4], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([2, 3], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+    (
+        np.array([1, 0, 0, 1, 1], dtype=np.int32),  # compute_nodes
+        np.array([0, 3, 4], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+    (
+        np.array([0, 0, 1, 0, 0], dtype=np.int32),  # compute_nodes
+        np.array([2], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([2], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+    (
+        np.array([0, 0, 0, 0, 0], dtype=np.int32),  # compute_nodes
+        np.array([], dtype=np.int32),  # exp_mesh1d_indices
+        np.array([], dtype=np.int32),  # exp_mesh2d_indices
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "compute_nodes, exp_mesh1d_indices, exp_mesh2d_indices",
+    cases_compute_boundary_contacts,
+)
+def test_compute_boundary_contacts(
+    compute_nodes: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
+):
     """Tests `compute_boundary_contacts` with a 3x3 Mesh2d and a Mesh1d with 5 nodes.
 
 
-    2-----3---4
-    |
+       ---3---4
+     2
     |   6---7---8
     1   |   |   |
     |   3---4---5
@@ -253,15 +293,13 @@ def test_compute_boundary_contacts():
 
     mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
 
-    node_x = np.array([-1.0, -1.0, -1.0, 0.5, 1.5], dtype=np.double)
-    node_y = np.array([0.5, 1.5, 3.0, 3.0, 3.0], dtype=np.double)
+    node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.0, 3.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
     mk.set_mesh2d(mesh2d)
     mk.set_mesh1d(mesh1d)
-
-    compute_nodes = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
     polygon_x = np.array([-1.1, 3.1, 3.1, -1.1, -1.1], dtype=np.double)
     polygon_y = np.array([-0.1, -0.1, 3.1, 3.1, -0.1], dtype=np.double)
@@ -271,13 +309,5 @@ def test_compute_boundary_contacts():
 
     contacts = mk.get_contacts()
 
-    assert contacts.mesh1d_indices.size == 3
-    assert contacts.mesh2d_indices.size == 3
-
-    assert contacts.mesh1d_indices[0] == 0
-    assert contacts.mesh1d_indices[1] == 1
-    assert contacts.mesh1d_indices[2] == 4
-
-    assert contacts.mesh2d_indices[0] == 0
-    assert contacts.mesh2d_indices[1] == 2
-    assert contacts.mesh2d_indices[2] == 3
+    assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
+    assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
