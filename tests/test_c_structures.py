@@ -4,18 +4,20 @@ from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 
 from meshkernel import (
+    Contacts,
     GeometryList,
-    InterpolationParameters,
+    Mesh1d,
     Mesh2d,
+    MeshRefinementParameters,
     OrthogonalizationParameters,
-    SampleRefineParameters,
 )
 from meshkernel.c_structures import (
+    CContacts,
     CGeometryList,
-    CInterpolationParameters,
+    CMesh1d,
     CMesh2d,
+    CMeshRefinementParameters,
     COrthogonalizationParameters,
-    CSampleRefineParameters,
 )
 
 
@@ -148,37 +150,93 @@ def test_corthogonalizationparameters_from_orthogonalizationparameters():
     assert c_parameters.areal_to_angle_smoothing_factor == 5.0
 
 
-def test_cinterpolationparameters_from_interpolationparameters():
-    """Tests `from_interpolationparameters` of the `CInterpolationParameters` class."""
+def test_cmeshrefinementparameters_from_meshrefinementparameters():
+    """Tests `from_samplerefinementparameters` of the `CMeshRefinementParameters` class."""
 
-    parameters = InterpolationParameters(0, 1)
-    parameters.max_refinement_iterations = 2
-    parameters.averaging_method = 3
-    parameters.min_points = 4
-    parameters.relative_search_radius = 5.0
-    parameters.interpolate_to = 6
+    parameters = MeshRefinementParameters(False, True, 1.0, 2, False, True, 3)
 
-    c_parameters = CInterpolationParameters.from_interpolationparameters(parameters)
+    c_parameters = CMeshRefinementParameters.from_meshrefinementparameters(parameters)
 
+    assert c_parameters.max_refinement_iterations == 3
     assert c_parameters.refine_intersected == 0
     assert c_parameters.use_mass_center_when_refining == 1
-    assert c_parameters.max_refinement_iterations == 2
-    assert c_parameters.averaging_method == 3
-    assert c_parameters.min_points == 4
-    assert c_parameters.relative_search_radius == 5.0
-    assert c_parameters.interpolate_to == 6
-
-
-def test_csamplerefineparameters_from_samplerefinementparameters():
-    """Tests `from_samplerefinementparameters` of the `CSampleRefineParameters` class."""
-
-    parameters = SampleRefineParameters(4, 3.0, 2, True, 5, False)
-
-    c_parameters = CSampleRefineParameters.from_samplerefinementparameters(parameters)
-
-    assert c_parameters.max_refinement_iterations == 4
-    assert c_parameters.min_face_size == 3.0
+    assert c_parameters.min_face_size == 1.0
     assert c_parameters.refinement_type == 2
-    assert c_parameters.connect_hanging_nodes == 1
-    assert c_parameters.max_time_step == 5
-    assert c_parameters.account_for_samples_outside_face == 0
+    assert c_parameters.connect_hanging_nodes == 0
+    assert c_parameters.account_for_samples_outside_face == 1
+
+
+def test_cmesh1d_from_mesh1d():
+    r"""Tests `from_mesh1d` of the `CMesh1D` class with a simple mesh.
+
+      1   3
+     / \ /
+    0   2
+    """
+
+    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
+    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
+
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
+
+    # Get the numpy arrays from the ctypes object
+    c_mesh1d_node_x = as_array(c_mesh1d.node_x, (4,))
+    c_mesh1d_node_y = as_array(c_mesh1d.node_y, (4,))
+    c_mesh1d_edge_nodes = as_array(c_mesh1d.edge_nodes, (6,))
+
+    # Assert data is correct
+    assert_array_equal(c_mesh1d_node_x, node_x)
+    assert_array_equal(c_mesh1d_node_y, node_y)
+    assert_array_equal(c_mesh1d_edge_nodes, edge_nodes)
+
+    assert c_mesh1d.num_nodes == 4
+    assert c_mesh1d.num_edges == 3
+
+
+def test_cmesh1d_allocate_memory():
+    """Tests `allocate_memory` of the `CMesh1d` class."""
+
+    c_mesh1d = CMesh1d()
+    c_mesh1d.num_nodes = 4
+    c_mesh1d.num_edges = 3
+
+    mesh1d = c_mesh1d.allocate_memory()
+
+    assert mesh1d.node_x.size == 4
+    assert mesh1d.node_y.size == 4
+    assert mesh1d.edge_nodes.size == 6
+
+
+def test_ccontacts_from_contacts():
+    """Tests `from_contacts` of the `CContacts` class."""
+
+    mesh1d_indices = np.array([0, 2, 4], dtype=np.int32)
+    mesh2d_indices = np.array([1, 3, 5], dtype=np.int32)
+
+    contacts = Contacts(mesh1d_indices, mesh2d_indices)
+
+    c_contacts = CContacts.from_contacts(contacts)
+
+    # Get the numpy arrays from the ctypes object
+    c_contacts_mesh1d_indices = as_array(c_contacts.mesh1d_indices, (3,))
+    c_contacts_mesh2d_indices = as_array(c_contacts.mesh2d_indices, (3,))
+
+    assert_array_equal(c_contacts_mesh1d_indices, mesh1d_indices)
+    assert_array_equal(c_contacts_mesh2d_indices, mesh2d_indices)
+
+    assert c_contacts.num_contacts == 3
+
+
+def test_ccontacts_allocate_memory():
+    """Tests `allocate_memory` of the `CContacts` class."""
+
+    c_contacts = CContacts()
+    c_contacts.num_contacts = 3
+
+    contacts = c_contacts.allocate_memory()
+
+    assert contacts.mesh1d_indices.size == 3
+    assert contacts.mesh2d_indices.size == 3
