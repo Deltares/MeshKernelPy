@@ -3,7 +3,8 @@
 Python API
 ==========
 
+.. toctree::
+    :maxdepth: 2
 
-.. autoclass:: meshkernel.MeshKernel
-    :members:
-    :noindex:
+    meshkernel
+    py_structures
