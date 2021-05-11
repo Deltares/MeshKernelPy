@@ -1064,6 +1064,30 @@ class MeshKernel:
             byref(c_land_boundaries),
         )
 
+    def get_orthogonality_mesh2d(self) -> GeometryList:
+        """Gets the mesh orthogonality, expressed as the ratio between the edges and
+        the segments connecting the face circumcenters.
+
+        Returns:
+            GeometryList: The geometry list with the orthogonality values of each edge.
+        """
+
+        number_of_coordinates = self._get_dimensions_mesh2d().num_edges
+
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        geometry_list_out = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
+        self._execute_function(
+            self.lib.mkernel_get_orthogonality_mesh2d,
+            self._meshkernelid,
+            byref(c_geometry_list_out),
+        )
+
+        return geometry_list_out
+
     def _get_error(self) -> str:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
