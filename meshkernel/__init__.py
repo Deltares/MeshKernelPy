@@ -8,6 +8,7 @@ from meshkernel.py_structures import (
     GeometryList,
     Mesh1d,
     Mesh2d,
+    Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,

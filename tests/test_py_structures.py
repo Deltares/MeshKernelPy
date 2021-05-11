@@ -7,6 +7,7 @@ from meshkernel import (
     DeleteMeshOption,
     GeometryList,
     Mesh2d,
+    Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
@@ -54,6 +55,20 @@ cases_refinementtype_values = [
 @pytest.mark.parametrize("enum_val, exp_int", cases_refinementtype_values)
 def test_refinementtype_values(enum_val: RefinementType, exp_int: int):
     """Tests the integer values of the `RefinementType` enum."""
+
+    assert enum_val == exp_int
+
+
+cases_Mesh2dLocation_values = [
+    (Mesh2dLocation.FACES, 0),
+    (Mesh2dLocation.NODES, 1),
+    (Mesh2dLocation.EDGES, 2),
+]
+
+
+@pytest.mark.parametrize("enum_val, exp_int", cases_Mesh2dLocation_values)
+def test_Mesh2dLocation_values(enum_val: Mesh2dLocation, exp_int: int):
+    """Tests the integer values of the `Mesh2dLocation` enum."""
 
     assert enum_val == exp_int
 

@@ -40,6 +40,15 @@ class RefinementType(IntEnum):
     REFINEMENT_LEVELS = 2
 
 
+@unique
+class Mesh2dLocation(IntEnum):
+    """The Mesh2d location types."""
+
+    FACES = 0
+    NODES = 1
+    EDGES = 2
+
+
 @dataclass
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data
