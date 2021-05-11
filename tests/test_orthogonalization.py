@@ -134,3 +134,78 @@ def test_get_orthogonality_mesh2d_not_orthogonal_mesh2d():
     assert orthogonality.values[9] == -999.0
     assert orthogonality.values[10] > 0.0
     assert orthogonality.values[11] == -999.0
+
+
+def test_get_smoothness_mesh2d_smooth_mesh2d():
+    r"""Tests `get_smoothness_mesh2d` with a simple triangular Mesh2d with one small flow edge.
+
+      3---2
+     / X /
+    0---1
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 4.0, 6.0, 2.0, 2.0, 4.0],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 3.0, 3.0, 1.0, 2.0],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [0, 1, 1, 2, 2, 3, 3, 0, 1, 3, 4, 5],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    smoothness = mk.get_smoothness_mesh2d()
+
+    assert smoothness.values.size == 6
+
+    assert smoothness.values[0] == -999.0
+    assert smoothness.values[1] == -999.0
+    assert smoothness.values[2] == -999.0
+    assert smoothness.values[3] == -999.0
+    assert smoothness.values[4] == approx(0.0, abs=0.01)
+    assert smoothness.values[5] == 1.0
+
+
+# TODO these two tests should differ in outcome!
+def test_get_smoothness_mesh2d_non_smooth_mesh2d():
+    r"""Tests `get_smoothness_mesh2d` with a simple non-smooth triangular Mesh2d with one small flow edge.
+
+      3---2
+     / X /
+    0---1
+    """
+
+    mk = MeshKernel()
+
+    node_x = np.array(
+        [0.0, 4.0, 7.0, 2.0, 2.0, 4.0],
+        dtype=np.double,
+    )
+    node_y = np.array(
+        [0.0, 0.0, 4.0, 3.0, 1.0, 2.0],
+        dtype=np.double,
+    )
+    edge_nodes = np.array(
+        [0, 1, 1, 2, 2, 3, 3, 0, 1, 3, 4, 5],
+        dtype=np.int32,
+    )
+
+    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+
+    smoothness = mk.get_smoothness_mesh2d()
+
+    assert smoothness.values.size == 6
+
+    assert smoothness.values[0] == -999.0
+    assert smoothness.values[1] == -999.0
+    assert smoothness.values[2] == -999.0
+    assert smoothness.values[3] == -999.0
+    assert smoothness.values[4] == approx(0.0, abs=0.01)
+    assert smoothness.values[5] == 1.0
