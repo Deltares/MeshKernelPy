@@ -4,11 +4,6 @@ Python API
 ==========
 
 
-.. autosummary::
-     :toctree: stubs
-
-     meshkernel.MeshKernel
-
 .. autoclass:: meshkernel.MeshKernel
     :members:
     :noindex:
