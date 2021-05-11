@@ -1040,7 +1040,8 @@ class MeshKernel:
         The amount of orthogonality is traded against the mesh smoothing (in this case the equality of face areas).
 
         Args:
-            project_to_land_boundary_option (ProjectToLandBoundaryOption): 	The option to determine how to snap to land boundaries.
+            project_to_land_boundary_option (ProjectToLandBoundaryOption): The option to determine how to snap to
+                                                                           land boundaries.
             orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
             selecting_polygon (GeometryList): The polygon where to perform the orthogonalization.
             land_boundaries (GeometryList): The land boundaries to account for in the orthogonalization process.
