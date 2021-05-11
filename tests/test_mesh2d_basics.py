@@ -8,13 +8,12 @@ from meshkernel import (
     DeleteMeshOption,
     GeometryList,
     InputError,
-    InterpolationParameters,
     Mesh2d,
     Mesh2dFactory,
     MeshKernel,
     MeshKernelError,
+    MeshRefinementParameters,
     RefinementType,
-    SampleRefineParameters,
 )
 
 
@@ -58,7 +57,7 @@ def test_different_instances_have_different_ids():
     assert mk_1._meshkernelid != mk_2._meshkernelid
 
 
-def test_set_mesh_and_get_mesh():
+def test_set_mesh2d_and_get_mesh2d():
     """Test to set a simple mesh and then get it again with new parameters
 
     3---2
@@ -262,11 +261,7 @@ def test_delete_edge_mesh2d(
     """
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinate = np.array([delete_x], dtype=np.double)
-    y_coordinate = np.array([delete_y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    mk.delete_edge_mesh2d(geometry_list)
+    mk.delete_edge_mesh2d(delete_x, delete_y)
 
     mesh2d = mk.get_mesh2d()
 
@@ -302,11 +297,7 @@ def test_get_edge_mesh2d(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([x], dtype=np.double)
-    y_coordinate = np.array([y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    edge_index = mk.get_edge_mesh2d(geometry_list)
+    edge_index = mk.get_edge_mesh2d(x, y)
 
     assert edge_index == exp_index
 
@@ -341,11 +332,7 @@ def test_get_node_index_mesh2d(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([x], dtype=np.double)
-    y_coordinate = np.array([y], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
-    edge_index = mk.get_node_index_mesh2d(geometry_list, 0.5)
+    edge_index = mk.get_node_index_mesh2d(x, y, 0.5)
 
     assert edge_index == exp_index
 
@@ -357,12 +344,8 @@ def test_get_node_index_mesh2d_no_node_in_search_radius(
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    x_coordinate = np.array([0.5], dtype=np.double)
-    y_coordinate = np.array([0.5], dtype=np.double)
-    geometry_list = GeometryList(x_coordinate, y_coordinate)
-
     with pytest.raises(MeshKernelError):
-        mk.get_node_index_mesh2d(geometry_list, 0.4)
+        mk.get_node_index_mesh2d(0.5, 0.5, 0.4)
 
 
 cases_delete_mesh2d_small_polygon = [
@@ -612,9 +595,8 @@ def test_refine_polygon(start: int, end: int, length: float, exp_nodes: int):
 
 
 cases_refine_based_on_samples_mesh2d = [
-    # (0.5, 1, 9, 12, 4),  # TODO throws refinement_type =1 throws error.
-    (0.5, 2, 25, 40, 16),
-    (0.5, 3, 9, 12, 4),
+    # (0.5, 1, 25, 40, 16),
+    # (0.5, 2, 9, 12, 4),
 ]
 
 
@@ -640,19 +622,16 @@ def test_refine_based_on_samples_mesh2d(
     """
     mk = meshkernel_with_mesh2d(3, 3)
 
-    x_coordinates = np.array([0.0, 0.0, 2.0, 2.0], dtype=np.double)
-    y_coordinates = np.array([0.0, 2.0, 2.0, 0.0], dtype=np.double)
-    values = np.array([0, 0, 0, 0], dtype=np.double)
+    x_coordinates = np.array([0.5, 0.5, 1.5, 1.5], dtype=np.double)
+    y_coordinates = np.array([0.5, 1.5, 1.5, 0.5], dtype=np.double)
+    values = np.array([2, 2, 2, 2], dtype=np.double)
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
-    interpolation_params = InterpolationParameters(False, False)
-    sample_refine_params = SampleRefineParameters(
-        1, min_face_size, refinement_type, 1, 0.0, False
+    refinement_params = MeshRefinementParameters(
+        False, False, min_face_size, refinement_type, False, False, 1
     )
 
-    mk.refine_based_on_samples_mesh2d(
-        samples, interpolation_params, sample_refine_params
-    )
+    mk.refine_based_on_samples_mesh2d(samples, refinement_params)
 
     mesdh2d = mk.get_mesh2d()
 
@@ -694,10 +673,11 @@ def test_refine_based_on_polygon_mesh2d(
     y_coordinates = np.array([0.0, 2.0, 2.0, 0.0, 0.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    interpolation_params = InterpolationParameters(
-        True, False, max_refinement_iterations=max_iterations
+    refinement_params = MeshRefinementParameters(
+        True, False, 0.5, 1, False, False, max_iterations
     )
-    mk.refine_based_on_polygon_mesh2d(polygon, interpolation_params)
+
+    mk.refine_based_on_polygon_mesh2d(polygon, refinement_params)
 
     mesdh2d = mk.get_mesh2d()
 
