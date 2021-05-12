@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mesh2d Basics &#8212; MeshKernelPy  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Examples" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">MeshKernelPy  documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../api/index.html">
+   Python API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/meshkernel.html">
+     MeshKernel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/py_structures.html">
+     Parameter Objects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/factories.html">
+     Factories
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/errors.html">
+     Errors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Examples
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Mesh2d Basics
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/examples/01_mesh2d_basics.ipynb.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="mesh2d-basics">
+<h1>Mesh2d Basics<a class="headerlink" href="#mesh2d-basics" title="Permalink to this headline">¶</a></h1>
+<p>This is the basic introduction for using the <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library.</p>
+<p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> can be used for creating and manipulating various kinds of meshes.</p>
+<p>The most common case deals with unstructured, two-dimensional meshes which is why this tutorial focuses on these.</p>
+<p>At the very beginning, the necessary libraries have to be imported.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">9</span><span class="n">c6cccb58bfd</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides a set of convenience methods for creating common meshes.</p>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">create_rectilinear_mesh</span></code> method to create simple meshes.
+You can look at the documentation in order to find all its parameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">Mesh2dFactory</span><span class="o">.</span><span class="n">create_rectilinear_mesh</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Mesh2dFactory</span></code>’s methods always return a <code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> instance.
+<code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> has three mandatory attributes, which are enough to fully describe any unstructured mesh.</p>
+<p>The first two are <code class="docutils literal notranslate"><span class="pre">node_x</span></code> and <code class="docutils literal notranslate"><span class="pre">node_y</span></code>.
+They are one-dimensional <code class="docutils literal notranslate"><span class="pre">double</span></code> arrays, which describe the position of the nodes as can be seen below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot white points only for scaling the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">,</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">,</span> <span class="s2">&quot;ow&quot;</span><span class="p">)</span>
+
+<span class="c1"># Numbering the nodes</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+        <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_6_0.png" src="../_images/01_mesh2d_basics_6_0.png" />
+</div>
+</div>
+<p>The third mandatory attribute is <code class="docutils literal notranslate"><span class="pre">edge_nodes</span></code>.
+It describes the indices of the nodes that make up the edges.</p>
+<p>Two indices describe one edge.
+So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0,  4,  1,  5,  2,  6,  3,  7,  4,  8,  5,  9,  6, 10,  7, 11,  1,
+        0,  2,  1,  3,  2,  5,  4,  6,  5,  7,  6,  9,  8, 10,  9, 11, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<p>With all three parameters together we can plot the mesh.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
+    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_10_0.png" src="../_images/01_mesh2d_basics_10_0.png" />
+</div>
+</div>
+<p>In order to interact with the <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library, we create a new instance of the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> class.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">is_geographic</span></code> parameter of its constructor describes whether the mesh is cartesian (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or spherical (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each instance holds it own state.
+This state can be accessed with the corresponding getter and setter methods.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">set_mesh2d</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have now set mesh2d and immediately got it again, without asking <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> to execute any operations in between.</p>
+<p>After we set the mesh2d, meshkernel calculated the face data and edge coordinates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_position</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">nodes_per_face</span><span class="p">):</span>
+    <span class="c1"># Calculate values to draw</span>
+    <span class="n">face_nodes</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_nodes</span><span class="p">[</span><span class="n">node_position</span> <span class="p">:</span> <span class="p">(</span><span class="n">node_position</span> <span class="o">+</span> <span class="n">num_nodes</span><span class="p">)]</span>
+    <span class="n">face_nodes_x</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
+    <span class="n">face_nodes_y</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
+    <span class="n">face_x</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_x</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
+    <span class="n">face_y</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_y</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
+    <span class="n">node_position</span> <span class="o">+=</span> <span class="n">num_nodes</span>
+
+    <span class="c1"># Draw polygon</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">face_nodes_x</span><span class="p">,</span> <span class="n">face_nodes_y</span><span class="p">)</span>
+    <span class="c1"># Draw face index at its center</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_17_0.png" src="../_images/01_mesh2d_basics_17_0.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> also searches for the middle point of edges and adds them as parameters to the <code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_19_0.png" src="../_images/01_mesh2d_basics_19_0.png" />
+</div>
+</div>
+<p>Until now everything <em>looked</em> structured, so let us add a few nodes to change that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_node_mesh2d</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">node_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_node_mesh2d</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also have to connect our nodes, otherwise <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> will garbage collect them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">node_index_0</span><span class="p">)</span>
+<span class="n">edge_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="n">node_index_0</span><span class="p">,</span> <span class="n">node_index_1</span><span class="p">)</span>
+<span class="n">edge_index_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us get the new state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we plot the output, we can also see that <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> immediately found a new face.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_position</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">nodes_per_face</span><span class="p">):</span>
+    <span class="c1"># Calculate values to draw</span>
+    <span class="n">face_nodes</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_nodes</span><span class="p">[</span><span class="n">node_position</span> <span class="p">:</span> <span class="p">(</span><span class="n">node_position</span> <span class="o">+</span> <span class="n">num_nodes</span><span class="p">)]</span>
+    <span class="n">face_nodes_x</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
+    <span class="n">face_nodes_y</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
+    <span class="n">face_x</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_x</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
+    <span class="n">face_y</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_y</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
+    <span class="n">node_position</span> <span class="o">+=</span> <span class="n">num_nodes</span>
+
+    <span class="c1"># Draw polygon</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">face_nodes_x</span><span class="p">,</span> <span class="n">face_nodes_y</span><span class="p">)</span>
+    <span class="c1"># Draw face index at its center</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_27_0.png" src="../_images/01_mesh2d_basics_27_0.png" />
+</div>
+</div>
+<p>We can also delete nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">delete_node_mesh2d</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">)</span>
+<span class="n">mesh2d_output_2</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We are back to six faces, but one hanging edge remains.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
+    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_31_0.png" src="../_images/01_mesh2d_basics_31_0.png" />
+</div>
+</div>
+<p>Quite often, hanging edges are unwanted.
+That is why <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides methods to deal with them.
+For once we can it can count hanging edges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hanging_edges</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_hanging_edges_mesh2d</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">hanging_edges</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> can also find and delete them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">delete_hanging_edges_mesh2d</span><span class="p">()</span>
+<span class="n">mesh2d_output_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After we have deleted the hanging edges, we are back at the original state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
+    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
+        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01_mesh2d_basics_37_0.png" src="../_images/01_mesh2d_basics_37_0.png" />
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Examples</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+            &copy; Copyright 2021, Deltares.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
