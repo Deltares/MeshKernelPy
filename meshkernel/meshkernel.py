@@ -1120,7 +1120,7 @@ class MeshKernel:
         self.lib.mkernel_get_error(byref(c_error_message))
         return c_error_message.value.decode("ASCII")
 
-    def triangulation_interpolation_mesh2d(
+    def mesh2d_triangulation_interpolation(
         self,
         samples: GeometryList,
         location_type: Mesh2dLocation,
@@ -1146,7 +1146,7 @@ class MeshKernel:
         c_interpolated_samples = CGeometryList.from_geometrylist(interpolated_samples)
 
         self._execute_function(
-            self.lib.mkernel_triangulation_interpolation_mesh2d,
+            self.lib.mkernel_mesh2d_triangulation_interpolation,
             self._meshkernelid,
             byref(c_samples),
             c_int(location_type),
@@ -1155,7 +1155,7 @@ class MeshKernel:
 
         return interpolated_samples
 
-    def averaging_interpolation_mesh2d(
+    def mesh2d_averaging_interpolation(
         self,
         samples: GeometryList,
         location_type: Mesh2dLocation,
@@ -1188,7 +1188,7 @@ class MeshKernel:
         c_interpolated_samples = CGeometryList.from_geometrylist(interpolated_samples)
 
         self._execute_function(
-            self.lib.mkernel_averaging_interpolation_mesh2d,
+            self.lib.mkernel_mesh2d_averaging_interpolation,
             self._meshkernelid,
             byref(c_samples),
             c_int(location_type),

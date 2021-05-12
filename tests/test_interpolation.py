@@ -23,17 +23,17 @@ def meshkernel_with_mesh2d():
         mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
         mk = MeshKernel()
 
-        mk.set_mesh2d(mesh2d)
+        mk.mesh2d_set(mesh2d)
 
         return mk
 
     return _create
 
 
-def test_triangulation_interpolation_mesh2d_on_faces(
+def test_mesh2d_triangulation_interpolation_on_faces(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `triangulation_interpolation_mesh2d` on the faces of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the faces of a 4x4 Mesh2d."""
 
     mk = meshkernel_with_mesh2d(4, 4)
 
@@ -44,7 +44,7 @@ def test_triangulation_interpolation_mesh2d_on_faces(
     )
     samples = GeometryList(samples_x, samples_y, samples_values)
 
-    interpolation = mk.triangulation_interpolation_mesh2d(samples, Mesh2dLocation.FACES)
+    interpolation = mk.mesh2d_triangulation_interpolation(samples, Mesh2dLocation.FACES)
 
     assert interpolation.x_coordinates[0] == 0.5
     assert interpolation.x_coordinates[1] == 1.5
@@ -77,10 +77,10 @@ def test_triangulation_interpolation_mesh2d_on_faces(
     assert interpolation.values[8] == approx(9, abs=0.00000001)
 
 
-def test_triangulation_interpolation_mesh2d_on_nodes(
+def test_mesh2d_triangulation_interpolation_on_nodes(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `triangulation_interpolation_mesh2d` on the nodes of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the nodes of a 4x4 Mesh2d."""
 
     mk = meshkernel_with_mesh2d(3, 3)
 
@@ -91,7 +91,7 @@ def test_triangulation_interpolation_mesh2d_on_nodes(
     )
     samples = GeometryList(samples_x, samples_y, samples_values)
 
-    interpolation = mk.triangulation_interpolation_mesh2d(samples, Mesh2dLocation.NODES)
+    interpolation = mk.mesh2d_triangulation_interpolation(samples, Mesh2dLocation.NODES)
 
     assert interpolation.x_coordinates[0] == 0.0
     assert interpolation.x_coordinates[1] == 1.0
@@ -124,10 +124,10 @@ def test_triangulation_interpolation_mesh2d_on_nodes(
     assert interpolation.values[8] == approx(9, abs=0.00000001)
 
 
-def test_triangulation_interpolation_mesh2d_on_edges(
+def test_mesh2d_triangulation_interpolation_on_edges(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `triangulation_interpolation_mesh2d` on the edges of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the edges of a 4x4 Mesh2d."""
 
     mk = meshkernel_with_mesh2d(3, 3)
 
@@ -142,7 +142,7 @@ def test_triangulation_interpolation_mesh2d_on_edges(
     )
     samples = GeometryList(samples_x, samples_y, samples_values)
 
-    interpolation = mk.triangulation_interpolation_mesh2d(samples, Mesh2dLocation.EDGES)
+    interpolation = mk.mesh2d_triangulation_interpolation(samples, Mesh2dLocation.EDGES)
 
     assert interpolation.x_coordinates[0] == 0.0
     assert interpolation.x_coordinates[1] == 1.0
@@ -184,7 +184,7 @@ def test_triangulation_interpolation_mesh2d_on_edges(
     assert interpolation.values[11] == approx(2.5, abs=0.00000001)
 
 
-cases_averaging_interpolation_mesh2d = [
+cases_mesh2d_averaging_interpolation = [
     (
         AveragingMethod.SIMPLE_AVERAGING,
         np.array([3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0]),
@@ -210,14 +210,14 @@ cases_averaging_interpolation_mesh2d = [
 
 @pytest.mark.parametrize(
     "averaging_method, exp_values",
-    cases_averaging_interpolation_mesh2d,
+    cases_mesh2d_averaging_interpolation,
 )
-def test_averaging_interpolation_mesh2d(
+def test_mesh2d_averaging_interpolation(
     meshkernel_with_mesh2d: MeshKernel,
     averaging_method: AveragingMethod,
     exp_values: np.ndarray,
 ):
-    """Tests `averaging_interpolation_mesh2d` on the faces of a 4x4 Mesh2d."""
+    """Tests `mesh2d_averaging_interpolation` on the faces of a 4x4 Mesh2d."""
 
     mk = meshkernel_with_mesh2d(4, 4)
 
@@ -226,7 +226,7 @@ def test_averaging_interpolation_mesh2d(
     samples_values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=np.double)
     samples = GeometryList(samples_x, samples_y, samples_values)
 
-    interpolation = mk.averaging_interpolation_mesh2d(
+    interpolation = mk.mesh2d_averaging_interpolation(
         samples, Mesh2dLocation.FACES, averaging_method, 1.5, 1
     )
 
