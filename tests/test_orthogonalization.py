@@ -35,7 +35,7 @@ def test_mesh2d_compute_orthogonalization():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
     polygon_x = np.array([-0.1, 2.1, 2.1, -0.1, -0.1], dtype=np.double)
     polygon_y = np.array([-0.1, -0.1, 2.1, 2.1, -0.1], dtype=np.double)
@@ -49,7 +49,7 @@ def test_mesh2d_compute_orthogonalization():
         0, OrthogonalizationParameters(outer_iterations=10), polygon, land_boundary
     )
 
-    mesh2d = mk.get_mesh2d()
+    mesh2d = mk.mesh2d_get_data()
 
     assert 1.0 <= mesh2d.node_x[4] < 1.3
     assert 1.0 <= mesh2d.node_y[4] < 1.3
@@ -65,7 +65,7 @@ def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
     """
 
     mk = MeshKernel()
-    mk.set_mesh2d(Mesh2dFactory.create_rectilinear_mesh(3, 3))
+    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(3, 3))
 
     orthogonality = mk.mesh2d_get_orthogonality()
 
@@ -116,7 +116,7 @@ def test_mesh2d_get_orthogonality_not_orthogonal_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
     orthogonality = mk.mesh2d_get_orthogonality()
 
@@ -159,7 +159,7 @@ def test_mesh2d_get_smoothness_smooth_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
     smoothness = mk.mesh2d_get_smoothness()
 
@@ -197,7 +197,7 @@ def test_mesh2d_get_smoothness_non_smooth_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
     smoothness = mk.mesh2d_get_smoothness()
 

@@ -1074,7 +1074,7 @@ class MeshKernel:
             GeometryList: The geometry list with the orthogonality values of each edge.
         """
 
-        number_of_coordinates = self._get_dimensions_mesh2d().num_edges
+        number_of_coordinates = self._mesh2d_get_dimensions().num_edges
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -1097,7 +1097,7 @@ class MeshKernel:
             GeometryList: The geometry list with the smoothness values of each edge.
         """
 
-        number_of_coordinates = self._get_dimensions_mesh2d().num_edges
+        number_of_coordinates = self._mesh2d_get_dimensions().num_edges
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
