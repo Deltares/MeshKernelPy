@@ -822,15 +822,10 @@ def test_get_points_in_polygon(
 
 
 @pytest.mark.parametrize("triangulate", [True, False])
-@pytest.mark.parametrize("project_to_land_boundaries", [True, False])
-def test_flip_edges_mesh2d(
-    meshkernel_with_mesh2d: MeshKernel,
-    triangulate: bool,
-    project_to_land_boundaries: bool,
-):
+def test_flip_edges_mesh2d(triangulate: bool):
     """Tests `flip_edges_mesh2d` with a simple triangular mesh (heptagon)."""
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = MeshKernel()
 
     node_x = np.array([0, -8, -10, -4, 4, 10, 8, 0], dtype=np.double)
     node_y = np.array([10, 6, -2, -9, -9, -2, 6, -5], dtype=np.double)
@@ -878,9 +873,7 @@ def test_flip_edges_mesh2d(
     land_boundaries_y = np.array([-2, -9, -9, -2], dtype=np.double)
     land_boundaries = GeometryList(land_boundaries_x, land_boundaries_y)
 
-    mk.flip_edges_mesh2d(
-        triangulate, project_to_land_boundaries, polygon, land_boundaries
-    )
+    mk.flip_edges_mesh2d(triangulate, False, polygon, land_boundaries)
 
     mesh2d = mk.get_mesh2d()
 
