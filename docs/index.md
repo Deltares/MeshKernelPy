@@ -5,6 +5,6 @@
 ```{toctree}
 :titlesonly:
 :maxdepth: 1
-api/index
 examples/index
+api/index
 ```
