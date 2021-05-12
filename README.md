@@ -15,7 +15,7 @@ Also make sure that your editor is configured to format the code with [`black`](
 When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://jupyterlab-code-formatter.readthedocs.io/en/latest/installation.html) can be used.
 
 
-# PyPi
+# PyPI
 
-The wheels on PyPi bundle the LGPL licensed [MeshKernel](https://github.com/Deltares/MeshKernel).
-Please check if this is a problem for your application, before depending on it.
+The wheels on PyPI bundle the LGPL licensed [MeshKernel](https://github.com/Deltares/MeshKernel).
+Please check if this is a problem for your application before depending on it.
