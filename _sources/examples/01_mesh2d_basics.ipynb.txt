@@ -31,7 +31,7 @@
    "source": [
     "import matplotlib.pyplot as plt\n",
     "import numpy as np\n",
-    "\n",
+    "from IPython.display import set_matplotlib_formats\n",
     "from meshkernel import Mesh2dFactory, MeshKernel"
    ]
   },
