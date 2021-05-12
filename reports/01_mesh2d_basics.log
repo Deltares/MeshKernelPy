@@ -17,20 +17,28 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import matplotlib.pyplot as plt
-import numpy as np
-
-from meshkernel import Mesh2dFactory, MeshKernel
+mk = MeshKernel(is_geographic=False)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-[0;32m<ipython-input-1-9c6cccb58bfd>[0m in [0;36m<module>[0;34m[0m
-[0;32m----> 1[0;31m [0;32mimport[0m [0mmatplotlib[0m[0;34m.[0m[0mpyplot[0m [0;32mas[0m [0mplt[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      2[0m [0;32mimport[0m [0mnumpy[0m [0;32mas[0m [0mnp[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      3[0m [0;34m[0m[0m
-[1;32m      4[0m [0;32mfrom[0m [0mmeshkernel[0m [0;32mimport[0m [0mMesh2dFactory[0m[0;34m,[0m [0mMeshKernel[0m[0;34m[0m[0;34m[0m[0m
+[0;31mOSError[0m                                   Traceback (most recent call last)
+[0;32m<ipython-input-6-baddf649bdfb>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0mmk[0m [0;34m=[0m [0mMeshKernel[0m[0;34m([0m[0mis_geographic[0m[0;34m=[0m[0;32mFalse[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;32m~/work/MeshKernelPy/MeshKernelPy/meshkernel/meshkernel.py[0m in [0;36m__init__[0;34m(self, is_geographic)[0m
+[1;32m     61[0m             [0;32mraise[0m [0mOSError[0m[0;34m([0m[0;34m"Unsupported operating system"[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     62[0m [0;34m[0m[0m
+[0;32m---> 63[0;31m         [0mself[0m[0;34m.[0m[0mlib[0m [0;34m=[0m [0mCDLL[0m[0;34m([0m[0mstr[0m[0;34m([0m[0mlib_path[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     64[0m         [0mself[0m[0;34m.[0m[0m_allocate_state[0m[0;34m([0m[0mis_geographic[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     65[0m [0;34m[0m[0m
 
-[0;31mModuleNotFoundError[0m: No module named 'matplotlib'
-ModuleNotFoundError: No module named 'matplotlib'
+[0;32m/opt/hostedtoolcache/Python/3.9.5/x64/lib/python3.9/ctypes/__init__.py[0m in [0;36m__init__[0;34m(self, name, mode, handle, use_errno, use_last_error, winmode)[0m
+[1;32m    372[0m [0;34m[0m[0m
+[1;32m    373[0m         [0;32mif[0m [0mhandle[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 374[0;31m             [0mself[0m[0;34m.[0m[0m_handle[0m [0;34m=[0m [0m_dlopen[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_name[0m[0;34m,[0m [0mmode[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    375[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    376[0m             [0mself[0m[0;34m.[0m[0m_handle[0m [0;34m=[0m [0mhandle[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mOSError[0m: /home/runner/work/MeshKernelPy/MeshKernelPy/meshkernel/libMeshKernelApi.so: cannot open shared object file: No such file or directory
+OSError: /home/runner/work/MeshKernelPy/MeshKernelPy/meshkernel/libMeshKernelApi.so: cannot open shared object file: No such file or directory
 

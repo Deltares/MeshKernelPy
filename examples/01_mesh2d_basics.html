@@ -205,19 +205,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">9</span><span class="n">c6cccb58bfd</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> 
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides a set of convenience methods for creating common meshes.</p>
 <p>We use the <code class="docutils literal notranslate"><span class="pre">create_rectilinear_mesh</span></code> method to create simple meshes.
@@ -267,7 +254,8 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0,  4,  1,  5,  2,  6,  3,  7,  4,  8,  5,  9,  6, 10,  7, 11,  1,
-        0,  2,  1,  3,  2,  5,  4,  6,  5,  7,  6,  9,  8, 10,  9, 11, 10])
+        0,  2,  1,  3,  2,  5,  4,  6,  5,  7,  6,  9,  8, 10,  9, 11, 10],
+      dtype=int32)
 </pre></div>
 </div>
 </div>
@@ -301,6 +289,30 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OSError</span><span class="g g-Whitespace">                                   </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">6</span><span class="o">-</span><span class="n">baddf649bdfb</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nn">~/work/MeshKernelPy/MeshKernelPy/meshkernel/meshkernel.py</span> in <span class="ni">__init__</span><span class="nt">(self, is_geographic)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>             <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="s2">&quot;Unsupported operating system&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span> 
+<span class="ne">---&gt; </span><span class="mi">63</span>         <span class="bp">self</span><span class="o">.</span><span class="n">lib</span> <span class="o">=</span> <span class="n">CDLL</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lib_path</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_allocate_state</span><span class="p">(</span><span class="n">is_geographic</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span> 
+
+<span class="nn">/opt/hostedtoolcache/Python/3.9.5/x64/lib/python3.9/ctypes/__init__.py</span> in <span class="ni">__init__</span><span class="nt">(self, name, mode, handle, use_errno, use_last_error, winmode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span> 
+<span class="g g-Whitespace">    </span><span class="mi">373</span>         <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">374</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_handle</span> <span class="o">=</span> <span class="n">_dlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">375</span>         <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">376</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_handle</span> <span class="o">=</span> <span class="n">handle</span>
+
+<span class="ne">OSError</span>: /home/runner/work/MeshKernelPy/MeshKernelPy/meshkernel/libMeshKernelApi.so: cannot open shared object file: No such file or directory
 </pre></div>
 </div>
 </div>
