@@ -596,7 +596,7 @@ def test_polygon_refine(start: int, end: int, length: float, exp_nodes: int):
 
 cases_mesh2d_refine_based_on_samples = [
     (0.5, 0, 9, 12, 4),
-    # (0.5, 1, 25, 40, 16),
+    (0.5, 1, 25, 40, 16),
     # (0.5, 2, 81, 144, 64),
 ]
 
@@ -631,7 +631,7 @@ def test_mesh2d_refine_based_on_samples(
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
     refinement_params = MeshRefinementParameters(
-        False, False, min_face_size, RefinementType.WAVE_COURANT, False, False, 1
+        False, False, min_face_size, RefinementType.REFINEMENT_LEVELS, False, False, 1
     )
 
     mk.mesh2d_refine_based_on_samples(samples, 1.0, 1, refinement_params)
