@@ -8,7 +8,7 @@
 In order to install `MeshKernelPy` locally, please execute the following line inside your virtual environment
 
 ```bash
-pip install -e .[dev]
+pip install -e .[test, lint, docs]
 ```
 
 Also make sure that your editor is configured to format the code with [`black`](https://black.readthedocs.io/en/stable/) and [`ìsort`](https://pycqa.github.io/isort/).

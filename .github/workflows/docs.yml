@@ -16,8 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -e .[dev]
-          pip install sphinx myst_nb sphinx_book_theme
+          pip install -e ".[docs]"
 
       - name: Run sphinx
         run: make html
