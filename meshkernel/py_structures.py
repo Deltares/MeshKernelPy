@@ -49,6 +49,19 @@ class Mesh2dLocation(IntEnum):
     EDGES = 2
 
 
+@unique
+class AveragingMethod(IntEnum):
+    """The averaging methods."""
+
+    SIMPLE_AVERAGING = 1
+    CLOSEST_POINT = 2
+    MAX = 3
+    MIN = 4
+    INVERSE_WEIGHT_DISTANCE = 5
+    MIN_ABS = 6
+    KD_TREE = 7
+
+
 @dataclass
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data
