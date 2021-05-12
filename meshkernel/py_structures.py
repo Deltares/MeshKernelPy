@@ -33,31 +33,11 @@ class ProjectToLandBoundaryOption(IntEnum):
 
 
 @unique
-class AveragingMethod(IntEnum):
-    SIMPLE_AVERAGING = 1
-    CLOSEST_POINT = 2
-    MAX = 3
-    MIN = 4
-    INVERSE_WEIGHTED_DISTANCE = 5
-    MINABS = 6
-    KDTREE = 7
-
-
-@unique
-class InterpolateToOption(IntEnum):
-    BATHY = 1
-    ZK = 2
-    S1 = 3
-    ZC = 4
-
-
-@unique
 class RefinementType(IntEnum):
     """Refinement type"""
 
-    RIDGE_REFINEMENT = 1
-    WAVE_COURANT = 2
-    REFINEMENT_LEVELS = 3
+    WAVE_COURANT = 1
+    REFINEMENT_LEVELS = 2
 
 
 @dataclass
@@ -136,49 +116,52 @@ class OrthogonalizationParameters:
 
 
 @dataclass
-class InterpolationParameters:
-    """A class holding the parameters for interpolation.
+class MeshRefinementParameters:
+    """A class holding the parameters for Mesh2d refinement.
 
     Attributes:
         refine_intersected (bool): Whether to compute faces intersected by polygon.
         use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
                                               process.
-        max_refinement_iterations (int, optional): Maximum number of refinement iterations.
-                                                   Set to 1 if only one refinement is wanted. Default is `10`.
-        averaging_method (AveragingMethod, optional): The averaging method. Default is `SIMPLE_AVERAGING`.
-        min_points (int, optional): Minimum number of points needed inside cell to handle the cell. Default is `1`.
-        relative_search_radius (float, optional): Relative search cell size, 1 = actual cell size, 2 = twice as large.
-                                                  Search radius can be larger than the cell so more samples are
-                                                  included. Default is `1.01`.
-        interpolate_to (InterpolateToOption, optional): Interpolate to option. Default is `ZK`.
-
+        min_face_size (float): Minimum cell size.
+        refinement_type (RefinementType): Refinement criterion type.
+        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
+        account_for_samples_outside (bool): Whether to take samples outside face into account.
+        max_refinement_iterations (int, optional): Maximum number of refinement iterations. Default is `10`.
     """
 
     refine_intersected: bool
     use_mass_center_when_refining: bool
-    max_refinement_iterations: int = 10
-    averaging_method: AveragingMethod = AveragingMethod.SIMPLE_AVERAGING
-    min_points: int = 1
-    relative_search_radius: float = 1.01
-    interpolate_to: InterpolateToOption = InterpolateToOption.ZK
-
-
-@dataclass
-class SampleRefineParameters:
-    """A class holding the parameters for sample refinement.
-
-    Attributes:
-        max_refinement_iterations (int): Maximum number of refinement iterations.
-        min_face_size (float): Minimum cell size.
-        refinement_type (RefinementType): Refinement criterion type.
-        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
-        max_time_step (float): Maximum time-step in Courant grid.
-        account_for_samples_outside (bool): Whether to take samples outside face into account.
-    """
-
-    max_refinement_iterations: int
     min_face_size: float
     refinement_type: RefinementType
     connect_hanging_nodes: bool
-    max_time_step: float
     account_for_samples_outside_face: bool
+    max_refinement_iterations: int = 10
+
+
+@dataclass
+class Mesh1d:
+    """This class is used for getting and setting one-dimensional mesh data.
+
+    Attributes:
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        edge_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh edge.
+    """
+
+    node_x: ndarray
+    node_y: ndarray
+    edge_nodes: ndarray
+
+
+@dataclass
+class Contacts:
+    """This class describes the contacts between a mesh1d and mesh2d.
+
+    Attributes:
+        mesh1d_indices (ndarray): A 1D integer array describing the mesh1d node indices.
+        mesh2d_indices (ndarray): A 1D integer array describing the mesh2d face indices.
+    """
+
+    mesh1d_indices: ndarray
+    mesh2d_indices: ndarray
