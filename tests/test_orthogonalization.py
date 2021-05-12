@@ -11,8 +11,8 @@ from meshkernel import (
 )
 
 
-def test_compute_orthogonalization_mesh2d():
-    """Tests `compute_orthogonalization_mesh2d` with a 3x3 Mesh2d with an uncentered middle node.
+def test_mesh2d_compute_orthogonalization():
+    """Tests `mesh2d_compute_orthogonalization` with a 3x3 Mesh2d with an uncentered middle node.
     6---7---8
     |   |   |
     3---4*--5
@@ -35,7 +35,7 @@ def test_compute_orthogonalization_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
     polygon_x = np.array([-0.1, 2.1, 2.1, -0.1, -0.1], dtype=np.double)
     polygon_y = np.array([-0.1, -0.1, 2.1, 2.1, -0.1], dtype=np.double)
@@ -45,18 +45,18 @@ def test_compute_orthogonalization_mesh2d():
     land_boundary_y = np.array([0.0, 0.0, 0.0], dtype=np.double)
     land_boundary = GeometryList(land_boundary_x, land_boundary_y)
 
-    mk.compute_orthogonalization_mesh2d(
+    mk.mesh2d_compute_orthogonalization(
         0, OrthogonalizationParameters(outer_iterations=10), polygon, land_boundary
     )
 
-    mesh2d = mk.get_mesh2d()
+    mesh2d = mk.mesh2d_get_data()
 
     assert 1.0 <= mesh2d.node_x[4] < 1.3
     assert 1.0 <= mesh2d.node_y[4] < 1.3
 
 
-def test_get_orthogonality_mesh2d_orthogonal_mesh2d():
-    """Tests `get_orthogonality_mesh2d` with an orthogonal 3x3 Mesh2d.
+def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
+    """Tests `mesh2d_get_orthogonality` with an orthogonal 3x3 Mesh2d.
     6---7---8
     |   |   |
     3---4---5
@@ -65,9 +65,9 @@ def test_get_orthogonality_mesh2d_orthogonal_mesh2d():
     """
 
     mk = MeshKernel()
-    mk.set_mesh2d(Mesh2dFactory.create_rectilinear_mesh(3, 3))
+    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(3, 3))
 
-    orthogonality = mk.get_orthogonality_mesh2d()
+    orthogonality = mk.mesh2d_get_orthogonality()
 
     assert orthogonality.values.size == 12
 
@@ -92,8 +92,8 @@ def test_get_orthogonality_mesh2d_orthogonal_mesh2d():
     assert_array_equal(orthogonality.values, exp_orthogonality)
 
 
-def test_get_orthogonality_mesh2d_not_orthogonal_mesh2d():
-    """Tests `get_orthogonality_mesh2d` with a non-orthogonal 3x3 Mesh2d.
+def test_mesh2d_get_orthogonality_not_orthogonal_mesh2d():
+    """Tests `mesh2d_get_orthogonality` with a non-orthogonal 3x3 Mesh2d.
     6---7---8
     |   |   |
     3---4*--5
@@ -116,9 +116,9 @@ def test_get_orthogonality_mesh2d_not_orthogonal_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
-    orthogonality = mk.get_orthogonality_mesh2d()
+    orthogonality = mk.mesh2d_get_orthogonality()
 
     assert orthogonality.values.size == 12
 
@@ -136,8 +136,8 @@ def test_get_orthogonality_mesh2d_not_orthogonal_mesh2d():
     assert orthogonality.values[11] == -999.0
 
 
-def test_get_smoothness_mesh2d_smooth_mesh2d():
-    r"""Tests `get_smoothness_mesh2d` with a simple triangular Mesh2d with one small flow edge.
+def test_mesh2d_get_smoothness_smooth_mesh2d():
+    r"""Tests `mesh2d_get_smoothness` with a simple triangular Mesh2d with one small flow edge.
 
       3---2
      / X /
@@ -159,9 +159,9 @@ def test_get_smoothness_mesh2d_smooth_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
-    smoothness = mk.get_smoothness_mesh2d()
+    smoothness = mk.mesh2d_get_smoothness()
 
     assert smoothness.values.size == 6
 
@@ -174,8 +174,8 @@ def test_get_smoothness_mesh2d_smooth_mesh2d():
 
 
 # TODO these two tests should differ in outcome!
-def test_get_smoothness_mesh2d_non_smooth_mesh2d():
-    r"""Tests `get_smoothness_mesh2d` with a simple non-smooth triangular Mesh2d with one small flow edge.
+def test_mesh2d_get_smoothness_non_smooth_mesh2d():
+    r"""Tests `mesh2d_get_smoothness` with a simple non-smooth triangular Mesh2d with one small flow edge.
 
       3---2
      / X /
@@ -197,9 +197,9 @@ def test_get_smoothness_mesh2d_non_smooth_mesh2d():
         dtype=np.int32,
     )
 
-    mk.set_mesh2d(Mesh2d(node_x, node_y, edge_nodes))
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
 
-    smoothness = mk.get_smoothness_mesh2d()
+    smoothness = mk.mesh2d_get_smoothness()
 
     assert smoothness.values.size == 6
 

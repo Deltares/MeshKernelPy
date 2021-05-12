@@ -1031,7 +1031,7 @@ class MeshKernel:
             c_double(search_radius),
         )
 
-    def compute_orthogonalization_mesh2d(
+    def mesh2d_compute_orthogonalization(
         self,
         project_to_land_boundary_option: ProjectToLandBoundaryOption,
         orthogonalization_parameters: OrthogonalizationParameters,
@@ -1060,7 +1060,7 @@ class MeshKernel:
         c_land_boundaries = CGeometryList.from_geometrylist(land_boundaries)
 
         self._execute_function(
-            self.lib.mkernel_compute_orthogonalization_mesh2d,
+            self.lib.mkernel_mesh2d_compute_orthogonalization,
             self._meshkernelid,
             c_int(project_to_land_boundary_option),
             byref(c_orthogonalization_params),
@@ -1068,7 +1068,7 @@ class MeshKernel:
             byref(c_land_boundaries),
         )
 
-    def get_orthogonality_mesh2d(self) -> GeometryList:
+    def mesh2d_get_orthogonality(self) -> GeometryList:
         """Gets the mesh orthogonality, expressed as the ratio between the edges and
         the segments connecting the face circumcenters.
 
@@ -1076,7 +1076,7 @@ class MeshKernel:
             GeometryList: The geometry list with the orthogonality values of each edge.
         """
 
-        number_of_coordinates = self._get_dimensions_mesh2d().num_edges
+        number_of_coordinates = self._mesh2d_get_dimensions().num_edges
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -1085,21 +1085,21 @@ class MeshKernel:
 
         c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
         self._execute_function(
-            self.lib.mkernel_get_orthogonality_mesh2d,
+            self.lib.mkernel_mesh2d_get_orthogonality,
             self._meshkernelid,
             byref(c_geometry_list_out),
         )
 
         return geometry_list_out
 
-    def get_smoothness_mesh2d(self):
+    def mesh2d_get_smoothness(self):
         """Gets the smoothness, expressed as the ratio between the values of two neighboring faces areas.
 
         Returns:
             GeometryList: The geometry list with the smoothness values of each edge.
         """
 
-        number_of_coordinates = self._get_dimensions_mesh2d().num_edges
+        number_of_coordinates = self._mesh2d_get_dimensions().num_edges
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -1108,7 +1108,7 @@ class MeshKernel:
 
         c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
         self._execute_function(
-            self.lib.mkernel_get_smoothness_mesh2d,
+            self.lib.mkernel_mesh2d_get_smoothness,
             self._meshkernelid,
             byref(c_geometry_list_out),
         )
