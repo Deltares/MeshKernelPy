@@ -8,3 +8,5 @@ Python API
 
     meshkernel
     py_structures
+    factories
+    errors
