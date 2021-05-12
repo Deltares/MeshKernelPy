@@ -26,6 +26,7 @@ from meshkernel.py_structures import (
     GeometryList,
     Mesh1d,
     Mesh2d,
+    Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
@@ -1110,6 +1111,41 @@ class MeshKernel:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
         return c_error_message.value.decode("ASCII")
+
+    def triangulation_interpolation_mesh2d(
+        self,
+        samples: GeometryList,
+        location_type: Mesh2dLocation,
+    ) -> GeometryList:
+        """Performs triangulation interpolation of samples.
+
+        Args:
+            samples (GeometryList): The samples to interpolate.
+            location_type (Mesh2dLocation): The location type on which to interpolate.
+
+        Returns:
+            GeometryList: The interpolated samples.
+        """
+        c_samples = CGeometryList.from_geometrylist(samples)
+
+        number_of_coordinates = c_samples.n_coordinates
+
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        interpolated_samples = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_interpolated_samples = CGeometryList.from_geometrylist(interpolated_samples)
+
+        self._execute_function(
+            self.lib.mkernel_triangulation_interpolation_mesh2d,
+            self._meshkernelid,
+            byref(c_samples),
+            c_int(location_type),
+            byref(c_interpolated_samples),
+        )
+
+        return interpolated_samples
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status
