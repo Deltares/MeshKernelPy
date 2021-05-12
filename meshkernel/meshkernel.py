@@ -42,9 +42,7 @@ class Status(IntEnum):
 
 
 class MeshKernel:
-    """This class is the low-level entry point
-    for interacting with the MeshKernel library
-    """
+    """This class is the entry point for interacting with the MeshKernel library"""
 
     def __init__(self, is_geographic: bool = False):
         """Constructor of MeshKernel
@@ -98,7 +96,7 @@ class MeshKernel:
             self._meshkernelid,
         )
 
-    def set_mesh2d(self, mesh2d: Mesh2d) -> None:
+    def mesh2d_set(self, mesh2d: Mesh2d) -> None:
         """Sets the two-dimensional mesh state of the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -109,10 +107,10 @@ class MeshKernel:
         c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
 
         self._execute_function(
-            self.lib.mkernel_set_mesh2d, self._meshkernelid, byref(c_mesh2d)
+            self.lib.mkernel_mesh2d_set, self._meshkernelid, byref(c_mesh2d)
         )
 
-    def get_mesh2d(self) -> Mesh2d:
+    def mesh2d_get_data(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -121,31 +119,31 @@ class MeshKernel:
             Mesh2d: A copy of the two-dimensional mesh state.
         """
 
-        c_mesh2d = self._get_dimensions_mesh2d()
+        c_mesh2d = self._mesh2d_get_dimensions()
         mesh2d = c_mesh2d.allocate_memory()
         self._execute_function(
-            self.lib.mkernel_get_data_mesh2d, self._meshkernelid, byref(c_mesh2d)
+            self.lib.mkernel_mesh2d_get_data, self._meshkernelid, byref(c_mesh2d)
         )
 
         return mesh2d
 
-    def _get_dimensions_mesh2d(self) -> CMesh2d:
+    def _mesh2d_get_dimensions(self) -> CMesh2d:
         """For internal use only.
 
         Gets the Mesh2d dimensions.
         The integer parameters of the Mesh2D struct are set to the corresponding dimensions.
-        The pointers must be set to correctly sized memory before passing the struct to `get_mesh2d`.
+        The pointers must be set to correctly sized memory before passing the struct to `mesh2d_get`.
 
         Returns:
             Mesh2d: The Mesh2d dimensions.
         """
         c_mesh2d = CMesh2d()
         self._execute_function(
-            self.lib.mkernel_get_dimensions_mesh2d, self._meshkernelid, byref(c_mesh2d)
+            self.lib.mkernel_mesh2d_get_dimensions, self._meshkernelid, byref(c_mesh2d)
         )
         return c_mesh2d
 
-    def delete_mesh2d(
+    def mesh2d_delete(
         self,
         geometry_list: GeometryList,
         delete_option: DeleteMeshOption,
@@ -162,14 +160,14 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_delete_mesh2d,
+            self.lib.mkernel_mesh2d_delete,
             self._meshkernelid,
             byref(c_geometry_list),
             c_int(delete_option),
             c_bool(invert_deletion),
         )
 
-    def insert_edge_mesh2d(self, start_node: int, end_node: int) -> int:
+    def mesh2d_insert_edge(self, start_node: int, end_node: int) -> int:
         """Insert a new mesh2d edge connecting two given nodes.
 
         Args:
@@ -182,7 +180,7 @@ class MeshKernel:
 
         edge_index = c_int()
         self._execute_function(
-            self.lib.mkernel_insert_edge_mesh2d,
+            self.lib.mkernel_mesh2d_insert_edge,
             self._meshkernelid,
             c_int(start_node),
             c_int(end_node),
@@ -191,7 +189,7 @@ class MeshKernel:
 
         return edge_index.value
 
-    def insert_node_mesh2d(self, x: float, y: float) -> int:
+    def mesh2d_insert_node(self, x: float, y: float) -> int:
         """Insert a new node at the specified coordinates
 
         Args:
@@ -205,7 +203,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_insert_node_mesh2d,
+            self.lib.mkernel_mesh2d_insert_node,
             self._meshkernelid,
             c_double(x),
             c_double(y),
@@ -213,7 +211,7 @@ class MeshKernel:
         )
         return index.value
 
-    def delete_node_mesh2d(self, node_index: int) -> None:
+    def mesh2d_delete_node(self, node_index: int) -> None:
         """Deletes a Mesh2d node with the given `index`.
 
         Args:
@@ -227,10 +225,10 @@ class MeshKernel:
             raise InputError("node_index needs to be a positive integer")
 
         self._execute_function(
-            self.lib.mkernel_delete_node_mesh2d, self._meshkernelid, c_int(node_index)
+            self.lib.mkernel_mesh2d_delete_node, self._meshkernelid, c_int(node_index)
         )
 
-    def move_node_mesh2d(self, x: float, y: float, node_index: int) -> None:
+    def mesh2d_move_node(self, x: float, y: float, node_index: int) -> None:
         """Moves a Mesh2d node with the given `index` to the point position.
 
         Args:
@@ -246,14 +244,14 @@ class MeshKernel:
             raise InputError("node_index needs to be a positive integer")
 
         self._execute_function(
-            self.lib.mkernel_move_node_mesh2d,
+            self.lib.mkernel_mesh2d_move_node,
             self._meshkernelid,
             c_double(x),
             c_double(y),
             c_int(node_index),
         )
 
-    def delete_edge_mesh2d(self, x_coordinate: float, y_coordinate: float) -> None:
+    def mesh2d_delete_edge(self, x_coordinate: float, y_coordinate: float) -> None:
         """Deletes the closest mesh2d edge to a point.
         The coordinates of the edge middle points are used for calculating the distances to the point.
 
@@ -263,13 +261,13 @@ class MeshKernel:
         """
 
         self._execute_function(
-            self.lib.mkernel_delete_edge_mesh2d,
+            self.lib.mkernel_mesh2d_delete_edge,
             self._meshkernelid,
             c_double(x_coordinate),
             c_double(y_coordinate),
         )
 
-    def get_edge_mesh2d(self, x: float, y: float) -> int:
+    def mesh2d_get_edge(self, x: float, y: float) -> int:
         """Gets the closest mesh2d edge to a point.
 
         Args:
@@ -283,7 +281,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_get_edge_mesh2d,
+            self.lib.mkernel_mesh2d_get_edge,
             self._meshkernelid,
             c_double(x),
             c_double(y),
@@ -292,7 +290,7 @@ class MeshKernel:
 
         return index.value
 
-    def get_node_index_mesh2d(self, x: float, y: float, search_radius: float) -> int:
+    def mesh2d_get_node_index(self, x: float, y: float, search_radius: float) -> int:
         """Finds the node closest to a point within a given search radius.
 
         Args:
@@ -307,7 +305,7 @@ class MeshKernel:
         index = c_int()
 
         self._execute_function(
-            self.lib.mkernel_get_node_index_mesh2d,
+            self.lib.mkernel_mesh2d_get_node_index,
             self._meshkernelid,
             c_double(x),
             c_double(y),
@@ -317,7 +315,7 @@ class MeshKernel:
 
         return index.value
 
-    def get_hanging_edges_mesh2d(self) -> ndarray:
+    def mesh2d_get_hanging_edges(self) -> ndarray:
         """Gets the indices of hanging edges. A hanging edge is an edge where one of the two nodes is not connected.
 
         Returns:
@@ -325,20 +323,20 @@ class MeshKernel:
         """
 
         # Get number of hanging edges
-        number_hanging_edges = self._count_hanging_edges_mesh2d()
+        number_hanging_edges = self._mesh2d_count_hanging_edges()
 
         # Get hanging edges
         hanging_edges = np.empty(number_hanging_edges, dtype=np.int32)
         c_hanging_edges = np.ctypeslib.as_ctypes(hanging_edges)
         self._execute_function(
-            self.lib.mkernel_get_hanging_edges_mesh2d,
+            self.lib.mkernel_mesh2d_get_hanging_edges,
             self._meshkernelid,
             byref(c_hanging_edges),
         )
 
         return hanging_edges
 
-    def _count_hanging_edges_mesh2d(self) -> int:
+    def _mesh2d_count_hanging_edges(self) -> int:
         """For internal use only.
 
         Count the number of hanging edges in a mesh2d.
@@ -349,22 +347,22 @@ class MeshKernel:
         """
         c_number_hanging_edges = c_int()
         self._execute_function(
-            self.lib.mkernel_count_hanging_edges_mesh2d,
+            self.lib.mkernel_mesh2d_count_hanging_edges,
             self._meshkernelid,
             byref(c_number_hanging_edges),
         )
         return c_number_hanging_edges.value
 
-    def delete_hanging_edges_mesh2d(self) -> None:
+    def mesh2d_delete_hanging_edges(self) -> None:
         """Delete the hanging edges in the Mesh2d.
         A hanging edge is an edge where one of the two nodes is not connected.
         """
 
         self._execute_function(
-            self.lib.mkernel_delete_hanging_edges_mesh2d, self._meshkernelid
+            self.lib.mkernel_mesh2d_delete_hanging_edges, self._meshkernelid
         )
 
-    def make_mesh_from_polygon_mesh2d(self, polygon: GeometryList) -> None:
+    def mesh2d_make_mesh_from_polygon(self, polygon: GeometryList) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
 
@@ -375,12 +373,12 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
 
         self._execute_function(
-            self.lib.mkernel_make_mesh_from_polygon_mesh2d,
+            self.lib.mkernel_mesh2d_make_mesh_from_polygon,
             self._meshkernelid,
             byref(c_geometry_list),
         )
 
-    def make_mesh_from_samples_mesh2d(self, sample_points: GeometryList) -> None:
+    def mesh2d_make_mesh_from_samples(self, sample_points: GeometryList) -> None:
         """Makes a triangular mesh from a set of samples, triangulating the sample points.
 
         Args:
@@ -390,12 +388,12 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(sample_points)
 
         self._execute_function(
-            self.lib.mkernel_make_mesh_from_samples_mesh2d,
+            self.lib.mkernel_mesh2d_make_mesh_from_samples,
             self._meshkernelid,
             byref(c_geometry_list),
         )
 
-    def refine_polygon(
+    def polygon_refine(
         self,
         polygon: GeometryList,
         first_node: int,
@@ -417,7 +415,7 @@ class MeshKernel:
         c_n_polygon_nodes = c_int()
 
         self._execute_function(
-            self.lib.mkernel_count_refine_polygon,
+            self.lib.mkernel_polygon_count_refine,
             self._meshkernelid,
             byref(c_polygon),
             c_int(first_node),
@@ -435,7 +433,7 @@ class MeshKernel:
         c_refined_polygon = CGeometryList.from_geometrylist(refined_polygon)
 
         self._execute_function(
-            self.lib.mkernel_refine_polygon,
+            self.lib.mkernel_polygon_refine,
             self._meshkernelid,
             byref(c_polygon),
             c_int(first_node),
@@ -446,8 +444,12 @@ class MeshKernel:
 
         return refined_polygon
 
-    def refine_based_on_samples_mesh2d(
-        self, samples: GeometryList, mesh_refinement_params: MeshRefinementParameters
+    def mesh2d_refine_based_on_samples(
+        self,
+        samples: GeometryList,
+        relative_search_radius: float,
+        minimum_num_samples: int,
+        mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -458,6 +460,9 @@ class MeshKernel:
 
         Args:
             samples (GeometryList): The samples.
+            relative_search_radius (float): The relative search radius relative to the face size,
+                                            used for some interpolation algorithms.
+            minimum_num_samples (int): The minimum number of samples used for some averaging algorithms.
             mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
         """
 
@@ -467,13 +472,15 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_refine_based_on_samples_mesh2d,
+            self.lib.mkernel_mesh2d_refine_based_on_samples,
             self._meshkernelid,
             byref(c_samples),
+            c_double(relative_search_radius),
+            c_int(minimum_num_samples),
             byref(c_refinement_params),
         )
 
-    def refine_based_on_polygon_mesh2d(
+    def mesh2d_refine_based_on_polygon(
         self,
         polygon: GeometryList,
         mesh_refinement_params: MeshRefinementParameters,
@@ -491,13 +498,13 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_refine_based_on_polygon_mesh2d,
+            self.lib.mkernel_mesh2d_refine_based_on_polygon,
             self._meshkernelid,
             byref(c_polygon),
             byref(c_refinement_params),
         )
 
-    def get_points_in_polygon(
+    def polygon_get_included_points(
         self, selecting_polygon: GeometryList, selected_polygon: GeometryList
     ) -> GeometryList:
         """Selects the polygon points within another polygon.
@@ -524,7 +531,7 @@ class MeshKernel:
         c_selection = CGeometryList.from_geometrylist(selection)
 
         self._execute_function(
-            self.lib.mkernel_get_points_in_polygon,
+            self.lib.mkernel_polygon_get_included_points,
             self._meshkernelid,
             byref(c_selecting_polygon),
             byref(c_selected_polygon),
@@ -533,7 +540,7 @@ class MeshKernel:
 
         return selection
 
-    def _count_obtuse_triangles_mesh2d(self) -> int:
+    def _mesh2d_count_obtuse_triangles(self) -> int:
         """For internal use only.
 
         Gets the number of obtuse mesh2d triangles.
@@ -546,21 +553,21 @@ class MeshKernel:
         n_obtuse_triangles = c_int(0)
 
         self._execute_function(
-            self.lib.mkernel_count_obtuse_triangles_mesh2d,
+            self.lib.mkernel_mesh2d_count_obtuse_triangles,
             self._meshkernelid,
             byref(n_obtuse_triangles),
         )
 
         return n_obtuse_triangles.value
 
-    def get_obtuse_triangles_mass_centers_mesh2d(self) -> GeometryList:
+    def mesh2d_get_obtuse_triangles_mass_centers(self) -> GeometryList:
         """Gets the mass centers of obtuse mesh2d triangles.
         Obtuse triangles are those having one angle larger than 90°.
 
         Returns:
             GeometryList: The geometry list with the mass center coordinates.
         """
-        n_obtuse_triangles = self._count_obtuse_triangles_mesh2d()
+        n_obtuse_triangles = self._mesh2d_count_obtuse_triangles()
 
         x_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
         y_coordinates = np.empty(n_obtuse_triangles, dtype=np.double)
@@ -569,14 +576,14 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_get_obtuse_triangles_mass_centers_mesh2d,
+            self.lib.mkernel_mesh2d_get_obtuse_triangles_mass_centers,
             self._meshkernelid,
             byref(c_geometry_list),
         )
 
         return geometry_list
 
-    def _count_small_flow_edge_centers_mesh2d(
+    def _mesh2d_count_small_flow_edge_centers(
         self, small_flow_edges_length_threshold: float
     ) -> int:
         """For internal use only.
@@ -593,7 +600,7 @@ class MeshKernel:
 
         n_small_flow_edge_centers = c_int()
         self._execute_function(
-            self.lib.mkernel_count_small_flow_edge_centers_mesh2d,
+            self.lib.mkernel_mesh2d_count_small_flow_edge_centers,
             self._meshkernelid,
             c_double(small_flow_edges_length_threshold),
             byref(n_small_flow_edge_centers),
@@ -601,7 +608,7 @@ class MeshKernel:
 
         return n_small_flow_edge_centers.value
 
-    def get_small_flow_edge_centers_mesh2d(
+    def mesh2d_get_small_flow_edge_centers(
         self, small_flow_edges_length_threshold: float
     ) -> GeometryList:
         """Gets the small mesh2d flow edges centers.
@@ -614,7 +621,7 @@ class MeshKernel:
             int: The geometry list with the small flow edge center coordinates.
         """
 
-        n_small_flow_edge_centers = self._count_small_flow_edge_centers_mesh2d(
+        n_small_flow_edge_centers = self._mesh2d_count_small_flow_edge_centers(
             small_flow_edges_length_threshold
         )
 
@@ -625,7 +632,7 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_get_small_flow_edge_centers_mesh2d,
+            self.lib.mkernel_mesh2d_get_small_flow_edge_centers,
             self._meshkernelid,
             c_double(small_flow_edges_length_threshold),
             byref(c_geometry_list),
@@ -633,7 +640,7 @@ class MeshKernel:
 
         return geometry_list
 
-    def delete_small_flow_edges_and_small_triangles_mesh2d(
+    def mesh2d_delete_small_flow_edges_and_small_triangles(
         self,
         small_flow_edges_length_threshold: float,
         min_fractional_area_triangles: float,
@@ -649,7 +656,7 @@ class MeshKernel:
         """
 
         self._execute_function(
-            self.lib.mkernel_delete_small_flow_edges_and_small_triangles_mesh2d,
+            self.lib.mkernel_mesh2d_delete_small_flow_edges_and_small_triangles,
             self._meshkernelid,
             c_double(small_flow_edges_length_threshold),
             c_double(min_fractional_area_triangles),
@@ -694,7 +701,7 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def get_mesh_boundaries_as_polygons_mesh2d(self) -> GeometryList:
+    def mesh2d_get_mesh_boundaries_as_polygons(self) -> GeometryList:
         """Retrieves the boundaries of a mesh as a series of separated polygons.
 
         For example, if a mesh has an single inner hole, two polygons will be generated,
@@ -705,7 +712,7 @@ class MeshKernel:
         """
 
         # Get number of polygon nodes
-        number_of_polygon_nodes = self._count_mesh_boundaries_as_polygons_mesh2d()
+        number_of_polygon_nodes = self._mesh2d_count_mesh_boundaries_as_polygons()
 
         # Create GeometryList instance
         x_coordinates = np.empty(number_of_polygon_nodes, dtype=np.double)
@@ -715,31 +722,31 @@ class MeshKernel:
         # Get mesh boundary
         c_geometry_list_out = CGeometryList.from_geometrylist(geometry_list_out)
         self._execute_function(
-            self.lib.mkernel_get_mesh_boundaries_as_polygons_mesh2d,
+            self.lib.mkernel_mesh2d_get_mesh_boundaries_as_polygons,
             self._meshkernelid,
             byref(c_geometry_list_out),
         )
 
         return geometry_list_out
 
-    def _count_mesh_boundaries_as_polygons_mesh2d(self) -> int:
+    def _mesh2d_count_mesh_boundaries_as_polygons(self) -> int:
         """For internal use only.
 
         Counts the number of polygon nodes contained in the mesh boundary polygons
-        computed in function get_mesh_boundaries_as_polygons_mesh2d.
+        computed in function mesh2d_get_mesh_boundaries_as_polygons.
 
         Returns:
             int: The number of polygon nodes.
         """
         number_of_polygon_nodes = c_int()
         self._execute_function(
-            self.lib.mkernel_count_mesh_boundaries_as_polygons_mesh2d,
+            self.lib.mkernel_mesh2d_count_mesh_boundaries_as_polygons,
             self._meshkernelid,
             byref(number_of_polygon_nodes),
         )
         return number_of_polygon_nodes.value
 
-    def merge_nodes_mesh2d(
+    def mesh2d_merge_nodes(
         self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
         """Merges the mesh2d nodes, effectively removing all small edges
@@ -750,13 +757,13 @@ class MeshKernel:
         """
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         self._execute_function(
-            self.lib.mkernel_merge_nodes_mesh2d,
+            self.lib.mkernel_mesh2d_merge_nodes,
             self._meshkernelid,
             byref(c_geometry_list),
             c_double(merging_distance),
         )
 
-    def merge_two_nodes_mesh2d(self, first_node: int, second_node: int) -> None:
+    def mesh2d_merge_two_nodes(self, first_node: int, second_node: int) -> None:
         """Merges `first_node` into `second_node`.
 
         Args:
@@ -765,13 +772,13 @@ class MeshKernel:
         """
 
         self._execute_function(
-            self.lib.mkernel_merge_two_nodes_mesh2d,
+            self.lib.mkernel_mesh2d_merge_two_nodes,
             self._meshkernelid,
             c_int(first_node),
             c_int(second_node),
         )
 
-    def get_nodes_in_polygons_mesh2d(
+    def mesh2d_get_nodes_in_polygons(
         self, geometry_list: GeometryList, inside: bool
     ) -> ndarray:
         """Gets the indices of the mesh2d nodes selected with a polygon.
@@ -785,7 +792,7 @@ class MeshKernel:
         """
 
         # Get number of mesh nodes
-        number_of_mesh_nodes = self._count_nodes_in_polygons_mesh2d(
+        number_of_mesh_nodes = self._mesh2d_count_nodes_in_polygons(
             geometry_list, inside
         )
 
@@ -795,7 +802,7 @@ class MeshKernel:
 
         # Get selected nodes
         self._execute_function(
-            self.lib.mkernel_get_nodes_in_polygons_mesh2d,
+            self.lib.mkernel_mesh2d_get_nodes_in_polygons,
             self._meshkernelid,
             byref(c_geometry_list),
             c_int(inside),
@@ -804,13 +811,13 @@ class MeshKernel:
 
         return selected_nodes
 
-    def _count_nodes_in_polygons_mesh2d(
+    def _mesh2d_count_nodes_in_polygons(
         self, geometry_list: GeometryList, inside: int
     ) -> int:
         """For internal use only.
 
         Counts the number of selected mesh node indices.
-        This function should be used by clients before `get_nodes_in_polygons_mesh2d`
+        This function should be used by clients before `mesh2d_get_nodes_in_polygons`
         for allocating an integer array storing the selection results.
 
         Returns:
@@ -821,7 +828,7 @@ class MeshKernel:
 
         # Get number of mesh nodes
         self._execute_function(
-            self.lib.mkernel_count_nodes_in_polygons_mesh2d,
+            self.lib.mkernel_mesh2d_count_nodes_in_polygons,
             self._meshkernelid,
             byref(c_geometry_list),
             c_int(inside),
@@ -829,7 +836,7 @@ class MeshKernel:
         )
         return c_number_of_mesh_nodes.value
 
-    def set_mesh1d(self, mesh1d: Mesh1d) -> None:
+    def mesh1d_set(self, mesh1d: Mesh1d) -> None:
         """Sets the one-dimensional mesh state of the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -841,10 +848,10 @@ class MeshKernel:
         c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
 
         self._execute_function(
-            self.lib.mkernel_set_mesh1d, self._meshkernelid, byref(c_mesh1d)
+            self.lib.mkernel_mesh1d_set, self._meshkernelid, byref(c_mesh1d)
         )
 
-    def get_mesh1d(self) -> Mesh1d:
+    def mesh1d_get_data(self) -> Mesh1d:
         """Gets the one-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -853,37 +860,37 @@ class MeshKernel:
             Mesh1d: A copy of the two-dimensional mesh state.
         """
 
-        c_mesh1d = self._get_dimensions_mesh1d()
+        c_mesh1d = self._mesh1d_get_dimensions()
 
         mesh1d = c_mesh1d.allocate_memory()
         self._execute_function(
-            self.lib.mkernel_get_data_mesh1d, self._meshkernelid, byref(c_mesh1d)
+            self.lib.mkernel_mesh1d_get_data, self._meshkernelid, byref(c_mesh1d)
         )
 
         return mesh1d
 
-    def _get_dimensions_mesh1d(self) -> CMesh1d:
+    def _mesh1d_get_dimensions(self) -> CMesh1d:
         """For internal use only.
 
         Gets the Mesh1d dimensions.
         The integer parameters of the Mesh1D struct are set to the corresponding dimensions.
-        The pointers must be set to correctly sized memory before passing the struct to `get_mesh1d`.
+        The pointers must be set to correctly sized memory before passing the struct to `mesh1d_get`.
 
         Returns:
             CMesh1d: The CMesh1d with the set dimensions.
         """
         c_mesh1d = CMesh1d()
         self._execute_function(
-            self.lib.mkernel_get_dimensions_mesh1d, self._meshkernelid, byref(c_mesh1d)
+            self.lib.mkernel_mesh1d_get_dimensions, self._meshkernelid, byref(c_mesh1d)
         )
         return c_mesh1d
 
-    def _get_dimensions_contacts(self) -> CContacts:
+    def _contacts_get_dimensions(self) -> CContacts:
         """For internal use only.
 
         Gets the Contacts dimensions.
         The integer parameters of the Contacts struct are set to the corresponding dimensions.
-        The pointers must be set to correctly sized memory before passing the struct to `get_contacts`.
+        The pointers must be set to correctly sized memory before passing the struct to `contacts_get`.
 
         Returns:
             CContacts: The Contacts with the set dimensions.
@@ -891,14 +898,14 @@ class MeshKernel:
         c_contacts = CContacts()
 
         self._execute_function(
-            self.lib.mkernel_get_dimensions_contacts,
+            self.lib.mkernel_contacts_get_dimensions,
             self._meshkernelid,
             byref(c_contacts),
         )
 
         return c_contacts
 
-    def get_contacts(self) -> Contacts:
+    def contacts_get_data(self) -> Contacts:
         """Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -906,17 +913,17 @@ class MeshKernel:
         Returns:
             Contacts: The contacts.
         """
-        c_contacts = self._get_dimensions_contacts()
+        c_contacts = self._contacts_get_dimensions()
 
         contacts = c_contacts.allocate_memory()
 
         self._execute_function(
-            self.lib.mkernel_get_data_contacts, self._meshkernelid, byref(c_contacts)
+            self.lib.mkernel_contacts_get_data, self._meshkernelid, byref(c_contacts)
         )
 
         return contacts
 
-    def compute_single_contacts(
+    def contacts_compute_single(
         self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
@@ -931,13 +938,13 @@ class MeshKernel:
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
-            self.lib.mkernel_compute_single_contacts,
+            self.lib.mkernel_contacts_compute_single,
             self._meshkernelid,
             c_node_mask,
             byref(c_polygons),
         )
 
-    def compute_multiple_contacts(self, node_mask: ndarray) -> None:
+    def contacts_compute_multiple(self, node_mask: ndarray) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
 
         Args:
@@ -948,12 +955,12 @@ class MeshKernel:
         c_node_mask = as_ctypes(node_mask)
 
         self._execute_function(
-            self.lib.mkernel_compute_multiple_contacts,
+            self.lib.mkernel_contacts_compute_multiple,
             self._meshkernelid,
             c_node_mask,
         )
 
-    def compute_with_polygons_contacts(
+    def contacts_compute_with_polygons(
         self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
@@ -969,13 +976,13 @@ class MeshKernel:
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
-            self.lib.mkernel_compute_with_polygons_contacts,
+            self.lib.mkernel_contacts_compute_with_polygons,
             self._meshkernelid,
             c_node_mask,
             byref(c_polygons),
         )
 
-    def compute_with_points_contacts(
+    def contacts_compute_with_points(
         self, node_mask: ndarray, points: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
@@ -991,13 +998,13 @@ class MeshKernel:
         c_points = CGeometryList.from_geometrylist(points)
 
         self._execute_function(
-            self.lib.mkernel_compute_with_points_contacts,
+            self.lib.mkernel_contacts_compute_with_points,
             self._meshkernelid,
             c_node_mask,
             byref(c_points),
         )
 
-    def compute_boundary_contacts(
+    def contacts_compute_boundary(
         self, node_mask: ndarray, polygons: GeometryList, search_radius: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
@@ -1015,7 +1022,7 @@ class MeshKernel:
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
-            self.lib.mkernel_compute_boundary_contacts,
+            self.lib.mkernel_contacts_compute_boundary,
             self._meshkernelid,
             c_node_mask,
             byref(c_polygons),
