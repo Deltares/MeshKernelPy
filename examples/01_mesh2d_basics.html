@@ -201,7 +201,6 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
 <span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
 </pre></div>
 </div>
@@ -240,8 +239,7 @@ They are one-dimensional <code class="docutils literal notranslate"><span class=
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_6_0.png" src="../_images/01_mesh2d_basics_6_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_6_0.svg" src="../_images/01_mesh2d_basics_6_0.svg" /></div>
 </div>
 <p>The third mandatory attribute is <code class="docutils literal notranslate"><span class="pre">edge_nodes</span></code>.
 It describes the indices of the nodes that make up the edges.</p>
@@ -281,8 +279,7 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_10_0.png" src="../_images/01_mesh2d_basics_10_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_10_0.svg" src="../_images/01_mesh2d_basics_10_0.svg" /></div>
 </div>
 <p>In order to interact with the <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library, we create a new instance of the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> class.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">is_geographic</span></code> parameter of its constructor describes whether the mesh is cartesian (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or spherical (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
@@ -332,8 +329,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_17_0.png" src="../_images/01_mesh2d_basics_17_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_17_0.svg" src="../_images/01_mesh2d_basics_17_0.svg" /></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> also searches for the middle point of edges and adds them as parameters to the <code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> class.</p>
 <div class="cell docutils container">
@@ -344,8 +340,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_19_0.png" src="../_images/01_mesh2d_basics_19_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_19_0.svg" src="../_images/01_mesh2d_basics_19_0.svg" /></div>
 </div>
 <p>Until now everything <em>looked</em> structured, so let us add a few nodes to change that.</p>
 <div class="cell docutils container">
@@ -396,8 +391,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_27_0.png" src="../_images/01_mesh2d_basics_27_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_27_0.svg" src="../_images/01_mesh2d_basics_27_0.svg" /></div>
 </div>
 <p>We can also delete nodes.</p>
 <div class="cell docutils container">
@@ -429,8 +423,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_31_0.png" src="../_images/01_mesh2d_basics_31_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_31_0.svg" src="../_images/01_mesh2d_basics_31_0.svg" /></div>
 </div>
 <p>Quite often, hanging edges are unwanted.
 That is why <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides methods to deal with them.
