@@ -39,9 +39,7 @@ class Status(IntEnum):
 
 
 class MeshKernel:
-    """This class is the low-level entry point
-    for interacting with the MeshKernel library
-    """
+    """This class is the entry point for interacting with the MeshKernel library"""
 
     def __init__(self, is_geographic: bool = False):
         """Constructor of MeshKernel
