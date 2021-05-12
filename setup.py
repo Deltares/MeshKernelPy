@@ -111,7 +111,7 @@ setup(
             "black==21.4b1",
             "isort",
         ],
-        "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
+        "docs": ["sphinx", "sphinx_book_theme", "myst_nb", "matplotlib"],
     },
     python_requires=">=3.8",
     packages=["meshkernel"],
