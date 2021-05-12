@@ -667,7 +667,7 @@ the polygon edges.</p>
 
 <dl class="py method">
 <dt>
-<code class="sig-name descname"><span class="pre">mesh2d_refine_based_on_samples</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.MeshRefinementParameters</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<code class="sig-name descname"><span class="pre">mesh2d_refine_based_on_samples</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_radius</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_num_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.MeshRefinementParameters</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
 <dd><p>Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
 The number of successive splits is indicated by the sample value.
 For example:
@@ -678,6 +678,9 @@ For example:
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>samples</strong> (<em>GeometryList</em>) – The samples.</p></li>
+<li><p><strong>relative_search_radius</strong> (<em>float</em>) – The relative search radius relative to the face size,
+used for some interpolation algorithms.</p></li>
+<li><p><strong>minimum_num_samples</strong> (<em>int</em>) – The minimum number of samples used for some averaging algorithms.</p></li>
 <li><p><strong>mesh_refinement_params</strong> (<em>MeshRefinementParameters</em>) – The mesh refinement parameters.</p></li>
 </ul>
 </dd>
