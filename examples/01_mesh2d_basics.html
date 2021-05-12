@@ -294,14 +294,14 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 This state can be accessed with the corresponding getter and setter methods.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">set_mesh2d</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_set</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get_data</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -345,8 +345,8 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>Until now everything <em>looked</em> structured, so let us add a few nodes to change that.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_node_mesh2d</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
-<span class="n">node_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_node_mesh2d</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_insert_node</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">node_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_insert_node</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -354,9 +354,9 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>We also have to connect our nodes, otherwise <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> will garbage collect them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">node_index_0</span><span class="p">)</span>
-<span class="n">edge_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="n">node_index_0</span><span class="p">,</span> <span class="n">node_index_1</span><span class="p">)</span>
-<span class="n">edge_index_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">insert_edge_mesh2d</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge_index_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_insert_edge</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">node_index_0</span><span class="p">)</span>
+<span class="n">edge_index_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_insert_edge</span><span class="p">(</span><span class="n">node_index_0</span><span class="p">,</span> <span class="n">node_index_1</span><span class="p">)</span>
+<span class="n">edge_index_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_insert_edge</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -364,7 +364,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>Let us get the new state.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_1</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get_data</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -396,8 +396,8 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>We can also delete nodes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">delete_node_mesh2d</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">)</span>
-<span class="n">mesh2d_output_2</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_delete_node</span><span class="p">(</span><span class="n">node_index_1</span><span class="p">)</span>
+<span class="n">mesh2d_output_2</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get_data</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -430,7 +430,7 @@ That is why <code class="docutils literal notranslate"><span class="pre">meshker
 For once we can it can count hanging edges.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hanging_edges</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_hanging_edges_mesh2d</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hanging_edges</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get_hanging_edges</span><span class="p">()</span>
 <span class="k">assert</span> <span class="n">hanging_edges</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 </div>
@@ -439,8 +439,8 @@ For once we can it can count hanging edges.</p>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> can also find and delete them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">delete_hanging_edges_mesh2d</span><span class="p">()</span>
-<span class="n">mesh2d_output_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">get_mesh2d</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_delete_hanging_edges</span><span class="p">()</span>
+<span class="n">mesh2d_output_3</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get_data</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -466,8 +466,7 @@ For once we can it can count hanging edges.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_37_0.png" src="../_images/01_mesh2d_basics_37_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_37_0.svg" src="../_images/01_mesh2d_basics_37_0.svg" /></div>
 </div>
 </div>
 
