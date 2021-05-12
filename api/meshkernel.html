@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeshKernel &#8212; MeshKernelPy  documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parameter Objects" href="py_structures.html" />
+    <link rel="prev" title="Python API" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">MeshKernelPy  documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Python API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     MeshKernel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="py_structures.html">
+     Parameter Objects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="factories.html">
+     Factories
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="errors.html">
+     Errors
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/api/meshkernel.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="meshkernel">
+<span id="api-meshkernel"></span><h1>MeshKernel<a class="headerlink" href="#meshkernel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">meshkernel.</span></code><code class="sig-name descname"><span class="pre">MeshKernel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_geographic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>This class is the low-level entry point
+for interacting with the MeshKernel library</p>
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">compute_boundary_contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_radius</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
+should not (0) be connected</p></li>
+<li><p><strong>points</strong> (<em>GeometryList</em>) – The points selecting the Mesh2d faces to connect.</p></li>
+<li><p><strong>search_radius</strong> (<em>float</em>) – The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
+value double, the search radius will be calculated internally.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">compute_multiple_contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
+should not (0) be connected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">compute_single_contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
+The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
+should not (0) be connected</p></li>
+<li><p><strong>polygons</strong> (<em>GeometryList</em>) – The polygons selecting the area where the contacts will be be generated.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">compute_with_points_contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
+the input point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
+should not (0) be connected</p></li>
+<li><p><strong>points</strong> (<em>GeometryList</em>) – The points selecting the Mesh2d faces to connect.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">compute_with_polygons_contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
+should not (0) be connected</p></li>
+<li><p><strong>polygons</strong> (<em>GeometryList</em>) – The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">delete_edge_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_coordinate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Deletes the closest mesh2d edge to a point.
+The coordinates of the edge middle points are used for calculating the distances to the point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">delete_hanging_edges_mesh2d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Delete the hanging edges in the Mesh2d.
+A hanging edge is an edge where one of the two nodes is not connected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">delete_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.DeleteMeshOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_deletion</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Deletes a mesh in a polygon using several options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The GeometryList describing the polygon where to perform the operation.</p></li>
+<li><p><strong>delete_option</strong> (<em>DeleteMeshOption</em>) – The option describing the strategy to delete the mesh.</p></li>
+<li><p><strong>invert_deletion</strong> (<em>bool</em>) – Whether or not to invert the deletion.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">delete_node_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Deletes a Mesh2d node with the given <cite>index</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> (<em>int</em>) – The index of the node to be deleted.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>InputError</strong> – Raised when <cite>node_index</cite> is smaller than 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">delete_small_flow_edges_and_small_triangles_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">small_flow_edges_length_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_fractional_area_triangles</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Deletes all small mesh2d flow edges and small triangles.
+The flow edges are the edges connecting faces circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>small_flow_edges_length_threshold</strong> (<em>float</em>) – The configurable length for detecting a small flow edge.</p></li>
+<li><p><strong>min_fractional_area_triangles</strong> (<em>float</em>) – The ratio of the face area to the average area of neighboring
+non-triangular faces. This parameter is used for determining whether
+a triangular face is small.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_contacts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Contacts</span></dt>
+<dd><p>Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The contacts.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Contacts</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_edge_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span></dt>
+<dd><p>Gets the closest mesh2d edge to a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the edge</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_hanging_edges_mesh2d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">numpy.ndarray</span></dt>
+<dd><p>Gets the indices of hanging edges. A hanging edge is an edge where one of the two nodes is not connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The integer array describing the indices of the hanging edges.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_mesh1d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh1d</span></dt>
+<dd><p>Gets the one-dimensional mesh state from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A copy of the two-dimensional mesh state.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Mesh1d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_mesh2d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh2d</span></dt>
+<dd><p>Gets the two-dimensional mesh state from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A copy of the two-dimensional mesh state.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Mesh2d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_mesh_boundaries_as_polygons_mesh2d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Retrieves the boundaries of a mesh as a series of separated polygons.</p>
+<p>For example, if a mesh has an single inner hole, two polygons will be generated,
+one for the inner boundary and one for the outer boundary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The output network boundary polygon.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_node_index_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_radius</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span></dt>
+<dd><p>Finds the node closest to a point within a given search radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+<li><p><strong>search_radius</strong> (<em>float</em>) – The search radius.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of node</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_nodes_in_polygons_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inside</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">numpy.ndarray</span></dt>
+<dd><p>Gets the indices of the mesh2d nodes selected with a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The input polygon.</p></li>
+<li><p><strong>inside</strong> (<em>bool</em>) – Selection of the nodes inside the polygon (True) or outside (False)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The integer array describing the selected nodes indices</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_obtuse_triangles_mass_centers_mesh2d</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Gets the mass centers of obtuse mesh2d triangles.
+Obtuse triangles are those having one angle larger than 90°.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The geometry list with the mass center coordinates.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_points_in_polygon</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Selects the polygon points within another polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>selecting_polygon</strong> (<em>GeometryList</em>) – The selection polygon.</p></li>
+<li><p><strong>selected_polygon</strong> (<em>GeometryList</em>) – The polygon of which to get the selected points.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The selection result. The selected points are contained in the values array of the returned</dt><dd><p>GeometryList (0.0 not selected, 1.0 selected).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_small_flow_edge_centers_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">small_flow_edges_length_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Gets the small mesh2d flow edges centers.
+The flow edges are the edges connecting face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>small_flow_edges_length_threshold</strong> (<em>float</em>) – The configurable length for detecting a small flow edge.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The geometry list with the small flow edge center coordinates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">get_splines</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_points_between_nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Get the computed spline points between two corner nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The input corner nodes of the splines</p></li>
+<li><p><strong>number_of_points_between_nodes</strong> (<em>int</em>) – The number of spline points to generate between two corner nodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The output spline.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">insert_edge_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span></dt>
+<dd><p>Insert a new mesh2d edge connecting two given nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_node</strong> (<em>int</em>) – The index of the first node.</p></li>
+<li><p><strong>end_node</strong> (<em>int</em>) – The index of the second node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the new edge.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">insert_node_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span></dt>
+<dd><p>Insert a new node at the specified coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the new node.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the new node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the new node.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">make_mesh_from_polygon_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
+the polygon edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>polygon</strong> (<em>GeometryList</em>) – The polygon.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">make_mesh_from_samples_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_points</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Makes a triangular mesh from a set of samples, triangulating the sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample_points</strong> (<em>GeometryList</em>) – The sample points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">merge_nodes_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merging_distance</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Merges the mesh2d nodes, effectively removing all small edges</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<em>float</em>) – The polygon defining the area where the operation will be performed.</p></li>
+<li><p><strong>geometry_list</strong> – The distance below which two nodes will be merged</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">merge_two_nodes_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Merges <cite>first_node</cite> into <cite>second_node</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_node</strong> (<em>int</em>) – The index of the first node to merge.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The index of the second node to merge.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">move_node_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Moves a Mesh2d node with the given <cite>index</cite> to the point position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the new position of the node.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the new position of the node.</p></li>
+<li><p><strong>node_index</strong> (<em>int</em>) – The index of the node to be moved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>InputError</strong> – Raised when <cite>node_index</cite> is smaller than 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">refine_based_on_polygon_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.MeshRefinementParameters</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>GeometryList</em>) – The closed polygon.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<em>MeshRefinementParameters</em>) – The mesh refinement parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">refine_based_on_samples_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.MeshRefinementParameters</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
+The number of successive splits is indicated by the sample value.
+For example:
+- a value of 0 means no split and hence no refinement;
+- a value of 1 means a single split (a quadrilateral face generates 4 faces);
+- a value of 2 two splits (a quadrilateral face generates 16 faces);</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>GeometryList</em>) – The samples.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<em>MeshRefinementParameters</em>) – The mesh refinement parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">refine_polygon</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_edge_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygon</strong> (<em>GeometryList</em>) – The input polygon to refine.</p></li>
+<li><p><strong>first_node</strong> (<em>int</em>) – The first index of the refinement interval.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The second index of the refinement interval.</p></li>
+<li><p><strong>target_edge_length</strong> (<em>float</em>) – The target interval edge length.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The refined polygon.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">set_mesh1d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh1d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.Mesh1d</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Sets the one-dimensional mesh state of the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mesh1d</strong> (<em>Mesh1d</em>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">set_mesh2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.Mesh2d</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Sets the two-dimensional mesh state of the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mesh2d</strong> (<em>Mesh2d</em>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Python API</a>
+    <a class='right-next' id="next-link" href="py_structures.html" title="next page">Parameter Objects</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+            &copy; Copyright 2021, Deltares.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
