@@ -442,7 +442,11 @@ class MeshKernel:
         return refined_polygon
 
     def mesh2d_refine_based_on_samples(
-        self, samples: GeometryList, mesh_refinement_params: MeshRefinementParameters
+        self,
+        samples: GeometryList,
+        relative_search_radius: float,
+        minimum_num_samples: int,
+        mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -453,6 +457,9 @@ class MeshKernel:
 
         Args:
             samples (GeometryList): The samples.
+            relative_search_radius (float): The relative search radius relative to the face size,
+                                            used for some interpolation algorithms.
+            minimum_num_samples (int): The minimum number of samples used for some averaging algorithms.
             mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
         """
 
@@ -465,6 +472,8 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_refine_based_on_samples,
             self._meshkernelid,
             byref(c_samples),
+            c_double(relative_search_radius),
+            c_int(minimum_num_samples),
             byref(c_refinement_params),
         )
 
