@@ -81,7 +81,6 @@ cases_averagingmethod_values = [
     (AveragingMethod.MIN, 4),
     (AveragingMethod.INVERSE_WEIGHT_DISTANCE, 5),
     (AveragingMethod.MIN_ABS, 6),
-    (AveragingMethod.KD_TREE, 7),
 ]
 
 

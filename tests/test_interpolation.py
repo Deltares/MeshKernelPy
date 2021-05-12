@@ -1,8 +1,10 @@
 import numpy as np
 import pytest
+from numpy.testing import assert_array_equal
 from pytest import approx
 
 from meshkernel import GeometryList, Mesh2d, Mesh2dFactory, Mesh2dLocation, MeshKernel
+from meshkernel.py_structures import AveragingMethod
 
 
 @pytest.fixture(scope="function")
@@ -180,3 +182,72 @@ def test_triangulation_interpolation_mesh2d_on_edges(
     assert interpolation.values[9] == approx(2.5, abs=0.00000001)
     assert interpolation.values[10] == approx(1.5, abs=0.00000001)
     assert interpolation.values[11] == approx(2.5, abs=0.00000001)
+
+
+cases_averaging_interpolation_mesh2d = [
+    (
+        AveragingMethod.SIMPLE_AVERAGING,
+        np.array([3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0]),
+    ),
+    (
+        AveragingMethod.CLOSEST_POINT,
+        np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]),
+    ),
+    (
+        AveragingMethod.MAX,
+        np.array([5.0, 6.0, 6.0, 8.0, 9.0, 9.0, 8.0, 9.0, 9.0]),
+    ),
+    (
+        AveragingMethod.MIN,
+        np.array([1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 4.0, 4.0, 5.0]),
+    ),
+    (
+        AveragingMethod.MIN_ABS,
+        np.array([1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 4.0, 4.0, 5.0]),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "averaging_method, exp_values",
+    cases_averaging_interpolation_mesh2d,
+)
+def test_averaging_interpolation_mesh2d(
+    meshkernel_with_mesh2d: MeshKernel,
+    averaging_method: AveragingMethod,
+    exp_values: np.ndarray,
+):
+    """Tests `averaging_interpolation_mesh2d` on the faces of a 4x4 Mesh2d."""
+
+    mk = meshkernel_with_mesh2d(4, 4)
+
+    samples_x = np.array([0.5, 1.5, 2.5, 0.5, 1.5, 2.5, 0.5, 1.5, 2.5], dtype=np.double)
+    samples_y = np.array([0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 2.5, 2.5, 2.5], dtype=np.double)
+    samples_values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=np.double)
+    samples = GeometryList(samples_x, samples_y, samples_values)
+
+    interpolation = mk.averaging_interpolation_mesh2d(
+        samples, Mesh2dLocation.FACES, averaging_method, 1.5, 1
+    )
+
+    assert interpolation.x_coordinates[0] == 0.5
+    assert interpolation.x_coordinates[1] == 1.5
+    assert interpolation.x_coordinates[2] == 2.5
+    assert interpolation.x_coordinates[3] == 0.5
+    assert interpolation.x_coordinates[4] == 1.5
+    assert interpolation.x_coordinates[5] == 2.5
+    assert interpolation.x_coordinates[6] == 0.5
+    assert interpolation.x_coordinates[7] == 1.5
+    assert interpolation.x_coordinates[8] == 2.5
+
+    assert interpolation.y_coordinates[0] == 0.5
+    assert interpolation.y_coordinates[1] == 0.5
+    assert interpolation.y_coordinates[2] == 0.5
+    assert interpolation.y_coordinates[3] == 1.5
+    assert interpolation.y_coordinates[4] == 1.5
+    assert interpolation.y_coordinates[5] == 1.5
+    assert interpolation.y_coordinates[6] == 2.5
+    assert interpolation.y_coordinates[7] == 2.5
+    assert interpolation.y_coordinates[8] == 2.5
+
+    assert_array_equal(interpolation.values, exp_values)
