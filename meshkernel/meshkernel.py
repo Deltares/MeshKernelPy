@@ -107,7 +107,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_set, self._meshkernelid, byref(c_mesh2d)
         )
 
-    def mesh2d_get_data(self) -> Mesh2d:
+    def mesh2d_get(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -879,7 +879,7 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_set, self._meshkernelid, byref(c_mesh1d)
         )
 
-    def mesh1d_get_data(self) -> Mesh1d:
+    def mesh1d_get(self) -> Mesh1d:
         """Gets the one-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -933,7 +933,7 @@ class MeshKernel:
 
         return c_contacts
 
-    def contacts_get_data(self) -> Contacts:
+    def contacts_get(self) -> Contacts:
         """Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.
 
         Please note that this involves a copy of the data.
