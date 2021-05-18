@@ -5,6 +5,10 @@ Parameter Objects
 
 These objects are given as parameters or are returned by `MeshKernel` methods.
 
+.. autoclass:: meshkernel.AveragingMethod
+    :members:
+    :noindex:
+
 .. autoclass:: meshkernel.Contacts
     :members:
     :noindex:
@@ -22,6 +26,10 @@ These objects are given as parameters or are returned by `MeshKernel` methods.
     :noindex:
 
 .. autoclass:: meshkernel.Mesh2d
+    :members:
+    :noindex:
+
+.. autoclass:: meshkernel.Mesh2dLocation
     :members:
     :noindex:
 

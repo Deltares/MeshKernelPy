@@ -337,6 +337,30 @@ should not (0) be connected</p></li>
 
 <dl class="py method">
 <dt>
+<code class="sig-name descname"><span class="pre">mesh2d_averaging_interpolation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.Mesh2dLocation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaging_method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.AveragingMethod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Performs averaging interpolation of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>GeometryList</em>) – The samples to interpolate.</p></li>
+<li><p><strong>location_type</strong> (<em>Mesh2dLocation</em>) – The location type on which to interpolate.</p></li>
+<li><p><strong>averaging_method</strong> (<em>AveragingMethod</em>) – The averaging method.</p></li>
+<li><p><strong>relative_search_size</strong> (<em>float</em>) – The relative search size.</p></li>
+<li><p><strong>min_samples</strong> (<em>int</em>) – The minimum number of samples used for some interpolation algorithms to perform
+a valid interpolation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The interpolated samples.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
 <code class="sig-name descname"><span class="pre">mesh2d_compute_orthogonalization</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.ProjectToLandBoundaryOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.OrthogonalizationParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
 <dd><p>Orthogonalizes the Mesh2d.
 The function modifies the mesh for achieving orthogonality between the edges
@@ -762,6 +786,26 @@ used for some interpolation algorithms.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>mesh2d</strong> (<em>Mesh2d</em>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">mesh2d_triangulation_interpolation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.Mesh2dLocation</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Performs triangulation interpolation of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<em>GeometryList</em>) – The samples to interpolate.</p></li>
+<li><p><strong>location_type</strong> (<em>Mesh2dLocation</em>) – The location type on which to interpolate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The interpolated samples.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>GeometryList</p>
 </dd>
 </dl>
 </dd></dl>

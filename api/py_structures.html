@@ -196,6 +196,42 @@
 <p>These objects are given as parameters or are returned by <cite>MeshKernel</cite> methods.</p>
 <dl class="py class">
 <dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">meshkernel.</span></code><code class="sig-name descname"><span class="pre">AveragingMethod</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>The averaging methods.</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">CLOSEST_POINT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em></dt>
+<dd><p>Takes the maximum sample value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">INVERSE_WEIGHT_DISTANCE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em></dt>
+<dd><p>Computes the minimum absolute value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">MAX</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em></dt>
+<dd><p>Takes the minimum sample value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">MIN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em></dt>
+<dd><p>Computes the inverse weighted sample mean.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">SIMPLE_AVERAGING</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em></dt>
+<dd><p>Takes the value of the closest sample to the interpolation location.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">meshkernel.</span></code><code class="sig-name descname"><span class="pre">Contacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh1d_indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh2d_indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>This class describes the contacts between a mesh1d and mesh2d.</p>
 <dl class="py attribute">
@@ -444,6 +480,12 @@ part. Default is <cite>-998.0</cite>.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">meshkernel.</span></code><code class="sig-name descname"><span class="pre">Mesh2dLocation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>The Mesh2d location types.</p>
 </dd></dl>
 
 <dl class="py class">
