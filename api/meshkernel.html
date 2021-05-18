@@ -337,6 +337,26 @@ should not (0) be connected</p></li>
 
 <dl class="py method">
 <dt>
+<code class="sig-name descname"><span class="pre">mesh2d_compute_orthogonalization</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.ProjectToLandBoundaryOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.OrthogonalizationParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
+<dd><p>Orthogonalizes the Mesh2d.
+The function modifies the mesh for achieving orthogonality between the edges
+and the segments connecting the face circumcenters.
+The amount of orthogonality is traded against the mesh smoothing (in this case the equality of face areas).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_to_land_boundary_option</strong> (<em>ProjectToLandBoundaryOption</em>) – The option to determine how to snap to
+land boundaries.</p></li>
+<li><p><strong>orthogonalization_parameters</strong> (<em>OrthogonalizationParameters</em>) – The orthogonalization parameters.</p></li>
+<li><p><strong>selecting_polygon</strong> (<em>GeometryList</em>) – The polygon where to perform the orthogonalization.</p></li>
+<li><p><strong>land_boundaries</strong> (<em>GeometryList</em>) – The land boundaries to account for in the orthogonalization process.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
 <code class="sig-name descname"><span class="pre">mesh2d_delete</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_option</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.DeleteMeshOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_deletion</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
 <dd><p>Deletes a mesh in a polygon using several options.</p>
 <dl class="field-list simple">
@@ -544,6 +564,21 @@ Obtuse triangles are those having one angle larger than 90°.</p>
 
 <dl class="py method">
 <dt>
+<code class="sig-name descname"><span class="pre">mesh2d_get_orthogonality</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
+<dd><p>Gets the mesh orthogonality, expressed as the ratio between the edges and
+the segments connecting the face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The geometry list with the orthogonality values of each edge.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>GeometryList</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
 <code class="sig-name descname"><span class="pre">mesh2d_get_small_flow_edge_centers</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">small_flow_edges_length_threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.GeometryList</span></dt>
 <dd><p>Gets the small mesh2d flow edges centers.
 The flow edges are the edges connecting face circumcenters.</p>
@@ -556,6 +591,20 @@ The flow edges are the edges connecting face circumcenters.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">mesh2d_get_smoothness</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Gets the smoothness, expressed as the ratio between the values of two neighboring faces areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The geometry list with the smoothness values of each edge.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>GeometryList</p>
 </dd>
 </dl>
 </dd></dl>
