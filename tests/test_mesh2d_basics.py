@@ -16,30 +16,6 @@ from meshkernel import (
     RefinementType,
 )
 
-
-@pytest.fixture(scope="function")
-def meshkernel_with_mesh2d():
-    """Creates a new instance of 'meshkernel' and sets a Mesh2d with the specified dimensions.
-
-    Args:
-        rows (int): Number of node rows
-        columns (int): Number of node columns
-
-    Returns:
-        MeshKernel: The created instance of `meshkernel`
-    """
-
-    def _create(rows: int, columns: int):
-        mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
-        mk = MeshKernel()
-
-        mk.mesh2d_set(mesh2d)
-
-        return mk
-
-    return _create
-
-
 cases_is_geometric_constructor = [(True), (False)]
 
 
@@ -595,19 +571,20 @@ def test_polygon_refine(start: int, end: int, length: float, exp_nodes: int):
 
 
 cases_mesh2d_refine_based_on_samples = [
-    (0.5, RefinementType.WAVE_COURANT, 25, 40, 16),
-    (0.5, RefinementType.REFINEMENT_LEVELS, 25, 40, 16),
+    (0.5, 0, 9, 12, 4),
+    (0.5, 1, 25, 40, 16),
+    # (0.5, 2, 81, 144, 64),
 ]
 
 
 @pytest.mark.parametrize(
-    "min_face_size, refinement_type, exp_nodes, exp_edges, exp_faces",
+    "min_face_size, sample_value, exp_nodes, exp_edges, exp_faces",
     cases_mesh2d_refine_based_on_samples,
 )
 def test_mesh2d_refine_based_on_samples(
     meshkernel_with_mesh2d: MeshKernel,
     min_face_size: float,
-    refinement_type: RefinementType,
+    sample_value: float,
     exp_nodes: int,
     exp_edges: int,
     exp_faces: int,
@@ -624,11 +601,13 @@ def test_mesh2d_refine_based_on_samples(
 
     x_coordinates = np.array([0.5, 0.5, 1.5, 1.5], dtype=np.double)
     y_coordinates = np.array([0.5, 1.5, 1.5, 0.5], dtype=np.double)
-    values = np.array([2, 2, 2, 2], dtype=np.double)
+    values = np.array(
+        [sample_value, sample_value, sample_value, sample_value], dtype=np.double
+    )
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
     refinement_params = MeshRefinementParameters(
-        False, False, min_face_size, refinement_type, False, False, 1
+        False, False, min_face_size, RefinementType.REFINEMENT_LEVELS, False, False, 1
     )
 
     mk.mesh2d_refine_based_on_samples(samples, 1.0, 1, refinement_params)

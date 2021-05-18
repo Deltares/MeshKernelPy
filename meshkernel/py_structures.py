@@ -40,6 +40,38 @@ class RefinementType(IntEnum):
     REFINEMENT_LEVELS = 2
 
 
+@unique
+class Mesh2dLocation(IntEnum):
+    """The Mesh2d location types."""
+
+    FACES = 0
+    NODES = 1
+    EDGES = 2
+
+
+@unique
+class AveragingMethod(IntEnum):
+    """The averaging methods."""
+
+    """Computes a simple mean. """
+    SIMPLE_AVERAGING = 1
+
+    """Takes the value of the closest sample to the interpolation location. """
+    CLOSEST_POINT = 2
+
+    """Takes the maximum sample value. """
+    MAX = 3
+
+    """Takes the minimum sample value. """
+    MIN = 4
+
+    """Computes the inverse weighted sample mean. """
+    INVERSE_WEIGHT_DISTANCE = 5
+
+    """Computes the minimum absolute value. """
+    MIN_ABS = 6
+
+
 @dataclass
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data.

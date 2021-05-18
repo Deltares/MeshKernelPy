@@ -4,9 +4,11 @@ from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 
 from meshkernel import (
+    AveragingMethod,
     DeleteMeshOption,
     GeometryList,
     Mesh2d,
+    Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
@@ -54,6 +56,37 @@ cases_refinementtype_values = [
 @pytest.mark.parametrize("enum_val, exp_int", cases_refinementtype_values)
 def test_refinementtype_values(enum_val: RefinementType, exp_int: int):
     """Tests the integer values of the `RefinementType` enum."""
+
+    assert enum_val == exp_int
+
+
+cases_Mesh2dLocation_values = [
+    (Mesh2dLocation.FACES, 0),
+    (Mesh2dLocation.NODES, 1),
+    (Mesh2dLocation.EDGES, 2),
+]
+
+
+@pytest.mark.parametrize("enum_val, exp_int", cases_Mesh2dLocation_values)
+def test_mesh2dlocation_values(enum_val: Mesh2dLocation, exp_int: int):
+    """Tests the integer values of the `Mesh2dLocation` enum."""
+
+    assert enum_val == exp_int
+
+
+cases_averagingmethod_values = [
+    (AveragingMethod.SIMPLE_AVERAGING, 1),
+    (AveragingMethod.CLOSEST_POINT, 2),
+    (AveragingMethod.MAX, 3),
+    (AveragingMethod.MIN, 4),
+    (AveragingMethod.INVERSE_WEIGHT_DISTANCE, 5),
+    (AveragingMethod.MIN_ABS, 6),
+]
+
+
+@pytest.mark.parametrize("enum_val, exp_int", cases_averagingmethod_values)
+def test_averagingmethod_values(enum_val: AveragingMethod, exp_int: int):
+    """Tests the integer values of the `AveragingMethod` enum."""
 
     assert enum_val == exp_int
 
