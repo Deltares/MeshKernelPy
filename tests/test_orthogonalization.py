@@ -49,7 +49,7 @@ def test_mesh2d_compute_orthogonalization():
         0, OrthogonalizationParameters(outer_iterations=10), polygon, land_boundary
     )
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert 1.0 <= mesh2d.node_x[4] < 1.3
     assert 1.0 <= mesh2d.node_y[4] < 1.3

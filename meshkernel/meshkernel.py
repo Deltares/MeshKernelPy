@@ -2,7 +2,7 @@ import logging
 import os
 import platform
 import sys
-from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_double, c_int
+from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_double, c_int, c_size_t
 from enum import Enum, IntEnum, unique
 from pathlib import Path
 from typing import Callable, Iterable, Tuple
@@ -21,11 +21,13 @@ from meshkernel.c_structures import (
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
+    AveragingMethod,
     Contacts,
     DeleteMeshOption,
     GeometryList,
     Mesh1d,
     Mesh2d,
+    Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
@@ -1148,6 +1150,86 @@ class MeshKernel:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
         return c_error_message.value.decode("ASCII")
+
+    def mesh2d_triangulation_interpolation(
+        self,
+        samples: GeometryList,
+        location_type: Mesh2dLocation,
+    ) -> GeometryList:
+        """Performs triangulation interpolation of samples.
+
+        Args:
+            samples (GeometryList): The samples to interpolate.
+            location_type (Mesh2dLocation): The location type on which to interpolate.
+
+        Returns:
+            GeometryList: The interpolated samples.
+        """
+        c_samples = CGeometryList.from_geometrylist(samples)
+
+        number_of_coordinates = c_samples.n_coordinates
+
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        interpolated_samples = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_interpolated_samples = CGeometryList.from_geometrylist(interpolated_samples)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_triangulation_interpolation,
+            self._meshkernelid,
+            byref(c_samples),
+            c_int(location_type),
+            byref(c_interpolated_samples),
+        )
+
+        return interpolated_samples
+
+    def mesh2d_averaging_interpolation(
+        self,
+        samples: GeometryList,
+        location_type: Mesh2dLocation,
+        averaging_method: AveragingMethod,
+        relative_search_size: float,
+        min_samples: int,
+    ) -> GeometryList:
+        """Performs averaging interpolation of samples.
+
+        Args:
+            samples (GeometryList): The samples to interpolate.
+            location_type (Mesh2dLocation): The location type on which to interpolate.
+            averaging_method (AveragingMethod): The averaging method.
+            relative_search_size (float): The relative search size.
+            min_samples (int): The minimum number of samples used for some interpolation algorithms to perform
+                               a valid interpolation.
+
+        Returns:
+            GeometryList: The interpolated samples.
+        """
+        c_samples = CGeometryList.from_geometrylist(samples)
+
+        number_of_coordinates = c_samples.n_coordinates
+
+        x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
+        values = np.empty(number_of_coordinates, dtype=np.double)
+        interpolated_samples = GeometryList(x_coordinates, y_coordinates, values)
+
+        c_interpolated_samples = CGeometryList.from_geometrylist(interpolated_samples)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_averaging_interpolation,
+            self._meshkernelid,
+            byref(c_samples),
+            c_int(location_type),
+            c_int(averaging_method),
+            c_double(relative_search_size),
+            c_size_t(min_samples),
+            byref(c_interpolated_samples),
+        )
+
+        return interpolated_samples
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status.
