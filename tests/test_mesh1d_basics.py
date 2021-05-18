@@ -7,8 +7,8 @@ from pytest import approx
 from meshkernel import GeometryList, Mesh1d, Mesh2dFactory, MeshKernel
 
 
-def test_get_mesh1d():
-    r"""Tests `set_mesh1d` and `get_mesh1d` to set and get a simple mesh.
+def test_mesh1d_get_data():
+    r"""Tests `mesh1d_set` and `mesh1d_get` to set and get a simple mesh.
 
       1   3
      / \ /
@@ -21,9 +21,9 @@ def test_get_mesh1d():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
     input_mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh1d(input_mesh1d)
+    mk.mesh1d_set(input_mesh1d)
 
-    output_mesh1d = mk.get_mesh1d()
+    output_mesh1d = mk.mesh1d_get_data()
 
     # Test if the input and output differs
     assert_array_equal(output_mesh1d.edge_nodes, input_mesh1d.edge_nodes)
@@ -31,8 +31,8 @@ def test_get_mesh1d():
     assert_array_equal(output_mesh1d.node_y, input_mesh1d.node_y)
 
 
-def test_compute_single_contacts():
-    """Tests `compute_single_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+def test_contacts_compute_single():
+    """Tests `contacts_compute_single` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   |  /|
@@ -56,8 +56,8 @@ def test_compute_single_contacts():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh2d(mesh2d)
-    mk.set_mesh1d(mesh1d)
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
 
     node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
@@ -65,9 +65,9 @@ def test_compute_single_contacts():
     polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_single_contacts(node_mask, polygon)
+    mk.contacts_compute_single(node_mask, polygon)
 
-    contacts = mk.get_contacts()
+    contacts = mk.contacts_get_data()
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -81,8 +81,8 @@ def test_compute_single_contacts():
     assert contacts.mesh2d_indices[2] == 18
 
 
-def test_compute_multiple_contacts():
-    """Tests `compute_multiple_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+def test_contacts_compute_multiple():
+    """Tests `contacts_compute_multiple` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   |  /|
@@ -106,14 +106,14 @@ def test_compute_multiple_contacts():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh2d(mesh2d)
-    mk.set_mesh1d(mesh1d)
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
 
     node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
-    mk.compute_multiple_contacts(node_mask)
+    mk.contacts_compute_multiple(node_mask)
 
-    contacts = mk.get_contacts()
+    contacts = mk.contacts_get_data()
 
     assert contacts.mesh1d_indices.size == 4
     assert contacts.mesh2d_indices.size == 4
@@ -129,8 +129,8 @@ def test_compute_multiple_contacts():
     assert contacts.mesh2d_indices[3] == 18
 
 
-def test_compute_with_polygons_contacts():
-    """Tests `compute_with_polygons_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+def test_contacts_compute_with_polygons():
+    """Tests `contacts_compute_with_polygons` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   | / |
@@ -154,8 +154,8 @@ def test_compute_with_polygons_contacts():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh2d(mesh2d)
-    mk.set_mesh1d(mesh1d)
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
 
     node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
@@ -171,9 +171,9 @@ def test_compute_with_polygons_contacts():
     )
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_with_polygons_contacts(node_mask, polygon)
+    mk.contacts_compute_with_polygons(node_mask, polygon)
 
-    contacts = mk.get_contacts()
+    contacts = mk.contacts_get_data()
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -185,8 +185,8 @@ def test_compute_with_polygons_contacts():
     assert contacts.mesh2d_indices[1] == 14
 
 
-def test_compute_with_points_contacts():
-    """Tests `compute_with_points_contacts` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+def test_contacts_compute_with_points():
+    """Tests `contacts_compute_with_points` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   | / |
@@ -210,8 +210,8 @@ def test_compute_with_points_contacts():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh2d(mesh2d)
-    mk.set_mesh1d(mesh1d)
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
 
     node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
 
@@ -220,9 +220,9 @@ def test_compute_with_points_contacts():
     points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.compute_with_points_contacts(node_mask, points)
+    mk.contacts_compute_with_points(node_mask, points)
 
-    contacts = mk.get_contacts()
+    contacts = mk.contacts_get_data()
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -236,7 +236,7 @@ def test_compute_with_points_contacts():
     assert contacts.mesh2d_indices[2] == 14
 
 
-cases_compute_boundary_contacts = [
+cases_contacts_compute_boundary = [
     (
         np.array([1, 1, 1, 1, 1], dtype=np.int32),  # node_mask
         np.array([0, 2, 4], dtype=np.int32),  # exp_mesh1d_indices
@@ -272,12 +272,12 @@ cases_compute_boundary_contacts = [
 
 @pytest.mark.parametrize(
     "node_mask, exp_mesh1d_indices, exp_mesh2d_indices",
-    cases_compute_boundary_contacts,
+    cases_contacts_compute_boundary,
 )
-def test_compute_boundary_contacts(
+def test_contacts_compute_boundary(
     node_mask: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
 ):
-    """Tests `compute_boundary_contacts` with a 3x3 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_boundary` with a 3x3 Mesh2d and a Mesh1d with 5 nodes.
 
 
        ---3---4
@@ -298,16 +298,16 @@ def test_compute_boundary_contacts(
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.set_mesh2d(mesh2d)
-    mk.set_mesh1d(mesh1d)
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
 
     polygon_x = np.array([-1.1, 3.1, 3.1, -1.1, -1.1], dtype=np.double)
     polygon_y = np.array([-0.1, -0.1, 3.1, 3.1, -0.1], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
 
-    mk.compute_boundary_contacts(node_mask, polygon, 2.0)
+    mk.contacts_compute_boundary(node_mask, polygon, 2.0)
 
-    contacts = mk.get_contacts()
+    contacts = mk.contacts_get_data()
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
