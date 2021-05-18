@@ -7,7 +7,7 @@ from pytest import approx
 from meshkernel import GeometryList, Mesh1d, Mesh2dFactory, MeshKernel
 
 
-def test_mesh1d_get_data():
+def test_mesh1d_get():
     r"""Tests `mesh1d_set` and `mesh1d_get` to set and get a simple mesh.
 
       1   3
@@ -23,7 +23,7 @@ def test_mesh1d_get_data():
 
     mk.mesh1d_set(input_mesh1d)
 
-    output_mesh1d = mk.mesh1d_get_data()
+    output_mesh1d = mk.mesh1d_get()
 
     # Test if the input and output differs
     assert_array_equal(output_mesh1d.edge_nodes, input_mesh1d.edge_nodes)
@@ -67,7 +67,7 @@ def test_contacts_compute_single():
 
     mk.contacts_compute_single(node_mask, polygon)
 
-    contacts = mk.contacts_get_data()
+    contacts = mk.contacts_get()
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -113,7 +113,7 @@ def test_contacts_compute_multiple():
 
     mk.contacts_compute_multiple(node_mask)
 
-    contacts = mk.contacts_get_data()
+    contacts = mk.contacts_get()
 
     assert contacts.mesh1d_indices.size == 4
     assert contacts.mesh2d_indices.size == 4
@@ -173,7 +173,7 @@ def test_contacts_compute_with_polygons():
 
     mk.contacts_compute_with_polygons(node_mask, polygon)
 
-    contacts = mk.contacts_get_data()
+    contacts = mk.contacts_get()
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -222,7 +222,7 @@ def test_contacts_compute_with_points():
 
     mk.contacts_compute_with_points(node_mask, points)
 
-    contacts = mk.contacts_get_data()
+    contacts = mk.contacts_get()
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -307,7 +307,7 @@ def test_contacts_compute_boundary(
 
     mk.contacts_compute_boundary(node_mask, polygon, 2.0)
 
-    contacts = mk.contacts_get_data()
+    contacts = mk.contacts_get()
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)

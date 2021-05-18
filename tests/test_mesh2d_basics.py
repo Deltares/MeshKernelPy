@@ -57,7 +57,7 @@ def test_different_instances_have_different_ids():
     assert mk_1._meshkernelid != mk_2._meshkernelid
 
 
-def test_mesh2d_set_and_mesh2d_get_data():
+def test_mesh2d_set_and_mesh2d_get():
     """Test to set a simple mesh and then get it again with new parameters
 
     3---2
@@ -73,7 +73,7 @@ def test_mesh2d_set_and_mesh2d_get_data():
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mk.mesh2d_set(input_mesh2d)
 
-    output_mesh2d = mk.mesh2d_get_data()
+    output_mesh2d = mk.mesh2d_get()
 
     # Test if the input and output differs
     assert_array_equal(output_mesh2d.edge_nodes, input_mesh2d.edge_nodes)
@@ -103,7 +103,7 @@ def test_mesh2d_insert_edge(meshkernel_with_mesh2d: MeshKernel):
 
     edge_index = mk.mesh2d_insert_edge(0, 3)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert edge_index == 4
     assert mesh2d.node_x.size == 4
@@ -124,7 +124,7 @@ def test_mesh2d_insert_node(meshkernel_with_mesh2d: MeshKernel):
     node_index = mk.mesh2d_insert_node(1.5, 0.5)
     edge_index = mk.mesh2d_insert_edge(3, node_index)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert node_index == 4
     assert mesh2d.node_x.size == 5
@@ -165,7 +165,7 @@ def test_mesh2d_delete_node(
 
     mk.mesh2d_delete_node(node_index)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 8
 
@@ -213,7 +213,7 @@ def test_mesh2d_move_node(
 
     mk.mesh2d_move_node(5.0, 7.0, node_index)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x[node_index] == 5.0
     assert mesh2d.node_y[node_index] == 7.0
@@ -263,7 +263,7 @@ def test_mesh2d_delete_edge(
 
     mk.mesh2d_delete_edge(delete_x, delete_y)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 9
     assert mesh2d.edge_x.size == 11
@@ -394,7 +394,7 @@ def test_mesh2d_delete_small_polygon(
     geometry_list = GeometryList(x_coordinates, y_coordinates)
 
     mk.mesh2d_delete(geometry_list, delete_option, invert_deletion)
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == exp_nodes
     assert mesh2d.edge_x.size == exp_edges
@@ -437,7 +437,7 @@ def test_mesh2d_delete_empty_polygon(
     delete_option = DeleteMeshOption.ALL_NODES
 
     mk.mesh2d_delete(geometry_list, delete_option, invert_deletion)
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == exp_nodes
     assert mesh2d.edge_x.size == exp_edges
@@ -512,7 +512,7 @@ def test_mesh2d_delete_hanging_edges():
 
     mk.mesh2d_delete_hanging_edges()
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 4
     assert mesh2d.edge_x.size == 4
@@ -534,7 +534,7 @@ def test_mesh2d_make_mesh_from_polygon():
 
     mk.mesh2d_make_mesh_from_polygon(polygon)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 7
     assert mesh2d.edge_x.size == 12
@@ -555,7 +555,7 @@ def test_mesh2d_make_mesh_from_samples():
 
     mk.mesh2d_make_mesh_from_samples(polygon)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 6
     assert mesh2d.edge_x.size == 9
@@ -636,7 +636,7 @@ def test_mesh2d_refine_based_on_samples(
 
     mk.mesh2d_refine_based_on_samples(samples, 1.0, 1, refinement_params)
 
-    mesdh2d = mk.mesh2d_get_data()
+    mesdh2d = mk.mesh2d_get()
 
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
@@ -682,7 +682,7 @@ def test_mesh2d_refine_based_on_polygon(
 
     mk.mesh2d_refine_based_on_polygon(polygon, refinement_params)
 
-    mesdh2d = mk.mesh2d_get_data()
+    mesdh2d = mk.mesh2d_get()
 
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
@@ -732,7 +732,7 @@ def test_mesh2d_merge_nodes(merging_distance: float, number_of_nodes: int):
 
     mk.mesh2d_merge_nodes(geometry_list, merging_distance)
 
-    output_mesh2d = mk.mesh2d_get_data()
+    output_mesh2d = mk.mesh2d_get()
 
     assert output_mesh2d.node_x.size == number_of_nodes
 
@@ -762,7 +762,7 @@ def test_mesh2d_merge_two_nodes(
 
     mk.mesh2d_merge_two_nodes(first_node, second_node)
 
-    output_mesh2d = mk.mesh2d_get_data()
+    output_mesh2d = mk.mesh2d_get()
 
     assert output_mesh2d.node_x.size == 8
     assert output_mesh2d.face_x.size == num_faces
@@ -822,6 +822,95 @@ def test_polygon_get_included_points(
     selection = mk.polygon_get_included_points(selecting_polygon, selected_polygon)
 
     assert_array_equal(selection.values, exp_values)
+
+
+@pytest.mark.parametrize("triangulate", [True, False])
+def test_mesh2d_flip_edges(triangulate: bool):
+    """Tests `mesh2d_flip_edges` with a simple triangular mesh (heptagon)."""
+
+    mk = MeshKernel()
+
+    node_x = np.array([0, -8, -10, -4, 4, 10, 8, 0], dtype=np.double)
+    node_y = np.array([10, 6, -2, -9, -9, -2, 6, -5], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            0,
+            0,
+            7,
+            1,
+            7,
+            2,
+            7,
+            3,
+            7,
+            4,
+            7,
+            5,
+            7,
+            6,
+            7,
+        ],
+        dtype=np.int32,
+    )
+
+    mk.mesh2d_set(Mesh2d(node_x, node_y, edge_nodes))
+
+    polygon_x = np.array([-11, 11, 11, -11, -11], dtype=np.double)
+    polygon_y = np.array([-11, -11, 11, 11, -11], dtype=np.double)
+    polygon = GeometryList(polygon_x, polygon_y)
+
+    land_boundaries_x = np.array([-10, -4, 4, 10], dtype=np.double)
+    land_boundaries_y = np.array([-2, -9, -9, -2], dtype=np.double)
+    land_boundaries = GeometryList(land_boundaries_x, land_boundaries_y)
+
+    mk.mesh2d_flip_edges(triangulate, False, polygon, land_boundaries)
+
+    mesh2d = mk.mesh2d_get()
+
+    assert mesh2d.node_x.size == 8
+    assert mesh2d.edge_x.size == 14
+    assert mesh2d.face_x.size == 7
+
+
+def test_mesh2d_flip_edges2_triangulate(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `mesh2d_flip_edges` with a simple 3x3 mesh.
+
+    6---7---8       6---7---8
+    |   |   |       | / | / |
+    3---4---5  -->  3---4---5
+    |   |   |       | / | / |
+    0---1---2       0---1---2
+    """
+
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    mk.mesh2d_flip_edges(
+        True,
+        True,
+        GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)),
+        GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)),
+    )
+
+    mesh2d = mk.mesh2d_get()
+
+    assert mesh2d.node_x.size == 9
+    assert mesh2d.edge_x.size == 16
+    assert mesh2d.face_x.size == 8
+
+    assert np.all(mesh2d.nodes_per_face == 3)
 
 
 def test_mesh2d_count_obtuse_triangles():
@@ -1122,7 +1211,7 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_flow_ed
 
     mk.mesh2d_delete_small_flow_edges_and_small_triangles(1.1, 0.01)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 8
     assert mesh2d.edge_x.size == 7
@@ -1156,7 +1245,7 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_triangl
 
     mk.mesh2d_delete_small_flow_edges_and_small_triangles(1.0, 0.01)
 
-    mesh2d = mk.mesh2d_get_data()
+    mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 7
     assert mesh2d.edge_x.size == 8

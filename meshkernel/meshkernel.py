@@ -51,7 +51,7 @@ class MeshKernel:
 
         Args:
             is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
-                                            Defaults is `False`.
+                                            Default is `False`.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -75,7 +75,7 @@ class MeshKernel:
         """Creates a new empty mesh.
 
         Args:
-            isGeographic (bool): Cartesian (False) or spherical (True) mesh
+            is_geographic (bool): Cartesian (False) or spherical (True) mesh.
         """
 
         self._meshkernelid = c_int()
@@ -112,7 +112,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_set, self._meshkernelid, byref(c_mesh2d)
         )
 
-    def mesh2d_get_data(self) -> Mesh2d:
+    def mesh2d_get(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -277,7 +277,7 @@ class MeshKernel:
             y (float): The y-coordinate of the point.
 
         Returns:
-            int: The index of the edge
+            int: The index of the edge.
         """
 
         index = c_int()
@@ -301,7 +301,7 @@ class MeshKernel:
             search_radius (float): The search radius.
 
         Returns:
-            int: The index of node
+            int: The index of node.
         """
 
         index = c_int()
@@ -458,7 +458,7 @@ class MeshKernel:
         For example:
         - a value of 0 means no split and hence no refinement;
         - a value of 1 means a single split (a quadrilateral face generates 4 faces);
-        - a value of 2 two splits (a quadrilateral face generates 16 faces);
+        - a value of 2 two splits (a quadrilateral face generates 16 faces).
 
         Args:
             samples (GeometryList): The samples.
@@ -541,6 +541,37 @@ class MeshKernel:
         )
 
         return selection
+
+    def mesh2d_flip_edges(
+        self,
+        triangulation_required: bool,
+        project_to_land_boundary_required: bool,
+        selecting_polygon: GeometryList,
+        land_boundaries: GeometryList,
+    ):
+        """Flips mesh2d edges to optimize the mesh smoothness.
+        Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
+        shape and wildly varying areas.
+
+        Args:
+            triangulation_required (bool): Whether to triangulate non-triangular cells.
+            project_to_land_boundary_required: Whether projection to land boundaries is required.
+            selecting_polygon (GeometryList): The polygon where to perform the edge flipping.
+            land_boundaries (GeometryList): The land boundaries to account for when flipping the edges.
+
+        """
+
+        c_selecting_polygon = CGeometryList.from_geometrylist(selecting_polygon)
+        c_land_boundaries = CGeometryList.from_geometrylist(land_boundaries)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_flip_edges,
+            self._meshkernelid,
+            c_bool(triangulation_required),
+            c_int(project_to_land_boundary_required),
+            byref(c_selecting_polygon),
+            byref(c_land_boundaries),
+        )
 
     def _mesh2d_count_obtuse_triangles(self) -> int:
         """For internal use only.
@@ -670,7 +701,7 @@ class MeshKernel:
         """Get the computed spline points between two corner nodes.
 
         Args:
-            geometry_list (GeometryList): The input corner nodes of the splines
+            geometry_list (GeometryList): The input corner nodes of the splines.
             number_of_points_between_nodes (int): The number of spline points to generate between two corner nodes.
 
         Returns:
@@ -751,11 +782,11 @@ class MeshKernel:
     def mesh2d_merge_nodes(
         self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
-        """Merges the mesh2d nodes, effectively removing all small edges
+        """Merges the mesh2d nodes, effectively removing all small edges.
 
         Args:
             geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
-            geometry_list (float): The distance below which two nodes will be merged
+            geometry_list (float): The distance below which two nodes will be merged.
         """
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         self._execute_function(
@@ -787,10 +818,10 @@ class MeshKernel:
 
         Args:
             geometry_list (GeometryList): The input polygon.
-            inside (bool): Selection of the nodes inside the polygon (True) or outside (False)
+            inside (bool): Selection of the nodes inside the polygon (True) or outside (False).
 
         Returns:
-            ndarray: The integer array describing the selected nodes indices
+            ndarray: The integer array describing the selected nodes indices.
         """
 
         # Get number of mesh nodes
@@ -853,7 +884,7 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_set, self._meshkernelid, byref(c_mesh1d)
         )
 
-    def mesh1d_get_data(self) -> Mesh1d:
+    def mesh1d_get(self) -> Mesh1d:
         """Gets the one-dimensional mesh state from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -907,7 +938,7 @@ class MeshKernel:
 
         return c_contacts
 
-    def contacts_get_data(self) -> Contacts:
+    def contacts_get(self) -> Contacts:
         """Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.
 
         Please note that this involves a copy of the data.
@@ -1201,11 +1232,11 @@ class MeshKernel:
         return interpolated_samples
 
     def _execute_function(self, function: Callable, *args):
-        """Utility function to execute a C function of MeshKernel and checks its status
+        """Utility function to execute a C function of MeshKernel and checks its status.
 
         Args:
-            function (Callable): The function which we want to call
-            args: Arguments which will be passed to `function`
+            function (Callable): The function which we want to call.
+            args: Arguments which will be passed to `function`.
 
         Raises:
             MeshKernelError: This exception gets raised,
