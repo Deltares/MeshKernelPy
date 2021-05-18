@@ -275,7 +275,7 @@ should not (0) be connected</p></li>
 
 <dl class="py method">
 <dt>
-<code class="sig-name descname"><span class="pre">contacts_get_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Contacts</span></dt>
+<code class="sig-name descname"><span class="pre">contacts_get</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Contacts</span></dt>
 <dd><p>Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.</p>
 <p>Please note that this involves a copy of the data.</p>
 <dl class="field-list simple">
@@ -295,7 +295,7 @@ should not (0) be connected</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The input corner nodes of the splines</p></li>
+<li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The input corner nodes of the splines.</p></li>
 <li><p><strong>number_of_points_between_nodes</strong> (<em>int</em>) – The number of spline points to generate between two corner nodes.</p></li>
 </ul>
 </dd>
@@ -310,7 +310,7 @@ should not (0) be connected</p></li>
 
 <dl class="py method">
 <dt>
-<code class="sig-name descname"><span class="pre">mesh1d_get_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh1d</span></dt>
+<code class="sig-name descname"><span class="pre">mesh1d_get</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh1d</span></dt>
 <dd><p>Gets the one-dimensional mesh state from the MeshKernel.</p>
 <p>Please note that this involves a copy of the data.</p>
 <dl class="field-list simple">
@@ -405,7 +405,25 @@ a triangular face is small.</p></li>
 
 <dl class="py method">
 <dt>
-<code class="sig-name descname"><span class="pre">mesh2d_get_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh2d</span></dt>
+<code class="sig-name descname"><span class="pre">mesh2d_flip_edges</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">triangulation_required</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_required</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Flips mesh2d edges to optimize the mesh smoothness.
+Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
+shape and wildly varying areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>triangulation_required</strong> (<em>bool</em>) – Whether to triangulate non-triangular cells.</p></li>
+<li><p><strong>project_to_land_boundary_required</strong> – Whether projection to land boundaries is required.</p></li>
+<li><p><strong>selecting_polygon</strong> (<em>GeometryList</em>) – The polygon where to perform the edge flipping.</p></li>
+<li><p><strong>land_boundaries</strong> (<em>GeometryList</em>) – The land boundaries to account for when flipping the edges.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname"><span class="pre">mesh2d_get</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">meshkernel.py_structures.Mesh2d</span></dt>
 <dd><p>Gets the two-dimensional mesh state from the MeshKernel.</p>
 <p>Please note that this involves a copy of the data.</p>
 <dl class="field-list simple">
@@ -430,7 +448,7 @@ a triangular face is small.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The index of the edge</p>
+<dd class="field-even"><p>The index of the edge.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
@@ -481,7 +499,7 @@ one for the inner boundary and one for the outer boundary.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The index of node</p>
+<dd class="field-even"><p>The index of node.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
@@ -497,11 +515,11 @@ one for the inner boundary and one for the outer boundary.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry_list</strong> (<em>GeometryList</em>) – The input polygon.</p></li>
-<li><p><strong>inside</strong> (<em>bool</em>) – Selection of the nodes inside the polygon (True) or outside (False)</p></li>
+<li><p><strong>inside</strong> (<em>bool</em>) – Selection of the nodes inside the polygon (True) or outside (False).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The integer array describing the selected nodes indices</p>
+<dd class="field-even"><p>The integer array describing the selected nodes indices.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray</p>
@@ -608,12 +626,12 @@ the polygon edges.</p>
 <dl class="py method">
 <dt>
 <code class="sig-name descname"><span class="pre">mesh2d_merge_nodes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merging_distance</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span></dt>
-<dd><p>Merges the mesh2d nodes, effectively removing all small edges</p>
+<dd><p>Merges the mesh2d nodes, effectively removing all small edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>geometry_list</strong> (<em>float</em>) – The polygon defining the area where the operation will be performed.</p></li>
-<li><p><strong>geometry_list</strong> – The distance below which two nodes will be merged</p></li>
+<li><p><strong>geometry_list</strong> – The distance below which two nodes will be merged.</p></li>
 </ul>
 </dd>
 </dl>
@@ -673,7 +691,7 @@ The number of successive splits is indicated by the sample value.
 For example:
 - a value of 0 means no split and hence no refinement;
 - a value of 1 means a single split (a quadrilateral face generates 4 faces);
-- a value of 2 two splits (a quadrilateral face generates 16 faces);</p>
+- a value of 2 two splits (a quadrilateral face generates 16 faces).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
