@@ -9,12 +9,12 @@ from numpy import ndarray
 
 @unique
 class DeleteMeshOption(IntEnum):
-    """Option to delete the mesh inside a polygon"""
+    """Option to delete the mesh inside a polygon."""
 
     """Delete all nodes inside the polygon. """
     ALL_NODES = 0
 
-    """ Delete all faces of which the circum center is inside the polygon """
+    """ Delete all faces of which the circum center is inside the polygon. """
     ALL_FACE_CIRCUMCENTERS = 1
 
     """ Delete all faces of which the complete face is inside the polygon. """
@@ -42,7 +42,7 @@ class RefinementType(IntEnum):
 
 @dataclass
 class Mesh2d:
-    """This class is used for getting and setting two-dimensional mesh data
+    """This class is used for getting and setting two-dimensional mesh data.
 
     Attributes:
         node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
@@ -76,9 +76,9 @@ class GeometryList:
         x_coordinates (ndarray): A 1D double array describing the x-coordinates of the nodes.
         y_coordinates (ndarray): A 1D double array describing the y-coordinates of the nodes.
         values (ndarray, optional): A 1D double array describing the values of the nodes.
-        geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`
+        geometry_separator (float, optional): The value used as a separator in the coordinates. Default is `-999.0`.
         inner_outer_separator (float, optional): The value used to separate the inner part of a polygon from its outer
-                                                 part. Default is `-998.0`
+                                                 part. Default is `-998.0`.
     """
 
     x_coordinates: ndarray

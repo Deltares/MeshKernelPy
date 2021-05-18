@@ -14,18 +14,18 @@ class Mesh2dFactory:
         spacing_x: float = 1.0,
         spacing_y: float = 1.0,
     ) -> Mesh2d:
-        """Create a Mesh2d instance describing a rectilinear mesh
+        """Create a Mesh2d instance describing a rectilinear mesh.
 
         Args:
-            rows (int): The number of node rows
-            columns (int): The number of node columns
+            rows (int): The number of node rows.
+            columns (int): The number of node columns.
             origin_x (float, optional): The x-coordinate of the origin. Defaults to 0.0.
             origin_y (float, optional): The y-coordinate of the origin. Defaults to 0.0.
             spacing_x (float, optional): The spacing between the columns. Defaults to 1.0.
             spacing_y (float, optional): The spacing between the rows. Defaults to 1.0.
 
         Returns:
-            Mesh2d: The calculated rectilinear mesh
+            Mesh2d: The calculated rectilinear mesh.
         """
 
         # Validate input
