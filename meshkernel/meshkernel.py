@@ -2,7 +2,7 @@ import logging
 import os
 import platform
 import sys
-from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_double, c_int, c_size_t
+from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t
 from enum import Enum, IntEnum, unique
 from pathlib import Path
 from typing import Callable, Iterable, Tuple
@@ -166,7 +166,7 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_geometry_list),
             c_int(delete_option),
-            c_bool(invert_deletion),
+            c_int(invert_deletion),
         )
 
     def mesh2d_insert_edge(self, start_node: int, end_node: int) -> int:
@@ -567,7 +567,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_flip_edges,
             self._meshkernelid,
-            c_bool(triangulation_required),
+            c_int(triangulation_required),
             c_int(project_to_land_boundary_required),
             byref(c_selecting_polygon),
             byref(c_land_boundaries),
