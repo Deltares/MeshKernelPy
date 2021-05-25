@@ -137,25 +137,25 @@ def test_mesh2d_get_orthogonality_not_orthogonal_mesh2d():
 
 
 def test_mesh2d_get_smoothness_smooth_mesh2d():
-    r"""Tests `mesh2d_get_smoothness` with a simple triangular Mesh2d with one small flow edge.
+    r"""Tests `mesh2d_get_smoothness` with a simple triangular Mesh2d.
 
       3---2
-     / X /
+     / \ /
     0---1
     """
 
     mk = MeshKernel()
 
     node_x = np.array(
-        [0.0, 4.0, 6.0, 2.0, 2.0, 4.0],
+        [0.0, 4.0, 6.0, 2.0, 2.0],
         dtype=np.double,
     )
     node_y = np.array(
-        [0.0, 0.0, 3.0, 3.0, 1.0, 2.0],
+        [0.0, 0.0, 3.0, 3.0, 1.0],
         dtype=np.double,
     )
     edge_nodes = np.array(
-        [0, 1, 1, 2, 2, 3, 3, 0, 1, 3, 4, 5],
+        [0, 1, 1, 2, 2, 3, 3, 0, 1, 3],
         dtype=np.int32,
     )
 
@@ -163,11 +163,10 @@ def test_mesh2d_get_smoothness_smooth_mesh2d():
 
     smoothness = mk.mesh2d_get_smoothness()
 
-    assert smoothness.values.size == 6
+    assert smoothness.values.size == 5
 
     assert smoothness.values[0] == -999.0
     assert smoothness.values[1] == -999.0
     assert smoothness.values[2] == -999.0
     assert smoothness.values[3] == -999.0
     assert smoothness.values[4] == approx(0.0, abs=0.01)
-    assert smoothness.values[5] == 1.0
