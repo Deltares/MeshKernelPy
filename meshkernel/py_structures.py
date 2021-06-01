@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum, IntEnum, unique
+from enum import IntEnum, unique
 
 import numpy as np
 from numpy import ndarray
+
+from meshkernel.utils import plot_edges
 
 
 @unique
@@ -106,20 +108,7 @@ class Mesh2d:
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
         """
-        for edge_index in range(0, self.edge_nodes.size, 2):
-            first_edge_node_index = self.edge_nodes[edge_index]
-            second_edge_node_index = self.edge_nodes[edge_index + 1]
-
-            edge_x = [
-                self.node_x[first_edge_node_index],
-                self.node_x[second_edge_node_index],
-            ]
-            edge_y = [
-                self.node_y[first_edge_node_index],
-                self.node_y[second_edge_node_index],
-            ]
-
-            ax.plot(edge_x, edge_y, *args, **kwargs)
+        plot_edges(self.node_x, self.node_y, self.edge_nodes, ax, *args, **kwargs)
 
     def plot_faces(self, ax, *args, **kwargs):
         """Plots the faces at a given axes.
@@ -232,20 +221,7 @@ class Mesh1d:
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
         """
-        for edge_index in range(0, self.edge_nodes.size, 2):
-            first_edge_node_index = self.edge_nodes[edge_index]
-            second_edge_node_index = self.edge_nodes[edge_index + 1]
-
-            edge_x = [
-                self.node_x[first_edge_node_index],
-                self.node_x[second_edge_node_index],
-            ]
-            edge_y = [
-                self.node_y[first_edge_node_index],
-                self.node_y[second_edge_node_index],
-            ]
-
-            ax.plot(edge_x, edge_y, *args, **kwargs)
+        plot_edges(self.node_x, self.node_y, self.edge_nodes, ax, *args, **kwargs)
 
 
 @dataclass
