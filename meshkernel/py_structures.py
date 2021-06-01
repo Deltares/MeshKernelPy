@@ -225,6 +225,28 @@ class Mesh1d:
     node_y: ndarray
     edge_nodes: ndarray
 
+    def plot_edges(self, ax, *args, **kwargs):
+        """Plots the edges at a given axes.
+        `args` and `kwargs` will be used as parameters of the `plot` method.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the edges
+        """
+        for edge_index in range(0, self.edge_nodes.size, 2):
+            first_edge_node_index = self.edge_nodes[edge_index]
+            second_edge_node_index = self.edge_nodes[edge_index + 1]
+
+            edge_x = [
+                self.node_x[first_edge_node_index],
+                self.node_x[second_edge_node_index],
+            ]
+            edge_y = [
+                self.node_y[first_edge_node_index],
+                self.node_y[second_edge_node_index],
+            ]
+
+            ax.plot(edge_x, edge_y, *args, **kwargs)
+
 
 @dataclass
 class Contacts:
