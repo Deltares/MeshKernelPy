@@ -129,7 +129,7 @@ class Mesh2d:
             ax (matplotlib.axes.Axes): The axes where to plot the faces
         """
         node_position = 0
-        for face_index, num_nodes in enumerate(self.nodes_per_face):
+        for num_nodes in self.nodes_per_face:
             # Calculate values to draw
             face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
             face_nodes_x = self.node_x[face_nodes]
