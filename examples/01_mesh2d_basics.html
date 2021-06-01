@@ -223,12 +223,14 @@ You can look at the documentation in order to find all its parameters.</p>
 They are one-dimensional <code class="docutils literal notranslate"><span class="pre">double</span></code> arrays, which describe the position of the nodes as can be seen below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot white points only for scaling the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">,</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">,</span> <span class="s2">&quot;ow&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot white points only for scaling the plot</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">,</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">,</span> <span class="s2">&quot;ow&quot;</span><span class="p">)</span>
 
 <span class="c1"># Numbering the nodes</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
         <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
         <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
         <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
@@ -240,8 +242,7 @@ They are one-dimensional <code class="docutils literal notranslate"><span class=
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_6_0.png" src="../_images/01_mesh2d_basics_6_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_6_0.svg" src="../_images/01_mesh2d_basics_6_0.svg" /></div>
 </div>
 <p>The third mandatory attribute is <code class="docutils literal notranslate"><span class="pre">edge_nodes</span></code>.
 It describes the indices of the nodes that make up the edges.</p>
@@ -263,26 +264,13 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 <p>With all three parameters together we can plot the mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
-    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_input</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_input</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_10_0.png" src="../_images/01_mesh2d_basics_10_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_10_0.svg" src="../_images/01_mesh2d_basics_10_0.svg" /></div>
 </div>
 <p>In order to interact with the <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library, we create a new instance of the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> class.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">is_geographic</span></code> parameter of its constructor describes whether the mesh is cartesian (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or spherical (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
@@ -313,39 +301,31 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>After we set the mesh2d, meshkernel calculated the face data and edge coordinates.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_position</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">nodes_per_face</span><span class="p">):</span>
-    <span class="c1"># Calculate values to draw</span>
-    <span class="n">face_nodes</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_nodes</span><span class="p">[</span><span class="n">node_position</span> <span class="p">:</span> <span class="p">(</span><span class="n">node_position</span> <span class="o">+</span> <span class="n">num_nodes</span><span class="p">)]</span>
-    <span class="n">face_nodes_x</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
-    <span class="n">face_nodes_y</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
-    <span class="n">face_x</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_x</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
-    <span class="n">face_y</span> <span class="o">=</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_y</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
-    <span class="n">node_position</span> <span class="o">+=</span> <span class="n">num_nodes</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">plot_faces</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
-    <span class="c1"># Draw polygon</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">face_nodes_x</span><span class="p">,</span> <span class="n">face_nodes_y</span><span class="p">)</span>
-    <span class="c1"># Draw face index at its center</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># Draw face index at the face&#39;s center</span>
+<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_x</span><span class="p">,</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">face_y</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_17_0.png" src="../_images/01_mesh2d_basics_17_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_17_0.svg" src="../_images/01_mesh2d_basics_17_0.svg" /></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> also searches for the middle point of edges and adds them as parameters to the <code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_19_0.png" src="../_images/01_mesh2d_basics_19_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x22c61e9cd30&gt;]
+</pre></div>
 </div>
+<img alt="../_images/01_mesh2d_basics_19_1.svg" src="../_images/01_mesh2d_basics_19_1.svg" /></div>
 </div>
 <p>Until now everything <em>looked</em> structured, so let us add a few nodes to change that.</p>
 <div class="cell docutils container">
@@ -377,27 +357,17 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>If we plot the output, we can also see that <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> immediately found a new face.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_position</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">nodes_per_face</span><span class="p">):</span>
-    <span class="c1"># Calculate values to draw</span>
-    <span class="n">face_nodes</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_nodes</span><span class="p">[</span><span class="n">node_position</span> <span class="p">:</span> <span class="p">(</span><span class="n">node_position</span> <span class="o">+</span> <span class="n">num_nodes</span><span class="p">)]</span>
-    <span class="n">face_nodes_x</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
-    <span class="n">face_nodes_y</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">face_nodes</span><span class="p">]</span>
-    <span class="n">face_x</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_x</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
-    <span class="n">face_y</span> <span class="o">=</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_y</span><span class="p">[</span><span class="n">face_index</span><span class="p">]</span>
-    <span class="n">node_position</span> <span class="o">+=</span> <span class="n">num_nodes</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">plot_faces</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
-    <span class="c1"># Draw polygon</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">face_nodes_x</span><span class="p">,</span> <span class="n">face_nodes_y</span><span class="p">)</span>
-    <span class="c1"># Draw face index at its center</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># Draw face index at the face&#39;s center</span>
+<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_x</span><span class="p">,</span> <span class="n">mesh2d_output_1</span><span class="o">.</span><span class="n">face_y</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">face_x</span><span class="p">,</span> <span class="n">face_y</span><span class="p">,</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_27_0.png" src="../_images/01_mesh2d_basics_27_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_27_0.svg" src="../_images/01_mesh2d_basics_27_0.svg" /></div>
 </div>
 <p>We can also delete nodes.</p>
 <div class="cell docutils container">
@@ -411,26 +381,13 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 <p>We are back to six faces, but one hanging edge remains.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
-    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_output_2</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_31_0.png" src="../_images/01_mesh2d_basics_31_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_31_0.svg" src="../_images/01_mesh2d_basics_31_0.svg" /></div>
 </div>
 <p>Quite often, hanging edges are unwanted.
 That is why <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides methods to deal with them.
@@ -455,26 +412,13 @@ For once we can it can count hanging edges.</p>
 <p>After we have deleted the hanging edges, we are back at the original state.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-    <span class="n">first_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
-    <span class="n">second_edge_node_index</span> <span class="o">=</span> <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-    <span class="n">edge_x</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_x</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-    <span class="n">edge_y</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">first_edge_node_index</span><span class="p">],</span>
-        <span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">node_y</span><span class="p">[</span><span class="n">second_edge_node_index</span><span class="p">],</span>
-    <span class="p">]</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edge_x</span><span class="p">,</span> <span class="n">edge_y</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_output_3</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_mesh2d_basics_37_0.png" src="../_images/01_mesh2d_basics_37_0.png" />
-</div>
+<img alt="../_images/01_mesh2d_basics_37_0.svg" src="../_images/01_mesh2d_basics_37_0.svg" /></div>
 </div>
 </div>
 
