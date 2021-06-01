@@ -12,3 +12,4 @@ If you want to play with them on your own machine, you can download them from `h
     :maxdepth: 2
 
     01_mesh2d_basics.ipynb
+    02_mesh1d_basics.ipynb
