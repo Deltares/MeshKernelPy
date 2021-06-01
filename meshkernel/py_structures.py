@@ -101,7 +101,7 @@ class Mesh2d:
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
-        `args` and `kwargs` will be used as paramters of the `plot` method.
+        `args` and `kwargs` will be used as parameters of the `plot` method.
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
@@ -123,7 +123,7 @@ class Mesh2d:
 
     def plot_faces(self, ax, *args, **kwargs):
         """Plots the faces at a given axes.
-        `args` and `kwargs` will be used as paramters of the `plot` method.
+        `args` and `kwargs` will be used as parameters of the `plot` method.
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the faces
