@@ -23,6 +23,26 @@ pip install meshkernel
 Currently, we only offer wheels specific to Deltares' CentOS machines.
 We plan to release a manylinux wheel at PyPI in the future. 
 
+# Examples
+
+1. Creating a triangular mesh inside a polygon
+
+In this example a mesh is created by discretizing the polygon perimeter with the desired edge length.
+
+![](docs/images/TriangularMeshInPolygon.jpg)
+
+2. Mesh orthogonalization
+
+Finite volume staggered flow solvers require the mesh to be as much orthogonal as possible. 
+MeshKernel provides an algorithm to adapt the mesh and achieve a good balance between mesh orthogonality and smoothness.
+
+![](docs/images/MeshOrthogonalization.jpg)
+
+3. Mesh refinement
+
+A mesh can be refined in areas based on samples or polygon selections. 
+
+![](docs/images/GridRefinement.jpg)
 
 # License
 
