@@ -99,6 +99,46 @@ class Mesh2d:
     face_x: ndarray = np.empty(0, dtype=np.double)
     face_y: ndarray = np.empty(0, dtype=np.double)
 
+    def plot_edges(self, ax, *args, **kwargs):
+        """Plots the edges at a given axes.
+        `args` and `kwargs` will be used as paramters of the `plot` method.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the edges
+        """
+        for edge_index in range(0, self.edge_nodes.size, 2):
+            first_edge_node_index = self.edge_nodes[edge_index]
+            second_edge_node_index = self.edge_nodes[edge_index + 1]
+
+            edge_x = [
+                self.node_x[first_edge_node_index],
+                self.node_x[second_edge_node_index],
+            ]
+            edge_y = [
+                self.node_y[first_edge_node_index],
+                self.node_y[second_edge_node_index],
+            ]
+
+            ax.plot(edge_x, edge_y, *args, **kwargs)
+
+    def plot_faces(self, ax, *args, **kwargs):
+        """Plots the faces at a given axes.
+        `args` and `kwargs` will be used as paramters of the `plot` method.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the faces
+        """
+        node_position = 0
+        for face_index, num_nodes in enumerate(self.nodes_per_face):
+            # Calculate values to draw
+            face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
+            face_nodes_x = self.node_x[face_nodes]
+            face_nodes_y = self.node_y[face_nodes]
+            node_position += num_nodes
+
+            # Draw polygon
+            ax.fill(face_nodes_x, face_nodes_y, *args, **kwargs)
+
 
 @dataclass
 class GeometryList:
