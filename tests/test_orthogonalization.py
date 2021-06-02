@@ -56,7 +56,7 @@ def test_mesh2d_compute_orthogonalization():
 
 
 def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
-    """Tests `mesh2d_get_orthogonality` with an orthogonal 3x3 Mesh2d.
+    """Tests `mesh2d_get_orthogonality` with an orthogonal 2x2 Mesh2d.
     6---7---8
     |   |   |
     3---4---5
@@ -65,7 +65,7 @@ def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
     """
 
     mk = MeshKernel()
-    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(3, 3))
+    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(2, 2))
 
     orthogonality = mk.mesh2d_get_orthogonality()
 

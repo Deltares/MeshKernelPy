@@ -10,9 +10,9 @@ from meshkernel.py_structures import AveragingMethod
 def test_mesh2d_triangulation_interpolation_on_faces(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `mesh2d_triangulation_interpolation` on the faces of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the faces of a 3x3 Mesh2d."""
 
-    mk = meshkernel_with_mesh2d(4, 4)
+    mk = meshkernel_with_mesh2d(3, 3)
 
     samples_x = np.array([0.4, 1.3, 2.6, 0.6, 1.6, 2.4, 0.4, 1.6, 2.5], dtype=np.double)
     samples_y = np.array([0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 2.5, 2.5, 2.5], dtype=np.double)
@@ -57,9 +57,9 @@ def test_mesh2d_triangulation_interpolation_on_faces(
 def test_mesh2d_triangulation_interpolation_on_nodes(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `mesh2d_triangulation_interpolation` on the nodes of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the nodes of a 2x2 Mesh2d."""
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     samples_x = np.array([0.0, 0.9, 2.1, 0.1, 1.1, 2.2, 0.0, 1.2, 2.1], dtype=np.double)
     samples_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0], dtype=np.double)
@@ -104,9 +104,9 @@ def test_mesh2d_triangulation_interpolation_on_nodes(
 def test_mesh2d_triangulation_interpolation_on_edges(
     meshkernel_with_mesh2d: MeshKernel,
 ):
-    """Tests `mesh2d_triangulation_interpolation` on the edges of a 4x4 Mesh2d."""
+    """Tests `mesh2d_triangulation_interpolation` on the edges of a 2x2 Mesh2d."""
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     samples_x = np.array(
         [0.0, 1.1, 2.2, 0.0, 0.9, 2.0, 0.4, 1.6, 0.6, 1.3, 0.2, 1.5], dtype=np.double
@@ -194,9 +194,9 @@ def test_mesh2d_averaging_interpolation(
     averaging_method: AveragingMethod,
     exp_values: np.ndarray,
 ):
-    """Tests `mesh2d_averaging_interpolation` on the faces of a 4x4 Mesh2d."""
+    """Tests `mesh2d_averaging_interpolation` on the faces of a 3x3 Mesh2d."""
 
-    mk = meshkernel_with_mesh2d(4, 4)
+    mk = meshkernel_with_mesh2d(3, 3)
 
     samples_x = np.array([0.5, 1.5, 2.5, 0.5, 1.5, 2.5, 0.5, 1.5, 2.5], dtype=np.double)
     samples_y = np.array([0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 2.5, 2.5, 2.5], dtype=np.double)

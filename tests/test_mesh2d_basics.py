@@ -68,14 +68,14 @@ def test_mesh2d_set_and_mesh2d_get():
 
 
 def test_mesh2d_insert_edge(meshkernel_with_mesh2d: MeshKernel):
-    """Test `mesh2d_insert_edge` by inserting one edge within a 2x2 Mesh2d.
+    """Test `mesh2d_insert_edge` by inserting one edge within a 1x1 Mesh2d.
 
     2---3
     |   |
     0---1
     """
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     edge_index = mk.mesh2d_insert_edge(0, 3)
 
@@ -88,14 +88,14 @@ def test_mesh2d_insert_edge(meshkernel_with_mesh2d: MeshKernel):
 
 
 def test_mesh2d_insert_node(meshkernel_with_mesh2d: MeshKernel):
-    """Test `mesh2d_insert_node` with a 2x2 Mesh2d.
+    """Test `mesh2d_insert_node` with a 1x1 Mesh2d.
 
     2---3
     |   |
     0---1
     """
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     node_index = mk.mesh2d_insert_node(1.5, 0.5)
     edge_index = mk.mesh2d_insert_edge(3, node_index)
@@ -128,7 +128,7 @@ def test_mesh2d_delete_node(
     deleted_x: float,
     deleted_y: float,
 ):
-    """Test `mesh2d_delete_node` by deleting a node from a 3x3 Mesh2d.
+    """Test `mesh2d_delete_node` by deleting a node from a 2x2 Mesh2d.
 
     6---7---8
     |   |   |
@@ -137,7 +137,7 @@ def test_mesh2d_delete_node(
     0---1---2
 
     """
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mk.mesh2d_delete_node(node_index)
 
@@ -152,7 +152,7 @@ def test_mesh2d_delete_node(
 def test_mesh2d_delete_node_invalid_node_index(meshkernel_with_mesh2d: MeshKernel):
     """Test `mesh2d_delete_node` by passing a negative `node_index`."""
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     with pytest.raises(InputError):
         mk.mesh2d_delete_node(-1)
@@ -185,7 +185,7 @@ def test_mesh2d_move_node(
 
     """
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mk.mesh2d_move_node(5.0, 7.0, node_index)
 
@@ -201,7 +201,7 @@ def test_mesh2d_move_node(
 def test_mesh2d_move_node_invalid_node_index(meshkernel_with_mesh2d: MeshKernel):
     """Test `mesh2d_move_node` by passing a negative `node_index`."""
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
     with pytest.raises(InputError):
         mk.mesh2d_move_node(5.0, 7.0, -1)
 
@@ -226,7 +226,7 @@ cases_mesh2d_delete_edge = [
 def test_mesh2d_delete_edge(
     meshkernel_with_mesh2d: MeshKernel, delete_x: float, delete_y: float
 ):
-    """Test `mesh2d_delete_edge` by deleting an edge from a 3x3 Mesh2d.
+    """Test `mesh2d_delete_edge` by deleting an edge from a 2x2 Mesh2d.
 
     6---7---8
     |   |   |
@@ -235,7 +235,7 @@ def test_mesh2d_delete_edge(
     0---1---2
 
     """
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mk.mesh2d_delete_edge(delete_x, delete_y)
 
@@ -271,7 +271,7 @@ def test_mesh2d_get_edge(
 
     """
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     edge_index = mk.mesh2d_get_edge(x, y)
 
@@ -298,7 +298,7 @@ cases_mesh2d_get_node_index = [
 def test_mesh2d_get_node_index(
     meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
-    """Test `mesh2d_get_node_index` on a 2x2 Mesh2d.
+    """Test `mesh2d_get_node_index` on a 1x1 Mesh2d.
 
     2---3
     |   |
@@ -306,7 +306,7 @@ def test_mesh2d_get_node_index(
 
     """
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     edge_index = mk.mesh2d_get_node_index(x, y, 0.5)
 
@@ -318,7 +318,7 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 ):
     """Test `get_node_index` when there is no node within the search radius."""
 
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(1, 1)
 
     with pytest.raises(MeshKernelError):
         mk.mesh2d_get_node_index(0.5, 0.5, 0.4)
@@ -346,7 +346,7 @@ def test_mesh2d_delete_small_polygon(
     exp_edges: int,
     exp_faces: int,
 ):
-    """Test `mesh2d_delete` by deleting a polygon from a 6x6 mesh2d.
+    """Test `mesh2d_delete` by deleting a polygon from a 5x5 mesh2d.
 
     30--31--32--33--34--35
     |   |   |   |   |   |
@@ -361,7 +361,7 @@ def test_mesh2d_delete_small_polygon(
     0---1---2---3---4---5
 
     """
-    mk = meshkernel_with_mesh2d(6, 6)
+    mk = meshkernel_with_mesh2d(5, 5)
 
     # Polygon around nodes 14, 15, 21 & 20 (through the face circum centers)
     x_coordinates = np.array([1.5, 3.5, 3.5, 1.5, 1.5], dtype=np.double)
@@ -391,7 +391,7 @@ def test_mesh2d_delete_empty_polygon(
     exp_edges: int,
     exp_faces: int,
 ):
-    """Test `mesh2d_delete` by deleting a an empty polygon from a 5x5 mesh2d.
+    """Test `mesh2d_delete` by deleting a an empty polygon from a 4x4 mesh2d.
 
     20--21--22--23--24
     |   |   |   |   |
@@ -404,7 +404,7 @@ def test_mesh2d_delete_empty_polygon(
     0---1---2---3---4
 
     """
-    mk = meshkernel_with_mesh2d(5, 5)
+    mk = meshkernel_with_mesh2d(4, 4)
 
     x_coordinates = np.empty(0, dtype=np.double)
     y_coordinates = np.empty(0, dtype=np.double)
@@ -589,7 +589,7 @@ def test_mesh2d_refine_based_on_samples(
     exp_edges: int,
     exp_faces: int,
 ):
-    """Tests `mesh2d_refine_based_on_samples` with a simple 3x3 mesh.
+    """Tests `mesh2d_refine_based_on_samples` with a simple 2x2 mesh.
 
     6---7---8
     |   |   |
@@ -597,7 +597,7 @@ def test_mesh2d_refine_based_on_samples(
     |   |   |
     0---1---2
     """
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     x_coordinates = np.array([0.5, 0.5, 1.5, 1.5], dtype=np.double)
     y_coordinates = np.array([0.5, 1.5, 1.5, 0.5], dtype=np.double)
@@ -637,7 +637,7 @@ def test_mesh2d_refine_based_on_polygon(
     exp_edges: int,
     exp_faces: int,
 ):
-    """Tests `mesh2d_refine_based_on_polygon` with a simple 3x3 mesh.
+    """Tests `mesh2d_refine_based_on_polygon` with a simple 2x2 mesh.
 
     6---7---8
     |   |   |
@@ -646,7 +646,7 @@ def test_mesh2d_refine_based_on_polygon(
     0---1---2
     """
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     x_coordinates = np.array([0.0, 0.0, 2.0, 2.0, 0.0], dtype=np.double)
     y_coordinates = np.array([0.0, 2.0, 2.0, 0.0, 0.0], dtype=np.double)
@@ -668,7 +668,7 @@ def test_mesh2d_refine_based_on_polygon(
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):
     """Tests `mesh2d_get_mesh_boundaries_as_polygons` by checking if the resulted boundary is as expected"""
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mesh_boundary = mk.mesh2d_get_mesh_boundaries_as_polygons()
     assert_array_equal(
@@ -734,7 +734,7 @@ def test_mesh2d_merge_two_nodes(
     0---1---2
     """
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mk.mesh2d_merge_two_nodes(first_node, second_node)
 
@@ -862,7 +862,7 @@ def test_mesh2d_flip_edges(triangulate: bool):
 
 
 def test_mesh2d_flip_edges2_triangulate(meshkernel_with_mesh2d: MeshKernel):
-    """Tests `mesh2d_flip_edges` with a simple 3x3 mesh.
+    """Tests `mesh2d_flip_edges` with a simple 2x2 mesh.
 
     6---7---8       6---7---8
     |   |   |       | / | / |
@@ -871,7 +871,7 @@ def test_mesh2d_flip_edges2_triangulate(meshkernel_with_mesh2d: MeshKernel):
     0---1---2       0---1---2
     """
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
 
     mk.mesh2d_flip_edges(
         True,
@@ -1265,7 +1265,7 @@ def test_nodes_in_polygons_mesh2d(
     0---1---2
     """
 
-    mk = meshkernel_with_mesh2d(3, 3)
+    mk = meshkernel_with_mesh2d(2, 2)
     geometry_list = GeometryList(x_coordinates, y_coordinates)
     selected_nodes = mk.mesh2d_get_nodes_in_polygons(geometry_list, inside)
 

@@ -6,7 +6,7 @@ from meshkernel import InputError, Mesh2d, Mesh2dFactory
 
 
 def test_create_rectilinear_mesh_simple():
-    """Test create_rectilinear_mesh``by creating a simple 3x3 mesh
+    """Test create_rectilinear_mesh``by creating a simple 2x2 mesh
 
     6---7---8
     |   |   |
@@ -15,7 +15,7 @@ def test_create_rectilinear_mesh_simple():
     0---1---2
 
     """
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
 
     # Assert node positions
     assert_array_equal(
@@ -35,7 +35,7 @@ def test_create_rectilinear_mesh_simple():
 
 
 def test_create_rectilinear_mesh_extensive():
-    """Test create_rectilinear_mesh``by creating a 3x4 mesh.
+    """Test create_rectilinear_mesh``by creating a 2x3 mesh.
     Also set
         - origin_x to -1.0 and spacing_x to 2.0 and
         - origin_y to 1.0 and spacing_y to 3.0.
@@ -49,7 +49,7 @@ def test_create_rectilinear_mesh_extensive():
 
     """
     mesh2d = Mesh2dFactory.create_rectilinear_mesh(
-        3, 4, origin_x=-1.0, origin_y=1.0, spacing_x=2.0, spacing_y=3.0
+        2, 3, origin_x=-1.0, origin_y=1.0, spacing_x=2.0, spacing_y=3.0
     )
 
     # Assert node positions
@@ -109,16 +109,16 @@ def test_create_rectilinear_mesh_extensive():
 def test_create_rectilinear_mesh_reject_negative_spacing():
     """Tests if `create_rectilinear_mesh` rejects negative spacing."""
     with pytest.raises(InputError):
-        Mesh2dFactory.create_rectilinear_mesh(3, 3, spacing_x=-1.0)
+        Mesh2dFactory.create_rectilinear_mesh(2, 2, spacing_x=-1.0)
 
     with pytest.raises(InputError):
-        Mesh2dFactory.create_rectilinear_mesh(3, 3, spacing_y=-1.0)
+        Mesh2dFactory.create_rectilinear_mesh(2, 2, spacing_y=-1.0)
 
 
 def test_create_rectilinear_mesh_reject_negative_rows_columns():
     """Tests if `create_rectilinear_mesh` rejects negative spacing."""
     with pytest.raises(InputError):
-        Mesh2dFactory.create_rectilinear_mesh(-1, 3)
+        Mesh2dFactory.create_rectilinear_mesh(-1, 2)
 
     with pytest.raises(InputError):
-        Mesh2dFactory.create_rectilinear_mesh(3, -1)
+        Mesh2dFactory.create_rectilinear_mesh(2, -1)

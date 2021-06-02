@@ -32,7 +32,7 @@ def test_mesh1d_get():
 
 
 def test_contacts_compute_single():
-    """Tests `contacts_compute_single` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_single` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   |  /|
@@ -49,7 +49,7 @@ def test_contacts_compute_single():
 
     mk = MeshKernel()
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(6, 6)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(5, 5)
 
     node_x = np.array([0.75, 1.75, 2.75, 3.75, 4.75], dtype=np.double)
     node_y = np.array([0.25, 1.25, 2.25, 3.25, 4.25], dtype=np.double)
@@ -82,7 +82,7 @@ def test_contacts_compute_single():
 
 
 def test_contacts_compute_multiple():
-    """Tests `contacts_compute_multiple` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_multiple` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   |  /|
@@ -99,7 +99,7 @@ def test_contacts_compute_multiple():
 
     mk = MeshKernel()
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(6, 6)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(5, 5)
 
     node_x = np.array([0.75, 1.75, 2.75, 3.75, 4.75], dtype=np.double)
     node_y = np.array([0.25, 1.25, 2.25, 3.25, 4.25], dtype=np.double)
@@ -130,7 +130,7 @@ def test_contacts_compute_multiple():
 
 
 def test_contacts_compute_with_polygons():
-    """Tests `contacts_compute_with_polygons` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_with_polygons` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   | / |
@@ -147,7 +147,7 @@ def test_contacts_compute_with_polygons():
 
     mk = MeshKernel()
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(6, 6)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(5, 5)
 
     node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
     node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
@@ -186,7 +186,7 @@ def test_contacts_compute_with_polygons():
 
 
 def test_contacts_compute_with_points():
-    """Tests `contacts_compute_with_points` with a 6x6 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_with_points` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
 
     30--31--32--33--34--35
     |   |   |   |   | / |
@@ -203,7 +203,7 @@ def test_contacts_compute_with_points():
 
     mk = MeshKernel()
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(6, 6)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(5, 5)
 
     node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
     node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
@@ -277,7 +277,7 @@ cases_contacts_compute_boundary = [
 def test_contacts_compute_boundary(
     node_mask: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
 ):
-    """Tests `contacts_compute_boundary` with a 3x3 Mesh2d and a Mesh1d with 5 nodes.
+    """Tests `contacts_compute_boundary` with a 2x2 Mesh2d and a Mesh1d with 5 nodes.
 
 
        ---3---4
@@ -291,7 +291,7 @@ def test_contacts_compute_boundary(
 
     mk = MeshKernel()
 
-    mesh2d = Mesh2dFactory.create_rectilinear_mesh(3, 3)
+    mesh2d = Mesh2dFactory.create_rectilinear_mesh(2, 2)
 
     node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=np.double)
     node_y = np.array([0.5, 1.5, 2.5, 3.0, 3.0], dtype=np.double)
