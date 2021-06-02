@@ -210,20 +210,16 @@
 </div>
 </div>
 </div>
+<p>First, let us describe our 1d mesh with six points of a sinusoidal function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>We want a continuous line, which is why we just connect each point with the following one.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
@@ -237,6 +233,7 @@
 </div>
 </div>
 </div>
+<p>Then, we can create our <code class="docutils literal notranslate"><span class="pre">Mesh1d</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh1d_input</span> <span class="o">=</span> <span class="n">Mesh1d</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">,</span> <span class="n">edge_nodes</span><span class="p">)</span>
@@ -244,13 +241,15 @@
 </div>
 </div>
 </div>
+<p>We also use <code class="docutils literal notranslate"><span class="pre">Mesh2dFactory</span></code> to create a <code class="docutils literal notranslate"><span class="pre">Mesh2d</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">Mesh2dFactory</span><span class="o">.</span><span class="n">create_rectilinear_mesh</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">origin_x</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">origin_y</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">Mesh2dFactory</span><span class="o">.</span><span class="n">create_rectilinear_mesh</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">origin_x</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">origin_y</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Then, we create a <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance and set its state.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">()</span>
@@ -260,6 +259,7 @@
 </div>
 </div>
 </div>
+<p>This is how our meshes currently look like:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -269,9 +269,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02_mesh1d_basics_9_0.png" src="../_images/02_mesh1d_basics_9_0.png" />
+<img alt="../_images/02_mesh1d_basics_14_0.png" src="../_images/02_mesh1d_basics_14_0.png" />
 </div>
 </div>
+<p>Typically if we have 1d and 2d meshes we want to create contacts between them.
+All contacts methods expect a node mask, which determines which 1d nodes should be connected.
+In our case we want to consider all nodes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">mesh1d_input</span><span class="o">.</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -279,6 +282,7 @@
 </div>
 </div>
 </div>
+<p>We call the <code class="docutils literal notranslate"><span class="pre">contacts_compute_multiple</span></code> method in order to create the contacts.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">contacts_compute_multiple</span><span class="p">(</span><span class="n">node_mask</span><span class="p">)</span>
@@ -286,6 +290,7 @@
 </div>
 </div>
 </div>
+<p>Then, we retrieve the state from the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh1d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh1d_get</span><span class="p">()</span>
@@ -295,6 +300,7 @@
 </div>
 </div>
 </div>
+<p>We see that there are now contacts between the 1d nodes and the 2d faces.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -305,7 +311,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/02_mesh1d_basics_13_0.png" src="../_images/02_mesh1d_basics_13_0.png" />
+<img alt="../_images/02_mesh1d_basics_22_0.png" src="../_images/02_mesh1d_basics_22_0.png" />
 </div>
 </div>
 </div>
