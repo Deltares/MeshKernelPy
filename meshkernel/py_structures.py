@@ -103,7 +103,7 @@ class Mesh2d:
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
-        `args` and `kwargs` will be used as parameters of the `plot` method.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
@@ -112,7 +112,7 @@ class Mesh2d:
 
     def plot_faces(self, ax, *args, **kwargs):
         """Plots the faces at a given axes.
-        `args` and `kwargs` will be used as parameters of the `plot` method.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the faces
@@ -216,7 +216,7 @@ class Mesh1d:
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
-        `args` and `kwargs` will be used as parameters of the `plot` method.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
@@ -235,3 +235,19 @@ class Contacts:
 
     mesh1d_indices: ndarray
     mesh2d_indices: ndarray
+
+    def plot_edges(self, ax, mesh1d, mesh2d, *args, **kwargs):
+        """Plots the edges at a given axes.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the edges
+            mesh1d (Mesh1d): [description]
+            mesh2d (Mesh2d): [description]
+        """
+
+        for mesh1d_index, mesh2d_index in zip(self.mesh1d_indices, self.mesh2d_indices):
+            node_x = [mesh1d.node_x[mesh1d_index], mesh2d.face_x[mesh2d_index]]
+            node_y = [mesh1d.node_y[mesh1d_index], mesh2d.face_y[mesh2d_index]]
+
+            ax.plot(node_x, node_y, *args, **kwargs)

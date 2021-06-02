@@ -555,7 +555,7 @@ class MeshKernel:
 
         Args:
             triangulation_required (bool): Whether to triangulate non-triangular cells.
-            project_to_land_boundary_required: Whether projection to land boundaries is required.
+            project_to_land_boundary_required (bool): Whether projection to land boundaries is required.
             selecting_polygon (GeometryList): The polygon where to perform the edge flipping.
             land_boundaries (GeometryList): The land boundaries to account for when flipping the edges.
 
