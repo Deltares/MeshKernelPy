@@ -59,7 +59,7 @@ def test_contacts_compute_single():
     mk.mesh2d_set(mesh2d)
     mk.mesh1d_set(mesh1d)
 
-    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.full(node_x.size, True)
 
     polygon_x = np.array([-1.0, 6.0, 6.0, -1.0, -1.0], dtype=np.double)
     polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=np.double)
@@ -109,7 +109,7 @@ def test_contacts_compute_multiple():
     mk.mesh2d_set(mesh2d)
     mk.mesh1d_set(mesh1d)
 
-    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.full(node_x.size, True)
 
     mk.contacts_compute_multiple(node_mask)
 
@@ -157,7 +157,7 @@ def test_contacts_compute_with_polygons():
     mk.mesh2d_set(mesh2d)
     mk.mesh1d_set(mesh1d)
 
-    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.full(node_x.size, True)
 
     # Two polygons around Mesh2d nodes 4, 5, 23, 22 and 12, 13, 31, 30
     separator = -999.0
@@ -213,7 +213,7 @@ def test_contacts_compute_with_points():
     mk.mesh2d_set(mesh2d)
     mk.mesh1d_set(mesh1d)
 
-    node_mask = np.array([1, 1, 1, 1, 1], dtype=np.int32)
+    node_mask = np.full(node_x.size, True)
 
     # Three points in Mesh2d faces 10, 8, 14
     points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
@@ -238,32 +238,32 @@ def test_contacts_compute_with_points():
 
 cases_contacts_compute_boundary = [
     (
-        np.array([1, 1, 1, 1, 1], dtype=np.int32),  # node_mask
+        np.array([True, True, True, True, True]),  # node_mask
         np.array([0, 2, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([1, 0, 0, 0, 1], dtype=np.int32),  # node_mask
+        np.array([True, False, False, False, True], dtype=np.int32),  # node_mask
         np.array([0, 0, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 1, 1, 1], dtype=np.int32),  # node_mask
+        np.array([False, False, True, True, True], dtype=np.int32),  # node_mask
         np.array([2, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([1, 0, 0, 1, 1], dtype=np.int32),  # node_mask
+        np.array([True, False, False, True, True], dtype=np.int32),  # node_mask
         np.array([0, 3, 4], dtype=np.int32),  # exp_mesh1d_indices
         np.array([0, 2, 3], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 1, 0, 0], dtype=np.int32),  # node_mask
+        np.array([False, False, True, False, False], dtype=np.int32),  # node_mask
         np.array([2], dtype=np.int32),  # exp_mesh1d_indices
         np.array([2], dtype=np.int32),  # exp_mesh2d_indices
     ),
     (
-        np.array([0, 0, 0, 0, 0], dtype=np.int32),  # node_mask
+        np.array([False, False, False, False, False], dtype=np.int32),  # node_mask
         np.array([], dtype=np.int32),  # exp_mesh1d_indices
         np.array([], dtype=np.int32),  # exp_mesh2d_indices
     ),

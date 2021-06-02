@@ -963,11 +963,13 @@ class MeshKernel:
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
 
         Args:
-            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
-                                 should not (0) be connected
+            node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
+                                 should not be connected
             polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
         """
-        c_node_mask = as_ctypes(node_mask)
+
+        node_mask_int = node_mask.astype(np.int32)
+        c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
@@ -981,11 +983,12 @@ class MeshKernel:
         """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
 
         Args:
-            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
-                                 should not (0) be connected
+            node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
+                                 should not be connected
         """
 
-        c_node_mask = as_ctypes(node_mask)
+        node_mask_int = node_mask.astype(np.int32)
+        c_node_mask = as_ctypes(node_mask_int)
 
         self._execute_function(
             self.lib.mkernel_contacts_compute_multiple,
@@ -999,13 +1002,14 @@ class MeshKernel:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
         Args:
-            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
-                                 should not (0) be connected
+            node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
+                                 should not be connected
             polygons (GeometryList): The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.
 
         """
 
-        c_node_mask = as_ctypes(node_mask)
+        node_mask_int = node_mask.astype(np.int32)
+        c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
@@ -1022,12 +1026,13 @@ class MeshKernel:
         the input point.
 
         Args:
-            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
-                                 should not (0) be connected
+            node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
+                                 should not be connected
             points (GeometryList): The points selecting the Mesh2d faces to connect.
 
         """
-        c_node_mask = as_ctypes(node_mask)
+        node_mask_int = node_mask.astype(np.int32)
+        c_node_mask = as_ctypes(node_mask_int)
         c_points = CGeometryList.from_geometrylist(points)
 
         self._execute_function(
@@ -1043,15 +1048,16 @@ class MeshKernel:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
         Args:
-            node_mask (ndarray): An integer array describing whether Mesh1d nodes should (1) or
-                                 should not (0) be connected
+            node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
+                                 should not be connected
             points (GeometryList): The points selecting the Mesh2d faces to connect.
             search_radius (float): The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
                                    value double, the search radius will be calculated internally.
 
         """
 
-        c_node_mask = as_ctypes(node_mask)
+        node_mask_int = node_mask.astype(np.int32)
+        c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
