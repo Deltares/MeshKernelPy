@@ -218,6 +218,23 @@
   <a class="reference internal nav-link" href="#examples">
    Examples
   </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-triangular-mesh-inside-a-polygon">
+     Creating a triangular mesh inside a polygon
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mesh-orthogonalization">
+     Mesh orthogonalization
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mesh-refinement">
+     Mesh refinement
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#license">
@@ -265,22 +282,22 @@ We plan to release a manylinux wheel at PyPI in the future.</p>
 </div>
 <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<ol class="simple">
-<li><p>Creating a triangular mesh inside a polygon</p></li>
-</ol>
+<div class="section" id="creating-a-triangular-mesh-inside-a-polygon">
+<h2>Creating a triangular mesh inside a polygon<a class="headerlink" href="#creating-a-triangular-mesh-inside-a-polygon" title="Permalink to this headline">¶</a></h2>
 <p>In this example a mesh is created by discretizing the polygon perimeter with the desired edge length.</p>
-<p><img alt="" src="_images/TriangularMeshInPolygon.jpg" /></p>
-<ol class="simple">
-<li><p>Mesh orthogonalization</p></li>
-</ol>
+<p><img alt="" src="https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/TriangularMeshInPolygon.jpg" /></p>
+</div>
+<div class="section" id="mesh-orthogonalization">
+<h2>Mesh orthogonalization<a class="headerlink" href="#mesh-orthogonalization" title="Permalink to this headline">¶</a></h2>
 <p>Finite volume staggered flow solvers require the mesh to be as much orthogonal as possible.
 MeshKernel provides an algorithm to adapt the mesh and achieve a good balance between mesh orthogonality and smoothness.</p>
-<p><img alt="" src="_images/MeshOrthogonalization.jpg" /></p>
-<ol class="simple">
-<li><p>Mesh refinement</p></li>
-</ol>
+<p><img alt="" src="https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/MeshOrthogonalization.jpg" /></p>
+</div>
+<div class="section" id="mesh-refinement">
+<h2>Mesh refinement<a class="headerlink" href="#mesh-refinement" title="Permalink to this headline">¶</a></h2>
 <p>A mesh can be refined in areas based on samples or polygon selections.</p>
-<p><img alt="" src="_images/GridRefinement.jpg" /></p>
+<p><img alt="" src="https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/GridRefinement.jpg" /></p>
+</div>
 </div>
 <div class="section" id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
