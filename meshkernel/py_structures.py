@@ -242,8 +242,8 @@ class Contacts:
 
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the edges
-            mesh1d (Mesh1d): [description]
-            mesh2d (Mesh2d): [description]
+            mesh1d (Mesh1d): The mesh1d instance used to plot the contacts
+            mesh2d (Mesh2d): The mesh2d instance used to plot the contacts
         """
 
         for mesh1d_index, mesh2d_index in zip(self.mesh1d_indices, self.mesh2d_indices):

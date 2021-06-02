@@ -39,7 +39,7 @@ def get_version(rel_path: str) -> str:
         RuntimeError: Raised if the version string could not be found
 
     Returns:
-        str: [description]
+        str: The version string
     """
     for line in read(rel_path).splitlines():
         if line.startswith("__version__"):

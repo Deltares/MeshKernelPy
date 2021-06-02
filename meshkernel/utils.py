@@ -4,9 +4,9 @@ def plot_edges(node_x, node_y, edge_nodes, ax, *args, **kwargs):
 
 
     Args:
-        node_x ([type]): [description]
-        node_y ([type]): [description]
-        edge_nodes ([type]): [description]
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        edge_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d edge.
         ax (matplotlib.axes.Axes): The axes where to plot the edges
     """
     for edge_index in range(0, edge_nodes.size, 2):
