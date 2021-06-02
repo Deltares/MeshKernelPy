@@ -13,3 +13,4 @@ If you want to play with them on your own machine, you can download them from `h
 
     01_mesh2d_basics.ipynb
     02_mesh1d_basics.ipynb
+    03_tri_mesh2d_pol.ipynb
