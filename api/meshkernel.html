@@ -209,8 +209,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
-should not (0) be connected</p></li>
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
 <li><p><strong>points</strong> (<em>GeometryList</em>) – The points selecting the Mesh2d faces to connect.</p></li>
 <li><p><strong>search_radius</strong> (<em>float</em>) – The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
 value double, the search radius will be calculated internally.</p></li>
@@ -225,8 +225,8 @@ value double, the search radius will be calculated internally.</p></li>
 <dd><p>Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
-should not (0) be connected</p>
+<dd class="field-odd"><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,8 +239,8 @@ The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connec
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
-should not (0) be connected</p></li>
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
 <li><p><strong>polygons</strong> (<em>GeometryList</em>) – The polygons selecting the area where the contacts will be be generated.</p></li>
 </ul>
 </dd>
@@ -255,8 +255,8 @@ the input point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
-should not (0) be connected</p></li>
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
 <li><p><strong>points</strong> (<em>GeometryList</em>) – The points selecting the Mesh2d faces to connect.</p></li>
 </ul>
 </dd>
@@ -270,8 +270,8 @@ should not (0) be connected</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_mask</strong> (<em>ndarray</em>) – An integer array describing whether Mesh1d nodes should (1) or
-should not (0) be connected</p></li>
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
 <li><p><strong>polygons</strong> (<em>GeometryList</em>) – The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.</p></li>
 </ul>
 </dd>
