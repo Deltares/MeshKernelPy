@@ -9,7 +9,6 @@ from meshkernel import (
     GeometryList,
     InputError,
     Mesh2d,
-    Mesh2dFactory,
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,

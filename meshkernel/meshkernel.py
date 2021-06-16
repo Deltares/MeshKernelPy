@@ -1,11 +1,9 @@
 import logging
-import os
 import platform
-import sys
 from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t
-from enum import Enum, IntEnum, unique
+from enum import IntEnum, unique
 from pathlib import Path
-from typing import Callable, Iterable, Tuple
+from typing import Callable
 
 import numpy as np
 from numpy import ndarray
@@ -32,6 +30,7 @@ from meshkernel.py_structures import (
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
 )
+from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
 
@@ -1236,6 +1235,26 @@ class MeshKernel:
         )
 
         return interpolated_samples
+
+    def get_meshkernel_version(self) -> str:
+        """Get the version of the underlying C++ MeshKernel library
+
+        Returns:
+            str: The version string
+        """
+
+        c_meshkernel_version = c_char_p()
+        self.lib.mkernel_get_version(byref(c_meshkernel_version))
+        return c_meshkernel_version.value.decode("ASCII")
+
+    def get_meshkernelpy_version(self) -> str:
+        """Get the version of this Python wrapper
+
+        Returns:
+            str: The version string
+        """
+
+        return __version__
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status.

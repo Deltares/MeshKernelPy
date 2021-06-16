@@ -16,5 +16,4 @@ from meshkernel.py_structures import (
     ProjectToLandBoundaryOption,
     RefinementType,
 )
-
-__version__ = "0.9.2"
+from meshkernel.version import __version__

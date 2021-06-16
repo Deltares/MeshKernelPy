@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 from numpy.ctypeslib import as_array
 from numpy.testing import assert_array_equal
 

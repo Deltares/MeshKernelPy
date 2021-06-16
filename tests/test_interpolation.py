@@ -3,8 +3,7 @@ import pytest
 from numpy.testing import assert_array_equal
 from pytest import approx
 
-from meshkernel import GeometryList, Mesh2d, Mesh2dFactory, Mesh2dLocation, MeshKernel
-from meshkernel.py_structures import AveragingMethod
+from meshkernel import AveragingMethod, GeometryList, Mesh2dLocation, MeshKernel
 
 
 def test_mesh2d_triangulation_interpolation_on_faces(
