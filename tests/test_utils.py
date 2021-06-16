@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-from meshkernel import InputError, Mesh2d, Mesh2dFactory
+from meshkernel import InputError, Mesh2dFactory, MeshKernel, __version__
 
 
 def test_create_rectilinear_mesh_simple():
@@ -122,3 +122,17 @@ def test_create_rectilinear_mesh_reject_negative_rows_columns():
 
     with pytest.raises(InputError):
         Mesh2dFactory.create_rectilinear_mesh(2, -1)
+
+
+def test_get_meshkernel_version():
+    """Tests if we can get the version of MeshKernel through the API"""
+    mk = MeshKernel()
+    meshkernel_version = mk.get_meshkernel_version()
+    assert len(meshkernel_version) > 0
+
+
+def test_get_meshkernelpy_version():
+    """Tests if we can get the version of MeshKernelPy through the API"""
+    mk = MeshKernel()
+    meshkernelpy_version = mk.get_meshkernelpy_version()
+    assert meshkernelpy_version == __version__

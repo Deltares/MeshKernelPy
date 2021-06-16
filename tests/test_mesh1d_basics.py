@@ -2,7 +2,6 @@ import numpy as np
 import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
-from pytest import approx
 
 from meshkernel import GeometryList, Mesh1d, Mesh2dFactory, MeshKernel
 

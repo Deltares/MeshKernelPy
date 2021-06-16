@@ -1,18 +1,7 @@
-import math
-
 import numpy as np
 import pytest
-from numpy.testing import assert_array_equal
 
-from meshkernel import (
-    DeleteMeshOption,
-    GeometryList,
-    InputError,
-    Mesh2d,
-    Mesh2dFactory,
-    MeshKernel,
-    MeshKernelError,
-)
+from meshkernel import GeometryList, MeshKernel
 
 cases_get_splines = [
     (

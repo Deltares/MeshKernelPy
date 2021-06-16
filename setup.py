@@ -119,6 +119,6 @@ setup(
         "meshkernel": [get_meshkernel_name()],
     },
     cmdclass={"bdist_wheel": bdist_wheel},
-    version=get_version("meshkernel/__init__.py"),
+    version=get_version("meshkernel/version.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
 )
