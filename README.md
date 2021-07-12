@@ -59,5 +59,7 @@ In order to install `MeshKernelPy` locally, please execute the following line in
 pip install -e ".[tests, lint, docs]"
 ```
 
+Then add a compiled `MeshKernelApi.dll` into your `src` folder.
+
 Also make sure that your editor is configured to format the code with [`black`](https://black.readthedocs.io/en/stable/) and [`isort`](https://pycqa.github.io/isort/).
 When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://jupyterlab-code-formatter.readthedocs.io/en/latest/installation.html) can be used.
