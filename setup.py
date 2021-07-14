@@ -1,12 +1,9 @@
 import codecs
 import os.path
 import platform
-import sys
-from pathlib import Path
 
-from setuptools import Distribution, find_namespace_packages, setup
+from setuptools import setup
 
-# edit author dictionary as necessary
 author_dict = {
     "Julian Hofer": "julian.hofer@deltares.nl",
     "Prisca van der Sluis": "prisca.vandersluis@deltares.nl",
@@ -58,11 +55,15 @@ def get_meshkernel_name() -> str:
     Returns:
         str: Filename of the MeshKernel library
     """
-    if platform.system() == "Windows":
+    system = platform.system()
+    if system == "Windows":
         return "MeshKernelApi.dll"
-    elif platform.system() == "Linux":
+    elif system == "Linux":
         return "libMeshKernelApi.so"
-    raise OSError("Unsupported operating system")
+    elif system == "Darwin":
+        return "libMeshKernelApi.dylib"
+    else:
+        raise OSError(f"Unsupported operating system: {system}")
 
 
 try:
