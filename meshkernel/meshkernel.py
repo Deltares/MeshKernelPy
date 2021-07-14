@@ -65,7 +65,7 @@ class MeshKernel:
         elif system == "Darwin":
             lib_path = Path(__file__).parent / "libMeshKernelApi.dylib"
         else:
-            raise OSError(f"Unsupported operating system {system}")
+            raise OSError(f"Unsupported operating system: {system}")
 
         self.lib = CDLL(str(lib_path))
         self._allocate_state(is_geographic)

@@ -63,7 +63,7 @@ def get_meshkernel_name() -> str:
     elif system == "Darwin":
         return "libMeshKernelApi.dylib"
     else:
-        raise OSError(f"Unsupported operating system {system}")
+        raise OSError(f"Unsupported operating system: {system}")
 
 
 try:
