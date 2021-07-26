@@ -7,11 +7,14 @@ from numpy.ctypeslib import as_ctypes
 
 from meshkernel.py_structures import (
     Contacts,
+    CurvilinearGrid,
+    CurvilinearParameters,
     GeometryList,
     Mesh1d,
     Mesh2d,
     MeshRefinementParameters,
     OrthogonalizationParameters,
+    SplinesToCurvilinearParameters,
 )
 
 
@@ -418,3 +421,201 @@ class CContacts(Structure):
         self.mesh2d_indices = as_ctypes(mesh2d_indices)
 
         return Contacts(mesh1d_indices, mesh2d_indices)
+
+class CCurvilinearGrid(Structure):
+    """C-structure intended for internal use only.
+    It represents a Curvilinear struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        num_m (c_int): The number of curvilinear grid nodes along m.
+        num_n (c_int): The number of curvilinear grid nodes along n.
+    """
+
+    _fields_ = [
+        ("node_x", POINTER(c_double)),
+        ("node_y", POINTER(c_double)),
+        ("num_m", c_int),
+        ("num_n", c_int),
+    ]
+
+    @staticmethod
+    def from_curvilinearGrid(curvilinearGrid: CurvilinearGrid) -> CCurvilinearGrid:
+        """Creates a new CMesh instance from a given CurvilinearGrid instance.
+
+        Args:
+            curvilinearGrid (CurvilinearGrid): Class of numpy instances owning the state.
+
+        Returns:
+            CCurvilinearGrid: The created CCurvilinearGrid instance.
+        """
+
+        c_curvilinearGrid = CCurvilinearGrid()
+
+        # Set the pointers
+        c_curvilinearGrid.node_x = as_ctypes(curvilinearGrid.node_x)
+        c_curvilinearGrid.node_y = as_ctypes(curvilinearGrid.node_y)
+
+        # Set the sizes
+        c_curvilinearGrid.num_m = curvilinearGrid.num_m
+        c_curvilinearGrid.num_n = curvilinearGrid.num_n
+
+        return c_curvilinearGrid
+
+    def allocate_memory(self) -> CurvilinearGrid:
+        """Allocate data according to the parameters with the "num_" prefix.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the CurvilinearGrid instance which is returned by this method.
+
+        Returns:
+            CurvilinearGrid: The object owning the allocated memory.
+        """
+
+        node_x = np.empty(self.num_m * self.num_n, dtype=np.double)
+        node_y = np.empty(self.num_m * self.num_n, dtype=np.double)
+
+        self.node_x = as_ctypes(node_x)
+        self.node_y = as_ctypes(node_y)
+
+        return CurvilinearGrid(
+            node_x,
+            node_y,
+            self.num_m,
+            self.num_n
+        )
+
+class CCurvilinearParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an CurvilinearParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        m_refinement (c_int): M-refinement factor for regular grid generation.
+        n_refinement (c_int): N-refinement factor for regular grid generation.
+        smoothing_iterations (c_int): Nr. of inner iterations in regular grid smoothing.
+        smoothing_parameter (c_double): Smoothing parameter.
+        attraction_parameter (c_double): Attraction/repulsion parameter.
+    """
+
+    _fields_ = [
+        ("m_refinement", c_int),
+        ("n_refinement", c_int),
+        ("smoothing_iterations", c_int),
+        ("smoothing_parameter", c_double),
+        ("attraction_parameter", c_double),
+    ]
+
+    @staticmethod
+    def from_curvilinearParameters(
+        curvilinear_parameters: CurvilinearParameters,
+    ) -> CCurvilinearParameters:
+        """Creates a new `CCurvilinearParameters` instance from the given CurvilinearParameters instance.
+
+        Args:
+            curvilinear_parameters (CurvilinearParameters): The curvilinear parameters.
+
+        Returns:
+            CCurvilinearParameters: The created C-Structure for the given CurvilinearParameters.
+        """
+
+        c_curvilinearParameters = CCurvilinearParameters()
+        c_curvilinearParameters.m_refinement = (
+            curvilinear_parameters.m_refinement
+        )
+        c_curvilinearParameters.n_refinement = (
+            curvilinear_parameters.n_refinement
+        )
+        c_curvilinearParameters.smoothing_iterations = (
+            curvilinear_parameters.smoothing_iterations
+        )
+        c_curvilinearParameters.smoothing_parameter = (
+            curvilinear_parameters.smoothing_parameter
+        )
+        c_curvilinearParameters.attraction_parameter = (
+            curvilinear_parameters.attraction_parameter
+        )
+
+        return c_curvilinearParameters
+
+class CSplinesToCurvilinearParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an SplinesToCurvilinearParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        aspect_ratio (c_double): Aspect ratio.
+        aspect_ratio_grow_factor (c_double): Grow factor of aspect ratio.
+        average_width (c_double): Average mesh width on center spline.
+        curvature_adapted_grid_spacing (c_int): Curvature adapted grid spacing.
+        grow_grid_outside (c_int): Grow the grid outside the prescribed grid height.
+        maximum_num_faces_in_uniform_part (c_int): Maximum number of layers in the uniform part.
+        nodes_on_top_of_each_other_tolerance (c_double): On-top-of-each-other tolerance.).
+        min_cosine_crossing_angles (c_double): Minimum allowed absolute value of crossing-angle cosine.
+        check_front_collisions (c_int): Check for collisions with other parts of the front.
+        remove_skinny_triangles (c_int): Check for collisions with other parts of the front.
+    """
+
+    _fields_ = [
+        ("aspect_ratio", c_double),
+        ("aspect_ratio_grow_factor", c_double),
+        ("average_width", c_double),
+        ("curvature_adapted_grid_spacing", c_int),
+        ("grow_grid_outside", c_int),
+        ("maximum_num_faces_in_uniform_part", c_int),
+        ("nodes_on_top_of_each_other_tolerance", c_double),
+        ("min_cosine_crossing_angles", c_double),
+        ("check_front_collisions", c_int),
+        ("remove_skinny_triangles", c_int),
+    ]
+
+    @staticmethod
+    def from_splinesToCurvilinearParameters(
+        splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+    ) -> CSplinesToCurvilinearParameters:
+        """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
+
+        Args:
+            orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
+
+        Returns:
+            COrthogonalizationParameters: The created C-Structure for the given OrthogonalizationParameters.
+        """
+
+        c_splinesToCurvilinearParameters = CSplinesToCurvilinearParameters()
+        c_splinesToCurvilinearParameters.aspect_ratio = (
+            splines_to_curvilinear_parameters.aspect_ratio
+        )
+        c_splinesToCurvilinearParameters.aspect_ratio_grow_factor = (
+            splines_to_curvilinear_parameters.aspect_ratio_grow_factor
+        )
+        c_splinesToCurvilinearParameters.average_width = (
+            splines_to_curvilinear_parameters.average_width
+        )
+        c_splinesToCurvilinearParameters.curvature_adapted_grid_spacing = (
+            splines_to_curvilinear_parameters.curvature_adapted_grid_spacing
+        )
+        c_splinesToCurvilinearParameters.grow_grid_outside = (
+            splines_to_curvilinear_parameters.grow_grid_outside
+        )
+        c_splinesToCurvilinearParameters.maximum_num_faces_in_uniform_part = (
+            splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part
+        )
+        c_splinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance = (
+            splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance
+        )
+        c_splinesToCurvilinearParameters.min_cosine_crossing_angles = (
+            splines_to_curvilinear_parameters.min_cosine_crossing_angles
+        )
+        c_splinesToCurvilinearParameters.check_front_collisions = (
+            splines_to_curvilinear_parameters.check_front_collisions
+        )
+        c_splinesToCurvilinearParameters.remove_skinny_triangles = (
+            splines_to_curvilinear_parameters.remove_skinny_triangles
+        )
+
+        return c_splinesToCurvilinearParameters

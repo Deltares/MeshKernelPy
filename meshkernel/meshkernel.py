@@ -11,16 +11,21 @@ from numpy.ctypeslib import as_ctypes
 
 from meshkernel.c_structures import (
     CContacts,
+    CCurvilinearGrid,
+    CCurvilinearParameters,
     CGeometryList,
     CMesh1d,
     CMesh2d,
     CMeshRefinementParameters,
     COrthogonalizationParameters,
+    CSplinesToCurvilinearParameters
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
+    CurvilinearParameters,
+    CurvilinearGrid,
     DeleteMeshOption,
     GeometryList,
     Mesh1d,
@@ -29,6 +34,7 @@ from meshkernel.py_structures import (
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
+    SplinesToCurvilinearParameters
 )
 from meshkernel.version import __version__
 
@@ -1154,6 +1160,86 @@ class MeshKernel:
 
         return geometry_list_out
 
+    def curvilinear_compute_transfinite_from_splines(
+        self,
+        splines: GeometryList,
+        curvilinearParameters: CurvilinearParameters,
+    ) -> None:
+
+        c_curvilinear_params = (
+            CCurvilinearParameters.from_curvilinearParameters(
+                curvilinearParameters
+            )
+        )
+        c_splines = CGeometryList.from_geometrylist(splines)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_transfinite_from_splines,
+            self._meshkernelid,
+            byref(c_splines),
+            byref(c_curvilinear_params)
+        )
+
+    def curvilinear_compute_orthogonal_from_splines(
+        self,
+        splines: GeometryList,
+        curvilinearParameters: CurvilinearParameters,
+        splinesToCurvilinearParameters: SplinesToCurvilinearParameters,
+    ) -> None:
+
+        c_splines = CGeometryList.from_geometrylist(splines)
+        c_curvilinear_params = (
+            CCurvilinearParameters.from_curvilinearParameters(
+                curvilinearParameters
+            )
+        )
+        c_splines_to_curvilinear_params = (
+            CSplinesToCurvilinearParameters.from_splinesToCurvilinearParameters(
+                splinesToCurvilinearParameters
+            )
+        )
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_orthogonal_grid_from_splines,
+            self._meshkernelid,
+            byref(c_splines),
+            byref(c_curvilinear_params),
+            byref(c_splines_to_curvilinear_params)
+        )
+
+    def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
+        """For internal use only.
+
+        Gets the curvilinear grid dimensions.
+        The integer parameters of the Curvilinear grid struct are set to the corresponding dimensions.
+        The pointers must be set to correctly sized memory before passing the struct to `curvilineargrid_get`.
+
+        Returns:
+            CMesh1d: The CCurvilinearGrid with the set dimensions.
+        """
+        c_curvilineargrid = CCurvilinearGrid()
+        self._execute_function(
+            self.lib.mkernel_curvilinear_get_dimensions, self._meshkernelid, byref(c_curvilineargrid)
+        )
+        return c_curvilineargrid
+
+    def curvilineargrid_get(self) -> CurvilinearGrid:
+        """Gets the curvilinear grid state from the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Returns:
+            CurvilinearGrid: A copy of the curvilinear grid state.
+        """
+
+        c_curvilineargrid = self._curvilineargrid_get_dimensions()
+
+        curvilineargrid = c_curvilineargrid.allocate_memory()
+        self._execute_function(
+            self.lib.mkernel_curvilinear_get_data, self._meshkernelid, byref(c_curvilineargrid)
+        )
+
+        return curvilineargrid
+
     def _get_error(self) -> str:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
@@ -1258,6 +1344,24 @@ class MeshKernel:
         """
 
         return __version__
+
+    def mkernel_get_separator(self) -> float:
+        """Get the separator used in MeshKernel
+
+        Returns:
+            float: The separator
+        """
+
+        return self.lib.mkernel_get_separator()
+
+    def mkernel_get_inner_outer_separator(self) -> float:
+        """Get the separator used in MeshKernel for separating the outer perimeter of a polygon from is inner perimeter
+
+        Returns:
+            float: The polygon inner/outer separator
+        """
+
+        return self.lib.mkernel_get_inner_outer_separator()
 
     def _execute_function(self, function: Callable, *args):
         """Utility function to execute a C function of MeshKernel and checks its status.

@@ -175,6 +175,102 @@ class OrthogonalizationParameters:
     orthogonalization_to_smoothing_factor_at_boundary: float = 1.0
     areal_to_angle_smoothing_factor: float = 1.0
 
+@dataclass
+class CurvilinearGrid:
+    """This class is used for getting and setting curvilinear grid data.
+
+    Attributes:
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        num_m (int): The number of curvilinear grid nodes along m.
+        num_n (int): The number of curvilinear grid nodes along n.
+    """
+
+    node_x: ndarray
+    node_y: ndarray
+    num_m: int
+    num_n: int
+
+    def plot_edges(self, ax, *args, **kwargs):
+        """Plots the edges at a given axes.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the edges
+        """
+
+        # construct the edges
+        node_indices = np.zeros((self.num_m, self.num_n), dtype=np.int)
+        index = 0
+        for m in range(self.num_m):
+            for n in range(self.num_n):
+                node_indices[m][n] = index
+                index += 1
+
+        edge_nodes = np.zeros(self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n, dtype=np.double)
+        index = 0
+        for m in range(self.num_m - 1):
+            for n in range(self.num_n):
+                edge_nodes[index] = node_indices[m][n]
+                index += 1
+                edge_nodes[index] = node_indices[m + 1][n]
+                index += 1
+
+        for m in range(self.num_m):
+            for n in range(self.num_n -1):
+                edge_nodes[index] = node_indices[m][n]
+                index += 1
+                edge_nodes[index] = node_indices[m][n + 1]
+                index += 1
+
+        plot_edges(self.node_x, self.node_y, edge_nodes, ax, *args, **kwargs)
+
+@dataclass
+class CurvilinearParameters:
+    """A class holding the parameters for curvilinear grid generation.
+
+    Attributes:
+        m_refinement (int, optional): M-refinement factor for regular grid generation. Default is `2000`.
+        n_refinement (int, optional): N-refinement factor for regular grid generation. Default is `40`.
+        smoothing_iterations (int, optional): Nr. of inner iterations in regular grid smoothing. Default is `25`.
+        smoothing_parameter (float, optional): Smoothing parameter. Default is `0.5`.
+        attraction_parameter (float, optional): Attraction/repulsion parameter. Default is `0.0`.
+    """
+
+    m_refinement: int = 2000
+    n_refinement: int = 40
+    smoothing_iterations: int = 10
+    smoothing_parameter: float = 0.5
+    attraction_parameter: float = 0.0
+
+
+class SplinesToCurvilinearParameters:
+    """A class holding the parameters for curvilinear grid generation from splines.
+
+    Attributes:
+        aspect_ratio (float, optional): Aspect ratio. Default is `0.1`.
+        aspect_ratio_grow_factor (float, optional): Grow factor of aspect ratio. Default is `1.1`.
+        average_width (float, optional): Average mesh width on center spline. Default is `0.005`.
+        curvature_adapted_grid_spacing (int, optional): Curvature adapted grid spacing. Default is `1`.
+        grow_grid_outside (int, optional): Grow the grid outside the prescribed grid height. Default is `0`.
+        maximum_num_faces_in_uniform_part (int, optional): Maximum number of layers in the uniform part Default is `5`.
+        nodes_on_top_of_each_other_tolerance (float, optional): On-top-of-each-other tolerance.). Default is `0.0001`.
+        min_cosine_crossing_angles (float, optional): Minimum allowed absolute value of crossing-angle cosine. Default is `0.95`.
+        check_front_collisions (int, optional): Check for collisions with other parts of the front. Default is `0`.
+        remove_skinny_triangles (int, optional): Check for collisions with other parts of the front. Default is `1`.
+    """
+
+    aspect_ratio: float = 0.1
+    aspect_ratio_grow_factor: float = 1.1
+    average_width: float = 0.005
+    curvature_adapted_grid_spacing: int = 1
+    grow_grid_outside: int = 0
+    maximum_num_faces_in_uniform_part: int = 5
+    nodes_on_top_of_each_other_tolerance: float = 0.0001
+    min_cosine_crossing_angles: float = 0.95
+    check_front_collisions: int = 0
+    remove_skinny_triangles: int = 1
+
 
 @dataclass
 class MeshRefinementParameters:
@@ -251,3 +347,4 @@ class Contacts:
             node_y = [mesh1d.node_y[mesh1d_index], mesh2d.face_y[mesh2d_index]]
 
             ax.plot(node_x, node_y, *args, **kwargs)
+

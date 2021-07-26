@@ -6,6 +6,7 @@ from meshkernel.meshkernel import MeshKernel
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
+    CurvilinearParameters,
     DeleteMeshOption,
     GeometryList,
     Mesh1d,
@@ -15,5 +16,6 @@ from meshkernel.py_structures import (
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
     RefinementType,
+    SplinesToCurvilinearParameters,
 )
 from meshkernel.version import __version__
