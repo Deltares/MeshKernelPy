@@ -154,10 +154,10 @@ class MeshKernel:
         return c_mesh2d
 
     def mesh2d_delete(
-        self,
-        geometry_list: GeometryList,
-        delete_option: DeleteMeshOption,
-        invert_deletion: bool,
+            self,
+            geometry_list: GeometryList,
+            delete_option: DeleteMeshOption,
+            invert_deletion: bool,
     ) -> None:
         """Deletes a mesh in a polygon using several options.
 
@@ -404,11 +404,11 @@ class MeshKernel:
         )
 
     def polygon_refine(
-        self,
-        polygon: GeometryList,
-        first_node: int,
-        second_node: int,
-        target_edge_length: float,
+            self,
+            polygon: GeometryList,
+            first_node: int,
+            second_node: int,
+            target_edge_length: float,
     ) -> GeometryList:
         """Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.
 
@@ -455,11 +455,11 @@ class MeshKernel:
         return refined_polygon
 
     def mesh2d_refine_based_on_samples(
-        self,
-        samples: GeometryList,
-        relative_search_radius: float,
-        minimum_num_samples: int,
-        mesh_refinement_params: MeshRefinementParameters,
+            self,
+            samples: GeometryList,
+            relative_search_radius: float,
+            minimum_num_samples: int,
+            mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -491,9 +491,9 @@ class MeshKernel:
         )
 
     def mesh2d_refine_based_on_polygon(
-        self,
-        polygon: GeometryList,
-        mesh_refinement_params: MeshRefinementParameters,
+            self,
+            polygon: GeometryList,
+            mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
 
@@ -515,7 +515,7 @@ class MeshKernel:
         )
 
     def polygon_get_included_points(
-        self, selecting_polygon: GeometryList, selected_polygon: GeometryList
+            self, selecting_polygon: GeometryList, selected_polygon: GeometryList
     ) -> GeometryList:
         """Selects the polygon points within another polygon.
 
@@ -551,11 +551,11 @@ class MeshKernel:
         return selection
 
     def mesh2d_flip_edges(
-        self,
-        triangulation_required: bool,
-        project_to_land_boundary_required: bool,
-        selecting_polygon: GeometryList,
-        land_boundaries: GeometryList,
+            self,
+            triangulation_required: bool,
+            project_to_land_boundary_required: bool,
+            selecting_polygon: GeometryList,
+            land_boundaries: GeometryList,
     ):
         """Flips mesh2d edges to optimize the mesh smoothness.
         Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
@@ -625,7 +625,7 @@ class MeshKernel:
         return geometry_list
 
     def _mesh2d_count_small_flow_edge_centers(
-        self, small_flow_edges_length_threshold: float
+            self, small_flow_edges_length_threshold: float
     ) -> int:
         """For internal use only.
 
@@ -650,7 +650,7 @@ class MeshKernel:
         return n_small_flow_edge_centers.value
 
     def mesh2d_get_small_flow_edge_centers(
-        self, small_flow_edges_length_threshold: float
+            self, small_flow_edges_length_threshold: float
     ) -> GeometryList:
         """Gets the small mesh2d flow edges centers.
         The flow edges are the edges connecting face circumcenters.
@@ -682,9 +682,9 @@ class MeshKernel:
         return geometry_list
 
     def mesh2d_delete_small_flow_edges_and_small_triangles(
-        self,
-        small_flow_edges_length_threshold: float,
-        min_fractional_area_triangles: float,
+            self,
+            small_flow_edges_length_threshold: float,
+            min_fractional_area_triangles: float,
     ) -> None:
         """Deletes all small mesh2d flow edges and small triangles.
         The flow edges are the edges connecting faces circumcenters.
@@ -704,7 +704,7 @@ class MeshKernel:
         )
 
     def get_splines(
-        self, geometry_list: GeometryList, number_of_points_between_nodes: int
+            self, geometry_list: GeometryList, number_of_points_between_nodes: int
     ) -> GeometryList:
         """Get the computed spline points between two corner nodes.
 
@@ -719,10 +719,10 @@ class MeshKernel:
         # Allocate space for output
         original_number_of_coordinates = geometry_list.x_coordinates.size
         number_of_coordinates = (
-            original_number_of_coordinates * number_of_points_between_nodes
-            - number_of_points_between_nodes
-            + original_number_of_coordinates
-            + 1
+                original_number_of_coordinates * number_of_points_between_nodes
+                - number_of_points_between_nodes
+                + original_number_of_coordinates
+                + 1
         )
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -788,7 +788,7 @@ class MeshKernel:
         return number_of_polygon_nodes.value
 
     def mesh2d_merge_nodes(
-        self, geometry_list: GeometryList, merging_distance: float
+            self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
         """Merges the mesh2d nodes, effectively removing all small edges.
 
@@ -820,7 +820,7 @@ class MeshKernel:
         )
 
     def mesh2d_get_nodes_in_polygons(
-        self, geometry_list: GeometryList, inside: bool
+            self, geometry_list: GeometryList, inside: bool
     ) -> ndarray:
         """Gets the indices of the mesh2d nodes selected with a polygon.
 
@@ -853,7 +853,7 @@ class MeshKernel:
         return selected_nodes
 
     def _mesh2d_count_nodes_in_polygons(
-        self, geometry_list: GeometryList, inside: int
+            self, geometry_list: GeometryList, inside: int
     ) -> int:
         """For internal use only.
 
@@ -965,7 +965,7 @@ class MeshKernel:
         return contacts
 
     def contacts_compute_single(
-        self, node_mask: ndarray, polygons: GeometryList
+            self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
@@ -1005,7 +1005,7 @@ class MeshKernel:
         )
 
     def contacts_compute_with_polygons(
-        self, node_mask: ndarray, polygons: GeometryList
+            self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
@@ -1028,7 +1028,7 @@ class MeshKernel:
         )
 
     def contacts_compute_with_points(
-        self, node_mask: ndarray, points: GeometryList
+            self, node_mask: ndarray, points: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
         the input point.
@@ -1051,7 +1051,7 @@ class MeshKernel:
         )
 
     def contacts_compute_boundary(
-        self, node_mask: ndarray, polygons: GeometryList, search_radius: float
+            self, node_mask: ndarray, polygons: GeometryList, search_radius: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
@@ -1077,11 +1077,11 @@ class MeshKernel:
         )
 
     def mesh2d_compute_orthogonalization(
-        self,
-        project_to_land_boundary_option: ProjectToLandBoundaryOption,
-        orthogonalization_parameters: OrthogonalizationParameters,
-        selecting_polygon: GeometryList,
-        land_boundaries: GeometryList,
+            self,
+            project_to_land_boundary_option: ProjectToLandBoundaryOption,
+            orthogonalization_parameters: OrthogonalizationParameters,
+            selecting_polygon: GeometryList,
+            land_boundaries: GeometryList,
     ) -> None:
         """Orthogonalizes the Mesh2d.
         The function modifies the mesh for achieving orthogonality between the edges
@@ -1161,10 +1161,16 @@ class MeshKernel:
         return geometry_list_out
 
     def curvilinear_compute_transfinite_from_splines(
-        self,
-        splines: GeometryList,
-        curvilinearParameters: CurvilinearParameters,
+            self,
+            splines: GeometryList,
+            curvilinearParameters: CurvilinearParameters,
     ) -> None:
+        """Generates curvilinear grid from splines with transfinite interpolation.
+
+        Args:
+            splines (GeometryList): The spline to use for curvilinear grid generation.
+            curvilinearParameters (CurvilinearParameters): The curvilinear grid parameters.
+        """
 
         c_curvilinear_params = (
             CCurvilinearParameters.from_curvilinearParameters(
@@ -1181,11 +1187,19 @@ class MeshKernel:
         )
 
     def curvilinear_compute_orthogonal_from_splines(
-        self,
-        splines: GeometryList,
-        curvilinearParameters: CurvilinearParameters,
-        splinesToCurvilinearParameters: SplinesToCurvilinearParameters,
+            self,
+            splines: GeometryList,
+            curvilinearParameters: CurvilinearParameters,
+            splinesToCurvilinearParameters: SplinesToCurvilinearParameters,
     ) -> None:
+        """Generates curvilinear grid from splines with the advancing front method.
+
+        Args:
+            splines (GeometryList): The spline to use for curvilinear grid generation.
+            curvilinearParameters (CurvilinearParameters): The curvilinear grid parameters.
+            splinesToCurvilinearParameters (SplinesToCurvilinearParameters): Additional parameters required
+            by the algorithm.
+        """
 
         c_splines = CGeometryList.from_geometrylist(splines)
         c_curvilinear_params = (
@@ -1204,6 +1218,14 @@ class MeshKernel:
             byref(c_splines),
             byref(c_curvilinear_params),
             byref(c_splines_to_curvilinear_params)
+        )
+
+    def curvilinear_convert_to_mesh2d(self):
+        """Converts a curvilinear grid to an unstructured mesh
+        """
+        self._execute_function(
+            self.lib.mkernel_curvilinear_convert_to_mesh2d,
+            self._meshkernelid
         )
 
     def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
@@ -1246,9 +1268,9 @@ class MeshKernel:
         return c_error_message.value.decode("ASCII")
 
     def mesh2d_triangulation_interpolation(
-        self,
-        samples: GeometryList,
-        location_type: Mesh2dLocation,
+            self,
+            samples: GeometryList,
+            location_type: Mesh2dLocation,
     ) -> GeometryList:
         """Performs triangulation interpolation of samples.
 
@@ -1281,12 +1303,12 @@ class MeshKernel:
         return interpolated_samples
 
     def mesh2d_averaging_interpolation(
-        self,
-        samples: GeometryList,
-        location_type: Mesh2dLocation,
-        averaging_method: AveragingMethod,
-        relative_search_size: float,
-        min_samples: int,
+            self,
+            samples: GeometryList,
+            location_type: Mesh2dLocation,
+            averaging_method: AveragingMethod,
+            relative_search_size: float,
+            min_samples: int,
     ) -> GeometryList:
         """Performs averaging interpolation of samples.
 
