@@ -3,6 +3,7 @@ import os.path
 import platform
 
 from setuptools import setup
+from setuptools.command.install import install
 
 author_dict = {
     "Julian Hofer": "julian.hofer@deltares.nl",
@@ -92,10 +93,18 @@ except ImportError:
     bdist_wheel = None
 
 
+class InstallPlatlib(install):
+    def finalize_options(self):
+        install.finalize_options(self)
+        if self.distribution.has_ext_modules():
+            self.install_lib = self.install_platlib
+
+
 long_description = read("README.md")
 
 setup(
     name="meshkernel",
+    install_lib=[],
     description="`meshkernel` is a library which can be used to manipulate meshes.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -119,7 +128,7 @@ setup(
     package_data={
         "meshkernel": [get_meshkernel_name()],
     },
-    cmdclass={"bdist_wheel": bdist_wheel},
+    cmdclass={"bdist_wheel": bdist_wheel, 'install': InstallPlatlib},
     version=get_version("meshkernel/version.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
 )
