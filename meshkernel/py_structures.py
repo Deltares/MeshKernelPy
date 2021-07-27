@@ -227,7 +227,7 @@ class CurvilinearGrid:
 
 @dataclass
 class CurvilinearParameters:
-    """A class holding the parameters for curvilinear grid generation.
+    """A class holding the parameters for generating a curvilinear grid from splines.
 
     Attributes:
         m_refinement (int, optional): M-refinement factor for regular grid generation. Default is `2000`.
@@ -245,7 +245,8 @@ class CurvilinearParameters:
 
 
 class SplinesToCurvilinearParameters:
-    """A class holding the parameters for curvilinear grid generation from splines.
+    """A class holding the additional parameters required for generating a curvilinear grid from splines
+    using the advancing front method.
 
     Attributes:
         aspect_ratio (float, optional): Aspect ratio. Default is `0.1`.
