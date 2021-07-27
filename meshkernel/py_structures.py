@@ -207,7 +207,7 @@ class CurvilinearGrid:
                 node_indices[m][n] = index
                 index += 1
 
-        edge_nodes = np.zeros(self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n, dtype=np.double)
+        edge_nodes = np.zeros((self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2, dtype=np.int)
         index = 0
         for m in range(self.num_m - 1):
             for n in range(self.num_n):
