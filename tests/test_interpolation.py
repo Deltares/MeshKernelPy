@@ -7,7 +7,7 @@ from meshkernel import AveragingMethod, GeometryList, Mesh2dLocation, MeshKernel
 
 
 def test_mesh2d_triangulation_interpolation_on_faces(
-    meshkernel_with_mesh2d: MeshKernel,
+        meshkernel_with_mesh2d: MeshKernel,
 ):
     """Tests `mesh2d_triangulation_interpolation` on the faces of a 3x3 Mesh2d."""
 
@@ -54,7 +54,7 @@ def test_mesh2d_triangulation_interpolation_on_faces(
 
 
 def test_mesh2d_triangulation_interpolation_on_nodes(
-    meshkernel_with_mesh2d: MeshKernel,
+        meshkernel_with_mesh2d: MeshKernel,
 ):
     """Tests `mesh2d_triangulation_interpolation` on the nodes of a 2x2 Mesh2d."""
 
@@ -101,7 +101,7 @@ def test_mesh2d_triangulation_interpolation_on_nodes(
 
 
 def test_mesh2d_triangulation_interpolation_on_edges(
-    meshkernel_with_mesh2d: MeshKernel,
+        meshkernel_with_mesh2d: MeshKernel,
 ):
     """Tests `mesh2d_triangulation_interpolation` on the edges of a 2x2 Mesh2d."""
 
@@ -189,9 +189,9 @@ cases_mesh2d_averaging_interpolation = [
     cases_mesh2d_averaging_interpolation,
 )
 def test_mesh2d_averaging_interpolation(
-    meshkernel_with_mesh2d: MeshKernel,
-    averaging_method: AveragingMethod,
-    exp_values: np.ndarray,
+        meshkernel_with_mesh2d: MeshKernel,
+        averaging_method: AveragingMethod,
+        exp_values: np.ndarray,
 ):
     """Tests `mesh2d_averaging_interpolation` on the faces of a 3x3 Mesh2d."""
 
