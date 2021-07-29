@@ -10,6 +10,7 @@ from meshkernel.py_structures import (
     CurvilinearGrid,
     CurvilinearParameters,
     GeometryList,
+    MakeGridParameters,
     Mesh1d,
     Mesh2d,
     MeshRefinementParameters,
@@ -204,7 +205,7 @@ class COrthogonalizationParameters(Structure):
 
     @staticmethod
     def from_orthogonalizationparameters(
-        orthogonalization_parameters: OrthogonalizationParameters,
+            orthogonalization_parameters: OrthogonalizationParameters,
     ) -> COrthogonalizationParameters:
         """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
 
@@ -267,7 +268,7 @@ class CMeshRefinementParameters(Structure):
 
     @staticmethod
     def from_meshrefinementparameters(
-        mesh_refinement_parameters: MeshRefinementParameters,
+            mesh_refinement_parameters: MeshRefinementParameters,
     ) -> CMeshRefinementParameters:
         """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
 
@@ -295,6 +296,75 @@ class CMeshRefinementParameters(Structure):
             mesh_refinement_parameters.account_for_samples_outside_face
         )
 
+        return c_parameters
+
+
+class CMakeGridParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents a MakeGridParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        num_columns (c_int): The number of columns in x direction.
+        num_rows (c_int): The number of columns in y direction.
+        angle (c_double): The grid angle.
+        block_size (c_double): The grid block size, used in x and y direction.
+        origin_x (c_double): The x coordinate of the origin, located at the bottom left corner.
+        origin_y (c_double): The y coordinate of the origin, located at the bottom left corner.
+        block_size_x (c_double): The grid block size in x dimension, used only for squared grids.
+        block_size_y (c_double): The grid block size in y dimension, used only for squared grids.
+    """
+
+    _fields_ = [
+        ("num_columns", c_int),
+        ("num_rows", c_int),
+        ("angle", c_double),
+        ("block_size", c_double),
+        ("origin_x", c_double),
+        ("origin_y", c_double),
+        ("block_size_x", c_double),
+        ("block_size_y", c_double),
+    ]
+
+    @staticmethod
+    def from_makegridparameters(
+            make_grid_parameters: MakeGridParameters,
+    ) -> CMakeGridParameters:
+        """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The make grid parameters.
+
+        Returns:
+            CMakeGridParameters: The created C-Structure for the given MakeGridParameters.
+        """
+
+        c_parameters = CMakeGridParameters()
+        c_parameters.num_columns = (
+            make_grid_parameters.num_columns
+        )
+        c_parameters.num_rows = (
+            make_grid_parameters.num_rows
+        )
+        c_parameters.angle = (
+            make_grid_parameters.angle
+        )
+        c_parameters.block_size = (
+            make_grid_parameters.block_size
+        )
+        c_parameters.origin_x = (
+            make_grid_parameters.origin_x
+        )
+        c_parameters.origin_y = (
+            make_grid_parameters.origin_y
+        )
+        c_parameters.block_size_x = (
+            make_grid_parameters.block_size_x
+        )
+        c_parameters.block_size_y = (
+            make_grid_parameters.block_size_y
+        )
         return c_parameters
 
 
@@ -422,6 +492,7 @@ class CContacts(Structure):
 
         return Contacts(mesh1d_indices, mesh2d_indices)
 
+
 class CCurvilinearGrid(Structure):
     """C-structure intended for internal use only.
     It represents a Curvilinear struct as described by the MeshKernel API.
@@ -487,6 +558,7 @@ class CCurvilinearGrid(Structure):
             self.num_n
         )
 
+
 class CCurvilinearParameters(Structure):
     """C-structure intended for internal use only.
     It represents an CurvilinearParameters struct as described by the MeshKernel API.
@@ -511,7 +583,7 @@ class CCurvilinearParameters(Structure):
 
     @staticmethod
     def from_curvilinearParameters(
-        curvilinear_parameters: CurvilinearParameters,
+            curvilinear_parameters: CurvilinearParameters,
     ) -> CCurvilinearParameters:
         """Creates a new `CCurvilinearParameters` instance from the given CurvilinearParameters instance.
 
@@ -540,6 +612,7 @@ class CCurvilinearParameters(Structure):
         )
 
         return c_curvilinearParameters
+
 
 class CSplinesToCurvilinearParameters(Structure):
     """C-structure intended for internal use only.
@@ -575,7 +648,7 @@ class CSplinesToCurvilinearParameters(Structure):
 
     @staticmethod
     def from_splinesToCurvilinearParameters(
-        splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
     ) -> CSplinesToCurvilinearParameters:
         """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
 

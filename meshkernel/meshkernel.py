@@ -14,6 +14,7 @@ from meshkernel.c_structures import (
     CCurvilinearGrid,
     CCurvilinearParameters,
     CGeometryList,
+    CMakeGridParameters,
     CMesh1d,
     CMesh2d,
     CMeshRefinementParameters,
@@ -28,6 +29,7 @@ from meshkernel.py_structures import (
     CurvilinearGrid,
     DeleteMeshOption,
     GeometryList,
+    MakeGridParameters,
     Mesh1d,
     Mesh2d,
     Mesh2dLocation,
@@ -1163,18 +1165,18 @@ class MeshKernel:
     def curvilinear_compute_transfinite_from_splines(
             self,
             splines: GeometryList,
-            curvilinearParameters: CurvilinearParameters,
+            curvilinear_parameters: CurvilinearParameters,
     ) -> None:
         """Generates curvilinear grid from splines with transfinite interpolation.
 
         Args:
             splines (GeometryList): The spline to use for curvilinear grid generation.
-            curvilinearParameters (CurvilinearParameters): The curvilinear grid parameters.
+            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
         """
 
         c_curvilinear_params = (
             CCurvilinearParameters.from_curvilinearParameters(
-                curvilinearParameters
+                curvilinear_parameters
             )
         )
         c_splines = CGeometryList.from_geometrylist(splines)
@@ -1189,27 +1191,27 @@ class MeshKernel:
     def curvilinear_compute_orthogonal_from_splines(
             self,
             splines: GeometryList,
-            curvilinearParameters: CurvilinearParameters,
-            splinesToCurvilinearParameters: SplinesToCurvilinearParameters,
+            curvilinear_parameters: CurvilinearParameters,
+            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
     ) -> None:
         """Generates curvilinear grid from splines with the advancing front method.
 
         Args:
             splines (GeometryList): The spline to use for curvilinear grid generation.
-            curvilinearParameters (CurvilinearParameters): The curvilinear grid parameters.
-            splinesToCurvilinearParameters (SplinesToCurvilinearParameters): Additional parameters required
+            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
+            splines_to_curvilinear_parameters (SplinesToCurvilinearParameters): Additional parameters required
             by the algorithm.
         """
 
         c_splines = CGeometryList.from_geometrylist(splines)
         c_curvilinear_params = (
             CCurvilinearParameters.from_curvilinearParameters(
-                curvilinearParameters
+                curvilinear_parameters
             )
         )
         c_splines_to_curvilinear_params = (
             CSplinesToCurvilinearParameters.from_splinesToCurvilinearParameters(
-                splinesToCurvilinearParameters
+                splines_to_curvilinear_parameters
             )
         )
         self._execute_function(
@@ -1227,6 +1229,51 @@ class MeshKernel:
             self.lib.mkernel_curvilinear_convert_to_mesh2d,
             self._meshkernelid
         )
+
+    def curvilinear_refine(self,
+                           x_lower_left_corner: float,
+                           y_lower_left_corner: float,
+                           x_upper_right_corner: float,
+                           y_upper_right_corner: float,
+                           refinement: int):
+        """Directional curvilinear grid refinement.
+        Additional gridlines are added perpendicularly to the segment defined by \p firstPoint and \p secondPoint.
+
+        Args:
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to refine.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to refine.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
+            refinement (int): The number of grid lines to add between lower left and upper right
+        """
+        self._execute_function(
+            self.lib.mkernel_curvilinear_refine,
+            self._meshkernelid,
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+            c_int(refinement))
+
+    def curvilinear_make_uniform(self,
+                                 make_grid_parameters: MakeGridParameters,
+                                 geometry_list: GeometryList):
+        """Makes a new curvilinear grid. If polygons is not empty,
+        the curvilinear grid will be generated in the first polygon
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
+            geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(make_grid_parameters)
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform,
+            self._meshkernelid,
+            c_make_grid_parameters,
+            c_geometry_list)
 
     def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
         """For internal use only.

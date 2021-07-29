@@ -9,6 +9,7 @@ from meshkernel.py_structures import (
     CurvilinearParameters,
     DeleteMeshOption,
     GeometryList,
+    MakeGridParameters,
     Mesh1d,
     Mesh2d,
     Mesh2dLocation,

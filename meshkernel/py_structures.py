@@ -120,7 +120,7 @@ class Mesh2d:
         node_position = 0
         for num_nodes in self.nodes_per_face:
             # Calculate values to draw
-            face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
+            face_nodes = self.face_nodes[node_position: (node_position + num_nodes)]
             face_nodes_x = self.node_x[face_nodes]
             face_nodes_y = self.node_y[face_nodes]
             node_position += num_nodes
@@ -175,6 +175,7 @@ class OrthogonalizationParameters:
     orthogonalization_to_smoothing_factor_at_boundary: float = 1.0
     areal_to_angle_smoothing_factor: float = 1.0
 
+
 @dataclass
 class CurvilinearGrid:
     """This class is used for getting and setting curvilinear grid data.
@@ -217,13 +218,14 @@ class CurvilinearGrid:
                 index += 1
 
         for m in range(self.num_m):
-            for n in range(self.num_n -1):
+            for n in range(self.num_n - 1):
                 edge_nodes[index] = node_indices[m][n]
                 index += 1
                 edge_nodes[index] = node_indices[m][n + 1]
                 index += 1
 
         plot_edges(self.node_x, self.node_y, edge_nodes, ax, *args, **kwargs)
+
 
 @dataclass
 class CurvilinearParameters:
@@ -244,6 +246,7 @@ class CurvilinearParameters:
     attraction_parameter: float = 0.0
 
 
+@dataclass
 class SplinesToCurvilinearParameters:
     """A class holding the additional parameters required for generating a curvilinear grid from splines
     using the advancing front method.
@@ -298,6 +301,35 @@ class MeshRefinementParameters:
 
 
 @dataclass
+class MakeGridParameters:
+    """A class holding the necessary parameters to create a new curvilinear grid in a C-compatible manner.
+
+    Attributes:
+        num_columns (int, optional): The number of columns in x direction. Default is `3`.
+        num_rows (int, optional): The number of columns in y direction. Default is `3`.
+        angle (float, optional): The grid angle. Default is `0.0`.
+        block_size (float, optional): The grid block size, used in x and y direction. Default is `10.0`.
+        origin_x (float, optional): The x coordinate of the origin, located at the bottom left corner.
+        Default is `0.0`.
+        origin_y (float, optional): The y coordinate of the origin, located at the bottom left corner.
+        Default is `0.0`.
+        block_size_x (float, optional): The grid block size in x dimension, used only for squared grids.
+        Default is `10.0`.
+        block_size_y (float, optional): The grid block size in y dimension, used only for squared grids.
+        Default is `10.0`.
+    """
+
+    num_columns: int = 3
+    num_rows: int = 3
+    angle: float = 0.0
+    block_size: float = 10.0
+    origin_x: float = 0.0
+    origin_y: float = 0.0
+    block_size_x: float = 10.0
+    block_size_y: float = 10.0
+
+
+@dataclass
 class Mesh1d:
     """This class is used for getting and setting one-dimensional mesh data.
 
@@ -348,4 +380,3 @@ class Contacts:
             node_y = [mesh1d.node_y[mesh1d_index], mesh2d.face_y[mesh2d_index]]
 
             ax.plot(node_x, node_y, *args, **kwargs)
-
