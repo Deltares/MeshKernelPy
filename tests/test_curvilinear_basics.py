@@ -202,7 +202,6 @@ def test_curvilinear_compute_transfinite_from_polygon():
     3---4---5
     |   |   |
     0---1---2
-
     """
     node_x = np.array([0, 5, 10, 10, 10, 5, 0, 0, 0], dtype=np.double)
     node_y = np.array([0, 0, 0, 5, 10, 10, 10, 5, 0], dtype=np.double)
@@ -217,3 +216,42 @@ def test_curvilinear_compute_transfinite_from_polygon():
     # Test ta curvilinear grid was generated
     assert curvilinear_grid.num_m == 3
     assert curvilinear_grid.num_n == 3
+
+
+def test_curvilinear_compute_transfinite_from_triangle():
+    r"""Tests `curvilinear_compute_transfinite_from_triangle` computes a curvilinear grid.
+    """
+
+    node_x = np.array([444.504791,
+                       427.731781,
+                       405.640503,
+                       381.094666,
+                       451.050354,
+                       528.778931,
+                       593.416260,
+                       558.643005,
+                       526.733398,
+                       444.095703], dtype=np.double)
+
+    node_y = np.array([437.155945,
+                       382.745758,
+                       317.699005,
+                       262.470612,
+                       262.879700,
+                       263.288788,
+                       266.561584,
+                       324.653687,
+                       377.836578,
+                       436.746857], dtype=np.double)
+
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk = MeshKernel()
+
+    mk.curvilinear_compute_transfinite_from_triangle(geometry_list, 0, 3, 6)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test ta curvilinear grid was generated
+    assert curvilinear_grid.num_m == 4
+    assert curvilinear_grid.num_n == 4

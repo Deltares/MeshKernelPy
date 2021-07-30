@@ -1452,7 +1452,6 @@ class MeshKernel:
                              y_lower_left_corner: float,
                              x_upper_right_corner: float,
                              y_upper_right_corner: float):
-
         """Directional curvilinear grid derefinement.
         Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner and upper_right_corner
 
@@ -1476,7 +1475,6 @@ class MeshKernel:
                                                      second_node: int,
                                                      third_node: int,
                                                      use_fourth_side: bool):
-
         """Computes a curvilinear mesh in a polygon. 3 separate polygon nodes need to be selected.
 
         Args:
@@ -1497,3 +1495,27 @@ class MeshKernel:
             c_int(second_node),
             c_int(third_node),
             c_int(int(use_fourth_side)))
+
+    def curvilinear_compute_transfinite_from_triangle(self,
+                                                      geometry_list: GeometryList,
+                                                      first_node: int,
+                                                      second_node: int,
+                                                      third_node: int):
+        """Computes a curvilinear mesh in a triangle. 3 separate polygon nodes need to be selected.
+
+        Args:
+            geometry_list (GeometryList): The input polygon.
+            first_node (int): The first selected node.
+            second_node (int): The second selected node.
+            third_node (int): The third selected node.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
+            self._meshkernelid,
+            c_geometry_list,
+            c_int(first_node),
+            c_int(second_node),
+            c_int(third_node))
