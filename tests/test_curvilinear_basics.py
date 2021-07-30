@@ -146,3 +146,39 @@ def test_curvilinear_refine():
     # Test the number of m and n after refinement
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 13
+
+def test_curvilinear_derefine():
+    r"""Tests `curvilinear_derefine` de-refines a curvilinear grid .
+    """
+    mk = MeshKernel()
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 10
+    make_grid_parameters.num_rows = 10
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.block_size = 0.0
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    x_coord = np.empty(0, dtype=np.double)
+    y_coord = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(x_coord, y_coord)
+
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+
+    # First perform refinement
+    mk.curvilinear_refine(10.0, 20.0, 20.0, 20.0, 10)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test the number of n increased
+    assert curvilinear_grid.num_n == 20
+
+    mk.curvilinear_derefine(10.0, 20.0, 20.0, 20.0)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test the number of n decreased to its original value
+    assert curvilinear_grid.num_n == 11

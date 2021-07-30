@@ -1162,153 +1162,6 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def curvilinear_compute_transfinite_from_splines(
-            self,
-            splines: GeometryList,
-            curvilinear_parameters: CurvilinearParameters,
-    ) -> None:
-        """Generates curvilinear grid from splines with transfinite interpolation.
-
-        Args:
-            splines (GeometryList): The spline to use for curvilinear grid generation.
-            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
-        """
-
-        c_curvilinear_params = (
-            CCurvilinearParameters.from_curvilinearParameters(
-                curvilinear_parameters
-            )
-        )
-        c_splines = CGeometryList.from_geometrylist(splines)
-
-        self._execute_function(
-            self.lib.mkernel_curvilinear_compute_transfinite_from_splines,
-            self._meshkernelid,
-            byref(c_splines),
-            byref(c_curvilinear_params)
-        )
-
-    def curvilinear_compute_orthogonal_from_splines(
-            self,
-            splines: GeometryList,
-            curvilinear_parameters: CurvilinearParameters,
-            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
-    ) -> None:
-        """Generates curvilinear grid from splines with the advancing front method.
-
-        Args:
-            splines (GeometryList): The spline to use for curvilinear grid generation.
-            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
-            splines_to_curvilinear_parameters (SplinesToCurvilinearParameters): Additional parameters required
-            by the algorithm.
-        """
-
-        c_splines = CGeometryList.from_geometrylist(splines)
-        c_curvilinear_params = (
-            CCurvilinearParameters.from_curvilinearParameters(
-                curvilinear_parameters
-            )
-        )
-        c_splines_to_curvilinear_params = (
-            CSplinesToCurvilinearParameters.from_splinesToCurvilinearParameters(
-                splines_to_curvilinear_parameters
-            )
-        )
-        self._execute_function(
-            self.lib.mkernel_curvilinear_compute_orthogonal_grid_from_splines,
-            self._meshkernelid,
-            byref(c_splines),
-            byref(c_curvilinear_params),
-            byref(c_splines_to_curvilinear_params)
-        )
-
-    def curvilinear_convert_to_mesh2d(self):
-        """Converts a curvilinear grid to an unstructured mesh
-        """
-        self._execute_function(
-            self.lib.mkernel_curvilinear_convert_to_mesh2d,
-            self._meshkernelid
-        )
-
-    def curvilinear_refine(self,
-                           x_lower_left_corner: float,
-                           y_lower_left_corner: float,
-                           x_upper_right_corner: float,
-                           y_upper_right_corner: float,
-                           refinement: int):
-        """Directional curvilinear grid refinement.
-        Additional gridlines are added perpendicularly to the segment defined by \p firstPoint and \p secondPoint.
-
-        Args:
-            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
-            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to refine.
-            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to refine.
-            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
-            refinement (int): The number of grid lines to add between lower left and upper right
-        """
-        self._execute_function(
-            self.lib.mkernel_curvilinear_refine,
-            self._meshkernelid,
-            c_double(x_lower_left_corner),
-            c_double(y_lower_left_corner),
-            c_double(x_upper_right_corner),
-            c_double(y_upper_right_corner),
-            c_int(refinement))
-
-    def curvilinear_make_uniform(self,
-                                 make_grid_parameters: MakeGridParameters,
-                                 geometry_list: GeometryList):
-        """Makes a new curvilinear grid. If polygons is not empty,
-        the curvilinear grid will be generated in the first polygon
-
-        Args:
-            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
-            geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
-        """
-
-        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(make_grid_parameters)
-        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
-
-        self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform,
-            self._meshkernelid,
-            c_make_grid_parameters,
-            c_geometry_list)
-
-    def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
-        """For internal use only.
-
-        Gets the curvilinear grid dimensions.
-        The integer parameters of the Curvilinear grid struct are set to the corresponding dimensions.
-        The pointers must be set to correctly sized memory before passing the struct to `curvilineargrid_get`.
-
-        Returns:
-            CMesh1d: The CCurvilinearGrid with the set dimensions.
-        """
-        c_curvilineargrid = CCurvilinearGrid()
-        self._execute_function(
-            self.lib.mkernel_curvilinear_get_dimensions, self._meshkernelid, byref(c_curvilineargrid)
-        )
-        return c_curvilineargrid
-
-    def curvilineargrid_get(self) -> CurvilinearGrid:
-        """Gets the curvilinear grid state from the MeshKernel.
-
-        Please note that this involves a copy of the data.
-
-        Returns:
-            CurvilinearGrid: A copy of the curvilinear grid state.
-        """
-
-        c_curvilineargrid = self._curvilineargrid_get_dimensions()
-
-        curvilineargrid = c_curvilineargrid.allocate_memory()
-        self._execute_function(
-            self.lib.mkernel_curvilinear_get_data, self._meshkernelid, byref(c_curvilineargrid)
-        )
-
-        return curvilineargrid
-
     def _get_error(self) -> str:
         c_error_message = c_char_p()
         self.lib.mkernel_get_error(byref(c_error_message))
@@ -1446,3 +1299,173 @@ class MeshKernel:
         if function(*args) != Status.SUCCESS:
             error_message = self._get_error()
             raise MeshKernelError(error_message)
+
+    def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
+        """For internal use only.
+
+        Gets the curvilinear grid dimensions.
+        The integer parameters of the Curvilinear grid struct are set to the corresponding dimensions.
+        The pointers must be set to correctly sized memory before passing the struct to `curvilineargrid_get`.
+
+        Returns:
+            CMesh1d: The CCurvilinearGrid with the set dimensions.
+        """
+        c_curvilineargrid = CCurvilinearGrid()
+        self._execute_function(
+            self.lib.mkernel_curvilinear_get_dimensions, self._meshkernelid, byref(c_curvilineargrid)
+        )
+        return c_curvilineargrid
+
+    def curvilineargrid_get(self) -> CurvilinearGrid:
+        """Gets the curvilinear grid state from the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Returns:
+            CurvilinearGrid: A copy of the curvilinear grid state.
+        """
+
+        c_curvilineargrid = self._curvilineargrid_get_dimensions()
+
+        curvilineargrid = c_curvilineargrid.allocate_memory()
+        self._execute_function(
+            self.lib.mkernel_curvilinear_get_data, self._meshkernelid, byref(c_curvilineargrid)
+        )
+
+        return curvilineargrid
+
+    def curvilinear_compute_transfinite_from_splines(
+            self,
+            splines: GeometryList,
+            curvilinear_parameters: CurvilinearParameters,
+    ) -> None:
+        """Generates curvilinear grid from splines with transfinite interpolation.
+
+        Args:
+            splines (GeometryList): The spline to use for curvilinear grid generation.
+            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
+        """
+
+        c_curvilinear_params = (
+            CCurvilinearParameters.from_curvilinearParameters(
+                curvilinear_parameters
+            )
+        )
+        c_splines = CGeometryList.from_geometrylist(splines)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_transfinite_from_splines,
+            self._meshkernelid,
+            byref(c_splines),
+            byref(c_curvilinear_params)
+        )
+
+    def curvilinear_compute_orthogonal_from_splines(
+            self,
+            splines: GeometryList,
+            curvilinear_parameters: CurvilinearParameters,
+            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+    ) -> None:
+        """Generates curvilinear grid from splines with the advancing front method.
+
+        Args:
+            splines (GeometryList): The spline to use for curvilinear grid generation.
+            curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
+            splines_to_curvilinear_parameters (SplinesToCurvilinearParameters): Additional parameters required
+            by the algorithm.
+        """
+
+        c_splines = CGeometryList.from_geometrylist(splines)
+        c_curvilinear_params = (
+            CCurvilinearParameters.from_curvilinearParameters(
+                curvilinear_parameters
+            )
+        )
+        c_splines_to_curvilinear_params = (
+            CSplinesToCurvilinearParameters.from_splinesToCurvilinearParameters(
+                splines_to_curvilinear_parameters
+            )
+        )
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_orthogonal_grid_from_splines,
+            self._meshkernelid,
+            byref(c_splines),
+            byref(c_curvilinear_params),
+            byref(c_splines_to_curvilinear_params)
+        )
+
+    def curvilinear_convert_to_mesh2d(self):
+        """Converts a curvilinear grid to an unstructured mesh
+        """
+        self._execute_function(
+            self.lib.mkernel_curvilinear_convert_to_mesh2d,
+            self._meshkernelid
+        )
+
+    def curvilinear_make_uniform(self,
+                                 make_grid_parameters: MakeGridParameters,
+                                 geometry_list: GeometryList):
+        """Makes a new curvilinear grid. If polygons is not empty,
+        the curvilinear grid will be generated in the first polygon
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
+            geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(make_grid_parameters)
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform,
+            self._meshkernelid,
+            c_make_grid_parameters,
+            c_geometry_list)
+
+    def curvilinear_refine(self,
+                           x_lower_left_corner: float,
+                           y_lower_left_corner: float,
+                           x_upper_right_corner: float,
+                           y_upper_right_corner: float,
+                           refinement: int):
+        """Directional curvilinear grid refinement.
+        Additional gridlines are added perpendicularly to the segment defined by lower_left_corner and upper_right_corner
+
+        Args:
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to refine.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to refine.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
+            refinement (int): The number of grid lines to add between lower left and upper right
+        """
+        self._execute_function(
+            self.lib.mkernel_curvilinear_refine,
+            self._meshkernelid,
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+            c_int(refinement))
+
+    def curvilinear_derefine(self,
+                             x_lower_left_corner: float,
+                             y_lower_left_corner: float,
+                             x_upper_right_corner: float,
+                             y_upper_right_corner: float):
+
+        """Directional curvilinear grid derefinement.
+        Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner and upper_right_corner
+
+        Args:
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to refine.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to refine.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
+        """
+        self._execute_function(
+            self.lib.mkernel_curvilinear_derefine,
+            self._meshkernelid,
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner))
