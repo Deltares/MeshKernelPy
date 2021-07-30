@@ -1469,3 +1469,31 @@ class MeshKernel:
             c_double(y_lower_left_corner),
             c_double(x_upper_right_corner),
             c_double(y_upper_right_corner))
+
+    def curvilinear_compute_transfinite_from_polygon(self,
+                                                     geometry_list: GeometryList,
+                                                     first_node: int,
+                                                     second_node: int,
+                                                     third_node: int,
+                                                     use_fourth_side: bool):
+
+        """Computes a curvilinear mesh in a polygon. 3 separate polygon nodes need to be selected.
+
+        Args:
+            geometry_list (GeometryList): The input polygon.
+            first_node (int): The first selected node.
+            second_node (int): The second selected node.
+            third_node (int): The third selected node.
+            use_fourth_side (bool): Use the fourth polygon side to compute the curvilinear grid.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
+            self._meshkernelid,
+            c_geometry_list,
+            c_int(first_node),
+            c_int(second_node),
+            c_int(third_node),
+            c_int(int(use_fourth_side)))

@@ -127,9 +127,9 @@ def test_curvilinear_refine():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    x_coord = np.empty(0, dtype=np.double)
-    y_coord = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(x_coord, y_coord)
+    node_x = np.empty(0, dtype=np.double)
+    node_y = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
 
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
 
@@ -147,6 +147,7 @@ def test_curvilinear_refine():
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 13
 
+
 def test_curvilinear_derefine():
     r"""Tests `curvilinear_derefine` de-refines a curvilinear grid .
     """
@@ -162,9 +163,9 @@ def test_curvilinear_derefine():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    x_coord = np.empty(0, dtype=np.double)
-    y_coord = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(x_coord, y_coord)
+    node_x = np.empty(0, dtype=np.double)
+    node_y = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
 
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
 
@@ -182,3 +183,37 @@ def test_curvilinear_derefine():
 
     # Test the number of n decreased to its original value
     assert curvilinear_grid.num_n == 11
+
+
+def test_curvilinear_compute_transfinite_from_polygon():
+    r"""Tests `curvilinear_compute_transfinite_from_polygon` generates curvilinear grid .
+
+    Input polygon:
+    6---5---4
+    |       |
+    7       3
+    |       |
+    0---1---2
+
+    Generated curvilineargrid:
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+
+    """
+    node_x = np.array([0, 5, 10, 10, 10, 5, 0, 0, 0], dtype=np.double)
+    node_y = np.array([0, 0, 0, 5, 10, 10, 10, 5, 0], dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk = MeshKernel()
+
+    mk.curvilinear_compute_transfinite_from_polygon(geometry_list, 0, 2, 4, False)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test ta curvilinear grid was generated
+    assert curvilinear_grid.num_m == 3
+    assert curvilinear_grid.num_n == 3
