@@ -1519,3 +1519,67 @@ class MeshKernel:
             c_int(first_node),
             c_int(second_node),
             c_int(third_node))
+
+    def curvilinear_initialize_orthogonalize(self,
+                                             orthogonalization_parameters: OrthogonalizationParameters):
+        """Initializes the algorithm for performing curvilinear grid orthogonalization.
+
+        Args:
+            orthogonalization_parameters (OrthogonalizationParameters): The input orthogonalization parameters.
+        """
+
+        c_orthogonalization_parameters = COrthogonalizationParameters.from_orthogonalizationparameters(
+            orthogonalization_parameters)
+
+        self._execute_function(self.lib.mkernel_curvilinear_initialize_orthogonalize,
+                               self._meshkernelid,
+                               c_orthogonalization_parameters)
+
+    def curvilinear_set_block_orthogonalize(self,
+                                            x_lower_left_corner: float,
+                                            y_lower_left_corner: float,
+                                            x_upper_right_corner: float,
+                                            y_upper_right_corner: float):
+        """Defines a block on the curvilinear grid where to perform orthogonalization
+
+        Args:
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to orthogonalize.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to orthogonalize.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to orthogonalize.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to orthogonalize.
+        """
+
+        self._execute_function(self.lib.mkernel_curvilinear_set_block_orthogonalize,
+                               self._meshkernelid,
+                               c_double(x_lower_left_corner),
+                               c_double(y_lower_left_corner),
+                               c_double(x_upper_right_corner),
+                               c_double(y_upper_right_corner))
+
+    def curvilinear_set_frozen_lines_orthogonalize(self,
+                                                   x_first_gridline_node: float,
+                                                   y_first_gridline_node: float,
+                                                   x_second_gridline_node: float,
+                                                   y_second_gridline_node: float):
+        """Freezes a curvilinear grid line during the orthogonalization process
+
+        Args:
+            x_first_gridline_node (float): The x coordinate of the first point of the line to freeze.
+            y_first_gridline_node (float): The y coordinate of the first point of the line to freeze.
+            x_second_gridline_node (float): The x coordinate of the second point of the line to freeze.
+            y_second_gridline_node (float): The y coordinate of the second point of the line to freeze.
+        """
+
+        self._execute_function(self.lib.mkernel_curvilinear_set_frozen_lines_orthogonalize,
+                               self._meshkernelid,
+                               c_double(x_first_gridline_node),
+                               c_double(y_first_gridline_node),
+                               c_double(x_second_gridline_node),
+                               c_double(y_second_gridline_node))
+
+    def curvilinear_orthogonalize(self):
+        """Performs curvilinear grid orthogonalization.
+        """
+        self._execute_function(self.lib.mkernel_curvilinear_orthogonalize,
+                               self._meshkernelid)
+

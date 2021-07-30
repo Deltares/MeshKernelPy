@@ -1,4 +1,6 @@
 import numpy as np
+import pytest
+from pytest import approx
 
 from meshkernel import (
     CurvilinearParameters,
@@ -6,6 +8,7 @@ from meshkernel import (
     GeometryList,
     MeshKernel,
     SplinesToCurvilinearParameters,
+    OrthogonalizationParameters
 )
 
 
@@ -82,20 +85,20 @@ def test_curvilinear_compute_transfinite_from_splines():
     mk = MeshKernel()
 
     separator = -999.0
-    splines_x = np.array([2.172341E+02, 4.314185E+02, 8.064374E+02, separator,
-                          2.894012E+01, 2.344944E+02, 6.424647E+02, separator,
-                          2.265137E+00, 2.799988E+02, separator,
-                          5.067361E+02, 7.475956E+02], dtype=np.double)
-    splines_y = np.array([-2.415445E+01, 1.947381E+02, 3.987241E+02, separator,
-                          2.010146E+02, 3.720490E+02, 5.917262E+02, separator,
-                          2.802553E+02, -2.807726E+01, separator,
-                          6.034946E+02, 3.336055E+02], dtype=np.double)
+    splines_x = np.array([2.0, 4.0, 7.0, separator,
+                          -1.0, 1.0, 5.0, separator,
+                          3.0, -2.0, separator,
+                          7.0, 4.0], dtype=np.double)
+    splines_y = np.array([1.0, 3.0, 4.0, separator,
+                          4.0, 6.0, 7.0, separator,
+                          1.0, 6.0, separator,
+                          3.0, 8.0], dtype=np.double)
     splines_values = np.zeros_like(splines_x)
     splines = GeometryList(splines_x, splines_y, splines_values)
 
     curvilinear_parameters = CurvilinearParameters()
-    curvilinear_parameters.n_refinement = 40
-    curvilinear_parameters.m_refinement = 20
+    curvilinear_parameters.n_refinement = 10
+    curvilinear_parameters.m_refinement = 10
 
     mk.curvilinear_compute_transfinite_from_splines(splines, curvilinear_parameters)
 
@@ -108,8 +111,8 @@ def test_curvilinear_compute_transfinite_from_splines():
     # Test the number of m and n are as expected
     assert curvilinear_grid.num_m == 0
     assert curvilinear_grid.num_n == 0
-    assert len(mesh2d.node_x) == 861
-    assert len(mesh2d.edge_nodes) == 3320
+    assert len(mesh2d.node_x) == 121
+    assert len(mesh2d.edge_nodes) == 440
 
 
 def test_curvilinear_refine():
@@ -255,3 +258,55 @@ def test_curvilinear_compute_transfinite_from_triangle():
     # Test ta curvilinear grid was generated
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
+
+
+def test_curvilinear_grid_orthogonalization():
+    r"""Tests `curvilinear_initialize_orthogonalize` computes a curvilinear grid.
+    """
+
+    # Create a new curvilinear grid instance
+    mk = MeshKernel()
+
+    separator = -999.0
+    splines_x = np.array([2.0, 4.0, 7.0, separator,
+                          -1.0, 1.0, 5.0, separator,
+                          3.0, -2.0, separator,
+                          7.0, 4.0], dtype=np.double)
+    splines_y = np.array([1.0, 3.0, 4.0, separator,
+                          4.0, 6.0, 7.0, separator,
+                          1.0, 6.0, separator,
+                          3.0, 8.0], dtype=np.double)
+    splines_values = np.zeros_like(splines_x)
+    splines = GeometryList(splines_x, splines_y, splines_values)
+
+    curvilinear_parameters = CurvilinearParameters()
+    curvilinear_parameters.n_refinement = 10
+    curvilinear_parameters.m_refinement = 10
+
+    mk.curvilinear_compute_transfinite_from_splines(splines, curvilinear_parameters)
+
+    # Assert a nodal position before orthogonalization
+    curvilinear_grid = mk.curvilineargrid_get()
+    assert curvilinear_grid.node_x[1] == approx(2.1380641421159616, 0.0001)
+    assert curvilinear_grid.node_y[1] == approx(1.861935857884038, 0.0001)
+
+    orthogonalization_parameters = OrthogonalizationParameters()
+    orthogonalization_parameters.outer_iterations = 1
+    orthogonalization_parameters.boundary_iterations = 25
+    orthogonalization_parameters.inner_iterations = 25
+    orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
+
+    # Initialize the curvilinear grid orthogonalization algorithm
+    mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
+
+    # Initialize the curvilinear grid orthogonalization algorithm
+    mk.curvilinear_set_block_orthogonalize(2.43, 1.56, 4.63, 6.93)
+
+    # Performs orthogonalization
+    mk.curvilinear_orthogonalize()
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Assert the nodal position after orthogonalization
+    assert curvilinear_grid.node_x[1] == approx(2.1656235953439653, 0.0001)
+    assert curvilinear_grid.node_y[1] == approx(1.8343764046560345, 0.0001)
