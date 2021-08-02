@@ -203,6 +203,7 @@ class CurvilinearGrid:
         # construct the edges
         node_indices = np.zeros((self.num_m, self.num_n), dtype=np.int)
         index = 0
+        invalid_value = -999.0
         for m in range(self.num_m):
             for n in range(self.num_n):
                 node_indices[m][n] = index
@@ -212,18 +213,21 @@ class CurvilinearGrid:
         index = 0
         for m in range(self.num_m - 1):
             for n in range(self.num_n):
-                edge_nodes[index] = node_indices[m][n]
-                index += 1
-                edge_nodes[index] = node_indices[m + 1][n]
-                index += 1
+                if self.node_x[node_indices[m][n]] != invalid_value and self.node_x[node_indices[m + 1][n]] != invalid_value:
+                    edge_nodes[index] = node_indices[m][n]
+                    index += 1
+                    edge_nodes[index] = node_indices[m + 1][n]
+                    index += 1
 
         for m in range(self.num_m):
             for n in range(self.num_n - 1):
-                edge_nodes[index] = node_indices[m][n]
-                index += 1
-                edge_nodes[index] = node_indices[m][n + 1]
-                index += 1
+                if self.node_x[node_indices[m][n]] != invalid_value and self.node_x[node_indices[m][n + 1]] != invalid_value:
+                    edge_nodes[index] = node_indices[m][n]
+                    index += 1
+                    edge_nodes[index] = node_indices[m][n + 1]
+                    index += 1
 
+        edge_nodes = np.resize(edge_nodes, index)
         plot_edges(self.node_x, self.node_y, edge_nodes, ax, *args, **kwargs)
 
 

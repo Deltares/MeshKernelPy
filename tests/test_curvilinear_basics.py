@@ -51,7 +51,8 @@ def test_curvilinear_compute_transfinite_from_splines():
 
 
 def test_curvilinear_compute_orthogonal_from_splines():
-    r"""Tests `curvilinear_compute_orthogonal_from_splines` generates a curvilinear grid.
+    r"""Tests `curvilinear_compute_orthogonal_from_splines` generates a curvilinear grid using
+    the advancing front algorithm.
     """
     mk = MeshKernel()
 
@@ -105,8 +106,8 @@ def test_curvilinear_convert_to_mesh2d():
     assert len(mesh2d.edge_nodes) == 440
 
 
-def test_curvilinear_refine():
-    r"""Tests `curvilinear_refine` refines a curvilinear grid in a defined block.
+def test_curvilinear_make_uniform():
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid.
     """
     mk = MeshKernel()
 
@@ -132,50 +133,59 @@ def test_curvilinear_refine():
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
 
-    mk.curvilinear_refine(10.0, 20.0, 20.0, 20.0, 10)
+
+def test_curvilinear_make_uniform_with_polygon():
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid.
+    """
+    mk = MeshKernel()
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.block_size = 0.0
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    node_x = np.array([2.5, 5.5, 3.5, 0.5,2.5], dtype=np.double)
+    node_y = np.array([0.5, 3.0, 5.0, 2.5,0.5], dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+
+    # Test the number of m and n after make uniform with polygon
+    assert curvilinear_grid.num_m == 6
+    assert curvilinear_grid.num_n == 6
+
+
+def test_curvilinear_refine():
+    r"""Tests `curvilinear_refine` refines a curvilinear grid in a defined block.
+    """
+    mk = create_meshkernel_instance_with_curvilinear_grid()
+
+    mk.curvilinear_refine(2.299, 4.612, 3.074, 3.684, 2)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of m and n after refinement
-    assert curvilinear_grid.num_m == 4
-    assert curvilinear_grid.num_n == 13
+    assert curvilinear_grid.num_m == 11
+    assert curvilinear_grid.num_n == 14
 
 
 def test_curvilinear_derefine():
     r"""Tests `curvilinear_derefine` de-refines a curvilinear grid .
     """
-    mk = MeshKernel()
+    mk = create_meshkernel_instance_with_curvilinear_grid()
 
-    make_grid_parameters = MakeGridParameters()
-    make_grid_parameters.num_columns = 10
-    make_grid_parameters.num_rows = 10
-    make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
-    make_grid_parameters.origin_x = 0.0
-    make_grid_parameters.origin_y = 0.0
-    make_grid_parameters.block_size_x = 10.0
-    make_grid_parameters.block_size_y = 10.0
-
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
-
-    # First perform refinement
-    mk.curvilinear_refine(10.0, 20.0, 20.0, 20.0, 10)
+    mk.curvilinear_derefine(2.299, 4.612, 3.074, 3.684)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test the number of n increased
-    assert curvilinear_grid.num_n == 20
-
-    mk.curvilinear_derefine(10.0, 20.0, 20.0, 20.0)
-
-    curvilinear_grid = mk.curvilineargrid_get()
-
-    # Test the number of n decreased to its original value
-    assert curvilinear_grid.num_n == 11
+    # Test the number of n decreased
+    assert curvilinear_grid.num_m == 4
+    assert curvilinear_grid.num_n == 9
 
 
 def test_curvilinear_compute_transfinite_from_polygon():
