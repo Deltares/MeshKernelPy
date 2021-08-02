@@ -1578,8 +1578,7 @@ class MeshKernel:
                                c_double(y_second_gridline_node))
 
     def curvilinear_orthogonalize(self):
-        """Performs curvilinear grid orthogonalization.
+        """Performs curvilinear grid orthogonalization and finalizes the algorithm
         """
-        self._execute_function(self.lib.mkernel_curvilinear_orthogonalize,
-                               self._meshkernelid)
-
+        self._execute_function(self.lib.mkernel_curvilinear_orthogonalize, self._meshkernelid)
+        self._execute_function(self.lib.mkernel_curvilinear_finalize_orthogonalize, self._meshkernelid)
