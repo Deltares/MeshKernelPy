@@ -281,7 +281,7 @@ def test_curvilinear_grid_orthogonalization():
     # Initialize the curvilinear grid orthogonalization algorithm
     mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
 
-    # Initialize the curvilinear grid orthogonalization algorithm
+    # Set the block to orthogonalize
     mk.curvilinear_set_block_orthogonalize(2.43, 1.56, 4.63, 6.93)
 
     # Performs orthogonalization
