@@ -14,7 +14,7 @@ from meshkernel import (
 
 
 def create_meshkernel_instance_with_curvilinear_grid():
-    r"""A local function for creating an instance of meshkernel with a curvilinear grid.
+    r"""A function for creating an instance of meshkernel with a curvilinear grid.
     """
     mk = MeshKernel()
 
@@ -35,6 +35,33 @@ def create_meshkernel_instance_with_curvilinear_grid():
     curvilinear_parameters.m_refinement = 10
 
     mk.curvilinear_compute_transfinite_from_splines(splines, curvilinear_parameters)
+
+    return mk
+
+
+def create_meshkernel_instance_with_non_uniform_curvilinear_grid():
+    r"""A function for creating an instance of meshkernel with a non uniform curvilinear grid.
+    """
+    mk = MeshKernel()
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.block_size = 0.0
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    node_x = np.empty(0, dtype=np.double)
+    node_y = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+
+    # Move a node to make the grid non smooth
+    mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
 
     return mk
 
@@ -262,26 +289,7 @@ def test_curvilinear_grid_orthogonalization():
     r"""Tests `curvilinear_orthogonalize` orthogonalizes a curvilinear grid.
     """
 
-    mk = MeshKernel()
-
-    make_grid_parameters = MakeGridParameters()
-    make_grid_parameters.num_columns = 3
-    make_grid_parameters.num_rows = 3
-    make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
-    make_grid_parameters.origin_x = 0.0
-    make_grid_parameters.origin_y = 0.0
-    make_grid_parameters.block_size_x = 10.0
-    make_grid_parameters.block_size_y = 10.0
-
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
-
-    # Move a node to make the grid non orthogonal
-    mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
 
     orthogonalization_parameters = OrthogonalizationParameters()
     orthogonalization_parameters.outer_iterations = 1
@@ -299,7 +307,7 @@ def test_curvilinear_grid_orthogonalization():
     mk.curvilinear_orthogonalize()
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert nodal position before orthogonalization
+    # Assert nodal position after orthogonalization is closer to 10.0, 20.0
     assert curvilinear_grid.node_x[9] == approx(11.841396536135521, 0.0001)
     assert curvilinear_grid.node_y[9] == approx(18.158586078094562, 0.0001)
 
@@ -308,18 +316,7 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     r"""Tests `curvilinear_orthogonalize` with a frozen line orthogonalizes a curvilinear grid,
     except on the frozen line, whe nodal positions are fixed.
     """
-    # Generate a new curvilinear grid
-    mk = create_meshkernel_instance_with_curvilinear_grid()
-
-    # Assert a nodal position before orthogonalization
-    curvilinear_grid = mk.curvilineargrid_get()
-
-    # On the frozen line
-    assert curvilinear_grid.node_x[13] == approx(2.1794217067147974, 0.0001)
-    assert curvilinear_grid.node_x[24] == approx(2.541845448930061, 0.0001)
-    # Outside the frozen line
-    assert curvilinear_grid.node_x[12] == approx(2.466102405539871, 0.0001)
-    assert curvilinear_grid.node_x[23] == approx(2.812247099807306, 0.0001)
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
 
     orthogonalization_parameters = OrthogonalizationParameters()
     orthogonalization_parameters.outer_iterations = 1
@@ -331,55 +328,53 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
 
     # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_block_orthogonalize(2.43, 1.56, 4.63, 6.93)
+    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 30.0, 30.0)
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_frozen_lines_orthogonalize(1.821, 2.166, 6.115, 4.481)
+    # Freeze the vertical grid line where the moved node is
+    mk.curvilinear_set_frozen_lines_orthogonalize(10.0, 0.0, 10.0, 30.0)
 
     # Performs orthogonalization
     mk.curvilinear_orthogonalize()
+
+    # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert the nodal position after orthogonalization
-    # On the frozen line
-    assert curvilinear_grid.node_x[13] == approx(2.1794217067147974, 0.0001)
-    assert curvilinear_grid.node_x[24] == approx(2.541845448930061, 0.0001)
-    # Outside the frozen line coordinate changed
-    assert curvilinear_grid.node_x[12] == approx(2.463302716922545, 0.0001)
-    assert curvilinear_grid.node_x[23] == approx(2.8011687934697975, 0.0001)
+    # Assert nodal position after orthogonalization has not changed because the line where the node lies is frozen
+    assert curvilinear_grid.node_x[9] == approx(18.0, 0.0001)
+    assert curvilinear_grid.node_y[9] == approx(12.0, 0.0001)
 
 
 def test_curvilinear_smoothing():
     r"""Tests `curvilinear_smoothing` smooths a curvilinear grid.
     """
 
-    mk = MeshKernel()
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
 
-    make_grid_parameters = MakeGridParameters()
-    make_grid_parameters.num_columns = 3
-    make_grid_parameters.num_rows = 3
-    make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
-    make_grid_parameters.origin_x = 0.0
-    make_grid_parameters.origin_y = 0.0
-    make_grid_parameters.block_size_x = 10.0
-    make_grid_parameters.block_size_y = 10.0
-
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
-
-    # Move a node to make the grid non smooth
-    mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
-
-    # Initialize the curvilinear grid orthogonalization algorithm
+    # Perform smoothing
     mk.curvilinear_smoothing(10, 0.0, 0.0, 30.0, 30.0)
 
-    # Performs orthogonalization
+    # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert nodal position before orthogonalization
-    assert curvilinear_grid.node_x[9] == approx(11.841396536135521, 0.0001)
-    assert curvilinear_grid.node_y[9] == approx(18.158586078094562, 0.0001)
+    # Assert the nodal position after smoothing
+    assert curvilinear_grid.node_x[9] == approx(10.315557749152806, 0.0001)
+    assert curvilinear_grid.node_y[9] == approx(19.68444225084719, 0.0001)
+
+
+def test_curvilinear_smoothing_directional():
+    r"""Tests `curvilinear_smoothing_directional` smooths a curvilinear grid along one direction.
+    """
+
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
+
+    # Perform directional smoothing
+    mk.curvilinear_smoothing_directional(10,
+                                         10.0, 0.0, 10.0, 30.0,
+                                         0.0, 0.0, 30.0, 30.0)
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Assert the nodal position after directional smoothing
+    assert curvilinear_grid.node_x[9] == approx(14.278566438378412, 0.0001)
+    assert curvilinear_grid.node_y[9] == approx(20.37322551364857, 0.0001)
