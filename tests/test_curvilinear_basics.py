@@ -149,11 +149,13 @@ def test_curvilinear_make_uniform_with_polygon():
     make_grid_parameters.block_size_x = 1.0
     make_grid_parameters.block_size_y = 1.0
 
-    node_x = np.array([2.5, 5.5, 3.5, 0.5,2.5], dtype=np.double)
-    node_y = np.array([0.5, 3.0, 5.0, 2.5,0.5], dtype=np.double)
+    node_x = np.array([2.5, 5.5, 3.5, 0.5, 2.5], dtype=np.double)
+    node_y = np.array([0.5, 3.0, 5.0, 2.5, 0.5], dtype=np.double)
     geometry_list = GeometryList(node_x, node_y)
 
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+
+    curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of m and n after make uniform with polygon
     assert curvilinear_grid.num_m == 6
@@ -179,12 +181,14 @@ def test_curvilinear_derefine():
     """
     mk = create_meshkernel_instance_with_curvilinear_grid()
 
+    mk.curvilinear_refine(2.299, 4.612, 3.074, 3.684, 2)
+
     mk.curvilinear_derefine(2.299, 4.612, 3.074, 3.684)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of n decreased
-    assert curvilinear_grid.num_m == 4
+    assert curvilinear_grid.num_m == 11
     assert curvilinear_grid.num_n == 9
 
 
@@ -265,15 +269,19 @@ def test_curvilinear_grid_orthogonalization():
     r"""Tests `curvilinear_orthogonalize` orthogonalizes a curvilinear grid.
     """
     # Generate a new curvilinear grid
-    mk = create_meshkernel_instance_with_curvilinear_grid()
+    node_x = np.array([2, 4, 5, 6, 6, 6, 6, 5, 3, 2, 2, 2, 2], dtype=np.double)
+    node_y = np.array([1, 1, 1, 1, 1.8, 2.5, 4, 4, 4, 4, 3, 1.5, 1], dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
 
-    # Assert a nodal position before orthogonalization
+    mk = MeshKernel()
+    mk.curvilinear_compute_transfinite_from_polygon(geometry_list, 0, 3, 6, False)
+
+    # Assert nodal position before orthogonalization
     curvilinear_grid = mk.curvilineargrid_get()
-    assert curvilinear_grid.node_x[1] == approx(2.1380641421159616, 0.0001)
-    assert curvilinear_grid.node_y[1] == approx(1.861935857884038, 0.0001)
+    assert curvilinear_grid.node_x[9] == approx(4.97664876606615, 0.0001)
 
     orthogonalization_parameters = OrthogonalizationParameters()
-    orthogonalization_parameters.outer_iterations = 1
+    orthogonalization_parameters.outer_iterations = 2
     orthogonalization_parameters.boundary_iterations = 25
     orthogonalization_parameters.inner_iterations = 25
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
@@ -281,16 +289,16 @@ def test_curvilinear_grid_orthogonalization():
     # Initialize the curvilinear grid orthogonalization algorithm
     mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
 
-    # Set the block to orthogonalize
-    mk.curvilinear_set_block_orthogonalize(2.43, 1.56, 4.63, 6.93)
+    # Initialize the curvilinear grid orthogonalization algorithm
+    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 6.0, 4.0)
 
     # Performs orthogonalization
     mk.curvilinear_orthogonalize()
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert the nodal position after orthogonalization
-    assert curvilinear_grid.node_x[1] == approx(2.1656235953439653, 0.0001)
-    assert curvilinear_grid.node_y[1] == approx(1.8343764046560345, 0.0001)
+    # Assert nodal position before orthogonalization
+    assert curvilinear_grid.node_x[9] == approx(4.903564105815073, 0.0001)
+
 
 
 def test_curvilinear_grid_orthogonalization_with_frozen_line():
