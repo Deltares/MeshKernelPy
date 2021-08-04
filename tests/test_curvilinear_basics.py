@@ -39,14 +39,18 @@ def create_meshkernel_instance_with_curvilinear_grid():
     return mk
 
 
-def create_meshkernel_instance_with_non_uniform_curvilinear_grid():
-    r"""A function for creating an instance of meshkernel with a non uniform curvilinear grid.
+def create_meshkernel_instance_with_non_uniform_curvilinear_grid(num_columns=3, num_rows=3):
+    """A function for creating an instance of meshkernel with a non uniform curvilinear grid.
+
+    Args:
+        num_columns (int): The number of columns to generate.
+        num_rows (int): The number of rows to generate.
     """
     mk = MeshKernel()
 
     make_grid_parameters = MakeGridParameters()
-    make_grid_parameters.num_columns = 3
-    make_grid_parameters.num_rows = 3
+    make_grid_parameters.num_columns = num_columns
+    make_grid_parameters.num_rows = num_rows
     make_grid_parameters.angle = 0.0
     make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
@@ -378,3 +382,49 @@ def test_curvilinear_smoothing_directional():
     # Assert the nodal position after directional smoothing
     assert curvilinear_grid.node_x[9] == approx(14.278566438378412, 0.0001)
     assert curvilinear_grid.node_y[9] == approx(20.37322551364857, 0.0001)
+
+
+def test_curvilinear_line_shift():
+    r"""Tests curvilinear line shift shift workflow, where some nodes on a grid line are shifted,
+    and the shifting is distributed on curvilinear grid block.
+    """
+
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+
+    # Initialize line shift algorithm
+    mk.curvilinear_initialize_line_shift()
+
+    # Sets the line to shift
+    mk.curvilinear_set_line_line_shift(0.0, 0.0, 0.0, 50.0)
+
+    # Sets the block where the shift will be distributed
+    mk.curvilinear_set_block_line_shift(0.0, 0.0, 20.0, 50.0)
+
+    # Move left side nodes on a new position
+    mk.curvilinear_move_node_line_shift(0.0, 0.0, -10.0, 0.0)
+    mk.curvilinear_move_node_line_shift(0.0, 10.0, -10.0, 10.0)
+    mk.curvilinear_move_node_line_shift(0.0, 20.0, -10.0, 20.0)
+    mk.curvilinear_move_node_line_shift(0.0, 30.0, -10.0, 30.0)
+    mk.curvilinear_move_node_line_shift(0.0, 40.0, -10.0, 40.0)
+    mk.curvilinear_move_node_line_shift(0.0, 50.0, -10.0, 50.0)
+
+    # Performs curvilinear grid line shift
+    mk.curvilinear_line_shift()
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Assert the nodal position after line shift
+    assert curvilinear_grid.node_x[0] == -10.0
+    assert curvilinear_grid.node_x[6] == -10.0
+    assert curvilinear_grid.node_x[12] == -10.0
+    assert curvilinear_grid.node_x[18] == -10.0
+    assert curvilinear_grid.node_x[24] == -10.0
+    assert curvilinear_grid.node_x[30] == -10.0
+
+    assert curvilinear_grid.node_y[0] == 0
+    assert curvilinear_grid.node_y[6] == 10.0
+    assert curvilinear_grid.node_y[12] == 20.0
+    assert curvilinear_grid.node_y[18] == 30.0
+    assert curvilinear_grid.node_y[24] == 40.0
+    assert curvilinear_grid.node_y[30] == 50.0
