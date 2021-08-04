@@ -284,7 +284,7 @@ def test_curvilinear_compute_transfinite_from_triangle():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test ta curvilinear grid was generated
+    # Test a curvilinear grid was generated
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
 
@@ -388,7 +388,6 @@ def test_curvilinear_line_shift():
     r"""Tests curvilinear line shift shift workflow, where some nodes on a grid line are shifted,
     and the shifting is distributed on curvilinear grid block.
     """
-
     mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
 
     # Initialize line shift algorithm
@@ -428,3 +427,79 @@ def test_curvilinear_line_shift():
     assert curvilinear_grid.node_y[18] == 30.0
     assert curvilinear_grid.node_y[24] == 40.0
     assert curvilinear_grid.node_y[30] == 50.0
+
+
+def test_curvilinear_insert_face():
+    r"""Tests 'curvilinear_insert_face' inserts two faces.
+    """
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+
+    # Inserts two faces
+    mk.curvilinear_insert_face(-10.0, 5.0)
+    mk.curvilinear_insert_face(-5.0, 10.0)
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Assert two faces have been inserted
+    assert curvilinear_grid.node_x[0] == -20.0
+    assert curvilinear_grid.node_x[1] == -10.0
+    assert curvilinear_grid.node_x[8] == -20.0
+    assert curvilinear_grid.node_x[9] == -10.0
+
+    assert curvilinear_grid.node_y[0] == 0.0
+    assert curvilinear_grid.node_y[1] == 0.0
+    assert curvilinear_grid.node_y[8] == 10.0
+    assert curvilinear_grid.node_y[9] == 10.0
+
+
+def test_curvilinear_delete_node():
+    r"""Tests 'curvilinear_delete_node' deletes a node.
+    """
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+
+    # Inserts two faces
+    mk.curvilinear_delete_node(0.0, 0.0)
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test a node was deleted
+    assert curvilinear_grid.node_x[0] == -999.0
+    assert curvilinear_grid.node_y[0] == -999.0
+
+
+def test_curvilinear_line_attraction_repulsion():
+    r"""Tests 'curvilinear_line_attraction_repulsion' repels lines.
+    """
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+
+    # Repels lines
+    mk.curvilinear_line_attraction_repulsion(1.0,
+                                             30.0, 0.0, 30.0, 50.0,
+                                             10.0, 0.0, 50.0, 50.0)
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test the third grid line was shifted from 20 to 15
+    assert curvilinear_grid.node_x[2] == 15.0
+
+
+def test_curvilinear_line_mirror():
+    r"""Tests 'curvilinear_line_mirror' replicates (mirrors) a boundary grid line.
+    """
+    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+
+    # Mirrors the left gridline to left
+    mk.curvilinear_line_mirror(2.0, 0.0, 0.0, 0.0, 50.0)
+
+    # Get the result
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test some few nodes of the line have been generated on the left side
+    assert curvilinear_grid.node_x[0] == -20.0
+    assert curvilinear_grid.node_x[7] == -20.0
+    assert curvilinear_grid.node_y[0] == 0.0
+    assert curvilinear_grid.node_y[7] == 10.0
+

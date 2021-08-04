@@ -1736,3 +1736,91 @@ class MeshKernel:
                                c_double(y_from_point),
                                c_double(x_to_point),
                                c_double(y_to_point))
+
+    def curvilinear_insert_face(self,
+                                x_coordinate: float,
+                                y_coordinate: float) -> None:
+        """Inserts a new face on a curvilinear grid.
+        The new face will be inserted on top of the closest edge by linear extrapolation.
+
+        Args:
+            x_coordinate (float): The x coordinate of the point used for finding the closest face.
+            y_coordinate (float): The y coordinate of the point used for finding the closest face.
+        """
+
+        self._execute_function(self.lib.mkernel_curvilinear_insert_face,
+                               self._meshkernelid,
+                               c_double(x_coordinate),
+                               c_double(y_coordinate))
+
+    def curvilinear_line_attraction_repulsion(self,
+                                              repulsion_parameter: float,
+                                              x_first_grid_line_node: float,
+                                              y_first_grid_line_node: float,
+                                              x_second_grid_line_node: float,
+                                              y_second_grid_line_node: float,
+                                              x_lower_left_corner: float,
+                                              y_lower_left_corner: float,
+                                              x_upper_right_corner: float,
+                                              y_upper_right_corner: float):
+        """Attracts/repulses grid lines in a block towards another set grid line.
+
+        Args:
+            repulsion_parameter (float): The repulsion parameter.
+            x_first_grid_line_node (float): The x coordinate of the first node.
+            y_first_grid_line_node (float): The y coordinate of the first node.
+            x_second_grid_line_node (float): The x coordinate of the second node.
+            y_second_grid_line_node (float): The y coordinate of the second node.
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block where the operation is performed.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block where the operation is performed.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block where the operation is performed.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block where the operation is performed.
+        """
+        self._execute_function(self.lib.mkernel_curvilinear_line_attraction_repulsion,
+                               self._meshkernelid,
+                               c_double(repulsion_parameter),
+                               c_double(x_first_grid_line_node),
+                               c_double(y_first_grid_line_node),
+                               c_double(x_second_grid_line_node),
+                               c_double(y_second_grid_line_node),
+                               c_double(x_lower_left_corner),
+                               c_double(y_lower_left_corner),
+                               c_double(x_upper_right_corner),
+                               c_double(y_upper_right_corner))
+
+    def curvilinear_line_mirror(self,
+                                mirroring_factor: float,
+                                x_first_grid_line_node: float,
+                                y_first_grid_line_node: float,
+                                x_second_grid_line_node: float,
+                                y_second_grid_line_node: float) -> None:
+        """Mirrors a boundary grid line outwards. The boundary grid line is defined by its start and end points
+
+        Args:
+            mirroring_factor (float): The mirroring factor.
+            x_first_grid_line_node (float): The x coordinate of the first node.
+            y_first_grid_line_node (float): The y coordinate of the first node.
+            x_second_grid_line_node (float): The x coordinate of the second node.
+            y_second_grid_line_node (float): The y coordinate of the second node.
+        """
+        self._execute_function(self.lib.mkernel_curvilinear_line_mirror,
+                               self._meshkernelid,
+                               c_double(mirroring_factor),
+                               c_double(x_first_grid_line_node),
+                               c_double(y_first_grid_line_node),
+                               c_double(x_second_grid_line_node),
+                               c_double(y_second_grid_line_node))
+
+    def curvilinear_delete_node(self,
+                                x_coordinate: float,
+                                y_coordinate: float) -> None:
+        """Delete the node closest to a point
+
+        Args:
+            x_coordinate (float): The x coordinate of the point.
+            y_coordinate (float): The y coordinate of the point.
+        """
+        self._execute_function(self.lib.mkernel_curvilinear_delete_node,
+                               self._meshkernelid,
+                               c_double(x_coordinate),
+                               c_double(y_coordinate))
