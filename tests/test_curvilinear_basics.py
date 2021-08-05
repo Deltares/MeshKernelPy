@@ -1,7 +1,6 @@
 import numpy as np
 import pytest
 from pytest import approx
-import matplotlib.pyplot as plt
 
 from meshkernel import (
     CurvilinearParameters,
@@ -14,7 +13,7 @@ from meshkernel import (
 
 
 def create_meshkernel_instance_with_curvilinear_grid():
-    r"""A function for creating an instance of meshkernel with a curvilinear grid.
+    r"""A function for creating an instance of meshkernel with a uniform curvilinear grid.
     """
     mk = MeshKernel()
 
@@ -39,7 +38,7 @@ def create_meshkernel_instance_with_curvilinear_grid():
     return mk
 
 
-def create_meshkernel_instance_with_non_uniform_curvilinear_grid(num_columns=3, num_rows=3):
+def create_meshkernel_instance_with_skewed_curvilinear_grid(num_columns=3, num_rows=3):
     """A function for creating an instance of meshkernel with a non uniform curvilinear grid.
 
     Args:
@@ -64,7 +63,7 @@ def create_meshkernel_instance_with_non_uniform_curvilinear_grid(num_columns=3, 
 
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
 
-    # Move a node to make the grid non smooth
+    # Skew the grid by moving a node
     mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
 
     return mk
@@ -161,13 +160,13 @@ def test_curvilinear_make_uniform():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test the number of m and n before refinement
+    # Test the number of m and n
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
 
 
 def test_curvilinear_make_uniform_with_polygon():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid.
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon.
     """
     mk = MeshKernel()
 
@@ -189,7 +188,7 @@ def test_curvilinear_make_uniform_with_polygon():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test the number of m and n after make uniform with polygon
+    # Test the number of m and n
     assert curvilinear_grid.num_m == 6
     assert curvilinear_grid.num_n == 6
 
@@ -204,6 +203,7 @@ def test_curvilinear_refine_derefine():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
+    # After refinement
     assert curvilinear_grid.num_m == 11
     assert curvilinear_grid.num_n == 14
 
@@ -211,7 +211,7 @@ def test_curvilinear_refine_derefine():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test the number of n decreased
+    # After de-refinement
     assert curvilinear_grid.num_m == 11
     assert curvilinear_grid.num_n == 9
 
@@ -226,7 +226,7 @@ def test_curvilinear_compute_transfinite_from_polygon():
     |       |
     0---1---2
 
-    Generated curvilineargrid:
+    Generated curvilinear grid:
 
     6---7---8
     |   |   |
@@ -234,6 +234,8 @@ def test_curvilinear_compute_transfinite_from_polygon():
     |   |   |
     0---1---2
     """
+
+    # The input polygon
     node_x = np.array([0, 5, 10, 10, 10, 5, 0, 0, 0], dtype=np.double)
     node_y = np.array([0, 0, 0, 5, 10, 10, 10, 5, 0], dtype=np.double)
     geometry_list = GeometryList(node_x, node_y)
@@ -244,14 +246,13 @@ def test_curvilinear_compute_transfinite_from_polygon():
 
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test ta curvilinear grid was generated
     assert curvilinear_grid.num_m == 3
     assert curvilinear_grid.num_n == 3
 
 
 def test_curvilinear_compute_transfinite_from_triangle():
     r"""Tests `curvilinear_compute_transfinite_from_triangle` computes a curvilinear grid from a polygon
-    with a triangular shape.
+    having a triangular shape.
     """
 
     node_x = np.array([444.504791,
@@ -293,7 +294,7 @@ def test_curvilinear_grid_orthogonalization():
     r"""Tests `curvilinear_orthogonalize` orthogonalizes a curvilinear grid.
     """
 
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
     orthogonalization_parameters = OrthogonalizationParameters()
     orthogonalization_parameters.outer_iterations = 1
@@ -320,7 +321,7 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     r"""Tests `curvilinear_orthogonalize` with a frozen line orthogonalizes a curvilinear grid,
     except on the frozen line, whe nodal positions are fixed.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
     orthogonalization_parameters = OrthogonalizationParameters()
     orthogonalization_parameters.outer_iterations = 1
@@ -343,7 +344,7 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert nodal position after orthogonalization has not changed because the line where the node lies is frozen
+    # Assert the position of the skewed node after orthogonalization has not changed
     assert curvilinear_grid.node_x[9] == approx(18.0, 0.0001)
     assert curvilinear_grid.node_y[9] == approx(12.0, 0.0001)
 
@@ -352,7 +353,7 @@ def test_curvilinear_smoothing():
     r"""Tests `curvilinear_smoothing` smooths a curvilinear grid.
     """
 
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
     # Perform smoothing
     mk.curvilinear_smoothing(10, 0.0, 0.0, 30.0, 30.0)
@@ -369,7 +370,7 @@ def test_curvilinear_smoothing_directional():
     r"""Tests `curvilinear_smoothing_directional` smooths a curvilinear grid along one direction.
     """
 
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid()
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
     # Perform directional smoothing
     mk.curvilinear_smoothing_directional(10,
@@ -386,9 +387,9 @@ def test_curvilinear_smoothing_directional():
 
 def test_curvilinear_line_shift():
     r"""Tests curvilinear line shift shift workflow, where some nodes on a grid line are shifted,
-    and the shifting is distributed on curvilinear grid block.
+    and the shifting is distributed on a curvilinear grid block.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Initialize line shift algorithm
     mk.curvilinear_initialize_line_shift()
@@ -430,9 +431,9 @@ def test_curvilinear_line_shift():
 
 
 def test_curvilinear_insert_face():
-    r"""Tests 'curvilinear_insert_face' inserts two faces.
+    r"""Tests 'curvilinear_insert_face' inserts two new faces.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Inserts two faces
     mk.curvilinear_insert_face(-10.0, 5.0)
@@ -441,7 +442,7 @@ def test_curvilinear_insert_face():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert two faces have been inserted
+    # Assert two new faces have been inserted
     assert curvilinear_grid.node_x[0] == -20.0
     assert curvilinear_grid.node_x[1] == -10.0
     assert curvilinear_grid.node_x[8] == -20.0
@@ -456,7 +457,7 @@ def test_curvilinear_insert_face():
 def test_curvilinear_delete_node():
     r"""Tests 'curvilinear_delete_node' deletes a node.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Inserts two faces
     mk.curvilinear_delete_node(0.0, 0.0)
@@ -464,7 +465,7 @@ def test_curvilinear_delete_node():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test a node was deleted
+    # Test the bottom right corner is marked as deleted (invalid coordinates)
     assert curvilinear_grid.node_x[0] == -999.0
     assert curvilinear_grid.node_y[0] == -999.0
 
@@ -472,7 +473,7 @@ def test_curvilinear_delete_node():
 def test_curvilinear_line_attraction_repulsion():
     r"""Tests 'curvilinear_line_attraction_repulsion' repels lines.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Repels lines
     mk.curvilinear_line_attraction_repulsion(1.0,
@@ -482,24 +483,23 @@ def test_curvilinear_line_attraction_repulsion():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test the third grid line was shifted from 20 to 15
+    # Test a node on the third grid line was shifted from 20 to 15
     assert curvilinear_grid.node_x[2] == 15.0
 
 
 def test_curvilinear_line_mirror():
     r"""Tests 'curvilinear_line_mirror' replicates (mirrors) a boundary grid line.
     """
-    mk = create_meshkernel_instance_with_non_uniform_curvilinear_grid(5, 5)
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
-    # Mirrors the left gridline to left
+    # Mirrors the left grid line to left
     mk.curvilinear_line_mirror(2.0, 0.0, 0.0, 0.0, 50.0)
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test some few nodes of the line have been generated on the left side
+    # Test some few nodes have been generated in the left side
     assert curvilinear_grid.node_x[0] == -20.0
     assert curvilinear_grid.node_x[7] == -20.0
     assert curvilinear_grid.node_y[0] == 0.0
     assert curvilinear_grid.node_y[7] == 10.0
-
