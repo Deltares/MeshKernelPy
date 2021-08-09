@@ -114,18 +114,11 @@ def test_contacts_compute_multiple():
 
     contacts = mk.contacts_get()
 
-    assert contacts.mesh1d_indices.size == 4
-    assert contacts.mesh2d_indices.size == 4
+    assert contacts.mesh1d_indices.size == 9
+    assert contacts.mesh2d_indices.size == 9
 
-    assert contacts.mesh1d_indices[0] == 0
-    assert contacts.mesh1d_indices[1] == 1
-    assert contacts.mesh1d_indices[2] == 2
-    assert contacts.mesh1d_indices[3] == 3
-
-    assert contacts.mesh2d_indices[0] == 0
-    assert contacts.mesh2d_indices[1] == 6
-    assert contacts.mesh2d_indices[2] == 12
-    assert contacts.mesh2d_indices[3] == 18
+    assert_array_equal(contacts.mesh1d_indices, [0, 0, 1, 1, 2, 2, 3, 3, 4])
+    assert_array_equal(contacts.mesh2d_indices, [0, 1, 6, 7, 12, 13, 18, 19, 24])
 
 
 def test_contacts_compute_with_polygons():
