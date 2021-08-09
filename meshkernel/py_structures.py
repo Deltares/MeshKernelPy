@@ -38,7 +38,10 @@ class ProjectToLandBoundaryOption(IntEnum):
 class RefinementType(IntEnum):
     """Refinement type"""
 
+    """Refinement that ensures that the courant criteria is not exceeded considering the sample depths."""
     WAVE_COURANT = 1
+
+    """Refinement that refines recursively a fixed number of times."""
     REFINEMENT_LEVELS = 2
 
 
