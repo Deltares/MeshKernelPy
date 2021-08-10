@@ -8,24 +8,51 @@ from meshkernel import (
     GeometryList,
     MeshKernel,
     SplinesToCurvilinearParameters,
-    OrthogonalizationParameters
+    OrthogonalizationParameters,
 )
 
 
 def create_meshkernel_instance_with_curvilinear_grid():
-    r"""A function for creating an instance of meshkernel with a uniform curvilinear grid.
-    """
+    r"""A function for creating an instance of meshkernel with a uniform curvilinear grid."""
     mk = MeshKernel()
 
     separator = -999.0
-    splines_x = np.array([2.0, 4.0, 7.0, separator,
-                          -1.0, 1.0, 5.0, separator,
-                          3.0, -2.0, separator,
-                          7.0, 4.0], dtype=np.double)
-    splines_y = np.array([1.0, 3.0, 4.0, separator,
-                          4.0, 6.0, 7.0, separator,
-                          1.0, 6.0, separator,
-                          3.0, 8.0], dtype=np.double)
+    splines_x = np.array(
+        [
+            2.0,
+            4.0,
+            7.0,
+            separator,
+            -1.0,
+            1.0,
+            5.0,
+            separator,
+            3.0,
+            -2.0,
+            separator,
+            7.0,
+            4.0,
+        ],
+        dtype=np.double,
+    )
+    splines_y = np.array(
+        [
+            1.0,
+            3.0,
+            4.0,
+            separator,
+            4.0,
+            6.0,
+            7.0,
+            separator,
+            1.0,
+            6.0,
+            separator,
+            3.0,
+            8.0,
+        ],
+        dtype=np.double,
+    )
     splines_values = np.zeros_like(splines_x)
     splines = GeometryList(splines_x, splines_y, splines_values)
 
@@ -70,8 +97,7 @@ def create_meshkernel_instance_with_skewed_curvilinear_grid(num_columns=3, num_r
 
 
 def test_curvilinear_compute_transfinite_from_splines():
-    r"""Tests `curvilinear_compute_transfinite_from_splines` generates a curvilinear grid.
-    """
+    r"""Tests `curvilinear_compute_transfinite_from_splines` generates a curvilinear grid."""
     mk = create_meshkernel_instance_with_curvilinear_grid()
 
     output_curvilinear = mk.curvilineargrid_get()
@@ -88,10 +114,30 @@ def test_curvilinear_compute_orthogonal_from_splines():
     mk = MeshKernel()
 
     separator = -999.0
-    splines_x = np.array([152.001571655273, 374.752960205078, 850.255920410156, separator,
-                          72.5010681152344, 462.503479003906, separator], dtype=np.double)
-    splines_y = np.array([86.6264953613281, 336.378997802734, 499.130676269531, separator,
-                          391.129577636719, 90.3765411376953, separator], dtype=np.double)
+    splines_x = np.array(
+        [
+            152.001571655273,
+            374.752960205078,
+            850.255920410156,
+            separator,
+            72.5010681152344,
+            462.503479003906,
+            separator,
+        ],
+        dtype=np.double,
+    )
+    splines_y = np.array(
+        [
+            86.6264953613281,
+            336.378997802734,
+            499.130676269531,
+            separator,
+            391.129577636719,
+            90.3765411376953,
+            separator,
+        ],
+        dtype=np.double,
+    )
 
     splines_values = np.zeros_like(splines_x)
     splines = GeometryList(splines_x, splines_y, splines_values)
@@ -110,7 +156,9 @@ def test_curvilinear_compute_orthogonal_from_splines():
     splines_to_curvilinear_parameters.curvature_adapted_grid_spacing = 1
     splines_to_curvilinear_parameters.remove_skinny_triangles = 0
 
-    mk.curvilinear_compute_orthogonal_from_splines(splines, curvilinear_parameters, splines_to_curvilinear_parameters)
+    mk.curvilinear_compute_orthogonal_from_splines(
+        splines, curvilinear_parameters, splines_to_curvilinear_parameters
+    )
 
     output_curvilinear = mk.curvilineargrid_get()
 
@@ -120,8 +168,7 @@ def test_curvilinear_compute_orthogonal_from_splines():
 
 
 def test_curvilinear_convert_to_mesh2d():
-    r"""Tests `curvilinear_compute_transfinite_from_splines` converts a curvilinear mesh into an unstructured mesh.
-    """
+    r"""Tests `curvilinear_compute_transfinite_from_splines` converts a curvilinear mesh into an unstructured mesh."""
     mk = create_meshkernel_instance_with_curvilinear_grid()
 
     mk.curvilinear_convert_to_mesh2d()
@@ -138,8 +185,7 @@ def test_curvilinear_convert_to_mesh2d():
 
 
 def test_curvilinear_make_uniform():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid.
-    """
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid."""
     mk = MeshKernel()
 
     make_grid_parameters = MakeGridParameters()
@@ -166,8 +212,7 @@ def test_curvilinear_make_uniform():
 
 
 def test_curvilinear_make_uniform_with_polygon():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon.
-    """
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon."""
     mk = MeshKernel()
 
     make_grid_parameters = MakeGridParameters()
@@ -255,27 +300,37 @@ def test_curvilinear_compute_transfinite_from_triangle():
     having a triangular shape.
     """
 
-    node_x = np.array([444.504791,
-                       427.731781,
-                       405.640503,
-                       381.094666,
-                       451.050354,
-                       528.778931,
-                       593.416260,
-                       558.643005,
-                       526.733398,
-                       444.095703], dtype=np.double)
+    node_x = np.array(
+        [
+            444.504791,
+            427.731781,
+            405.640503,
+            381.094666,
+            451.050354,
+            528.778931,
+            593.416260,
+            558.643005,
+            526.733398,
+            444.095703,
+        ],
+        dtype=np.double,
+    )
 
-    node_y = np.array([437.155945,
-                       382.745758,
-                       317.699005,
-                       262.470612,
-                       262.879700,
-                       263.288788,
-                       266.561584,
-                       324.653687,
-                       377.836578,
-                       436.746857], dtype=np.double)
+    node_y = np.array(
+        [
+            437.155945,
+            382.745758,
+            317.699005,
+            262.470612,
+            262.879700,
+            263.288788,
+            266.561584,
+            324.653687,
+            377.836578,
+            436.746857,
+        ],
+        dtype=np.double,
+    )
 
     geometry_list = GeometryList(node_x, node_y)
 
@@ -291,8 +346,7 @@ def test_curvilinear_compute_transfinite_from_triangle():
 
 
 def test_curvilinear_grid_orthogonalization():
-    r"""Tests `curvilinear_orthogonalize` orthogonalizes a curvilinear grid.
-    """
+    r"""Tests `curvilinear_orthogonalize` orthogonalizes a curvilinear grid."""
 
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
@@ -350,8 +404,7 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
 
 
 def test_curvilinear_smoothing():
-    r"""Tests `curvilinear_smoothing` smooths a curvilinear grid.
-    """
+    r"""Tests `curvilinear_smoothing` smooths a curvilinear grid."""
 
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
@@ -367,15 +420,14 @@ def test_curvilinear_smoothing():
 
 
 def test_curvilinear_smoothing_directional():
-    r"""Tests `curvilinear_smoothing_directional` smooths a curvilinear grid along one direction.
-    """
+    r"""Tests `curvilinear_smoothing_directional` smooths a curvilinear grid along one direction."""
 
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid()
 
     # Perform directional smoothing
-    mk.curvilinear_smoothing_directional(10,
-                                         10.0, 0.0, 10.0, 30.0,
-                                         0.0, 0.0, 30.0, 30.0)
+    mk.curvilinear_smoothing_directional(
+        10, 10.0, 0.0, 10.0, 30.0, 0.0, 0.0, 30.0, 30.0
+    )
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
@@ -431,8 +483,7 @@ def test_curvilinear_line_shift():
 
 
 def test_curvilinear_insert_face():
-    r"""Tests 'curvilinear_insert_face' inserts two new faces.
-    """
+    r"""Tests 'curvilinear_insert_face' inserts two new faces."""
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Inserts two faces
@@ -455,8 +506,7 @@ def test_curvilinear_insert_face():
 
 
 def test_curvilinear_delete_node():
-    r"""Tests 'curvilinear_delete_node' deletes a node.
-    """
+    r"""Tests 'curvilinear_delete_node' deletes a node."""
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Inserts two faces
@@ -471,14 +521,13 @@ def test_curvilinear_delete_node():
 
 
 def test_curvilinear_line_attraction_repulsion():
-    r"""Tests 'curvilinear_line_attraction_repulsion' repels lines.
-    """
+    r"""Tests 'curvilinear_line_attraction_repulsion' repels lines."""
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Repels lines
-    mk.curvilinear_line_attraction_repulsion(1.0,
-                                             30.0, 0.0, 30.0, 50.0,
-                                             10.0, 0.0, 50.0, 50.0)
+    mk.curvilinear_line_attraction_repulsion(
+        1.0, 30.0, 0.0, 30.0, 50.0, 10.0, 0.0, 50.0, 50.0
+    )
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
@@ -488,8 +537,7 @@ def test_curvilinear_line_attraction_repulsion():
 
 
 def test_curvilinear_line_mirror():
-    r"""Tests 'curvilinear_line_mirror' replicates (mirrors) a boundary grid line.
-    """
+    r"""Tests 'curvilinear_line_mirror' replicates (mirrors) a boundary grid line."""
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Mirrors the left grid line to left

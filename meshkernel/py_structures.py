@@ -120,7 +120,7 @@ class Mesh2d:
         node_position = 0
         for num_nodes in self.nodes_per_face:
             # Calculate values to draw
-            face_nodes = self.face_nodes[node_position: (node_position + num_nodes)]
+            face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
             face_nodes_x = self.node_x[face_nodes]
             face_nodes_y = self.node_y[face_nodes]
             node_position += num_nodes
@@ -209,11 +209,17 @@ class CurvilinearGrid:
                 node_indices[m][n] = index
                 index += 1
 
-        edge_nodes = np.zeros((self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2, dtype=np.int)
+        edge_nodes = np.zeros(
+            (self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2,
+            dtype=np.int,
+        )
         index = 0
         for m in range(self.num_m - 1):
             for n in range(self.num_n):
-                if self.node_x[node_indices[m][n]] != invalid_value and self.node_x[node_indices[m + 1][n]] != invalid_value:
+                if (
+                    self.node_x[node_indices[m][n]] != invalid_value
+                    and self.node_x[node_indices[m + 1][n]] != invalid_value
+                ):
                     edge_nodes[index] = node_indices[m][n]
                     index += 1
                     edge_nodes[index] = node_indices[m + 1][n]
@@ -221,7 +227,10 @@ class CurvilinearGrid:
 
         for m in range(self.num_m):
             for n in range(self.num_n - 1):
-                if self.node_x[node_indices[m][n]] != invalid_value and self.node_x[node_indices[m][n + 1]] != invalid_value:
+                if (
+                    self.node_x[node_indices[m][n]] != invalid_value
+                    and self.node_x[node_indices[m][n + 1]] != invalid_value
+                ):
                     edge_nodes[index] = node_indices[m][n]
                     index += 1
                     edge_nodes[index] = node_indices[m][n + 1]

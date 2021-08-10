@@ -205,7 +205,7 @@ class COrthogonalizationParameters(Structure):
 
     @staticmethod
     def from_orthogonalizationparameters(
-            orthogonalization_parameters: OrthogonalizationParameters,
+        orthogonalization_parameters: OrthogonalizationParameters,
     ) -> COrthogonalizationParameters:
         """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
 
@@ -268,7 +268,7 @@ class CMeshRefinementParameters(Structure):
 
     @staticmethod
     def from_meshrefinementparameters(
-            mesh_refinement_parameters: MeshRefinementParameters,
+        mesh_refinement_parameters: MeshRefinementParameters,
     ) -> CMeshRefinementParameters:
         """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
 
@@ -329,7 +329,7 @@ class CMakeGridParameters(Structure):
 
     @staticmethod
     def from_makegridparameters(
-            make_grid_parameters: MakeGridParameters,
+        make_grid_parameters: MakeGridParameters,
     ) -> CMakeGridParameters:
         """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
 
@@ -341,30 +341,14 @@ class CMakeGridParameters(Structure):
         """
 
         c_parameters = CMakeGridParameters()
-        c_parameters.num_columns = (
-            make_grid_parameters.num_columns
-        )
-        c_parameters.num_rows = (
-            make_grid_parameters.num_rows
-        )
-        c_parameters.angle = (
-            make_grid_parameters.angle
-        )
-        c_parameters.block_size = (
-            make_grid_parameters.block_size
-        )
-        c_parameters.origin_x = (
-            make_grid_parameters.origin_x
-        )
-        c_parameters.origin_y = (
-            make_grid_parameters.origin_y
-        )
-        c_parameters.block_size_x = (
-            make_grid_parameters.block_size_x
-        )
-        c_parameters.block_size_y = (
-            make_grid_parameters.block_size_y
-        )
+        c_parameters.num_columns = make_grid_parameters.num_columns
+        c_parameters.num_rows = make_grid_parameters.num_rows
+        c_parameters.angle = make_grid_parameters.angle
+        c_parameters.block_size = make_grid_parameters.block_size
+        c_parameters.origin_x = make_grid_parameters.origin_x
+        c_parameters.origin_y = make_grid_parameters.origin_y
+        c_parameters.block_size_x = make_grid_parameters.block_size_x
+        c_parameters.block_size_y = make_grid_parameters.block_size_y
         return c_parameters
 
 
@@ -551,12 +535,7 @@ class CCurvilinearGrid(Structure):
         self.node_x = as_ctypes(node_x)
         self.node_y = as_ctypes(node_y)
 
-        return CurvilinearGrid(
-            node_x,
-            node_y,
-            self.num_m,
-            self.num_n
-        )
+        return CurvilinearGrid(node_x, node_y, self.num_m, self.num_n)
 
 
 class CCurvilinearParameters(Structure):
@@ -583,7 +562,7 @@ class CCurvilinearParameters(Structure):
 
     @staticmethod
     def from_curvilinearParameters(
-            curvilinear_parameters: CurvilinearParameters,
+        curvilinear_parameters: CurvilinearParameters,
     ) -> CCurvilinearParameters:
         """Creates a new `CCurvilinearParameters` instance from the given CurvilinearParameters instance.
 
@@ -595,12 +574,8 @@ class CCurvilinearParameters(Structure):
         """
 
         c_curvilinearParameters = CCurvilinearParameters()
-        c_curvilinearParameters.m_refinement = (
-            curvilinear_parameters.m_refinement
-        )
-        c_curvilinearParameters.n_refinement = (
-            curvilinear_parameters.n_refinement
-        )
+        c_curvilinearParameters.m_refinement = curvilinear_parameters.m_refinement
+        c_curvilinearParameters.n_refinement = curvilinear_parameters.n_refinement
         c_curvilinearParameters.smoothing_iterations = (
             curvilinear_parameters.smoothing_iterations
         )
@@ -648,7 +623,7 @@ class CSplinesToCurvilinearParameters(Structure):
 
     @staticmethod
     def from_splinesToCurvilinearParameters(
-            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+        splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
     ) -> CSplinesToCurvilinearParameters:
         """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
 

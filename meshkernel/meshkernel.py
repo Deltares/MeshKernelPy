@@ -19,7 +19,7 @@ from meshkernel.c_structures import (
     CMesh2d,
     CMeshRefinementParameters,
     COrthogonalizationParameters,
-    CSplinesToCurvilinearParameters
+    CSplinesToCurvilinearParameters,
 )
 from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
@@ -36,7 +36,7 @@ from meshkernel.py_structures import (
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
-    SplinesToCurvilinearParameters
+    SplinesToCurvilinearParameters,
 )
 from meshkernel.version import __version__
 
@@ -156,10 +156,10 @@ class MeshKernel:
         return c_mesh2d
 
     def mesh2d_delete(
-            self,
-            geometry_list: GeometryList,
-            delete_option: DeleteMeshOption,
-            invert_deletion: bool,
+        self,
+        geometry_list: GeometryList,
+        delete_option: DeleteMeshOption,
+        invert_deletion: bool,
     ) -> None:
         """Deletes a mesh in a polygon using several options.
 
@@ -406,11 +406,11 @@ class MeshKernel:
         )
 
     def polygon_refine(
-            self,
-            polygon: GeometryList,
-            first_node: int,
-            second_node: int,
-            target_edge_length: float,
+        self,
+        polygon: GeometryList,
+        first_node: int,
+        second_node: int,
+        target_edge_length: float,
     ) -> GeometryList:
         """Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.
 
@@ -457,11 +457,11 @@ class MeshKernel:
         return refined_polygon
 
     def mesh2d_refine_based_on_samples(
-            self,
-            samples: GeometryList,
-            relative_search_radius: float,
-            minimum_num_samples: int,
-            mesh_refinement_params: MeshRefinementParameters,
+        self,
+        samples: GeometryList,
+        relative_search_radius: float,
+        minimum_num_samples: int,
+        mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -493,9 +493,9 @@ class MeshKernel:
         )
 
     def mesh2d_refine_based_on_polygon(
-            self,
-            polygon: GeometryList,
-            mesh_refinement_params: MeshRefinementParameters,
+        self,
+        polygon: GeometryList,
+        mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
         """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
 
@@ -517,7 +517,7 @@ class MeshKernel:
         )
 
     def polygon_get_included_points(
-            self, selecting_polygon: GeometryList, selected_polygon: GeometryList
+        self, selecting_polygon: GeometryList, selected_polygon: GeometryList
     ) -> GeometryList:
         """Selects the polygon points within another polygon.
 
@@ -553,11 +553,11 @@ class MeshKernel:
         return selection
 
     def mesh2d_flip_edges(
-            self,
-            triangulation_required: bool,
-            project_to_land_boundary_required: bool,
-            selecting_polygon: GeometryList,
-            land_boundaries: GeometryList,
+        self,
+        triangulation_required: bool,
+        project_to_land_boundary_required: bool,
+        selecting_polygon: GeometryList,
+        land_boundaries: GeometryList,
     ):
         """Flips mesh2d edges to optimize the mesh smoothness.
         Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
@@ -627,7 +627,7 @@ class MeshKernel:
         return geometry_list
 
     def _mesh2d_count_small_flow_edge_centers(
-            self, small_flow_edges_length_threshold: float
+        self, small_flow_edges_length_threshold: float
     ) -> int:
         """For internal use only.
 
@@ -652,7 +652,7 @@ class MeshKernel:
         return n_small_flow_edge_centers.value
 
     def mesh2d_get_small_flow_edge_centers(
-            self, small_flow_edges_length_threshold: float
+        self, small_flow_edges_length_threshold: float
     ) -> GeometryList:
         """Gets the small mesh2d flow edges centers.
         The flow edges are the edges connecting face circumcenters.
@@ -684,9 +684,9 @@ class MeshKernel:
         return geometry_list
 
     def mesh2d_delete_small_flow_edges_and_small_triangles(
-            self,
-            small_flow_edges_length_threshold: float,
-            min_fractional_area_triangles: float,
+        self,
+        small_flow_edges_length_threshold: float,
+        min_fractional_area_triangles: float,
     ) -> None:
         """Deletes all small mesh2d flow edges and small triangles.
         The flow edges are the edges connecting faces circumcenters.
@@ -706,7 +706,7 @@ class MeshKernel:
         )
 
     def get_splines(
-            self, geometry_list: GeometryList, number_of_points_between_nodes: int
+        self, geometry_list: GeometryList, number_of_points_between_nodes: int
     ) -> GeometryList:
         """Get the computed spline points between two corner nodes.
 
@@ -721,10 +721,10 @@ class MeshKernel:
         # Allocate space for output
         original_number_of_coordinates = geometry_list.x_coordinates.size
         number_of_coordinates = (
-                original_number_of_coordinates * number_of_points_between_nodes
-                - number_of_points_between_nodes
-                + original_number_of_coordinates
-                + 1
+            original_number_of_coordinates * number_of_points_between_nodes
+            - number_of_points_between_nodes
+            + original_number_of_coordinates
+            + 1
         )
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -790,7 +790,7 @@ class MeshKernel:
         return number_of_polygon_nodes.value
 
     def mesh2d_merge_nodes(
-            self, geometry_list: GeometryList, merging_distance: float
+        self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
         """Merges the mesh2d nodes, effectively removing all small edges.
 
@@ -822,7 +822,7 @@ class MeshKernel:
         )
 
     def mesh2d_get_nodes_in_polygons(
-            self, geometry_list: GeometryList, inside: bool
+        self, geometry_list: GeometryList, inside: bool
     ) -> ndarray:
         """Gets the indices of the mesh2d nodes selected with a polygon.
 
@@ -855,7 +855,7 @@ class MeshKernel:
         return selected_nodes
 
     def _mesh2d_count_nodes_in_polygons(
-            self, geometry_list: GeometryList, inside: int
+        self, geometry_list: GeometryList, inside: int
     ) -> int:
         """For internal use only.
 
@@ -967,7 +967,7 @@ class MeshKernel:
         return contacts
 
     def contacts_compute_single(
-            self, node_mask: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
@@ -1007,7 +1007,7 @@ class MeshKernel:
         )
 
     def contacts_compute_with_polygons(
-            self, node_mask: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.
 
@@ -1030,7 +1030,7 @@ class MeshKernel:
         )
 
     def contacts_compute_with_points(
-            self, node_mask: ndarray, points: GeometryList
+        self, node_mask: ndarray, points: GeometryList
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
         the input point.
@@ -1053,7 +1053,7 @@ class MeshKernel:
         )
 
     def contacts_compute_boundary(
-            self, node_mask: ndarray, polygons: GeometryList, search_radius: float
+        self, node_mask: ndarray, polygons: GeometryList, search_radius: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
@@ -1079,11 +1079,11 @@ class MeshKernel:
         )
 
     def mesh2d_compute_orthogonalization(
-            self,
-            project_to_land_boundary_option: ProjectToLandBoundaryOption,
-            orthogonalization_parameters: OrthogonalizationParameters,
-            selecting_polygon: GeometryList,
-            land_boundaries: GeometryList,
+        self,
+        project_to_land_boundary_option: ProjectToLandBoundaryOption,
+        orthogonalization_parameters: OrthogonalizationParameters,
+        selecting_polygon: GeometryList,
+        land_boundaries: GeometryList,
     ) -> None:
         """Orthogonalizes the Mesh2d.
         The function modifies the mesh for achieving orthogonality between the edges
@@ -1168,9 +1168,9 @@ class MeshKernel:
         return c_error_message.value.decode("ASCII")
 
     def mesh2d_triangulation_interpolation(
-            self,
-            samples: GeometryList,
-            location_type: Mesh2dLocation,
+        self,
+        samples: GeometryList,
+        location_type: Mesh2dLocation,
     ) -> GeometryList:
         """Performs triangulation interpolation of samples.
 
@@ -1203,12 +1203,12 @@ class MeshKernel:
         return interpolated_samples
 
     def mesh2d_averaging_interpolation(
-            self,
-            samples: GeometryList,
-            location_type: Mesh2dLocation,
-            averaging_method: AveragingMethod,
-            relative_search_size: float,
-            min_samples: int,
+        self,
+        samples: GeometryList,
+        location_type: Mesh2dLocation,
+        averaging_method: AveragingMethod,
+        relative_search_size: float,
+        min_samples: int,
     ) -> GeometryList:
         """Performs averaging interpolation of samples.
 
@@ -1312,7 +1312,9 @@ class MeshKernel:
         """
         c_curvilineargrid = CCurvilinearGrid()
         self._execute_function(
-            self.lib.mkernel_curvilinear_get_dimensions, self._meshkernelid, byref(c_curvilineargrid)
+            self.lib.mkernel_curvilinear_get_dimensions,
+            self._meshkernelid,
+            byref(c_curvilineargrid),
         )
         return c_curvilineargrid
 
@@ -1329,15 +1331,17 @@ class MeshKernel:
 
         curvilineargrid = c_curvilineargrid.allocate_memory()
         self._execute_function(
-            self.lib.mkernel_curvilinear_get_data, self._meshkernelid, byref(c_curvilineargrid)
+            self.lib.mkernel_curvilinear_get_data,
+            self._meshkernelid,
+            byref(c_curvilineargrid),
         )
 
         return curvilineargrid
 
     def curvilinear_compute_transfinite_from_splines(
-            self,
-            splines: GeometryList,
-            curvilinear_parameters: CurvilinearParameters,
+        self,
+        splines: GeometryList,
+        curvilinear_parameters: CurvilinearParameters,
     ) -> None:
         """Generates curvilinear grid from splines with transfinite interpolation.
 
@@ -1346,10 +1350,8 @@ class MeshKernel:
             curvilinear_parameters (CurvilinearParameters): The curvilinear grid parameters.
         """
 
-        c_curvilinear_params = (
-            CCurvilinearParameters.from_curvilinearParameters(
-                curvilinear_parameters
-            )
+        c_curvilinear_params = CCurvilinearParameters.from_curvilinearParameters(
+            curvilinear_parameters
         )
         c_splines = CGeometryList.from_geometrylist(splines)
 
@@ -1357,14 +1359,14 @@ class MeshKernel:
             self.lib.mkernel_curvilinear_compute_transfinite_from_splines,
             self._meshkernelid,
             byref(c_splines),
-            byref(c_curvilinear_params)
+            byref(c_curvilinear_params),
         )
 
     def curvilinear_compute_orthogonal_from_splines(
-            self,
-            splines: GeometryList,
-            curvilinear_parameters: CurvilinearParameters,
-            splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+        self,
+        splines: GeometryList,
+        curvilinear_parameters: CurvilinearParameters,
+        splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
     ) -> None:
         """Generates curvilinear grid from splines with the advancing front method.
 
@@ -1376,10 +1378,8 @@ class MeshKernel:
         """
 
         c_splines = CGeometryList.from_geometrylist(splines)
-        c_curvilinear_params = (
-            CCurvilinearParameters.from_curvilinearParameters(
-                curvilinear_parameters
-            )
+        c_curvilinear_params = CCurvilinearParameters.from_curvilinearParameters(
+            curvilinear_parameters
         )
         c_splines_to_curvilinear_params = (
             CSplinesToCurvilinearParameters.from_splinesToCurvilinearParameters(
@@ -1391,20 +1391,18 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_splines),
             byref(c_curvilinear_params),
-            byref(c_splines_to_curvilinear_params)
+            byref(c_splines_to_curvilinear_params),
         )
 
     def curvilinear_convert_to_mesh2d(self) -> None:
-        """Converts a curvilinear grid to an unstructured mesh
-        """
+        """Converts a curvilinear grid to an unstructured mesh"""
         self._execute_function(
-            self.lib.mkernel_curvilinear_convert_to_mesh2d,
-            self._meshkernelid
+            self.lib.mkernel_curvilinear_convert_to_mesh2d, self._meshkernelid
         )
 
-    def curvilinear_make_uniform(self,
-                                 make_grid_parameters: MakeGridParameters,
-                                 geometry_list: GeometryList) -> None:
+    def curvilinear_make_uniform(
+        self, make_grid_parameters: MakeGridParameters, geometry_list: GeometryList
+    ) -> None:
         """Makes a new curvilinear grid. If polygons is not empty,
         the curvilinear grid will be generated in the first polygon
 
@@ -1413,21 +1411,26 @@ class MeshKernel:
             geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
         """
 
-        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(make_grid_parameters)
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
             self.lib.mkernel_curvilinear_make_uniform,
             self._meshkernelid,
             c_make_grid_parameters,
-            c_geometry_list)
+            c_geometry_list,
+        )
 
-    def curvilinear_refine(self,
-                           x_lower_left_corner: float,
-                           y_lower_left_corner: float,
-                           x_upper_right_corner: float,
-                           y_upper_right_corner: float,
-                           refinement: int) -> None:
+    def curvilinear_refine(
+        self,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+        refinement: int,
+    ) -> None:
         """Directional curvilinear grid refinement.
         Additional gridlines are added perpendicularly to the segment defined by lower_left_corner and upper_right_corner
 
@@ -1445,13 +1448,16 @@ class MeshKernel:
             c_double(y_lower_left_corner),
             c_double(x_upper_right_corner),
             c_double(y_upper_right_corner),
-            c_int(refinement))
+            c_int(refinement),
+        )
 
-    def curvilinear_derefine(self,
-                             x_lower_left_corner: float,
-                             y_lower_left_corner: float,
-                             x_upper_right_corner: float,
-                             y_upper_right_corner: float) -> None:
+    def curvilinear_derefine(
+        self,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ) -> None:
         """Directional curvilinear grid derefinement.
         Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner and upper_right_corner
 
@@ -1467,14 +1473,17 @@ class MeshKernel:
             c_double(x_lower_left_corner),
             c_double(y_lower_left_corner),
             c_double(x_upper_right_corner),
-            c_double(y_upper_right_corner))
+            c_double(y_upper_right_corner),
+        )
 
-    def curvilinear_compute_transfinite_from_polygon(self,
-                                                     geometry_list: GeometryList,
-                                                     first_node: int,
-                                                     second_node: int,
-                                                     third_node: int,
-                                                     use_fourth_side: bool) -> None:
+    def curvilinear_compute_transfinite_from_polygon(
+        self,
+        geometry_list: GeometryList,
+        first_node: int,
+        second_node: int,
+        third_node: int,
+        use_fourth_side: bool,
+    ) -> None:
         """Computes a curvilinear mesh in a polygon. 3 separate polygon nodes need to be selected.
 
         Args:
@@ -1494,13 +1503,16 @@ class MeshKernel:
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
-            c_int(int(use_fourth_side)))
+            c_int(int(use_fourth_side)),
+        )
 
-    def curvilinear_compute_transfinite_from_triangle(self,
-                                                      geometry_list: GeometryList,
-                                                      first_node: int,
-                                                      second_node: int,
-                                                      third_node: int) -> None:
+    def curvilinear_compute_transfinite_from_triangle(
+        self,
+        geometry_list: GeometryList,
+        first_node: int,
+        second_node: int,
+        third_node: int,
+    ) -> None:
         """Computes a curvilinear mesh in a triangle. 3 separate polygon nodes need to be selected.
 
         Args:
@@ -1518,28 +1530,37 @@ class MeshKernel:
             c_geometry_list,
             c_int(first_node),
             c_int(second_node),
-            c_int(third_node))
+            c_int(third_node),
+        )
 
-    def curvilinear_initialize_orthogonalize(self,
-                                             orthogonalization_parameters: OrthogonalizationParameters) -> None:
+    def curvilinear_initialize_orthogonalize(
+        self, orthogonalization_parameters: OrthogonalizationParameters
+    ) -> None:
         """Initializes the algorithm for performing curvilinear grid orthogonalization.
 
         Args:
             orthogonalization_parameters (OrthogonalizationParameters): The input orthogonalization parameters.
         """
 
-        c_orthogonalization_parameters = COrthogonalizationParameters.from_orthogonalizationparameters(
-            orthogonalization_parameters)
+        c_orthogonalization_parameters = (
+            COrthogonalizationParameters.from_orthogonalizationparameters(
+                orthogonalization_parameters
+            )
+        )
 
-        self._execute_function(self.lib.mkernel_curvilinear_initialize_orthogonalize,
-                               self._meshkernelid,
-                               c_orthogonalization_parameters)
+        self._execute_function(
+            self.lib.mkernel_curvilinear_initialize_orthogonalize,
+            self._meshkernelid,
+            c_orthogonalization_parameters,
+        )
 
-    def curvilinear_set_block_orthogonalize(self,
-                                            x_lower_left_corner: float,
-                                            y_lower_left_corner: float,
-                                            x_upper_right_corner: float,
-                                            y_upper_right_corner: float) -> None:
+    def curvilinear_set_block_orthogonalize(
+        self,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ) -> None:
         """Defines a block on the curvilinear grid where to perform orthogonalization
 
         Args:
@@ -1549,18 +1570,22 @@ class MeshKernel:
             y_upper_right_corner (float): The y coordinate of the upper right corner of the block to orthogonalize.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_set_block_orthogonalize,
-                               self._meshkernelid,
-                               c_double(x_lower_left_corner),
-                               c_double(y_lower_left_corner),
-                               c_double(x_upper_right_corner),
-                               c_double(y_upper_right_corner))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_set_block_orthogonalize,
+            self._meshkernelid,
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+        )
 
-    def curvilinear_set_frozen_lines_orthogonalize(self,
-                                                   x_first_gridline_node: float,
-                                                   y_first_gridline_node: float,
-                                                   x_second_gridline_node: float,
-                                                   y_second_gridline_node: float) -> None:
+    def curvilinear_set_frozen_lines_orthogonalize(
+        self,
+        x_first_gridline_node: float,
+        y_first_gridline_node: float,
+        x_second_gridline_node: float,
+        y_second_gridline_node: float,
+    ) -> None:
         """Freezes a curvilinear grid line during the orthogonalization process
 
         Args:
@@ -1570,25 +1595,32 @@ class MeshKernel:
             y_second_gridline_node (float): The y coordinate of the second point of the line to freeze.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_set_frozen_lines_orthogonalize,
-                               self._meshkernelid,
-                               c_double(x_first_gridline_node),
-                               c_double(y_first_gridline_node),
-                               c_double(x_second_gridline_node),
-                               c_double(y_second_gridline_node))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_set_frozen_lines_orthogonalize,
+            self._meshkernelid,
+            c_double(x_first_gridline_node),
+            c_double(y_first_gridline_node),
+            c_double(x_second_gridline_node),
+            c_double(y_second_gridline_node),
+        )
 
     def curvilinear_orthogonalize(self) -> None:
-        """Performs curvilinear grid orthogonalization and finalizes the algorithm
-        """
-        self._execute_function(self.lib.mkernel_curvilinear_orthogonalize, self._meshkernelid)
-        self._execute_function(self.lib.mkernel_curvilinear_finalize_orthogonalize, self._meshkernelid)
+        """Performs curvilinear grid orthogonalization and finalizes the algorithm"""
+        self._execute_function(
+            self.lib.mkernel_curvilinear_orthogonalize, self._meshkernelid
+        )
+        self._execute_function(
+            self.lib.mkernel_curvilinear_finalize_orthogonalize, self._meshkernelid
+        )
 
-    def curvilinear_smoothing(self,
-                              smoothing_iterations: int,
-                              x_lower_left_corner: float,
-                              y_lower_left_corner: float,
-                              x_upper_right_corner: float,
-                              y_upper_right_corner: float) -> None:
+    def curvilinear_smoothing(
+        self,
+        smoothing_iterations: int,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ) -> None:
         """Smooths a curvilinear grid.
 
         Args:
@@ -1599,24 +1631,28 @@ class MeshKernel:
             y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_smoothing,
-                               self._meshkernelid,
-                               c_int(smoothing_iterations),
-                               c_double(x_lower_left_corner),
-                               c_double(y_lower_left_corner),
-                               c_double(x_upper_right_corner),
-                               c_double(y_upper_right_corner))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_smoothing,
+            self._meshkernelid,
+            c_int(smoothing_iterations),
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+        )
 
-    def curvilinear_smoothing_directional(self,
-                                          smoothing_iterations: int,
-                                          x_first_grid_line_node: float,
-                                          y_first_grid_line_node: float,
-                                          x_second_grid_line_node: float,
-                                          y_second_grid_line_node: float,
-                                          x_lower_left_corner: float,
-                                          y_lower_left_corner: float,
-                                          x_upper_right_corner: float,
-                                          y_upper_right_corner: float) -> None:
+    def curvilinear_smoothing_directional(
+        self,
+        smoothing_iterations: int,
+        x_first_grid_line_node: float,
+        y_first_grid_line_node: float,
+        x_second_grid_line_node: float,
+        y_second_grid_line_node: float,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ) -> None:
         """Smooths a curvilinear grid along the direction specified by a segment.
 
         Args:
@@ -1631,28 +1667,33 @@ class MeshKernel:
             y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_smoothing_directional,
-                               self._meshkernelid,
-                               c_int(smoothing_iterations),
-                               c_double(x_first_grid_line_node),
-                               c_double(y_first_grid_line_node),
-                               c_double(x_second_grid_line_node),
-                               c_double(y_second_grid_line_node),
-                               c_double(x_lower_left_corner),
-                               c_double(y_lower_left_corner),
-                               c_double(x_upper_right_corner),
-                               c_double(y_upper_right_corner))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_smoothing_directional,
+            self._meshkernelid,
+            c_int(smoothing_iterations),
+            c_double(x_first_grid_line_node),
+            c_double(y_first_grid_line_node),
+            c_double(x_second_grid_line_node),
+            c_double(y_second_grid_line_node),
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+        )
 
     def curvilinear_initialize_line_shift(self) -> None:
-        """Initializes the curvilinear line shift algorithm
-        """
-        self._execute_function(self.lib.mkernel_curvilinear_initialize_line_shift, self._meshkernelid)
+        """Initializes the curvilinear line shift algorithm"""
+        self._execute_function(
+            self.lib.mkernel_curvilinear_initialize_line_shift, self._meshkernelid
+        )
 
-    def curvilinear_set_line_line_shift(self,
-                                        x_first_grid_line_node: float,
-                                        y_first_grid_line_node: float,
-                                        x_second_grid_line_node: float,
-                                        y_second_grid_line_node: float) -> None:
+    def curvilinear_set_line_line_shift(
+        self,
+        x_first_grid_line_node: float,
+        y_first_grid_line_node: float,
+        x_second_grid_line_node: float,
+        y_second_grid_line_node: float,
+    ) -> None:
         """Sets the start and end grid nodes of the grid line to shift.
 
         Args:
@@ -1662,18 +1703,22 @@ class MeshKernel:
             y_second_grid_line_node (float): The y coordinate of the second curvilinear grid node to shift.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_set_line_line_shift,
-                               self._meshkernelid,
-                               c_double(x_first_grid_line_node),
-                               c_double(y_first_grid_line_node),
-                               c_double(x_second_grid_line_node),
-                               c_double(y_second_grid_line_node))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_set_line_line_shift,
+            self._meshkernelid,
+            c_double(x_first_grid_line_node),
+            c_double(y_first_grid_line_node),
+            c_double(x_second_grid_line_node),
+            c_double(y_second_grid_line_node),
+        )
 
-    def curvilinear_set_block_line_shift(self,
-                                         x_lower_left_corner: float,
-                                         y_lower_left_corner: float,
-                                         x_upper_right_corner: float,
-                                         y_upper_right_corner: float) -> None:
+    def curvilinear_set_block_line_shift(
+        self,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ) -> None:
         """Defines a block on the curvilinear where the grid line shifting is distributed.
 
         Args:
@@ -1683,18 +1728,22 @@ class MeshKernel:
             y_upper_right_corner (float): The y coordinate of the upper right corner of the block.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_set_block_line_shift,
-                               self._meshkernelid,
-                               c_double(x_lower_left_corner),
-                               c_double(y_lower_left_corner),
-                               c_double(x_upper_right_corner),
-                               c_double(y_upper_right_corner))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_set_block_line_shift,
+            self._meshkernelid,
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+        )
 
-    def curvilinear_move_node_line_shift(self,
-                                         x_from_coordinate: float,
-                                         y_from_coordinate: float,
-                                         x_to_coordinate: float,
-                                         y_to_coordinate: float) -> None:
+    def curvilinear_move_node_line_shift(
+        self,
+        x_from_coordinate: float,
+        y_from_coordinate: float,
+        x_to_coordinate: float,
+        y_to_coordinate: float,
+    ) -> None:
         """Moves a node of the line to shift. The operation can be performed multiple times.
 
         Args:
@@ -1704,24 +1753,31 @@ class MeshKernel:
             y_to_coordinate (float): The y coordinate of the new node position.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_move_node_line_shift,
-                               self._meshkernelid,
-                               c_double(x_from_coordinate),
-                               c_double(y_from_coordinate),
-                               c_double(x_to_coordinate),
-                               c_double(y_to_coordinate))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_move_node_line_shift,
+            self._meshkernelid,
+            c_double(x_from_coordinate),
+            c_double(y_from_coordinate),
+            c_double(x_to_coordinate),
+            c_double(y_to_coordinate),
+        )
 
     def curvilinear_line_shift(self):
-        """Performs the curvilinear line shifting and finalizes the algorithm.
-        """
-        self._execute_function(self.lib.mkernel_curvilinear_line_shift, self._meshkernelid)
-        self._execute_function(self.lib.mkernel_curvilinear_finalize_line_shift, self._meshkernelid)
+        """Performs the curvilinear line shifting and finalizes the algorithm."""
+        self._execute_function(
+            self.lib.mkernel_curvilinear_line_shift, self._meshkernelid
+        )
+        self._execute_function(
+            self.lib.mkernel_curvilinear_finalize_line_shift, self._meshkernelid
+        )
 
-    def curvilinear_move_node(self,
-                              x_from_point: float,
-                              y_from_point: float,
-                              x_to_point: float,
-                              y_to_point: float) -> None:
+    def curvilinear_move_node(
+        self,
+        x_from_point: float,
+        y_from_point: float,
+        x_to_point: float,
+        y_to_point: float,
+    ) -> None:
         """Moves a point of a curvilinear grid from one location to another.
 
         Args:
@@ -1730,16 +1786,16 @@ class MeshKernel:
             x_to_point (float): The new x coordinate of the point.
             y_to_point (float): The new y coordinate of the point.
         """
-        self._execute_function(self.lib.mkernel_curvilinear_move_node,
-                               self._meshkernelid,
-                               c_double(x_from_point),
-                               c_double(y_from_point),
-                               c_double(x_to_point),
-                               c_double(y_to_point))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_move_node,
+            self._meshkernelid,
+            c_double(x_from_point),
+            c_double(y_from_point),
+            c_double(x_to_point),
+            c_double(y_to_point),
+        )
 
-    def curvilinear_insert_face(self,
-                                x_coordinate: float,
-                                y_coordinate: float) -> None:
+    def curvilinear_insert_face(self, x_coordinate: float, y_coordinate: float) -> None:
         """Inserts a new face on a curvilinear grid.
         The new face will be inserted on top of the closest edge by linear extrapolation.
 
@@ -1748,21 +1804,25 @@ class MeshKernel:
             y_coordinate (float): The y coordinate of the point used for finding the closest face.
         """
 
-        self._execute_function(self.lib.mkernel_curvilinear_insert_face,
-                               self._meshkernelid,
-                               c_double(x_coordinate),
-                               c_double(y_coordinate))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_insert_face,
+            self._meshkernelid,
+            c_double(x_coordinate),
+            c_double(y_coordinate),
+        )
 
-    def curvilinear_line_attraction_repulsion(self,
-                                              repulsion_parameter: float,
-                                              x_first_grid_line_node: float,
-                                              y_first_grid_line_node: float,
-                                              x_second_grid_line_node: float,
-                                              y_second_grid_line_node: float,
-                                              x_lower_left_corner: float,
-                                              y_lower_left_corner: float,
-                                              x_upper_right_corner: float,
-                                              y_upper_right_corner: float):
+    def curvilinear_line_attraction_repulsion(
+        self,
+        repulsion_parameter: float,
+        x_first_grid_line_node: float,
+        y_first_grid_line_node: float,
+        x_second_grid_line_node: float,
+        y_second_grid_line_node: float,
+        x_lower_left_corner: float,
+        y_lower_left_corner: float,
+        x_upper_right_corner: float,
+        y_upper_right_corner: float,
+    ):
         """Attracts/repulses grid lines in a block towards another set grid line.
 
         Args:
@@ -1776,24 +1836,28 @@ class MeshKernel:
             x_upper_right_corner (float): The x coordinate of the upper right corner of the block where the operation is performed.
             y_upper_right_corner (float): The y coordinate of the upper right corner of the block where the operation is performed.
         """
-        self._execute_function(self.lib.mkernel_curvilinear_line_attraction_repulsion,
-                               self._meshkernelid,
-                               c_double(repulsion_parameter),
-                               c_double(x_first_grid_line_node),
-                               c_double(y_first_grid_line_node),
-                               c_double(x_second_grid_line_node),
-                               c_double(y_second_grid_line_node),
-                               c_double(x_lower_left_corner),
-                               c_double(y_lower_left_corner),
-                               c_double(x_upper_right_corner),
-                               c_double(y_upper_right_corner))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_line_attraction_repulsion,
+            self._meshkernelid,
+            c_double(repulsion_parameter),
+            c_double(x_first_grid_line_node),
+            c_double(y_first_grid_line_node),
+            c_double(x_second_grid_line_node),
+            c_double(y_second_grid_line_node),
+            c_double(x_lower_left_corner),
+            c_double(y_lower_left_corner),
+            c_double(x_upper_right_corner),
+            c_double(y_upper_right_corner),
+        )
 
-    def curvilinear_line_mirror(self,
-                                mirroring_factor: float,
-                                x_first_grid_line_node: float,
-                                y_first_grid_line_node: float,
-                                x_second_grid_line_node: float,
-                                y_second_grid_line_node: float) -> None:
+    def curvilinear_line_mirror(
+        self,
+        mirroring_factor: float,
+        x_first_grid_line_node: float,
+        y_first_grid_line_node: float,
+        x_second_grid_line_node: float,
+        y_second_grid_line_node: float,
+    ) -> None:
         """Mirrors a boundary grid line outwards. The boundary grid line is defined by its start and end points
 
         Args:
@@ -1803,24 +1867,26 @@ class MeshKernel:
             x_second_grid_line_node (float): The x coordinate of the second node.
             y_second_grid_line_node (float): The y coordinate of the second node.
         """
-        self._execute_function(self.lib.mkernel_curvilinear_line_mirror,
-                               self._meshkernelid,
-                               c_double(mirroring_factor),
-                               c_double(x_first_grid_line_node),
-                               c_double(y_first_grid_line_node),
-                               c_double(x_second_grid_line_node),
-                               c_double(y_second_grid_line_node))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_line_mirror,
+            self._meshkernelid,
+            c_double(mirroring_factor),
+            c_double(x_first_grid_line_node),
+            c_double(y_first_grid_line_node),
+            c_double(x_second_grid_line_node),
+            c_double(y_second_grid_line_node),
+        )
 
-    def curvilinear_delete_node(self,
-                                x_coordinate: float,
-                                y_coordinate: float) -> None:
+    def curvilinear_delete_node(self, x_coordinate: float, y_coordinate: float) -> None:
         """Delete the node closest to a point
 
         Args:
             x_coordinate (float): The x coordinate of the point.
             y_coordinate (float): The y coordinate of the point.
         """
-        self._execute_function(self.lib.mkernel_curvilinear_delete_node,
-                               self._meshkernelid,
-                               c_double(x_coordinate),
-                               c_double(y_coordinate))
+        self._execute_function(
+            self.lib.mkernel_curvilinear_delete_node,
+            self._meshkernelid,
+            c_double(x_coordinate),
+            c_double(y_coordinate),
+        )

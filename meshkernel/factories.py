@@ -3,15 +3,16 @@ import numpy as np
 from meshkernel.errors import InputError
 from meshkernel.py_structures import Mesh2d
 
+
 class Mesh2dFactory:
     @staticmethod
     def create(
-            rows: int,
-            columns: int,
-            origin_x: float = 0.0,
-            origin_y: float = 0.0,
-            spacing_x: float = 1.0,
-            spacing_y: float = 1.0,
+        rows: int,
+        columns: int,
+        origin_x: float = 0.0,
+        origin_y: float = 0.0,
+        spacing_x: float = 1.0,
+        spacing_y: float = 1.0,
     ) -> Mesh2d:
         """Create a Mesh2d instance describing a rectilinear mesh.
 
@@ -63,7 +64,7 @@ class Mesh2dFactory:
                 node_x[node_index] = column_index * spacing_x + origin_x
                 node_y[node_index] = row_index * spacing_y + origin_y
                 indices_values[row_index, column_index] = (
-                        row_index * node_columns + column_index
+                    row_index * node_columns + column_index
                 )
                 node_index += 1
 
