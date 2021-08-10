@@ -508,17 +508,17 @@ class CCurvilinearGrid(Structure):
             CCurvilinearGrid: The created CCurvilinearGrid instance.
         """
 
-        c_curvilinearGrid = CCurvilinearGrid()
+        c_curvilinear_grid = CCurvilinearGrid()
 
         # Set the pointers
-        c_curvilinearGrid.node_x = as_ctypes(curvilinear_grid.node_x)
-        c_curvilinearGrid.node_y = as_ctypes(curvilinear_grid.node_y)
+        c_curvilinear_grid.node_x = as_ctypes(curvilinear_grid.node_x)
+        c_curvilinear_grid.node_y = as_ctypes(curvilinear_grid.node_y)
 
         # Set the sizes
-        c_curvilinearGrid.num_m = curvilinear_grid.num_m
-        c_curvilinearGrid.num_n = curvilinear_grid.num_n
+        c_curvilinear_grid.num_m = curvilinear_grid.num_m
+        c_curvilinear_grid.num_n = curvilinear_grid.num_n
 
-        return c_curvilinearGrid
+        return c_curvilinear_grid
 
     def allocate_memory(self) -> CurvilinearGrid:
         """Allocate data according to the parameters with the "num_" prefix.
@@ -573,20 +573,20 @@ class CCurvilinearParameters(Structure):
             CCurvilinearParameters: The created C-Structure for the given CurvilinearParameters.
         """
 
-        c_curvilinearParameters = CCurvilinearParameters()
-        c_curvilinearParameters.m_refinement = curvilinear_parameters.m_refinement
-        c_curvilinearParameters.n_refinement = curvilinear_parameters.n_refinement
-        c_curvilinearParameters.smoothing_iterations = (
+        c_curvilinear_parameters = CCurvilinearParameters()
+        c_curvilinear_parameters.m_refinement = curvilinear_parameters.m_refinement
+        c_curvilinear_parameters.n_refinement = curvilinear_parameters.n_refinement
+        c_curvilinear_parameters.smoothing_iterations = (
             curvilinear_parameters.smoothing_iterations
         )
-        c_curvilinearParameters.smoothing_parameter = (
+        c_curvilinear_parameters.smoothing_parameter = (
             curvilinear_parameters.smoothing_parameter
         )
-        c_curvilinearParameters.attraction_parameter = (
+        c_curvilinear_parameters.attraction_parameter = (
             curvilinear_parameters.attraction_parameter
         )
 
-        return c_curvilinearParameters
+        return c_curvilinear_parameters
 
 
 class CSplinesToCurvilinearParameters(Structure):
