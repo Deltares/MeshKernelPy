@@ -19,6 +19,8 @@ def sort_contacts_by_mesh2d_indices(contacts):
     contacts.mesh1d_indices = contacts_matrix_sorted[0]
     contacts.mesh2d_indices = contacts_matrix_sorted[1]
 
+    return contacts
+
 
 def test_mesh1d_get():
     r"""Tests `mesh1d_set` and `mesh1d_get` to set and get a simple mesh.
@@ -81,8 +83,7 @@ def test_contacts_compute_single():
     mk.contacts_compute_single(node_mask, polygon)
 
     contacts = mk.contacts_get()
-
-    sort_contacts_by_mesh2d_indices(contacts)
+    contacts = sort_contacts_by_mesh2d_indices(contacts)
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -130,7 +131,7 @@ def test_contacts_compute_multiple():
 
     contacts = mk.contacts_get()
 
-    sort_contacts_by_mesh2d_indices(contacts)
+    contacts = sort_contacts_by_mesh2d_indices(contacts)
 
     assert contacts.mesh1d_indices.size == 9
     assert contacts.mesh2d_indices.size == 9
@@ -202,7 +203,7 @@ def test_contacts_compute_with_polygons():
 
     contacts = mk.contacts_get()
 
-    sort_contacts_by_mesh2d_indices(contacts)
+    contacts = sort_contacts_by_mesh2d_indices(contacts)
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -253,7 +254,7 @@ def test_contacts_compute_with_points():
 
     contacts = mk.contacts_get()
 
-    sort_contacts_by_mesh2d_indices(contacts)
+    contacts = sort_contacts_by_mesh2d_indices(contacts)
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -340,7 +341,7 @@ def test_contacts_compute_boundary(
 
     contacts = mk.contacts_get()
 
-    sort_contacts_by_mesh2d_indices(contacts)
+    contacts = sort_contacts_by_mesh2d_indices(contacts)
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
