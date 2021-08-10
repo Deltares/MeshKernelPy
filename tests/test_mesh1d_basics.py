@@ -7,7 +7,7 @@ from meshkernel import GeometryList, Mesh1d, Mesh2dFactory, MeshKernel
 
 
 def sort_contacts_by_mesh2d_indices(contacts):
-    """ Sort the contacts by the mesh2d indices to get consistent results.
+    """Sort the contacts by the mesh2d indices to get consistent results.
     The contacts computed by meshkernel can be in any order
     """
     if len(contacts.mesh1d_indices) == 0 or len(contacts.mesh2d_indices) == 0:
@@ -135,7 +135,7 @@ def test_contacts_compute_multiple():
     assert contacts.mesh2d_indices.size == 9
 
     assert_array_equal(contacts.mesh1d_indices, [0, 0, 1, 1, 2, 3, 3, 3, 4])
-    assert_array_equal(contacts.mesh2d_indices, [0, 1, 6, 7,12,13,18,19,24])
+    assert_array_equal(contacts.mesh2d_indices, [0, 1, 6, 7, 12, 13, 18, 19, 24])
 
 
 def test_contacts_compute_with_polygons():
@@ -288,7 +288,7 @@ cases_contacts_compute_boundary = [
     cases_contacts_compute_boundary,
 )
 def test_contacts_compute_boundary(
-        node_mask: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
+    node_mask: ndarray, exp_mesh1d_indices: ndarray, exp_mesh2d_indices: ndarray
 ):
     """Tests `contacts_compute_boundary` with a 2x2 Mesh2d and a Mesh1d with 5 nodes.
 
