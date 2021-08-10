@@ -498,11 +498,11 @@ class CCurvilinearGrid(Structure):
     ]
 
     @staticmethod
-    def from_curvilinearGrid(curvilinearGrid: CurvilinearGrid) -> CCurvilinearGrid:
+    def from_curvilinearGrid(curvilinear_grid: CurvilinearGrid) -> CCurvilinearGrid:
         """Creates a new CMesh instance from a given CurvilinearGrid instance.
 
         Args:
-            curvilinearGrid (CurvilinearGrid): Class of numpy instances owning the state.
+            curvilinear_grid (CurvilinearGrid): Class of numpy instances owning the state.
 
         Returns:
             CCurvilinearGrid: The created CCurvilinearGrid instance.
@@ -511,12 +511,12 @@ class CCurvilinearGrid(Structure):
         c_curvilinearGrid = CCurvilinearGrid()
 
         # Set the pointers
-        c_curvilinearGrid.node_x = as_ctypes(curvilinearGrid.node_x)
-        c_curvilinearGrid.node_y = as_ctypes(curvilinearGrid.node_y)
+        c_curvilinearGrid.node_x = as_ctypes(curvilinear_grid.node_x)
+        c_curvilinearGrid.node_y = as_ctypes(curvilinear_grid.node_y)
 
         # Set the sizes
-        c_curvilinearGrid.num_m = curvilinearGrid.num_m
-        c_curvilinearGrid.num_n = curvilinearGrid.num_n
+        c_curvilinearGrid.num_m = curvilinear_grid.num_m
+        c_curvilinearGrid.num_n = curvilinear_grid.num_n
 
         return c_curvilinearGrid
 
@@ -634,36 +634,36 @@ class CSplinesToCurvilinearParameters(Structure):
             COrthogonalizationParameters: The created C-Structure for the given OrthogonalizationParameters.
         """
 
-        c_splinesToCurvilinearParameters = CSplinesToCurvilinearParameters()
-        c_splinesToCurvilinearParameters.aspect_ratio = (
+        c_splines_to_curvilinear_parameters = CSplinesToCurvilinearParameters()
+        c_splines_to_curvilinear_parameters.aspect_ratio = (
             splines_to_curvilinear_parameters.aspect_ratio
         )
-        c_splinesToCurvilinearParameters.aspect_ratio_grow_factor = (
+        c_splines_to_curvilinear_parameters.aspect_ratio_grow_factor = (
             splines_to_curvilinear_parameters.aspect_ratio_grow_factor
         )
-        c_splinesToCurvilinearParameters.average_width = (
+        c_splines_to_curvilinear_parameters.average_width = (
             splines_to_curvilinear_parameters.average_width
         )
-        c_splinesToCurvilinearParameters.curvature_adapted_grid_spacing = (
+        c_splines_to_curvilinear_parameters.curvature_adapted_grid_spacing = (
             splines_to_curvilinear_parameters.curvature_adapted_grid_spacing
         )
-        c_splinesToCurvilinearParameters.grow_grid_outside = (
+        c_splines_to_curvilinear_parameters.grow_grid_outside = (
             splines_to_curvilinear_parameters.grow_grid_outside
         )
-        c_splinesToCurvilinearParameters.maximum_num_faces_in_uniform_part = (
+        c_splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part = (
             splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part
         )
-        c_splinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance = (
+        c_splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance = (
             splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance
         )
-        c_splinesToCurvilinearParameters.min_cosine_crossing_angles = (
+        c_splines_to_curvilinear_parameters.min_cosine_crossing_angles = (
             splines_to_curvilinear_parameters.min_cosine_crossing_angles
         )
-        c_splinesToCurvilinearParameters.check_front_collisions = (
+        c_splines_to_curvilinear_parameters.check_front_collisions = (
             splines_to_curvilinear_parameters.check_front_collisions
         )
-        c_splinesToCurvilinearParameters.remove_skinny_triangles = (
+        c_splines_to_curvilinear_parameters.remove_skinny_triangles = (
             splines_to_curvilinear_parameters.remove_skinny_triangles
         )
 
-        return c_splinesToCurvilinearParameters
+        return c_splines_to_curvilinear_parameters
