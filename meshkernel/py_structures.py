@@ -272,7 +272,8 @@ class SplinesToCurvilinearParameters:
         grow_grid_outside (int, optional): Grow the grid outside the prescribed grid height. Default is `0`.
         maximum_num_faces_in_uniform_part (int, optional): Maximum number of layers in the uniform part Default is `5`.
         nodes_on_top_of_each_other_tolerance (float, optional): On-top-of-each-other tolerance.). Default is `0.0001`.
-        min_cosine_crossing_angles (float, optional): Minimum allowed absolute value of crossing-angle cosine. Default is `0.95`.
+        min_cosine_crossing_angles (float, optional): Minimum allowed absolute value of crossing-angle cosine.
+        Default is `0.95`.
         check_front_collisions (int, optional): Check for collisions with other parts of the front. Default is `0`.
         remove_skinny_triangles (int, optional): Check for collisions with other parts of the front. Default is `1`.
     """
