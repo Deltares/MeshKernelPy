@@ -204,14 +204,12 @@ class CurvilinearGrid:
         """
 
         # construct the edges
-        node_indices = np.zeros((self.num_m, self.num_n), dtype=np.int)
-        index = 0
-        invalid_value = -999.0
-        for m in range(self.num_m):
-            for n in range(self.num_n):
-                node_indices[m][n] = index
-                index += 1
+        node_indices = np.fromiter(
+            (int(x) for x in range(self.num_m * self.num_n)), int
+        )
+        node_indices = node_indices.reshape((self.num_m, self.num_n))
 
+        invalid_value = -999.0
         edge_nodes = np.zeros(
             (self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2,
             dtype=np.int,
