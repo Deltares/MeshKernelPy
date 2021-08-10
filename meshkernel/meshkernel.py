@@ -497,7 +497,8 @@ class MeshKernel:
         polygon: GeometryList,
         mesh_refinement_params: MeshRefinementParameters,
     ) -> None:
-        """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained in the polygon in two.
+        """Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained
+        in the polygon in two.
 
         Args:
             samples (GeometryList): The closed polygon.
@@ -990,7 +991,8 @@ class MeshKernel:
         )
 
     def contacts_compute_multiple(self, node_mask: ndarray) -> None:
-        """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to multiple Mesh2d face circumcenters.
+        """Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to
+        multiple Mesh2d face circumcenters.
 
         Args:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
@@ -1432,7 +1434,8 @@ class MeshKernel:
         refinement: int,
     ) -> None:
         """Directional curvilinear grid refinement.
-        Additional gridlines are added perpendicularly to the segment defined by lower_left_corner and upper_right_corner
+        Additional gridlines are added perpendicularly to the segment defined by lower_left_corner
+        and upper_right_corner
 
         Args:
             x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
@@ -1459,7 +1462,8 @@ class MeshKernel:
         y_upper_right_corner: float,
     ) -> None:
         """Directional curvilinear grid derefinement.
-        Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner and upper_right_corner
+        Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner
+        and upper_right_corner
 
         Args:
             x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
@@ -1831,10 +1835,10 @@ class MeshKernel:
             y_first_grid_line_node (float): The y coordinate of the first node.
             x_second_grid_line_node (float): The x coordinate of the second node.
             y_second_grid_line_node (float): The y coordinate of the second node.
-            x_lower_left_corner (float): The x coordinate of the lower left corner of the block where the operation is performed.
-            y_lower_left_corner (float): The y coordinate of the lower left corner of the block where the operation is performed.
-            x_upper_right_corner (float): The x coordinate of the upper right corner of the block where the operation is performed.
-            y_upper_right_corner (float): The y coordinate of the upper right corner of the block where the operation is performed.
+            x_lower_left_corner (float): The x coordinate of the lower left corner of the block.
+            y_lower_left_corner (float): The y coordinate of the lower left corner of the block.
+            x_upper_right_corner (float): The x coordinate of the upper right corner of the block.
+            y_upper_right_corner (float): The y coordinate of the upper right corner of the block.
         """
         self._execute_function(
             self.lib.mkernel_curvilinear_line_attraction_repulsion,
