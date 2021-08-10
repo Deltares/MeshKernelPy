@@ -10,14 +10,12 @@ def sort_contacts_by_mesh2d_indices(contacts):
     """ Sort the contacts by the mesh2d indices to get consistent results.
     The contacts computed by meshkernel can be in any order
     """
-    if len(contacts.mesh1d_indices) == 0 or len(contacts.mesh2d_indices):
-        return
+    if len(contacts.mesh1d_indices) == 0 or len(contacts.mesh2d_indices) == 0:
+        return contacts
 
-    contacts_matrix = np.array([contacts.mesh1d_indices, contacts.mesh2d_indices])
-    contacts_matrix_sorted = contacts_matrix[contacts_matrix[:, 1].argsort()]
-
-    contacts.mesh1d_indices = contacts_matrix_sorted[0]
-    contacts.mesh2d_indices = contacts_matrix_sorted[1]
+    indices = np.argsort(contacts.mesh2d_indices)
+    contacts.mesh1d_indices = contacts.mesh1d_indices[indices]
+    contacts.mesh2d_indices = contacts.mesh2d_indices[indices]
 
     return contacts
 
@@ -136,25 +134,8 @@ def test_contacts_compute_multiple():
     assert contacts.mesh1d_indices.size == 9
     assert contacts.mesh2d_indices.size == 9
 
-    assert contacts.mesh1d_indices[0] == 0
-    assert contacts.mesh1d_indices[1] == 0
-    assert contacts.mesh1d_indices[2] == 1
-    assert contacts.mesh1d_indices[3] == 1
-    assert contacts.mesh1d_indices[4] == 2
-    assert contacts.mesh1d_indices[5] == 3
-    assert contacts.mesh1d_indices[6] == 3
-    assert contacts.mesh1d_indices[7] == 3
-    assert contacts.mesh1d_indices[8] == 4
-
-    assert contacts.mesh2d_indices[0] == 0
-    assert contacts.mesh2d_indices[1] == 1
-    assert contacts.mesh2d_indices[2] == 6
-    assert contacts.mesh2d_indices[3] == 7
-    assert contacts.mesh2d_indices[4] == 12
-    assert contacts.mesh2d_indices[5] == 13
-    assert contacts.mesh2d_indices[6] == 18
-    assert contacts.mesh2d_indices[7] == 19
-    assert contacts.mesh2d_indices[8] == 24
+    assert_array_equal(contacts.mesh1d_indices, [0, 0, 1, 1, 2, 3, 3, 3, 4])
+    assert_array_equal(contacts.mesh2d_indices, [0, 1, 6, 7,12,13,18,19,24])
 
 
 def test_contacts_compute_with_polygons():
@@ -259,12 +240,12 @@ def test_contacts_compute_with_points():
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
 
-    assert contacts.mesh1d_indices[0] == 1
-    assert contacts.mesh1d_indices[1] == 2
+    assert contacts.mesh1d_indices[0] == 2
+    assert contacts.mesh1d_indices[1] == 1
     assert contacts.mesh1d_indices[2] == 3
 
-    assert contacts.mesh2d_indices[0] == 10
-    assert contacts.mesh2d_indices[1] == 8
+    assert contacts.mesh2d_indices[0] == 8
+    assert contacts.mesh2d_indices[1] == 10
     assert contacts.mesh2d_indices[2] == 14
 
 
