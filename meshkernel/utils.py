@@ -1,3 +1,9 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import colors as mcolors
+from matplotlib.collections import LineCollection
+
+
 def plot_edges(node_x, node_y, edge_nodes, ax, *args, **kwargs):
     """Plots the edges at a given axes.
     `args` and `kwargs` will be used as parameters of the `plot` method.
@@ -9,17 +15,14 @@ def plot_edges(node_x, node_y, edge_nodes, ax, *args, **kwargs):
         edge_nodes (ndarray, optional): A 1D integer array describing the nodes composing each mesh 2d edge.
         ax (matplotlib.axes.Axes): The axes where to plot the edges
     """
-    for edge_index in range(0, edge_nodes.size, 2):
-        first_edge_node_index = edge_nodes[edge_index]
-        second_edge_node_index = edge_nodes[edge_index + 1]
-
-        edge_x = [
-            node_x[first_edge_node_index],
-            node_x[second_edge_node_index],
-        ]
-        edge_y = [
-            node_y[first_edge_node_index],
-            node_y[second_edge_node_index],
-        ]
-
-        ax.plot(edge_x, edge_y, *args, **kwargs)
+    n_edge = int(edge_nodes.size / 2)
+    edge_coords = np.empty((n_edge, 2, 2), dtype=np.float64)
+    node_0 = edge_nodes[0::2]
+    node_1 = edge_nodes[1::2]
+    edge_coords[:, 0, 0] = node_x[node_0]
+    edge_coords[:, 0, 1] = node_y[node_0]
+    edge_coords[:, 1, 0] = node_x[node_1]
+    edge_coords[:, 1, 1] = node_y[node_1]
+    line_segments = LineCollection(edge_coords, *args, **kwargs)
+    ax.add_collection(line_segments)
+    ax.autoscale(enable=True)
