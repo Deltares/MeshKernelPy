@@ -23,12 +23,6 @@ def plot_edges(node_x, node_y, edge_nodes, ax, *args, **kwargs):
     edge_coords[:, 0, 1] = node_y[node_0]
     edge_coords[:, 1, 0] = node_x[node_1]
     edge_coords[:, 1, 1] = node_y[node_1]
-
-    if "colors" not in kwargs:
-        kwargs["colors"] = [
-            mcolors.to_rgba(c)
-            for c in plt.rcParams["axes.prop_cycle"].by_key()["color"]
-        ]
     line_segments = LineCollection(edge_coords, *args, **kwargs)
     ax.add_collection(line_segments)
     ax.autoscale(enable=True)
