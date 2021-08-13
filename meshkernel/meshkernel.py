@@ -1499,6 +1499,7 @@ class MeshKernel:
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        use_fourth_side_bool = 1 if use_fourth_side else 0
 
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
@@ -1507,7 +1508,7 @@ class MeshKernel:
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
-            c_int(int(use_fourth_side)),
+            c_int(use_fourth_side_bool),
         )
 
     def curvilinear_compute_transfinite_from_triangle(
