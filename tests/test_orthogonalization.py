@@ -65,7 +65,7 @@ def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
     """
 
     mk = MeshKernel()
-    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(2, 2))
+    mk.mesh2d_set(Mesh2dFactory.create(2, 2))
 
     orthogonality = mk.mesh2d_get_orthogonality()
 

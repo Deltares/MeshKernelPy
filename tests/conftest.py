@@ -16,7 +16,7 @@ def meshkernel_with_mesh2d():
     """
 
     def _create(rows: int, columns: int):
-        mesh2d = Mesh2dFactory.create_rectilinear_mesh(rows, columns)
+        mesh2d = Mesh2dFactory.create(rows, columns)
         mk = MeshKernel()
 
         mk.mesh2d_set(mesh2d)

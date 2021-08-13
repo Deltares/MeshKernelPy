@@ -7,11 +7,15 @@ from numpy.ctypeslib import as_ctypes
 
 from meshkernel.py_structures import (
     Contacts,
+    CurvilinearGrid,
+    CurvilinearParameters,
     GeometryList,
+    MakeGridParameters,
     Mesh1d,
     Mesh2d,
     MeshRefinementParameters,
     OrthogonalizationParameters,
+    SplinesToCurvilinearParameters,
 )
 
 
@@ -295,6 +299,59 @@ class CMeshRefinementParameters(Structure):
         return c_parameters
 
 
+class CMakeGridParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents a MakeGridParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        num_columns (c_int): The number of columns in x direction.
+        num_rows (c_int): The number of columns in y direction.
+        angle (c_double): The grid angle.
+        block_size (c_double): The grid block size, used in x and y direction.
+        origin_x (c_double): The x coordinate of the origin, located at the bottom left corner.
+        origin_y (c_double): The y coordinate of the origin, located at the bottom left corner.
+        block_size_x (c_double): The grid block size in x dimension, used only for squared grids.
+        block_size_y (c_double): The grid block size in y dimension, used only for squared grids.
+    """
+
+    _fields_ = [
+        ("num_columns", c_int),
+        ("num_rows", c_int),
+        ("angle", c_double),
+        ("block_size", c_double),
+        ("origin_x", c_double),
+        ("origin_y", c_double),
+        ("block_size_x", c_double),
+        ("block_size_y", c_double),
+    ]
+
+    @staticmethod
+    def from_makegridparameters(
+        make_grid_parameters: MakeGridParameters,
+    ) -> CMakeGridParameters:
+        """Creates a new `CMeshRefinementParameters` instance from the given MeshRefinementParameters instance.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The make grid parameters.
+
+        Returns:
+            CMakeGridParameters: The created C-Structure for the given MakeGridParameters.
+        """
+
+        c_parameters = CMakeGridParameters()
+        c_parameters.num_columns = make_grid_parameters.num_columns
+        c_parameters.num_rows = make_grid_parameters.num_rows
+        c_parameters.angle = make_grid_parameters.angle
+        c_parameters.block_size = make_grid_parameters.block_size
+        c_parameters.origin_x = make_grid_parameters.origin_x
+        c_parameters.origin_y = make_grid_parameters.origin_y
+        c_parameters.block_size_x = make_grid_parameters.block_size_x
+        c_parameters.block_size_y = make_grid_parameters.block_size_y
+        return c_parameters
+
+
 class CMesh1d(Structure):
     """C-structure intended for internal use only.
     It represents a Mesh1D struct as described by the MeshKernel API.
@@ -418,3 +475,195 @@ class CContacts(Structure):
         self.mesh2d_indices = as_ctypes(mesh2d_indices)
 
         return Contacts(mesh1d_indices, mesh2d_indices)
+
+
+class CCurvilinearGrid(Structure):
+    """C-structure intended for internal use only.
+    It represents a Curvilinear struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        num_m (c_int): The number of curvilinear grid nodes along m.
+        num_n (c_int): The number of curvilinear grid nodes along n.
+    """
+
+    _fields_ = [
+        ("node_x", POINTER(c_double)),
+        ("node_y", POINTER(c_double)),
+        ("num_m", c_int),
+        ("num_n", c_int),
+    ]
+
+    @staticmethod
+    def from_curvilinearGrid(curvilinear_grid: CurvilinearGrid) -> CCurvilinearGrid:
+        """Creates a new CMesh instance from a given CurvilinearGrid instance.
+
+        Args:
+            curvilinear_grid (CurvilinearGrid): Class of numpy instances owning the state.
+
+        Returns:
+            CCurvilinearGrid: The created CCurvilinearGrid instance.
+        """
+
+        c_curvilinear_grid = CCurvilinearGrid()
+
+        # Set the pointers
+        c_curvilinear_grid.node_x = as_ctypes(curvilinear_grid.node_x)
+        c_curvilinear_grid.node_y = as_ctypes(curvilinear_grid.node_y)
+
+        # Set the sizes
+        c_curvilinear_grid.num_m = curvilinear_grid.num_m
+        c_curvilinear_grid.num_n = curvilinear_grid.num_n
+
+        return c_curvilinear_grid
+
+    def allocate_memory(self) -> CurvilinearGrid:
+        """Allocate data according to the parameters with the "num_" prefix.
+        The pointers are then set to the freshly allocated memory.
+        The memory is owned by the CurvilinearGrid instance which is returned by this method.
+
+        Returns:
+            CurvilinearGrid: The object owning the allocated memory.
+        """
+
+        node_x = np.empty(self.num_m * self.num_n, dtype=np.double)
+        node_y = np.empty(self.num_m * self.num_n, dtype=np.double)
+
+        self.node_x = as_ctypes(node_x)
+        self.node_y = as_ctypes(node_y)
+
+        return CurvilinearGrid(node_x, node_y, self.num_m, self.num_n)
+
+
+class CCurvilinearParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an CurvilinearParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        m_refinement (c_int): M-refinement factor for regular grid generation.
+        n_refinement (c_int): N-refinement factor for regular grid generation.
+        smoothing_iterations (c_int): Nr. of inner iterations in regular grid smoothing.
+        smoothing_parameter (c_double): Smoothing parameter.
+        attraction_parameter (c_double): Attraction/repulsion parameter.
+    """
+
+    _fields_ = [
+        ("m_refinement", c_int),
+        ("n_refinement", c_int),
+        ("smoothing_iterations", c_int),
+        ("smoothing_parameter", c_double),
+        ("attraction_parameter", c_double),
+    ]
+
+    @staticmethod
+    def from_curvilinearParameters(
+        curvilinear_parameters: CurvilinearParameters,
+    ) -> CCurvilinearParameters:
+        """Creates a new `CCurvilinearParameters` instance from the given CurvilinearParameters instance.
+
+        Args:
+            curvilinear_parameters (CurvilinearParameters): The curvilinear parameters.
+
+        Returns:
+            CCurvilinearParameters: The created C-Structure for the given CurvilinearParameters.
+        """
+
+        c_curvilinear_parameters = CCurvilinearParameters()
+        c_curvilinear_parameters.m_refinement = curvilinear_parameters.m_refinement
+        c_curvilinear_parameters.n_refinement = curvilinear_parameters.n_refinement
+        c_curvilinear_parameters.smoothing_iterations = (
+            curvilinear_parameters.smoothing_iterations
+        )
+        c_curvilinear_parameters.smoothing_parameter = (
+            curvilinear_parameters.smoothing_parameter
+        )
+        c_curvilinear_parameters.attraction_parameter = (
+            curvilinear_parameters.attraction_parameter
+        )
+
+        return c_curvilinear_parameters
+
+
+class CSplinesToCurvilinearParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents an SplinesToCurvilinearParameters struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        aspect_ratio (c_double): Aspect ratio.
+        aspect_ratio_grow_factor (c_double): Grow factor of aspect ratio.
+        average_width (c_double): Average mesh width on center spline.
+        curvature_adapted_grid_spacing (c_int): Curvature adapted grid spacing.
+        grow_grid_outside (c_int): Grow the grid outside the prescribed grid height.
+        maximum_num_faces_in_uniform_part (c_int): Maximum number of layers in the uniform part.
+        nodes_on_top_of_each_other_tolerance (c_double): On-top-of-each-other tolerance.).
+        min_cosine_crossing_angles (c_double): Minimum allowed absolute value of crossing-angle cosine.
+        check_front_collisions (c_int): Check for collisions with other parts of the front.
+        remove_skinny_triangles (c_int): Check for collisions with other parts of the front.
+    """
+
+    _fields_ = [
+        ("aspect_ratio", c_double),
+        ("aspect_ratio_grow_factor", c_double),
+        ("average_width", c_double),
+        ("curvature_adapted_grid_spacing", c_int),
+        ("grow_grid_outside", c_int),
+        ("maximum_num_faces_in_uniform_part", c_int),
+        ("nodes_on_top_of_each_other_tolerance", c_double),
+        ("min_cosine_crossing_angles", c_double),
+        ("check_front_collisions", c_int),
+        ("remove_skinny_triangles", c_int),
+    ]
+
+    @staticmethod
+    def from_splinesToCurvilinearParameters(
+        splines_to_curvilinear_parameters: SplinesToCurvilinearParameters,
+    ) -> CSplinesToCurvilinearParameters:
+        """Creates a new `COrthogonalizationParameters` instance from the given OrthogonalizationParameters instance.
+
+        Args:
+            orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
+
+        Returns:
+            COrthogonalizationParameters: The created C-Structure for the given OrthogonalizationParameters.
+        """
+
+        c_splines_to_curvilinear_parameters = CSplinesToCurvilinearParameters()
+        c_splines_to_curvilinear_parameters.aspect_ratio = (
+            splines_to_curvilinear_parameters.aspect_ratio
+        )
+        c_splines_to_curvilinear_parameters.aspect_ratio_grow_factor = (
+            splines_to_curvilinear_parameters.aspect_ratio_grow_factor
+        )
+        c_splines_to_curvilinear_parameters.average_width = (
+            splines_to_curvilinear_parameters.average_width
+        )
+        c_splines_to_curvilinear_parameters.curvature_adapted_grid_spacing = (
+            splines_to_curvilinear_parameters.curvature_adapted_grid_spacing
+        )
+        c_splines_to_curvilinear_parameters.grow_grid_outside = (
+            splines_to_curvilinear_parameters.grow_grid_outside
+        )
+        c_splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part = (
+            splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part
+        )
+        c_splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance = (
+            splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance
+        )
+        c_splines_to_curvilinear_parameters.min_cosine_crossing_angles = (
+            splines_to_curvilinear_parameters.min_cosine_crossing_angles
+        )
+        c_splines_to_curvilinear_parameters.check_front_collisions = (
+            splines_to_curvilinear_parameters.check_front_collisions
+        )
+        c_splines_to_curvilinear_parameters.remove_skinny_triangles = (
+            splines_to_curvilinear_parameters.remove_skinny_triangles
+        )
+
+        return c_splines_to_curvilinear_parameters
