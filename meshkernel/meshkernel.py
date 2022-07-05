@@ -1175,7 +1175,15 @@ class MeshKernel:
         """
         c_samples = CGeometryList.from_geometrylist(samples)
 
-        number_of_coordinates = c_samples.n_coordinates
+        mesh=self.mesh2d_get()
+        if location_type==Mesh2dLocation.NODES:
+            number_of_coordinates = len(mesh.node_x)          
+        elif location_type==Mesh2dLocation.FACES:
+            number_of_coordinates = len(mesh.face_x)
+        elif location_type==Mesh2dLocation.EDGES:
+            number_of_coordinates = len(mesh.edge_x)
+        else:  
+            raise Exception("wrong location_type")
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
@@ -1217,7 +1225,15 @@ class MeshKernel:
         """
         c_samples = CGeometryList.from_geometrylist(samples)
 
-        number_of_coordinates = c_samples.n_coordinates
+        mesh=self.mesh2d_get()
+        if location_type==Mesh2dLocation.NODES:
+            number_of_coordinates = len(mesh.node_x)          
+        elif location_type==Mesh2dLocation.FACES:
+            number_of_coordinates = len(mesh.face_x)
+        elif location_type==Mesh2dLocation.EDGES:
+            number_of_coordinates = len(mesh.edge_x)
+        else:  
+            raise Exception("wrong location_type")
 
         x_coordinates = np.empty(number_of_coordinates, dtype=np.double)
         y_coordinates = np.empty(number_of_coordinates, dtype=np.double)
