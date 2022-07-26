@@ -87,7 +87,6 @@ try:
             python, abi = "py3", "none"
             return python, abi, plat
 
-
 except ImportError:
     bdist_wheel = None
 
@@ -109,7 +108,7 @@ setup(
         "tests": ["pytest", "pytest-cov", "nbval", "matplotlib"],
         "lint": [
             "flake8",
-            "black==21.4b1",
+            "black",
             "isort",
         ],
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
