@@ -83,16 +83,20 @@ def test_contacts_compute_single():
     contacts = mk.contacts_get()
     contacts = sort_contacts_by_mesh2d_indices(contacts)
 
-    assert contacts.mesh1d_indices.size == 3
-    assert contacts.mesh2d_indices.size == 3
+    assert contacts.mesh1d_indices.size == 5
+    assert contacts.mesh2d_indices.size == 5
 
-    assert contacts.mesh1d_indices[0] == 1
-    assert contacts.mesh1d_indices[1] == 2
-    assert contacts.mesh1d_indices[2] == 3
+    assert contacts.mesh1d_indices[0] == 0
+    assert contacts.mesh1d_indices[1] == 1
+    assert contacts.mesh1d_indices[2] == 2
+    assert contacts.mesh1d_indices[3] == 3
+    assert contacts.mesh1d_indices[4] == 4
 
-    assert contacts.mesh2d_indices[0] == 6
-    assert contacts.mesh2d_indices[1] == 12
-    assert contacts.mesh2d_indices[2] == 18
+    assert contacts.mesh2d_indices[0] == 0
+    assert contacts.mesh2d_indices[1] == 6
+    assert contacts.mesh2d_indices[2] == 12
+    assert contacts.mesh2d_indices[3] == 18
+    assert contacts.mesh2d_indices[4] == 24
 
 
 def test_contacts_compute_multiple():
