@@ -1,0 +1,1167 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Curvilineargrid Basics &#8212; MeshKernelPy  documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">MeshKernelPy  documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="index.html">
+   Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01_mesh2d_basics.html">
+     Mesh2d Basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_mesh1d_basics.html">
+     Mesh1d basics
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="03_tri_mesh2d_pol.html">
+     Simple triangular mesh in a given geometry
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../api/index.html">
+   Python API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/meshkernel.html">
+     MeshKernel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/py_structures.html">
+     Parameter Objects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/factories.html">
+     Factories
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/errors.html">
+     Errors
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/examples/04_curvilineargrid_basics.ipynb.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-transfinite-interpolation-method">
+   Generate a curvilinear grid using the transfinite interpolation method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-advancing-front-method">
+   Generate a curvilinear grid using the advancing front method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#refine-derefine-a-curvilinear-mesh">
+   Refine/derefine a curvilinear mesh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#make-a-uniform-rectilinear-grid">
+   Make a uniform rectilinear grid
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter">
+   Generate a curvilinear grid using the nodes at the polygons’s perimeter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-orthogonalization">
+   Perform curvilinear grid orthogonalization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line">
+   Perform curvilinear grid orthogonalization with a frozen line
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-smoothing">
+   Perform curvilinear grid smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-directional-curvilinear-grid-smoothing">
+   Perform curvilinear directional curvilinear grid smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-line-shifting">
+   Perform curvilinear grid line shifting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-insert-a-face">
+   Perform curvilinear insert a face
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-delete-a-node">
+   Perform curvilinear delete a node
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-line-attraction-repulsion">
+   Perform curvilinear line attraction/repulsion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-line-mirror">
+   Perform curvilinear line mirror
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Curvilineargrid Basics</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-transfinite-interpolation-method">
+   Generate a curvilinear grid using the transfinite interpolation method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-advancing-front-method">
+   Generate a curvilinear grid using the advancing front method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#refine-derefine-a-curvilinear-mesh">
+   Refine/derefine a curvilinear mesh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#make-a-uniform-rectilinear-grid">
+   Make a uniform rectilinear grid
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter">
+   Generate a curvilinear grid using the nodes at the polygons’s perimeter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-orthogonalization">
+   Perform curvilinear grid orthogonalization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line">
+   Perform curvilinear grid orthogonalization with a frozen line
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-smoothing">
+   Perform curvilinear grid smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-directional-curvilinear-grid-smoothing">
+   Perform curvilinear directional curvilinear grid smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-grid-line-shifting">
+   Perform curvilinear grid line shifting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-insert-a-face">
+   Perform curvilinear insert a face
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-delete-a-node">
+   Perform curvilinear delete a node
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-line-attraction-repulsion">
+   Perform curvilinear line attraction/repulsion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#perform-curvilinear-line-mirror">
+   Perform curvilinear line mirror
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="curvilineargrid-basics">
+<h1>Curvilineargrid Basics<a class="headerlink" href="#curvilineargrid-basics" title="Permalink to this headline">#</a></h1>
+<p>This is the basic introduction for using <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library for generating curvilinear grids.</p>
+<p>At the very beginning, the necessary libraries have to be imported.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+import numpy as np
+
+from meshkernel import (
+    CurvilinearParameters,
+    MakeGridParameters,
+    GeometryList,
+    MeshKernel,
+    SplinesToCurvilinearParameters,
+    OrthogonalizationParameters
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a function for creating a mesh kernel instance with a curvilinear grid generated using curvilinear_compute_transfinite_from_splines:</p>
+<ul class="simple">
+<li><p>We first create the splines used for curvilinear grid generation. Each spline is separated by -999.0</p></li>
+<li><p>We can set the number of m and n in a new CurvilinearParameters instance</p></li>
+<li><p>We now create a new instance of the MeshKernel library</p></li>
+<li><p>And used the transfinite algorithm to create a new curvilinear grid</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_mk_instance_with_curvilinear_grid_from_transfinite_method():
+    r&quot;&quot;&quot;A function for creating an instance of meshkernel with a curvilinear grid.
+    &quot;&quot;&quot;
+    mk = MeshKernel()
+
+    separator = -999.0
+    splines_x = np.array([2.0, 4.0, 7.0, separator,
+                          -1.0, 1.0, 5.0, separator,
+                          3.0, -2.0, separator,
+                          7.0, 4.0], dtype=np.double)
+    splines_y = np.array([1.0, 3.0, 4.0, separator,
+                          4.0, 6.0, 7.0, separator,
+                          1.0, 6.0, separator,
+                          3.0, 8.0], dtype=np.double)
+    splines = GeometryList(splines_x, splines_y)
+
+    curvilinear_parameters = CurvilinearParameters()
+    curvilinear_parameters.n_refinement = 10
+    curvilinear_parameters.m_refinement = 10
+
+    mk.curvilinear_compute_transfinite_from_splines(splines, curvilinear_parameters)
+
+    return mk
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a function for creating an uniform curvilinear grid</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_mk_instance_with_a_uniform_curvilinear_grid(num_columns =3, num_rows =3):
+    r&quot;&quot;&quot;A local function for creating an instance of meshkernel with a uniform curvilinear grid.
+    &quot;&quot;&quot;
+    # Create an instance of MakeGridParameters and set the values
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = num_columns
+    make_grid_parameters.num_rows = num_rows
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.block_size = 0.0
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+    
+    # A polygon must to be provided. If empty it will not be used.
+    node_x = np.empty(0, dtype=np.double)
+    node_y = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    
+    return mk
+</pre></div>
+</div>
+</div>
+</div>
+<section id="generate-a-curvilinear-grid-using-the-transfinite-interpolation-method">
+<h2>Generate a curvilinear grid using the transfinite interpolation method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-transfinite-interpolation-method" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid_transfinite = create_mk_instance_with_curvilinear_grid_from_transfinite_method().curvilineargrid_get()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+curvilinear_grid_transfinite.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" src="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" />
+</div>
+</div>
+</section>
+<section id="generate-a-curvilinear-grid-using-the-advancing-front-method">
+<h2>Generate a curvilinear grid using the advancing front method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-advancing-front-method" title="Permalink to this headline">#</a></h2>
+<p>Define a function for creating a mesh kernel instance with a curvilinear grid generated using curvilinear_compute_orthogonal_from_splines:</p>
+<ul class="simple">
+<li><p>We first create the splines for curvilinear grid generation. Each spline is separated by -999.0</p></li>
+<li><p>We can set the number of m and n in a new CurvilinearParameters instance</p></li>
+<li><p>For this algorithm we also need to set the additional parameters required for generating a curvilinear grid from splines</p></li>
+<li><p>We can now use the advancing front algorithm to create a new curvilinear grid</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = MeshKernel()
+
+separator = -999.0
+splines_x = np.array([-1.0, 2.0, 6.0, separator,
+                      3.0, -2.0, separator], dtype=np.double)
+splines_y = np.array([2.0, 5.0, 6.0, separator,
+                      1.0, 6.0, separator], dtype=np.double)
+
+splines_values = np.zeros_like(splines_x)
+splines = GeometryList(splines_x, splines_y, splines_values)
+
+curvilinearParameters = CurvilinearParameters()
+curvilinearParameters.n_refinement = 10
+curvilinearParameters.m_refinement = 10
+
+splinesToCurvilinearParameters = SplinesToCurvilinearParameters()
+splinesToCurvilinearParameters.aspect_ratio = 1.0
+splinesToCurvilinearParameters.aspect_ratio_grow_factor = 1.0
+splinesToCurvilinearParameters.average_width = 0.2
+splinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance = 1e-4
+splinesToCurvilinearParameters.min_cosine_crossing_angles = 0.95
+splinesToCurvilinearParameters.check_front_collisions = 0
+splinesToCurvilinearParameters.curvature_adapted_grid_spacing = 1
+splinesToCurvilinearParameters.remove_skinny_triangles = 1
+
+mk.curvilinear_compute_orthogonal_from_splines(splines, curvilinearParameters, splinesToCurvilinearParameters)
+    
+curvilinear_grid_orthogonal  = mk.curvilineargrid_get()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+curvilinear_grid_orthogonal.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c5b02114d309c2dabb070512a9380ac6ab42b1386e804c8813437e63cbec3a42.png" src="../_images/c5b02114d309c2dabb070512a9380ac6ab42b1386e804c8813437e63cbec3a42.png" />
+</div>
+</div>
+</section>
+<section id="refine-derefine-a-curvilinear-mesh">
+<h2>Refine/derefine a curvilinear mesh<a class="headerlink" href="#refine-derefine-a-curvilinear-mesh" title="Permalink to this headline">#</a></h2>
+<p>Before refinement</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_curvilinear_grid_from_transfinite_method()
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" src="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" />
+</div>
+</div>
+<p>Refine by adding two horizontal grid lines for each row within two selected points and plot the results</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_refine(2.299,4.612,3.074,3.684, 2)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7856e08c48d84a1314c2002c1ac4f209998545484caffab1a73904613fadd5ef.png" src="../_images/7856e08c48d84a1314c2002c1ac4f209998545484caffab1a73904613fadd5ef.png" />
+</div>
+</div>
+<p>Derefine by removing the grid lines on the same rows</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_derefine(2.299,4.612,3.074,3.684)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b931d6408a73907e8fac9f2c3f5f4f4883a0ca6804e422b9c6c119d300c25f66.png" src="../_images/b931d6408a73907e8fac9f2c3f5f4f4883a0ca6804e422b9c6c119d300c25f66.png" />
+</div>
+</div>
+</section>
+<section id="make-a-uniform-rectilinear-grid">
+<h2>Make a uniform rectilinear grid<a class="headerlink" href="#make-a-uniform-rectilinear-grid" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid()
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e33631434b111ac5d5bc26e5f180c5ac19a19beebd7f0e139984de671407245a.png" src="../_images/e33631434b111ac5d5bc26e5f180c5ac19a19beebd7f0e139984de671407245a.png" />
+</div>
+</div>
+<p>If a polygon is provided it will be used in the generation of the curvilinear grid. The polygon must be closed</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>node_x = np.array([2.5,5.5,3.5,0.5,2.5], dtype=np.double)
+node_y = np.array([0.5,3.0,5.0,2.5,0.5], dtype=np.double)
+geometry_list = GeometryList(node_x, node_y)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>make_grid_parameters = MakeGridParameters()
+make_grid_parameters.num_columns = 10
+make_grid_parameters.num_rows = 10
+make_grid_parameters.angle = 0.0
+make_grid_parameters.block_size = 0.0
+make_grid_parameters.origin_x = 0.0
+make_grid_parameters.origin_y = 0.0
+make_grid_parameters.block_size_x = 0.2
+make_grid_parameters.block_size_y = 0.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/848f0bac5f38eb4f936a383c1a45e6e47a70bce393eb973c525c653e248e030f.png" src="../_images/848f0bac5f38eb4f936a383c1a45e6e47a70bce393eb973c525c653e248e030f.png" />
+</div>
+</div>
+</section>
+<section id="generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter">
+<h2>Generate a curvilinear grid using the nodes at the polygons’s perimeter<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter" title="Permalink to this headline">#</a></h2>
+<p>Define the polygon and generate the curvilinear grid</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>node_x = np.array([2,4,6,7,8,8,8,8,7,5,3,2,2,2,2], dtype=np.double)
+node_y = np.array([1,1,1,1,1,1.2,4,6,6,6,6,6,5,3,1], dtype=np.double)
+geometry_list = GeometryList(node_x, node_y)
+mk = MeshKernel()
+mk.curvilinear_compute_transfinite_from_polygon(geometry_list, 0, 4, 7, False)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bcf189291730873899728b890b539bcbfc4cd21019a60784a2b01542fe1fcf6d.png" src="../_images/bcf189291730873899728b890b539bcbfc4cd21019a60784a2b01542fe1fcf6d.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-grid-orthogonalization">
+<h2>Perform curvilinear grid orthogonalization<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization" title="Permalink to this headline">#</a></h2>
+<p>Move a node to make the grid non orthogonal and plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid()
+mk.curvilinear_move_node(10.0,20.0,18.0,12.0)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+</div>
+</div>
+<p>Orthogonalize</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Assert a nodal position before orthogonalization
+orthogonalization_parameters = OrthogonalizationParameters()
+orthogonalization_parameters.outer_iterations = 1
+orthogonalization_parameters.boundary_iterations = 25
+orthogonalization_parameters.inner_iterations = 25
+orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.95
+
+# Initialize the curvilinear grid orthogonalization algorithm
+mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
+
+# Sets the block to orthogonalize (in this case the lower left and upper right corners of the grid)
+mk.curvilinear_set_block_orthogonalize(0.0,0.0,30.0,30.0)
+
+# Orthogonalize
+mk.curvilinear_orthogonalize()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the results after orthogonalization</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3eb555c77fd39703a7ee849c83de00abcf8589bab59beea605628f2187d12dda.png" src="../_images/3eb555c77fd39703a7ee849c83de00abcf8589bab59beea605628f2187d12dda.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-grid-orthogonalization-with-a-frozen-line">
+<h2>Perform curvilinear grid orthogonalization with a frozen line<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid()
+mk.curvilinear_move_node(10.0,20.0,18.0,12.0)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+</div>
+</div>
+<p>Orthogonalize, but freeze the vertical grid line where the moved node is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Assert a nodal position before orthogonalization
+orthogonalization_parameters = OrthogonalizationParameters()
+orthogonalization_parameters.outer_iterations = 1
+orthogonalization_parameters.boundary_iterations = 25
+orthogonalization_parameters.inner_iterations = 25
+orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.95
+
+# Initialize the curvilinear grid orthogonalization algorithm
+mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
+
+# Sets the block to orthogonalize (in this case the lower left and upper right corners of the grid)
+mk.curvilinear_set_block_orthogonalize(0.0,0.0,30.0,30.0)
+
+# Freeze the vertical grid line where the moved node is
+mk.curvilinear_set_frozen_lines_orthogonalize(10.0, 0.0, 10.0, 30.0)
+
+# Orthogonalize
+mk.curvilinear_orthogonalize()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the results after orthogonalization</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8aac482a26380427784281d80aada44c81bcadebf4c6a3392be6e11734141164.png" src="../_images/8aac482a26380427784281d80aada44c81bcadebf4c6a3392be6e11734141164.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-grid-smoothing">
+<h2>Perform curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-grid-smoothing" title="Permalink to this headline">#</a></h2>
+<p>Move a node to make the grid non-smooth and plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid()
+mk.curvilinear_move_node(10.0,20.0,18.0,12.0)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+</div>
+</div>
+<p>Smoothing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_smoothing(10,0.0,0.0,30.0,30.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the results after smoothing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bd096d1ff35dcfec722686d318ebaa698542086c42f588223523fb4c4c39639b.png" src="../_images/bd096d1ff35dcfec722686d318ebaa698542086c42f588223523fb4c4c39639b.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-directional-curvilinear-grid-smoothing">
+<h2>Perform curvilinear directional curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-directional-curvilinear-grid-smoothing" title="Permalink to this headline">#</a></h2>
+<p>Move a node to make the grid non-smooth and plot the result</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid()
+mk.curvilinear_move_node(10.0,20.0,18.0,12.0)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+</div>
+</div>
+<p>Directional smoothing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_smoothing_directional(10,                   # the number of smoothing iterations
+                                     10.0, 0.0, 10.0,30.0, # the grid line coordinates defining the smoothing direction                                     
+                                     0.0, 0.0, 30.0, 30.0) # the corner points of the block to smooth
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the results after directional smoothing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/44dd033cec5a3ca8149dd3e230a2a95caee7dc197a8a3fa26a99cca1ee8cef44.png" src="../_images/44dd033cec5a3ca8149dd3e230a2a95caee7dc197a8a3fa26a99cca1ee8cef44.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-grid-line-shifting">
+<h2>Perform curvilinear grid line shifting<a class="headerlink" href="#perform-curvilinear-grid-line-shifting" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+</div>
+</div>
+<p>Initialize line shifting and set the line to shift</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_initialize_line_shift()
+mk.curvilinear_set_line_line_shift(0.0,0.0,0.0,50.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set the grid block where to distribute the line shift</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_set_block_line_shift(0.0,0.0,20.0,50.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Move all nodes on the left side of the curvilinear grid to the left</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_move_node_line_shift(0.0, 0.0,-50.0,0.0)
+mk.curvilinear_move_node_line_shift(0.0,10.0,-50.0,10.0)
+mk.curvilinear_move_node_line_shift(0.0,20.0,-50.0,20.0)
+mk.curvilinear_move_node_line_shift(0.0,30.0,-50.0,30.0)
+mk.curvilinear_move_node_line_shift(0.0,40.0,-50.0,40.0)
+mk.curvilinear_move_node_line_shift(0.0,50.0,-50.0,50.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Performs the line shift. Nodes not in the block specified above will not be shifted</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_line_shift()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2320cb86ddd7ca3f5a2e1a3d715ae30843863620c47967f9a308d7bfd3e57e30.png" src="../_images/2320cb86ddd7ca3f5a2e1a3d715ae30843863620c47967f9a308d7bfd3e57e30.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-insert-a-face">
+<h2>Perform curvilinear insert a face<a class="headerlink" href="#perform-curvilinear-insert-a-face" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+</div>
+</div>
+<p>Insert two faces</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_insert_face(-10.0, 5.0)
+mk.curvilinear_insert_face(-5.0, 10.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/65cc18b53636bcb24f229481e4a659e6e3253106967319e931e6189dfdbedd27.png" src="../_images/65cc18b53636bcb24f229481e4a659e6e3253106967319e931e6189dfdbedd27.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-delete-a-node">
+<h2>Perform curvilinear delete a node<a class="headerlink" href="#perform-curvilinear-delete-a-node" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+</div>
+</div>
+<p>Delete the corner node</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.curvilinear_delete_node(0.0,0.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b229990ed7f9c3c5133aac1ff9dff1a355161c018db1a92230b0ed27e39c39b4.png" src="../_images/b229990ed7f9c3c5133aac1ff9dff1a355161c018db1a92230b0ed27e39c39b4.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-line-attraction-repulsion">
+<h2>Perform curvilinear line attraction/repulsion<a class="headerlink" href="#perform-curvilinear-line-attraction-repulsion" title="Permalink to this headline">#</a></h2>
+<p>Attracts the nodes within a block towards a defined line</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+mk.curvilinear_line_attraction_repulsion(1.0,                 # positive repels lines, here by 1 times the column width
+                                         30.0,0.0,30.0,50.0,  # The line coordinate
+                                         10.0,0.0,50.0,50.0)  # The affected block
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8b51922df6862b85622a2f5c4267e8c40c09f3fe07efa7e115c2fb72a7b7ff71.png" src="../_images/8b51922df6862b85622a2f5c4267e8c40c09f3fe07efa7e115c2fb72a7b7ff71.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+mk.curvilinear_line_attraction_repulsion(-1.0,                # negative attracts lines, here by 0.5 times the column width
+                                         30.0,0.0,30.0,50.0,  # The line coordinate
+                                         10.0,0.0,50.0,50.0)  # The affected block
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/07a277ccec5e38d8ee7ce92832a55dba233ac6613172d23ae9a94d164a07522f.png" src="../_images/07a277ccec5e38d8ee7ce92832a55dba233ac6613172d23ae9a94d164a07522f.png" />
+</div>
+</div>
+</section>
+<section id="perform-curvilinear-line-mirror">
+<h2>Perform curvilinear line mirror<a class="headerlink" href="#perform-curvilinear-line-mirror" title="Permalink to this headline">#</a></h2>
+<p>Mirrow the left gridline by 2 times the column width</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = create_mk_instance_with_a_uniform_curvilinear_grid(5,5)
+mk.curvilinear_line_mirror(2.0,              # the mirroring factor
+                           0.0,0.0,0.0,50.0) # the gridline to mirrow 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>curvilinear_grid = mk.curvilineargrid_get()
+fig, ax = plt.subplots()
+curvilinear_grid.plot_edges(ax)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f6f2262a4ea41553569403929e36f7670b7692033b3a975da047d52c2729af6b.png" src="../_images/f6f2262a4ea41553569403929e36f7670b7692033b3a975da047d52c2729af6b.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+      &copy; Copyright 2021, Deltares.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
