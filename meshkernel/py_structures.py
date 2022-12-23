@@ -180,6 +180,118 @@ class OrthogonalizationParameters:
 
 
 @dataclass
+class CurvilinearGrid:
+    """This class is used for getting and setting curvilinear grid data.
+
+    Attributes:
+        node_x (ndarray): A 1D double array describing the x-coordinates of the nodes.
+        node_y (ndarray): A 1D double array describing the y-coordinates of the nodes.
+        num_m (int): The number of curvilinear grid nodes along m.
+        num_n (int): The number of curvilinear grid nodes along n.
+    """
+
+    node_x: ndarray
+    node_y: ndarray
+    num_m: int
+    num_n: int
+
+    def plot_edges(self, ax, *args, **kwargs):
+        """Plots the edges at a given axes.
+        `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
+
+        Args:
+            ax (matplotlib.axes.Axes): The axes where to plot the edges
+        """
+
+        # construct the edges
+        node_indices = np.fromiter(
+            (int(x) for x in range(self.num_m * self.num_n)), int
+        )
+        node_indices = node_indices.reshape((self.num_m, self.num_n))
+
+        invalid_value = -999.0
+        edge_nodes = np.zeros(
+            (self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2,
+            dtype=np.int,
+        )
+        index = 0
+        for m in range(self.num_m - 1):
+            for n in range(self.num_n):
+                if (
+                    self.node_x[node_indices[m][n]] != invalid_value
+                    and self.node_x[node_indices[m + 1][n]] != invalid_value
+                ):
+                    edge_nodes[index] = node_indices[m][n]
+                    index += 1
+                    edge_nodes[index] = node_indices[m + 1][n]
+                    index += 1
+
+        for m in range(self.num_m):
+            for n in range(self.num_n - 1):
+                if (
+                    self.node_x[node_indices[m][n]] != invalid_value
+                    and self.node_x[node_indices[m][n + 1]] != invalid_value
+                ):
+                    edge_nodes[index] = node_indices[m][n]
+                    index += 1
+                    edge_nodes[index] = node_indices[m][n + 1]
+                    index += 1
+
+        edge_nodes = np.resize(edge_nodes, index)
+        plot_edges(self.node_x, self.node_y, edge_nodes, ax, *args, **kwargs)
+
+
+@dataclass
+class CurvilinearParameters:
+    """A class holding the parameters for generating a curvilinear grid from splines.
+
+    Attributes:
+        m_refinement (int, optional): M-refinement factor for regular grid generation. Default is `2000`.
+        n_refinement (int, optional): N-refinement factor for regular grid generation. Default is `40`.
+        smoothing_iterations (int, optional): Nr. of inner iterations in regular grid smoothing. Default is `25`.
+        smoothing_parameter (float, optional): Smoothing parameter. Default is `0.5`.
+        attraction_parameter (float, optional): Attraction/repulsion parameter. Default is `0.0`.
+    """
+
+    m_refinement: int = 2000
+    n_refinement: int = 40
+    smoothing_iterations: int = 10
+    smoothing_parameter: float = 0.5
+    attraction_parameter: float = 0.0
+
+
+@dataclass
+class SplinesToCurvilinearParameters:
+    """A class holding the additional parameters required for generating a curvilinear grid from splines
+    using the advancing front method.
+
+    Attributes:
+        aspect_ratio (float, optional): Aspect ratio. Default is `0.1`.
+        aspect_ratio_grow_factor (float, optional): Grow factor of aspect ratio. Default is `1.1`.
+        average_width (float, optional): Average mesh width on center spline. Default is `0.005`.
+        curvature_adapted_grid_spacing (int, optional): Curvature adapted grid spacing. Default is `1`.
+        grow_grid_outside (int, optional): Grow the grid outside the prescribed grid height. Default is `0`.
+        maximum_num_faces_in_uniform_part (int, optional): Maximum number of layers in the uniform part Default is `5`.
+        nodes_on_top_of_each_other_tolerance (float, optional): On-top-of-each-other tolerance.). Default is `0.0001`.
+        min_cosine_crossing_angles (float, optional): Minimum allowed absolute value of crossing-angle cosine.
+        Default is `0.95`.
+        check_front_collisions (int, optional): Check for collisions with other parts of the front. Default is `0`.
+        remove_skinny_triangles (int, optional): Check for collisions with other parts of the front. Default is `1`.
+    """
+
+    aspect_ratio: float = 0.1
+    aspect_ratio_grow_factor: float = 1.1
+    average_width: float = 0.005
+    curvature_adapted_grid_spacing: int = 1
+    grow_grid_outside: int = 0
+    maximum_num_faces_in_uniform_part: int = 5
+    nodes_on_top_of_each_other_tolerance: float = 0.0001
+    min_cosine_crossing_angles: float = 0.95
+    check_front_collisions: int = 0
+    remove_skinny_triangles: int = 1
+
+
+@dataclass
 class MeshRefinementParameters:
     """A class holding the parameters for Mesh2d refinement.
 
@@ -201,6 +313,35 @@ class MeshRefinementParameters:
     connect_hanging_nodes: bool
     account_for_samples_outside_face: bool
     max_refinement_iterations: int = 10
+
+
+@dataclass
+class MakeGridParameters:
+    """A class holding the necessary parameters to create a new curvilinear grid in a C-compatible manner.
+
+    Attributes:
+        num_columns (int, optional): The number of columns in x direction. Default is `3`.
+        num_rows (int, optional): The number of columns in y direction. Default is `3`.
+        angle (float, optional): The grid angle. Default is `0.0`.
+        block_size (float, optional): The grid block size, used in x and y direction. Default is `10.0`.
+        origin_x (float, optional): The x coordinate of the origin, located at the bottom left corner.
+        Default is `0.0`.
+        origin_y (float, optional): The y coordinate of the origin, located at the bottom left corner.
+        Default is `0.0`.
+        block_size_x (float, optional): The grid block size in x dimension, used only for squared grids.
+        Default is `10.0`.
+        block_size_y (float, optional): The grid block size in y dimension, used only for squared grids.
+        Default is `10.0`.
+    """
+
+    num_columns: int = 3
+    num_rows: int = 3
+    angle: float = 0.0
+    block_size: float = 10.0
+    origin_x: float = 0.0
+    origin_y: float = 0.0
+    block_size_x: float = 10.0
+    block_size_y: float = 10.0
 
 
 @dataclass

@@ -6,7 +6,7 @@ from meshkernel.py_structures import Mesh2d
 
 class Mesh2dFactory:
     @staticmethod
-    def create_rectilinear_mesh(
+    def create(
         rows: int,
         columns: int,
         origin_x: float = 0.0,
