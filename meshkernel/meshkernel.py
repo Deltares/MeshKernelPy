@@ -25,8 +25,8 @@ from meshkernel.errors import InputError, MeshKernelError
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
-    CurvilinearParameters,
     CurvilinearGrid,
+    CurvilinearParameters,
     DeleteMeshOption,
     GeometryList,
     MakeGridParameters,

@@ -1,14 +1,13 @@
 import numpy as np
-import pytest
 from pytest import approx
 
 from meshkernel import (
     CurvilinearParameters,
-    MakeGridParameters,
     GeometryList,
+    MakeGridParameters,
     MeshKernel,
-    SplinesToCurvilinearParameters,
     OrthogonalizationParameters,
+    SplinesToCurvilinearParameters,
 )
 
 
