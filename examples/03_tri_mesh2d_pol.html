@@ -282,12 +282,12 @@ title="Print to PDF"
 <p>At the very beginning, the necessary libraries have to be imported.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pathlib import Path
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-import matplotlib.pyplot as plt
-import numpy as np
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from meshkernel import GeometryList, Mesh2dFactory, MeshKernel
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
 </pre></div>
 </div>
 </div>
@@ -296,8 +296,8 @@ from meshkernel import GeometryList, Mesh2dFactory, MeshKernel
 Please note we ignore the first few rows in the file to skip some Deltares specific data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>polygon_file_path = Path().absolute() / &quot;data_examples&quot; / &quot;test.pol&quot;
-polygon_np = np.loadtxt(polygon_file_path, comments=&quot;*&quot;, skiprows=8, dtype=np.double)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">polygon_file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;data_examples&quot;</span> <span class="o">/</span> <span class="s2">&quot;test.pol&quot;</span>
+<span class="n">polygon_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">polygon_file_path</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -305,9 +305,9 @@ polygon_np = np.loadtxt(polygon_file_path, comments=&quot;*&quot;, skiprows=8, d
 <p>Now, we will extract the data loaded from the file and save it as required by <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> in a <code class="docutils literal notranslate"><span class="pre">GeometryList</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x_coordinates = np.array(polygon_np[:, 0], dtype=np.double)
-y_coordinates = np.array(polygon_np[:, 1], dtype=np.double)
-polygon = GeometryList(x_coordinates, y_coordinates)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">polygon_np</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">polygon_np</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">polygon</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">x_coordinates</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -315,8 +315,8 @@ polygon = GeometryList(x_coordinates, y_coordinates)
 <p>This is how the imported polygon looks like:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-ax.plot(x_coordinates, y_coordinates, &quot;.-&quot;, color=&quot;green&quot;);
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_coordinates</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="p">,</span> <span class="s2">&quot;.-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -327,7 +327,7 @@ ax.plot(x_coordinates, y_coordinates, &quot;.-&quot;, color=&quot;green&quot;);
 <p>Then, we create a <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = MeshKernel()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -335,7 +335,7 @@ ax.plot(x_coordinates, y_coordinates, &quot;.-&quot;, color=&quot;green&quot;);
 <p>We can now execute the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> function <code class="docutils literal notranslate"><span class="pre">mesh2d_make_mesh_from_polygon</span></code> to generate a triangular mesh based on the given polygon.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.mesh2d_make_mesh_from_polygon(polygon)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_make_mesh_from_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -343,7 +343,7 @@ ax.plot(x_coordinates, y_coordinates, &quot;.-&quot;, color=&quot;green&quot;);
 <p>Then, we retrieve the state from the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mesh2d_output_0 = mk.mesh2d_get()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -351,8 +351,8 @@ ax.plot(x_coordinates, y_coordinates, &quot;.-&quot;, color=&quot;green&quot;);
 <p>We can now plot the generated mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-mesh2d_output_0.plot_edges(ax, color=&quot;black&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -282,10 +282,10 @@ title="Print to PDF"
 <p>At the very beginning, the necessary libraries have to be imported.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
-import numpy as np
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from meshkernel import Mesh1d, Mesh2dFactory, MeshKernel
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">Mesh1d</span><span class="p">,</span> <span class="n">Mesh2dFactory</span><span class="p">,</span> <span class="n">MeshKernel</span>
 </pre></div>
 </div>
 </div>
@@ -293,8 +293,8 @@ from meshkernel import Mesh1d, Mesh2dFactory, MeshKernel
 <p>First, let us describe our 1d mesh with six points of a sinusoidal function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>node_x = np.linspace(0, 2 * np.pi, 8)
-node_y = np.sin(node_x)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -302,13 +302,13 @@ node_y = np.sin(node_x)
 <p>We want a continuous line, which is why we just connect each point with the following one.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>edge_nodes = np.zeros(node_x.size * 2, np.int32)
-edge_index = 0
-for node_index in range(node_x.size - 1):
-    edge_nodes[edge_index] = node_index
-    edge_index += 1
-    edge_nodes[edge_index] = node_index + 1
-    edge_index += 1
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">edge_index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">node_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_index</span>
+    <span class="n">edge_index</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">edge_nodes</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_index</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">edge_index</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -316,7 +316,7 @@ for node_index in range(node_x.size - 1):
 <p>Then, we can create our <code class="docutils literal notranslate"><span class="pre">Mesh1d</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mesh1d_input = Mesh1d(node_x, node_y, edge_nodes)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh1d_input</span> <span class="o">=</span> <span class="n">Mesh1d</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">,</span> <span class="n">edge_nodes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -324,7 +324,7 @@ for node_index in range(node_x.size - 1):
 <p>We also use <code class="docutils literal notranslate"><span class="pre">Mesh2dFactory</span></code> to create a <code class="docutils literal notranslate"><span class="pre">Mesh2d</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mesh2d_input = Mesh2dFactory.create(3, 7, origin_x=-0.1, origin_y=-1.5)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">Mesh2dFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">origin_x</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">origin_y</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -332,9 +332,9 @@ for node_index in range(node_x.size - 1):
 <p>Then, we create a <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance and set its state.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk = MeshKernel()
-mk.mesh1d_set(mesh1d_input)
-mk.mesh2d_set(mesh2d_input)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">()</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh1d_set</span><span class="p">(</span><span class="n">mesh1d_input</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_set</span><span class="p">(</span><span class="n">mesh2d_input</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -342,9 +342,9 @@ mk.mesh2d_set(mesh2d_input)
 <p>This is how our meshes currently look like:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-mesh1d_input.plot_edges(ax, color=&quot;blue&quot;)
-mesh2d_input.plot_edges(ax, color=&quot;black&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh1d_input</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">mesh2d_input</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -357,7 +357,7 @@ All contacts methods expect a node mask, which determines which 1d nodes should 
 In our case we want to consider all nodes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>node_mask = np.full(mesh1d_input.node_x.size, True)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">mesh1d_input</span><span class="o">.</span><span class="n">node_x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -365,7 +365,7 @@ In our case we want to consider all nodes.</p>
 <p>We call the <code class="docutils literal notranslate"><span class="pre">contacts_compute_multiple</span></code> method in order to create the contacts.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mk.contacts_compute_multiple(node_mask)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">contacts_compute_multiple</span><span class="p">(</span><span class="n">node_mask</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -373,9 +373,9 @@ In our case we want to consider all nodes.</p>
 <p>Then, we retrieve the state from the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mesh1d_output_0 = mk.mesh1d_get()
-mesh2d_output_0 = mk.mesh2d_get()
-contacts_output_0 = mk.contacts_get()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh1d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh1d_get</span><span class="p">()</span>
+<span class="n">mesh2d_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+<span class="n">contacts_output_0</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">contacts_get</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -383,10 +383,10 @@ contacts_output_0 = mk.contacts_get()
 <p>We see that there are now contacts between the 1d nodes and the 2d faces.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
-mesh1d_output_0.plot_edges(ax, color=&quot;blue&quot;)
-mesh2d_output_0.plot_edges(ax, color=&quot;black&quot;)
-contacts_output_0.plot_edges(ax, mesh1d_output_0, mesh2d_output_0, color=&quot;red&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh1d_output_0</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">mesh2d_output_0</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">contacts_output_0</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">mesh1d_output_0</span><span class="p">,</span> <span class="n">mesh2d_output_0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
