@@ -8,29 +8,20 @@ export CXX=/opt/rh/devtoolset-9/root/usr/bin/g++
 
 # add cmake
 cd /root
-wget https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-linux-x86_64.sh
-chmod +x cmake-3.23.1-linux-x86_64.sh
+export CMAKE_VERSION='3.23.1'
+wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.sh
+chmod +x cmake-${CMAKE_VERSION}-linux-x86_64.sh
 mkdir /opt/cmake
-./cmake-3.23.1-linux-x86_64.sh --skip-license --prefix=/opt/cmake
-
-# add gcc
-#wget https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.gz --no-check-certificate
-#tar -xzf gcc-9.3.0.tar.gz
-#cd ./gcc-9.3.0
-#./contrib/download_prerequisites
-#./configure CFLAGS="-fPIC" CXXFLAGS="-fPIC" --enable-languages=c,c++ --disable-multilib
-#cd /root/gcc-9.3.0
-#make -j6
-#make install
-#cd ..
-#rm -rf gcc-9.3.0.tar.gz
+./cmake-${CMAKE_VERSION}-linux-x86_64.sh --skip-license --prefix=/opt/cmake
 
 # add boost
-wget https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.gz
+export BOOST_VERSION='1_81_0'
+export BOOST_VERSION_DOT='1.81.0'
+wget https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.gz
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64:$LD_LIBRARY_PATH
-tar -xzf boost_1_81_0.tar.gz
-cd boost_1_81_0
+tar -xzf boost_${BOOST_VERSION}.tar.gz
+cd boost_${BOOST_VERSION}
 ./bootstrap.sh --with-libraries=filesystem,system
-./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/boost-1.81.0 install
+./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/${BOOST_VERSION} install
 cd ..
-rm -rf boost_1_81_0.tar.gz
+rm boost_${BOOST_VERSION}.tar.gz
