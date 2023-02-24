@@ -1,12 +1,11 @@
 import codecs
-import platform
-
 import os
 import pathlib
-
-from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext as build_ext_orig
+import platform
 import shutil
+
+from setuptools import Extension, setup
+from setuptools.command.build_ext import build_ext as build_ext_orig
 
 author_dict = {
     "Julian Hofer": "julian.hofer@deltares.nl",
@@ -92,13 +91,13 @@ try:
             python, abi = "py3", "none"
             return python, abi, plat
 
+
 except ImportError:
     bdist_wheel = None
 
 
 class CMakeExtension(Extension):
-    """Class for building a native cmake extension (C++)
-    """
+    """Class for building a native cmake extension (C++)"""
 
     def __init__(self, repository):
         """Constructor of CMakeExtension
@@ -107,14 +106,13 @@ class CMakeExtension(Extension):
             repository (str): The git repository of the extension to build
         """
 
-        name = repository.split('/')[-1]
+        name = repository.split("/")[-1]
         super().__init__(name, sources=[])
-        self.repository=repository
+        self.repository = repository
 
 
 class build_ext(build_ext_orig):
-    """Class for building an  extension using cmake
-    """
+    """Class for building an  extension using cmake"""
 
     def run(self):
         for ext in self.extensions:
@@ -132,26 +130,46 @@ class build_ext(build_ext_orig):
 
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
-            self.spawn(['git', 'clone', '--branch', 'fix/docker-linux-build', ext.repository])
+            self.spawn(
+                ["git", "clone", "--branch", "fix/docker-linux-build", ext.repository]
+            )
 
         os.chdir(ext.name)
-        self.spawn(['cmake', '-B', 'build', '-DCMAKE_BUILD_TYPE=Release'])
+        self.spawn(["cmake", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"])
         if not self.dry_run:
 
-            self.spawn(['cmake', '--build', 'build', '-j4'])
+            self.spawn(["cmake", "--build", "build", "-j4"])
             library_name = get_library_name()
             system = platform.system()
             if system == "Linux":
                 meshkernel_path = os.path.join(
-                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', library_name])
-                self.spawn(['strip', '--strip-unneeded', str(meshkernel_path)])
+                    *[
+                        pathlib.Path().absolute(),
+                        "build",
+                        "src",
+                        "MeshKernelApi",
+                        library_name,
+                    ]
+                )
+                self.spawn(["strip", "--strip-unneeded", str(meshkernel_path)])
             if system == "Windows":
                 meshkernel_path = os.path.join(
-                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', 'Release', library_name])
+                    *[
+                        pathlib.Path().absolute(),
+                        "build",
+                        "src",
+                        "MeshKernelApi",
+                        "Release",
+                        library_name,
+                    ]
+                )
 
-            shutil.copyfile(meshkernel_path, os.path.join(*[cwd, 'meshkernel', library_name]))
+            shutil.copyfile(
+                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name])
+            )
 
         os.chdir(cwd)
+
 
 long_description = read("README.md")
 
@@ -180,8 +198,8 @@ setup(
     package_data={
         "meshkernel": [get_library_name()],
     },
-    ext_modules=[CMakeExtension('https://github.com/Deltares/MeshKernel')],
-    cmdclass={"bdist_wheel": bdist_wheel, 'build_ext': build_ext},
+    ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
+    cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
     version=get_version("meshkernel/version.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
 )
