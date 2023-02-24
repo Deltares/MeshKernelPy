@@ -100,7 +100,7 @@ class CMakeExtension(Extension):
     """Class for building a native cmake extension (C++)"""
 
     def __init__(self, repository):
-        """Constructor of CMakeExtension
+        """Constructor of CMakeExtension class
 
         Args:
             repository (str): The git repository of the extension to build
@@ -131,18 +131,20 @@ class build_ext(build_ext_orig):
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
             self.spawn(
-                ["git", "clone", "--branch", "fix/docker-linux-build", ext.repository]
+                ["git", "clone", ext.repository]
             )
 
         os.chdir(ext.name)
-        
+
         if not self.dry_run:
-       
+
             library_name = get_library_name()
             system = platform.system()
             if system == "Linux":
-                self.spawn(["cmake", "-S", ".", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"])
-                self.spawn(["cmake", "--build", "build", "-j4"])
+                self.spawn(
+                    ["cmake", "-S", ".", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"]
+                )
+                self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
                 meshkernel_path = os.path.join(
                     *[
                         pathlib.Path().absolute(),
@@ -154,8 +156,19 @@ class build_ext(build_ext_orig):
                 )
                 self.spawn(["strip", "--strip-unneeded", str(meshkernel_path)])
             if system == "Windows":
-                self.spawn(["cmake", "-S", ".", "-B", "build", "-G", "Visual Studio 16 2019", "-DCMAKE_BUILD_TYPE=Release"])
-                self.spawn(["cmake", "--build", "build", "-j4"])
+                self.spawn(
+                    [
+                        "cmake",
+                        "-S",
+                        ".",
+                        "-B",
+                        "build",
+                        "-G",
+                        "Visual Studio 16 2019",
+                        "-DCMAKE_BUILD_TYPE=Release",
+                    ]
+                )
+                self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
                 meshkernel_path = os.path.join(
                     *[
                         pathlib.Path().absolute(),
