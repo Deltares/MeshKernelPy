@@ -68,22 +68,30 @@ When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://ju
 
 # Building wheels
 
-For building linux wheels deployable to PyPI a container image is provided. The image can be buid as follow
+To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64. 
+This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++). 
+To build the Docker image, please follow these steps:
 
 ```powershell
-docker build --progress=plain . -t build_linux_libraries
+cd scripts
+docker build --progress=plain . -t build_linux_library
+cd ..
 ```
 
-Once the docker image is built, deployable linux wheels can be generated as follow
+Once the Docker image has been built, start the container in interactive mode and mount the current folder to the /root folder of the container using the following command:
 
 ```powershell
-docker run -v %cd%:/root --rm -ti build_linux_libraries bash 
+docker run -v %cd%:/root --rm -ti build_linux_library bash 
+```
+
+In the terminal of the container, run the following commands to build deployable Linux wheels:
+
+```bash
 PYBIN=/opt/python/cp38-cp38/bin/
 ${PYBIN}/python3 setup.py bdist_wheel
 cd dist/
 auditwheel show meshkernel-2.0.2-py3-none-linux_x86_64.whl
 auditwheel repair meshkernel-2.0.2-py3-none-linux_x86_64.whl
-
 ```
 
 
