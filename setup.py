@@ -51,7 +51,7 @@ def get_version(rel_path: str) -> str:
     raise RuntimeError("Unable to find version string.")
 
 
-def get_meshkernel_name() -> str:
+def get_library_name() -> str:
     """Get the filename of the MeshKernel library
 
     Raises:
@@ -104,7 +104,7 @@ class CMakeExtension(Extension):
         """Constructor of CMakeExtension
 
         Args:
-            repository (str): The git repository if the extension to build
+            repository (str): The git repository of the extension to build
         """
 
         name = repository.split('/')[-1]
@@ -135,21 +135,21 @@ class build_ext(build_ext_orig):
             self.spawn(['git', 'clone', '--branch', 'fix/docker-linux-build', ext.repository])
 
         os.chdir(ext.name)
-        self.spawn(['C://Program Files//CMake//bin//cmake', '-B', 'build', '-DCMAKE_BUILD_TYPE=Release'])
+        self.spawn(['cmake', '-B', 'build', '-DCMAKE_BUILD_TYPE=Release'])
         if not self.dry_run:
 
-            self.spawn(['C://Program Files//CMake//bin//cmake', '--build', 'build', '-j4'])
-            meshkernel_name = get_meshkernel_name()
+            self.spawn(['cmake', '--build', 'build', '-j4'])
+            library_name = get_library_name()
             system = platform.system()
             if system == "Linux":
                 meshkernel_path = os.path.join(
-                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', meshkernel_name])
+                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', library_name])
                 self.spawn(['strip', '--strip-unneeded', str(meshkernel_path)])
             if system == "Windows":
                 meshkernel_path = os.path.join(
-                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', 'Release', meshkernel_name])
+                    *[pathlib.Path().absolute(), 'build', 'src', 'MeshKernelApi', 'Release', library_name])
 
-            shutil.copyfile(meshkernel_path, os.path.join(*[cwd, 'meshkernel', meshkernel_name]))
+            shutil.copyfile(meshkernel_path, os.path.join(*[cwd, 'meshkernel', library_name]))
 
         os.chdir(cwd)
 
@@ -178,7 +178,7 @@ setup(
     python_requires=">=3.8",
     packages=["meshkernel"],
     package_data={
-        "meshkernel": [get_meshkernel_name()],
+        "meshkernel": [get_library_name()],
     },
     ext_modules=[CMakeExtension('https://github.com/Deltares/MeshKernel')],
     cmdclass={"bdist_wheel": bdist_wheel, 'build_ext': build_ext},
