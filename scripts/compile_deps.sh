@@ -22,6 +22,6 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64:$LD_L
 tar -xzf boost_${BOOST_VERSION}.tar.gz
 cd boost_${BOOST_VERSION}
 ./bootstrap.sh --with-libraries=filesystem,system
-./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/${BOOST_VERSION} install
+./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/boost_${BOOST_VERSION} install
 cd ..
 rm boost_${BOOST_VERSION}.tar.gz
