@@ -135,13 +135,14 @@ class build_ext(build_ext_orig):
             )
 
         os.chdir(ext.name)
-        self.spawn(["cmake", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"])
+        
         if not self.dry_run:
-
-            self.spawn(["cmake", "--build", "build", "-j4"])
+       
             library_name = get_library_name()
             system = platform.system()
             if system == "Linux":
+                self.spawn(["cmake", "-S", ".", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"])
+                self.spawn(["cmake", "--build", "build", "-j4"])
                 meshkernel_path = os.path.join(
                     *[
                         pathlib.Path().absolute(),
@@ -153,6 +154,8 @@ class build_ext(build_ext_orig):
                 )
                 self.spawn(["strip", "--strip-unneeded", str(meshkernel_path)])
             if system == "Windows":
+                self.spawn(["cmake", "-S", ".", "-B", "build", "-G", "Visual Studio 16 2019", "-DCMAKE_BUILD_TYPE=Release"])
+                self.spawn(["cmake", "--build", "build", "-j4"])
                 meshkernel_path = os.path.join(
                     *[
                         pathlib.Path().absolute(),
