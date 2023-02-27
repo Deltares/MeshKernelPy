@@ -131,7 +131,7 @@ class build_ext(build_ext_orig):
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
             self.spawn(
-                ["git", "clone", ext.repository]
+                ["git", "clone", "-b", "fix/docker-linux-build", ext.repository]
             )
 
         os.chdir(ext.name)
