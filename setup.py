@@ -131,7 +131,7 @@ class build_ext(build_ext_orig):
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
             self.spawn(
-                ["git", "clone", "-b", "feature/GRIDEDIT-484_remove_boost_system_and_filesystem_dependencies", ext.repository]
+                ["git", "clone", ext.repository]
             )
 
         os.chdir(ext.name)
