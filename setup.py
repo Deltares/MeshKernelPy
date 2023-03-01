@@ -211,10 +211,9 @@ setup(
     },
     python_requires=">=3.8",
     package_data={
-        "meshkernel": [os.path.join("meshkernel", get_library_name())],
+        "meshkernel": [get_library_name()],
     },
     packages=find_packages(),
-    data_files=[('meshkernel', [os.path.join("meshkernel", get_library_name())])],
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
     version=get_version("meshkernel/version.py"),
