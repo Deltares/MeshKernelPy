@@ -180,9 +180,12 @@ class build_ext(build_ext_orig):
                     ]
                 )
 
-            shutil.copyfile(
-                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name])
-            )
+            library_path = os.path.join(*[cwd, "meshkernel", library_name])
+            if os.path.isfile(library_path):
+                print("XXXXXXXXXXXXXXXXXX found! ")
+                shutil.copyfile(
+                    meshkernel_path, library_path
+                )
 
         os.chdir(cwd)
 
