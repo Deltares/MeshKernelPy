@@ -175,7 +175,6 @@ class build_ext(build_ext_orig):
                         "build",
                         "src",
                         "MeshKernelApi",
-                        "Release",
                         library_name,
                     ]
                 )
