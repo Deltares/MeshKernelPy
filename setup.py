@@ -179,9 +179,11 @@ class build_ext(build_ext_orig):
                         library_name,
                     ]
                 )
-                print("XXXXXXXXXXXXXXXXXX meshkernel_path is " + meshkernel_path)
+
 
             library_path = os.path.join(*[cwd, "meshkernel", library_name])
+            print("XXXXXXXXXXXXXXXXXX source is " + meshkernel_path)
+            print("XXXXXXXXXXXXXXXXXX destination is " + library_path)
             shutil.copyfile(meshkernel_path, library_path)
             if os.path.isfile(library_path):
                 print("XXXXXXXXXXXXXXXXXX copied! ")
