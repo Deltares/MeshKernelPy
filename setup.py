@@ -179,6 +179,7 @@ class build_ext(build_ext_orig):
                         library_name,
                     ]
                 )
+                print("XXXXXXXXXXXXXXXXXX meshkernel_path is " + meshkernel_path)
 
             library_path = os.path.join(*[cwd, "meshkernel", library_name])
             if os.path.isfile(library_path):
@@ -186,6 +187,8 @@ class build_ext(build_ext_orig):
                 shutil.copyfile(
                     meshkernel_path, library_path
                 )
+            else:
+                print("XXXXXXXXXXXXXXXXXX not found! ")
 
         os.chdir(cwd)
 
