@@ -210,10 +210,11 @@ setup(
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
     },
     python_requires=">=3.8",
-    packages=find_packages(),
     package_data={
         "meshkernel": [get_library_name()],
     },
+    packages=find_packages(),
+    data_files=[('meshkernel', ["meshkernel/" + get_library_name()])],
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
     version=get_version("meshkernel/version.py"),
