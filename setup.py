@@ -4,7 +4,7 @@ import pathlib
 import platform
 import shutil
 
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
 author_dict = {
@@ -180,15 +180,9 @@ class build_ext(build_ext_orig):
                     ]
                 )
 
-
-            library_path = os.path.join(*[cwd, "meshkernel", library_name])
-            print("XXXXXXXXXXXXXXXXXX source is " + meshkernel_path)
-            print("XXXXXXXXXXXXXXXXXX destination is " + library_path)
-            shutil.copyfile(meshkernel_path, library_path)
-            if os.path.isfile(library_path):
-                print("XXXXXXXXXXXXXXXXXX copied! ")
-            else:
-                print("XXXXXXXXXXXXXXXXXX not copied! ")
+            shutil.copyfile(
+                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name])
+            )
 
         os.chdir(cwd)
 
@@ -216,7 +210,7 @@ setup(
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
     },
     python_requires=">=3.8",
-    packages=["meshkernel"],
+    packages=find_packages(),
     package_data={
         "meshkernel": [get_library_name()],
     },
