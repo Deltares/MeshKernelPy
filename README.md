@@ -74,24 +74,15 @@ To build the Docker image, please follow these steps:
 
 ```powershell
 cd scripts
-docker build --progress=plain . -t build_linux_library
+docker build --progress=plain ./scripts -t build_linux_library
 cd ..
 ```
 
-Once the Docker image has been built, start the container in interactive mode and mount the current folder to the /root folder of the container using the following command:
+Once the Docker image has been built, build the linux wheels using the following command:
 
 ```powershell
-docker run -v %cd%:/root --rm -ti build_linux_library bash 
+docker run -v %cd%:/root --rm build_linux_library 
 ```
 
-In the terminal of the container, run the following commands to build deployable Linux wheels:
-
-```bash
-PYBIN=/opt/python/cp38-cp38/bin/
-${PYBIN}/python3 setup.py bdist_wheel
-cd dist/
-auditwheel show meshkernel-2.0.2-py3-none-linux_x86_64.whl
-auditwheel repair meshkernel-2.0.2-py3-none-linux_x86_64.whl
-```
-
+The deployable linux wheels will be located in dist/wheelhouse
 
