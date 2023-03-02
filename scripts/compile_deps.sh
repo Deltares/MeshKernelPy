@@ -23,5 +23,22 @@ tar -xzf boost_${BOOST_VERSION}.tar.gz
 cd boost_${BOOST_VERSION}
 ./bootstrap.sh --with-libraries=filesystem,system
 ./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/boost_${BOOST_VERSION} install
+export BOOST_INCLUDE_DIR=/opt/boost-${BOOST_VERSION_DOT}/include
+export BOOST_LIBRARYDIR=/opt/boost-${BOOST_VERSION_DOT}/lib
 cd ..
-rm boost_${BOOST_VERSION}.tar.gz
+
+#clone the github repo
+git clone https://github.com/Deltares/MeshKernelPy
+
+# change folder to MeshKernelPy
+cd MeshKernelPy
+PYBIN=/opt/python/cp38-cp38/bin/
+${PYBIN}/python3 setup.py bdist_wheel
+cd dist/
+list=()
+for file in *linux_x86_64.whl; do
+    list+=("$file")
+done
+auditwheel show ${list[0]}
+auditwheel repair ${list[0]}
+cd ../..
