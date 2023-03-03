@@ -1,8 +1,4 @@
-#clone the github repo
-git clone https://github.com/Deltares/MeshKernelPy
-
-# change folder to MeshKernelPy
-cd MeshKernelPy
+#build wheels
 PYBIN=/opt/python/cp38-cp38/bin/
 ${PYBIN}/python3 setup.py bdist_wheel
 cd dist/
