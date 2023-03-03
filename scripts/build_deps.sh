@@ -9,4 +9,4 @@ done
 auditwheel show ${list[0]}
 auditwheel repair ${list[0]}
 cd ..
-cp dist/wheelhouse/*.whl .
+cp ./dist/wheelhouse/*.whl .
