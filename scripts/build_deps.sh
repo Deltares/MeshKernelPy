@@ -1,6 +1,7 @@
 #build wheels
 PYBIN=/opt/python/cp38-cp38/bin/
 ${PYBIN}/python3 setup.py bdist_wheel
+rm -rf build *.egg-info
 cd dist/
 list=()
 for file in *linux_x86_64.whl; do
