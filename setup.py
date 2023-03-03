@@ -224,6 +224,7 @@ setup(
     package_data={
         "meshkernel": [get_library_name()],
     },
+    include_package_data=True,
     packages=find_packages(),
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
