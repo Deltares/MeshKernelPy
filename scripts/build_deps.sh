@@ -8,4 +8,5 @@ for file in *linux_x86_64.whl; do
 done
 auditwheel show ${list[0]}
 auditwheel repair ${list[0]}
-cd ../..
+cd ..
+cp dist/wheelhouse/*.whl .
