@@ -4,7 +4,7 @@ import pathlib
 import platform
 import shutil
 
-from setuptools import Extension, setup, find_packages
+from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
 author_dict = {
@@ -130,9 +130,7 @@ class build_ext(build_ext_orig):
 
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
-            self.spawn(
-                ["git", "clone", ext.repository]
-            )
+            self.spawn(["git", "clone", ext.repository])
 
         os.chdir(ext.name)
 
@@ -142,7 +140,15 @@ class build_ext(build_ext_orig):
             system = platform.system()
             if system == "Linux":
                 self.spawn(
-                    ["cmake", "-S", ".", "-B", "build", "-DCMAKE_BUILD_TYPE=Release"]
+                    [
+                        "cmake",
+                        "-S",
+                        ".",
+                        "-B",
+                        "build",
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DADD_UNIT_TESTS_PROJECTS=OFF",
+                    ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
                 meshkernel_path = os.path.join(
@@ -166,6 +172,7 @@ class build_ext(build_ext_orig):
                         "-G",
                         "Visual Studio 16 2019",
                         "-DCMAKE_BUILD_TYPE=Release",
+                        "-DADD_UNIT_TESTS_PROJECTS=OFF",
                     ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
