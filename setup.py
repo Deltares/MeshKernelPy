@@ -188,11 +188,11 @@ class build_ext(build_ext_orig):
                 )
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
-            os.chmod(meshkernel_path, 436)
+            os.chmod(meshkernel_path, 0o0777)
             print('XXX source ', meshkernel_path)
             print('XXX destination ', destination)
             shutil.copyfile(
-                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name])
+                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name], follow_symlinks=False)
             )
 
         os.chdir(cwd)
