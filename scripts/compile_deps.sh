@@ -24,16 +24,3 @@ cd boost_${BOOST_VERSION}
 ./bootstrap.sh --with-libraries=filesystem,system
 ./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/boost_${BOOST_VERSION} install
 cd ..
-
-#build wheels
-PYBIN=/opt/python/cp38-cp38/bin/
-${PYBIN}/python3 setup.py bdist_wheel
-cd dist/
-list=()
-for file in *linux_x86_64.whl; do
-    list+=("$file")
-done
-auditwheel show ${list[0]}
-auditwheel repair ${list[0]}
-cd ..
-cp ./dist/wheelhouse/*.whl .
