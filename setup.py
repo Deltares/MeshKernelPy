@@ -3,6 +3,7 @@ import os
 import pathlib
 import platform
 import shutil
+import stat
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -189,7 +190,7 @@ class build_ext(build_ext_orig):
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
             shutil.copyfile(meshkernel_path, destination, follow_symlinks=False)
-            os.chmod(destination, 0o777)
+            os.chmod(destination, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
             files_in_dir = os.listdir(path=os.path.join(*[cwd, "meshkernel"]))
             print('XXX Files in meshkernel dir are ', files_in_dir)
 
