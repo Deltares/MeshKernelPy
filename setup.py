@@ -219,7 +219,7 @@ setup(
     },
     python_requires=">=3.8",
     package_data={
-        "meshkernel": [get_library_name()],
+        "meshkernel": [os.path.join("meshkernel", get_library_name())],
     },
     include_package_data=True,
     packages=find_packages(),
