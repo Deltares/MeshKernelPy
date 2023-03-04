@@ -4,7 +4,7 @@ import pathlib
 import platform
 import shutil
 
-from setuptools import Extension, setup
+from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
 author_dict = {
@@ -188,12 +188,9 @@ class build_ext(build_ext_orig):
                 )
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
-            os.chmod(meshkernel_path, 0o0777)
-            print('XXX source ', meshkernel_path)
-            print('XXX destination ', destination)
-            shutil.copyfile(meshkernel_path, destination,follow_symlinks=False)
+            shutil.copyfile(meshkernel_path, destination, follow_symlinks=False)
             files_in_dir = os.listdir(path=os.path.join(*[cwd, "meshkernel"]))
-            print('XX files in dir are ', files_in_dir)
+            print('XXX Files in meshkernel dir are ', files_in_dir)
 
         os.chdir(cwd)
 
@@ -222,10 +219,10 @@ setup(
     },
     python_requires=">=3.8",
     package_data={
-        "meshkernel": ["meshkernel/" + get_library_name()],
+        "meshkernel": [get_library_name()],
     },
     include_package_data=True,
-    packages=["meshkernel"],
+    packages=find_packages(),
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
     version=get_version("meshkernel/version.py"),
