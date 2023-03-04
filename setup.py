@@ -4,7 +4,7 @@ import pathlib
 import platform
 import shutil
 
-from setuptools import Extension, find_packages, setup
+from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
 author_dict = {
@@ -225,7 +225,7 @@ setup(
         "meshkernel": [get_library_name()],
     },
     include_package_data=True,
-    packages=find_packages(),
+    packages=["meshkernel"],
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"bdist_wheel": bdist_wheel, "build_ext": build_ext},
     version=get_version("meshkernel/version.py"),
