@@ -191,9 +191,9 @@ class build_ext(build_ext_orig):
             os.chmod(meshkernel_path, 0o0777)
             print('XXX source ', meshkernel_path)
             print('XXX destination ', destination)
-            shutil.copyfile(
-                meshkernel_path, os.path.join(*[cwd, "meshkernel", library_name]),follow_symlinks=False
-            )
+            shutil.copyfile(meshkernel_path, destination,follow_symlinks=False)
+            files_in_dir = os.listdir(path=os.path.join(*[cwd, "meshkernel"]))
+            print('XX files in dir are ', files_in_dir)
 
         os.chdir(cwd)
 
