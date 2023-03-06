@@ -194,9 +194,10 @@ class build_ext(build_ext_orig):
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
             shutil.copyfile(meshkernel_path, destination, follow_symlinks=False)
-            os.chmod(destination, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-            files_in_dir = os.listdir(path=os.path.join(*[cwd, "meshkernel"]))
-            print('XXX Files in meshkernel dir are ', files_in_dir)
+            
+            os.chmod(destination, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH |
+                                  stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH |
+                                  stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
 
         os.chdir(cwd)
 
@@ -224,6 +225,7 @@ setup(
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
     },
     python_requires=">=3.8",
+    package_data = { 'meshkernel': [get_library_name()]},
     data_files=[('meshkernel', [os.path.join("meshkernel", get_library_name())])],
     include_package_data=True,
     packages=find_packages(),
