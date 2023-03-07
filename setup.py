@@ -4,6 +4,7 @@ import pathlib
 import platform
 import shutil
 import stat
+from os import listdir
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -198,6 +199,11 @@ class build_ext(build_ext_orig):
             os.chmod(destination, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH |
                                   stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH |
                                   stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
+
+            print('XXX destination', destination)
+            destination_dir = os.path.join(*[cwd, "meshkernel"])
+            only_files = [f for f in listdir(destination_dir) if os.path.isfile(os.path.join(destination_dir, f))]
+            print('XXX files', only_files)
 
         os.chdir(cwd)
 

@@ -1,1 +1,1 @@
-include meshkernel/libMeshKernelApi.so
+include ./meshkernel/libMeshKernelApi.so
