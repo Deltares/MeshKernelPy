@@ -1,7 +1,7 @@
 #build wheels
 PYBIN=/opt/python/cp38-cp38/bin/
 rm -rf build *.egg-info
-${PYBIN}/python3 setup.py build_ext  --rpath=/root/meshkernel
+${PYBIN}/python3 setup.py build_ext
 ${PYBIN}/python3 setup.py sdist bdist_wheel
 cd dist/
 list=()

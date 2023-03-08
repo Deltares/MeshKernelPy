@@ -189,21 +189,8 @@ class build_ext(build_ext_orig):
                     ]
                 ))
 
-            os.chmod(meshkernel_path, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH |
-                                      stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH |
-                                      stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
-
             destination = os.path.join(*[cwd, "meshkernel", library_name])
-            shutil.copyfile(meshkernel_path, destination, follow_symlinks=False)
-
-            os.chmod(destination, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH |
-                                  stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH |
-                                  stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
-
-            print('XXX destination', destination)
-            destination_dir = os.path.join(*[cwd, "meshkernel"])
-            only_files = [f for f in listdir(destination_dir) if os.path.isfile(os.path.join(destination_dir, f))]
-            print('XXX files', only_files)
+            shutil.copyfile(meshkernel_path, destination)
 
         os.chdir(cwd)
 
