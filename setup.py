@@ -153,15 +153,17 @@ class build_ext(build_ext_orig):
                     ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
-                meshkernel_path = str(os.path.join(
-                    *[
-                        pathlib.Path().absolute(),
-                        "build",
-                        "src",
-                        "MeshKernelApi",
-                        library_name,
-                    ]
-                ))
+                meshkernel_path = str(
+                    os.path.join(
+                        *[
+                            pathlib.Path().absolute(),
+                            "build",
+                            "src",
+                            "MeshKernelApi",
+                            library_name,
+                        ]
+                    )
+                )
                 self.spawn(["strip", "--strip-unneeded", meshkernel_path])
             if system == "Windows":
                 self.spawn(
@@ -178,16 +180,18 @@ class build_ext(build_ext_orig):
                     ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
-                meshkernel_path = str(os.path.join(
-                    *[
-                        pathlib.Path().absolute(),
-                        "build",
-                        "src",
-                        "MeshKernelApi",
-                        "Release",
-                        library_name,
-                    ]
-                ))
+                meshkernel_path = str(
+                    os.path.join(
+                        *[
+                            pathlib.Path().absolute(),
+                            "build",
+                            "src",
+                            "MeshKernelApi",
+                            "Release",
+                            library_name,
+                        ]
+                    )
+                )
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
             shutil.copyfile(meshkernel_path, destination)
@@ -218,11 +222,10 @@ setup(
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
     },
     python_requires=">=3.8",
-    package_data = {'meshkernel': [get_library_name()]},
+    package_data={"meshkernel": [get_library_name()]},
     packages=find_packages(),
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"build_ext": build_ext, "bdist_wheel": bdist_wheel},
     version=get_version("meshkernel/version.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
 )
-
