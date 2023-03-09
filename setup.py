@@ -89,7 +89,6 @@ try:
             # We don't contain any python source
             return "py3", "none", _bdist_wheel.get_tag(self)[2]
 
-
 except ImportError:
     bdist_wheel = None
 
@@ -118,7 +117,6 @@ class build_ext(build_ext_orig):
         super().run()
 
     def build_cmake(self, ext):
-
         cwd = str(pathlib.Path().absolute())
         build_temp = pathlib.Path(self.build_temp)
 
@@ -133,7 +131,6 @@ class build_ext(build_ext_orig):
         os.chdir(ext.name)
 
         if not self.dry_run:
-
             library_name = get_library_name()
             system = platform.system()
             if system == "Linux":
