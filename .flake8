@@ -5,14 +5,22 @@ exclude =
     autotest
 ignore =
     # https://flake8.pycqa.org/en/latest/user/error-codes.html
-    F401, # 'module' imported but unused
+    # 'module' imported but unused
+    F401, 
     # https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes
-    E402, # module level import not at top of file
-    W292, # no newline at end of file
-    W293, # blank line contains whitespace
-    W391, # blank line at end of file
-    W503, # line break before binary operator
-    W504, # line break after binary operator
-    E203  # whitespace before ':'
+    # module level import not at top of file
+    E402, 
+    # no newline at end of file
+    W292, 
+    # blank line contains whitespace
+    W293, 
+    # blank line at end of file
+    W391, 
+    # line break before binary operator
+    W503, 
+    # line break after binary operator
+    W504,
+    # whitespace before ':'	
+    E203 
 statistics = True
-max-line-length = 120
+max-line-length = 140
