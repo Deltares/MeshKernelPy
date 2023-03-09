@@ -3,8 +3,6 @@ import os
 import pathlib
 import platform
 import shutil
-import stat
-from os import listdir
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -66,9 +64,9 @@ def get_library_name() -> str:
         return "MeshKernelApi.dll"
     elif system == "Linux":
         return "libMeshKernelApi.so"
-    elif system == "Darwin":
-        return "libMeshKernelApi.dylib"
     else:
+        if not str:
+            system = "Unknown OS"
         raise OSError(f"Unsupported operating system: {system}")
 
 
@@ -88,10 +86,8 @@ try:
             self.root_is_pure = False
 
         def get_tag(self):
-            python, abi, plat = _bdist_wheel.get_tag(self)
             # We don't contain any python source
-            python, abi = "py3", "none"
-            return python, abi, plat
+            return "py3", "none", _bdist_wheel.get_tag(self)[2]
 
 
 except ImportError:
@@ -165,7 +161,7 @@ class build_ext(build_ext_orig):
                     )
                 )
                 self.spawn(["strip", "--strip-unneeded", meshkernel_path])
-            if system == "Windows":
+            elif system == "Windows":
                 self.spawn(
                     [
                         "cmake",
@@ -192,6 +188,10 @@ class build_ext(build_ext_orig):
                         ]
                     )
                 )
+            else:
+                if not str:
+                    system = "Unknown OS"
+                raise OSError(f"Unsupported operating system: {system}")
 
             destination = os.path.join(*[cwd, "meshkernel", library_name])
             shutil.copyfile(meshkernel_path, destination)

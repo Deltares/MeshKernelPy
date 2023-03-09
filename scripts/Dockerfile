@@ -9,10 +9,10 @@ ADD . .
 # add gcc compiler
 RUN ./compile_deps.sh
 
+ENV GNU_COMPILER_DIRECTORY=/opt/rh/devtoolset-9/root/usr/bin
 ENV Boost_INCLUDE_DIR=/opt/boost_1_81_0/include
-ENV Boost_LIBRARYDIR=/opt/boost_1_81_0/lib
 ENV PATH="/opt/rh/devtoolset-9/root/usr/bin:$PATH"
-ENV CC=/opt/rh/devtoolset-9/root/usr/bin/gcc 
-ENV CXX=/opt/rh/devtoolset-9/root/usr/bin/g++
+ENV CC=${GNU_COMPILER_DIRECTORY}/gcc
+ENV CXX=${GNU_COMPILER_DIRECTORY}/g++
 
 CMD ["bash", "./scripts/build_deps.sh"]

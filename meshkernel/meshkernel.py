@@ -67,13 +67,15 @@ class MeshKernel:
 
         # Determine OS
         system = platform.system()
+
+        file_path = Path(__file__).parent
         if system == "Windows":
-            lib_path = os.path.join(Path(__file__).parent, "MeshKernelApi.dll")
+            lib_path = os.path.join(file_path, "MeshKernelApi.dll")
         elif system == "Linux":
-            lib_path = os.path.join(Path(__file__).parent, "libMeshKernelApi.so")
-        elif system == "Darwin":
-            lib_path = os.path.join(Path(__file__).parent, "libMeshKernelApi.dylib")
+            lib_path = os.path.join(file_path, "libMeshKernelApi.so")
         else:
+            if not str:
+                system = "Unknown OS"
             raise OSError(f"Unsupported operating system: {system}")
 
         self.lib = CDLL(str(lib_path))
