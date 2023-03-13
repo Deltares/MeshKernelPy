@@ -65,3 +65,24 @@ Then add a compiled `MeshKernelApi.dll` into your `src` folder.
 
 Also make sure that your editor is configured to format the code with [`black`](https://black.readthedocs.io/en/stable/) and [`isort`](https://pycqa.github.io/isort/).
 When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://jupyterlab-code-formatter.readthedocs.io/en/latest/installation.html) can be used.
+
+# Building linux wheels
+
+To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64. 
+This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++). 
+To build the Docker image, please follow these steps:
+
+```powershell
+cd scripts
+docker build --progress=plain ./scripts -t build_linux_library
+cd ..
+```
+
+Once the Docker image has been built, build the linux wheels using the following command:
+
+```powershell
+docker run -v %cd%:/root --rm build_linux_library 
+```
+
+The deployable linux wheels will be located in dist/wheelhouse
+

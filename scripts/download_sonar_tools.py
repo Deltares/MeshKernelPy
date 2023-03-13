@@ -26,7 +26,6 @@ def unzip_file(zip_file_path: Path, unzip_directory: Path) -> None:
 
 
 def get_build_wrapper(save_dir: Path) -> None:
-
     if platform.system() == "Windows":
         url = "https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip"
     elif platform.system() == "Linux":

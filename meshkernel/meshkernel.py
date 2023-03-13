@@ -1,4 +1,5 @@
 import logging
+import os
 import platform
 from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t
 from enum import IntEnum, unique
@@ -66,13 +67,15 @@ class MeshKernel:
 
         # Determine OS
         system = platform.system()
+
+        file_path = Path(__file__).parent
         if system == "Windows":
-            lib_path = Path(__file__).parent / "MeshKernelApi.dll"
+            lib_path = os.path.join(file_path, "MeshKernelApi.dll")
         elif system == "Linux":
-            lib_path = Path(__file__).parent / "libMeshKernelApi.so"
-        elif system == "Darwin":
-            lib_path = Path(__file__).parent / "libMeshKernelApi.dylib"
+            lib_path = os.path.join(file_path, "libMeshKernelApi.so")
         else:
+            if not str:
+                system = "Unknown OS"
             raise OSError(f"Unsupported operating system: {system}")
 
         self.lib = CDLL(str(lib_path))
@@ -1421,8 +1424,8 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_make_uniform,
             self._meshkernelid,
-            c_make_grid_parameters,
-            c_geometry_list,
+            byref(c_make_grid_parameters),
+            byref(c_geometry_list),
         )
 
     def curvilinear_refine(
@@ -1504,7 +1507,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
             self._meshkernelid,
-            c_geometry_list,
+            byref(c_geometry_list),
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
@@ -1532,7 +1535,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
             self._meshkernelid,
-            c_geometry_list,
+            byref(c_geometry_list),
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
@@ -1556,7 +1559,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_initialize_orthogonalize,
             self._meshkernelid,
-            c_orthogonalization_parameters,
+            byref(c_orthogonalization_parameters),
         )
 
     def curvilinear_set_block_orthogonalize(
