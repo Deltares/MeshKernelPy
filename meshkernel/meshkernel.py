@@ -1424,8 +1424,8 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_make_uniform,
             self._meshkernelid,
-            c_make_grid_parameters,
-            c_geometry_list,
+            byref(c_make_grid_parameters),
+            byref(c_geometry_list),
         )
 
     def curvilinear_refine(
@@ -1507,7 +1507,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
             self._meshkernelid,
-            c_geometry_list,
+            byref(c_geometry_list),
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
@@ -1535,7 +1535,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
             self._meshkernelid,
-            c_geometry_list,
+            byref(c_geometry_list),
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
@@ -1559,7 +1559,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_initialize_orthogonalize,
             self._meshkernelid,
-            c_orthogonalization_parameters,
+            byref(c_orthogonalization_parameters),
         )
 
     def curvilinear_set_block_orthogonalize(
