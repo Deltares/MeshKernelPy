@@ -151,7 +151,7 @@ class build_ext(build_ext_orig):
                         *[
                             pathlib.Path().absolute(),
                             "build",
-                            "src",
+                            "libs",
                             "MeshKernelApi",
                             library_name,
                         ]
@@ -178,7 +178,7 @@ class build_ext(build_ext_orig):
                         *[
                             pathlib.Path().absolute(),
                             "build",
-                            "src",
+                            "libs",
                             "MeshKernelApi",
                             "Release",
                             library_name,
