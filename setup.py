@@ -142,7 +142,7 @@ class build_ext(build_ext_orig):
                         "-B",
                         "build",
                         "-DCMAKE_BUILD_TYPE=Release",
-                        "-DADD_UNIT_TESTS_PROJECTS=OFF",
+                        "-DENABLE_UNIT_TESTING=OFF",
                     ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
@@ -151,7 +151,7 @@ class build_ext(build_ext_orig):
                         *[
                             pathlib.Path().absolute(),
                             "build",
-                            "src",
+                            "libs",
                             "MeshKernelApi",
                             library_name,
                         ]
@@ -169,7 +169,7 @@ class build_ext(build_ext_orig):
                         "-G",
                         "Visual Studio 16 2019",
                         "-DCMAKE_BUILD_TYPE=Release",
-                        "-DADD_UNIT_TESTS_PROJECTS=OFF",
+                        "-DENABLE_UNIT_TESTING=OFF",
                     ]
                 )
                 self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
@@ -178,7 +178,7 @@ class build_ext(build_ext_orig):
                         *[
                             pathlib.Path().absolute(),
                             "build",
-                            "src",
+                            "libs",
                             "MeshKernelApi",
                             "Release",
                             library_name,
