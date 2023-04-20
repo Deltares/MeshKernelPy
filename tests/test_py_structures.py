@@ -140,7 +140,7 @@ def test_meshrefinementparameter_constructor_defaults():
     """Tests the default values after constructing a `MeshRefinementParameters`."""
 
     parameters = MeshRefinementParameters(
-        False, True, 1.0, RefinementType.WAVE_COURANT, False, True
+        10, False, True, 1.0, RefinementType.WAVE_COURANT, False, True
     )
 
     assert parameters.refine_intersected is False
