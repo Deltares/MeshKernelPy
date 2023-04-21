@@ -152,7 +152,7 @@ def test_corthogonalizationparameters_from_orthogonalizationparameters():
 def test_cmeshrefinementparameters_from_meshrefinementparameters():
     """Tests `from_samplerefinementparameters` of the `CMeshRefinementParameters` class."""
 
-    parameters = MeshRefinementParameters(3, False, True, 1.0, 2, False, True)
+    parameters = MeshRefinementParameters(False, True, 1.0, 2, False, True, 3)
 
     c_parameters = CMeshRefinementParameters.from_meshrefinementparameters(parameters)
 

@@ -606,7 +606,7 @@ def test_mesh2d_refine_based_on_samples(
     samples = GeometryList(x_coordinates, y_coordinates, values)
 
     refinement_params = MeshRefinementParameters(
-        1, False, False, min_face_size, RefinementType.REFINEMENT_LEVELS, False, False
+        False, False, min_face_size, RefinementType.REFINEMENT_LEVELS, False, False, 1
     )
 
     mk.mesh2d_refine_based_on_samples(samples, 1.0, 1, refinement_params)
@@ -652,7 +652,7 @@ def test_mesh2d_refine_based_on_polygon(
     polygon = GeometryList(x_coordinates, y_coordinates)
 
     refinement_params = MeshRefinementParameters(
-        max_iterations, True, False, 0.5, 1, False, False
+        True, False, 0.5, 1, False, False, max_iterations
     )
 
     mk.mesh2d_refine_based_on_polygon(polygon, refinement_params)
