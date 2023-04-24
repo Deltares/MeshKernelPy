@@ -622,33 +622,37 @@ def test_mesh2d_refine_based_on_samples(
 cases_mesh2d_refine_based_on_gridded_samples = [
     (
         GriddedSamples(
-            n_cols=3,
-            n_rows=3,
-            x_origin=-5.0,
-            y_origin=-5.0,
+            n_cols=6,
+            n_rows=5,
+            x_origin=-50.0,
+            y_origin=-50.0,
             origin_location_type=0,
-            cell_size=10,
-            values=np.array([10.0] * 9, dtype=np.double),
+            cell_size=100.0,
+            values=np.array([-0.05] * 42, dtype=np.double),
         ),
-        10,
-        10,
-        10,
+        86,
+        161,
+        76,
     ),
     (
         GriddedSamples(
-            x_coordinates=np.array([-5.0, 5.0, 15.0, 25.0], dtype=np.double),
-            y_coordinates=np.array([-5.0, 5.0, 15.0, 25.0], dtype=np.double),
-            values=np.array([10.0] * 16, dtype=np.double),
+            x_coordinates=np.array(
+                [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0, 550.0], dtype=np.double
+            ),
+            y_coordinates=np.array(
+                [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0], dtype=np.double
+            ),
+            values=np.array([-0.05] * 16, dtype=np.double),
         ),
-        10,
-        10,
-        10,
+        86,
+        161,
+        76,
     ),
 ]
 
 
 @pytest.mark.parametrize(
-    "gridded_samples, exp_nodes, exp_edges,exp_faces",
+    "gridded_samples, exp_nodes, exp_edges, exp_faces",
     cases_mesh2d_refine_based_on_gridded_samples,
 )
 def test_mesh2d_refine_based_on_gridded_samples(
@@ -666,7 +670,7 @@ def test_mesh2d_refine_based_on_gridded_samples(
     |   |   |
     0---1---2
     """
-    mk = meshkernel_with_mesh2d(2, 2)
+    mk = meshkernel_with_mesh2d(rows=5, columns=4, spacing_x=100.0, spacing_y=100.0)
 
     refinement_params = MeshRefinementParameters(
         refine_intersected=False,

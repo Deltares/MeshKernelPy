@@ -677,8 +677,8 @@ class CGriddedSamples(Structure):
     Used for communicating with the MeshKernel dll.
 
     Attributes:
-        n_cols (c_double): Number of grid columns.
-        n_rows (c_double): Number of grid rows.
+        n_cols (c_int): Number of grid columns.
+        n_rows (c_int): Number of grid rows.
         x_origin (c_double): X coordinate of the grid origin.
         y_origin (c_double): Y coordinate of the grid origin.
         origin_location_type (c_int): Type of the origin (centre=0 / corner=1).
@@ -690,12 +690,12 @@ class CGriddedSamples(Structure):
     """
 
     _fields_ = [
-        ("n_cols", c_double),
-        ("n_rows", c_double),
+        ("n_cols", c_int),
+        ("n_rows", c_int),
         ("x_origin", c_double),
         ("y_origin", c_double),
         ("origin_location_type", c_int),
-        ("cell_size", c_int),
+        ("cell_size", c_double),
         ("x_coordinates", POINTER(c_double)),
         ("y_coordinates", POINTER(c_double)),
         ("missing_value", c_double),
@@ -717,15 +717,19 @@ class CGriddedSamples(Structure):
 
         c_gridded_samples = CGriddedSamples()
 
-        if len(gridded_samples.x_coordinates) > 0:
-            n_cols = len(gridded_samples.x_coordinates)
-        else:
+        if len(gridded_samples.x_coordinates) == 0:
             n_cols = gridded_samples.n_cols
-
-        if len(gridded_samples.y_coordinates) > 0:
-            n_rows = len(gridded_samples.y_coordinates)
+            c_gridded_samples.x_coordinates = None
         else:
-            n_rows = gridded_samples.n_row
+            n_cols = len(gridded_samples.x_coordinates)
+            c_gridded_samples.x_coordinates = as_ctypes(gridded_samples.x_coordinates)
+
+        if len(gridded_samples.y_coordinates) == 0:
+            n_rows = gridded_samples.n_rows
+            c_gridded_samples.y_coordinates = None
+        else:
+            n_rows = len(gridded_samples.y_coordinates)
+            c_gridded_samples.y_coordinates = as_ctypes(gridded_samples.y_coordinates)
 
         c_gridded_samples.n_cols = n_cols
         c_gridded_samples.n_rows = n_rows
@@ -733,9 +737,7 @@ class CGriddedSamples(Structure):
         c_gridded_samples.y_origin = gridded_samples.y_origin
         c_gridded_samples.origin_location_type = gridded_samples.origin_location_type
         c_gridded_samples.cell_size = gridded_samples.cell_size
-        c_gridded_samples.x_coordinates = gridded_samples.x_coordinates
-        c_gridded_samples.y_coordinates = gridded_samples.y_coordinates
         c_gridded_samples.missing_value = gridded_samples.missing_value
-        c_gridded_samples.values = gridded_samples.values
+        c_gridded_samples.values = as_ctypes(gridded_samples.values)
 
         return c_gridded_samples

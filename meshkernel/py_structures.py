@@ -420,7 +420,7 @@ class GriddedSamples:
     y_origin: float = 0.0
     origin_location_type: int = 0
     cell_size: float = 0.0
-    x_coordinates: ndarray
-    y_coordinates: ndarray
+    x_coordinates: ndarray = np.empty(0, dtype=np.double)
+    y_coordinates: ndarray = np.empty(0, dtype=np.double)
     missing_value: float = 1e10
     values: ndarray = np.empty(0, dtype=np.double)
