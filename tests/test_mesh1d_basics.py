@@ -2,8 +2,9 @@ import numpy as np
 import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
+from test_utils import Mesh2dFactory
 
-from meshkernel import GeometryList, Mesh1d, Mesh2dFactory, MeshKernel
+from meshkernel import GeometryList, Mesh1d, MeshKernel
 
 
 def sort_contacts_by_mesh2d_indices(contacts):
