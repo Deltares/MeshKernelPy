@@ -662,14 +662,7 @@ def test_mesh2d_refine_based_on_gridded_samples(
     exp_edges: int,
     exp_faces: int,
 ):
-    """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 2x2 mesh.
-
-    6---7---8
-    |   |   |
-    3---4---5
-    |   |   |
-    0---1---2
-    """
+    """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 5x4 mesh."""
     mk = meshkernel_with_mesh2d(rows=5, columns=4, spacing_x=100.0, spacing_y=100.0)
 
     refinement_params = MeshRefinementParameters(
