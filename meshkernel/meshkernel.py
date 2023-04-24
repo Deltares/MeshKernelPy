@@ -501,22 +501,21 @@ class MeshKernel:
         self,
         gridded_samples: GriddedSamples,
         mesh_refinement_params: MeshRefinementParameters,
-        useNodalRefinement: bool,
+        use_nodal_refinement: bool = True,
     ) -> None:
-        """Computes a curvilinear mesh in a triangle. 3 separate polygon nodes need to be selected.
+        """Computes mesh refinement based of gridded samples and bilinear interpolation
 
         Args:
-            geometry_list (GeometryList): The input polygon.
-            first_node (int): The first selected node.
-            second_node (int): The second selected node.
-            third_node (int): The third selected node.
+            gridded_samples (GriddedSamples): The gridded samples.
+            mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
+            use_nodal_refinement (bool): If the depth value at nodes is used for refinement. Default True.
         """
 
         c_gridded_samples = CGriddedSamples.from_griddedSamples(gridded_samples)
         c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
             mesh_refinement_params
         )
-        use_nodal_refinement_int = 1 if useNodalRefinement else 0
+        use_nodal_refinement_int = 1 if use_nodal_refinement else 0
 
         self._execute_function(
             self.lib.mkernel_mesh2d_refine_based_on_gridded_samples,
