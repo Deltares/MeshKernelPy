@@ -395,3 +395,32 @@ class Contacts:
             node_y = [mesh1d.node_y[mesh1d_index], mesh2d.face_y[mesh2d_index]]
 
             ax.plot(node_x, node_y, *args, **kwargs)
+
+
+@dataclass
+class GriddedSamples:
+    """A class holding gridded samples, both for uniform gridding and non-uniform gridding.
+
+    Attributes:
+        n_cols (int, optional): Number of grid columns. Default is `0`.
+        n_rows (int, optional): Number of grid rows. Default is `0`.
+        x_origin (float, optional): X coordinate of the grid origin. Default is `0.0`.
+        y_origin (float, optional): Y coordinate of the grid origin. Default is `0.0`.
+        origin_location_type (int, optional): Type of the origin (centre=0 / corner=1). Default is `0.0`.
+        cell_size (float, optional): Constant grid cell size. Default is `0.0`.
+        x_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in x direction.
+        y_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in y direction.
+        missing_value(float, optional): Value for missing data. Default is `1e10`.
+        values (ndarray): Sample values.
+    """
+
+    n_cols: int = 0
+    n_rows: int = 0
+    x_origin: float = 0.0
+    y_origin: float = 0.0
+    origin_location_type: int = 0
+    cell_size: float = 0.0
+    x_coordinates: ndarray
+    y_coordinates: ndarray
+    missing_value: float = 1e10
+    values: ndarray = np.empty(0, dtype=np.double)

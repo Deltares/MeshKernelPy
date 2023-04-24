@@ -7,6 +7,7 @@ from pytest import approx
 from meshkernel import (
     DeleteMeshOption,
     GeometryList,
+    GriddedSamples,
     InputError,
     Mesh2d,
     MeshKernel,
@@ -610,6 +611,74 @@ def test_mesh2d_refine_based_on_samples(
     )
 
     mk.mesh2d_refine_based_on_samples(samples, 1.0, 1, refinement_params)
+
+    mesdh2d = mk.mesh2d_get()
+
+    assert mesdh2d.node_x.size == exp_nodes
+    assert mesdh2d.edge_x.size == exp_edges
+    assert mesdh2d.face_x.size == exp_faces
+
+
+cases_mesh2d_refine_based_on_gridded_samples = [
+    (
+        GriddedSamples(
+            n_cols=3,
+            n_rows=3,
+            x_origin=-5.0,
+            y_origin=-5.0,
+            origin_location_type=0,
+            cell_size=10,
+            values=np.array([10.0] * 9, dtype=np.double),
+        ),
+        10,
+        10,
+        10,
+    ),
+    (
+        GriddedSamples(
+            x_coordinates=np.array([-5.0, 5.0, 15.0, 25.0], dtype=np.double),
+            y_coordinates=np.array([-5.0, 5.0, 15.0, 25.0], dtype=np.double),
+            values=np.array([10.0] * 16, dtype=np.double),
+        ),
+        10,
+        10,
+        10,
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "gridded_samples, exp_nodes, exp_edges,exp_faces",
+    cases_mesh2d_refine_based_on_gridded_samples,
+)
+def test_mesh2d_refine_based_on_gridded_samples(
+    meshkernel_with_mesh2d: MeshKernel,
+    gridded_samples: GriddedSamples,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
+):
+    """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 2x2 mesh.
+
+    6---7---8
+    |   |   |
+    3---4---5
+    |   |   |
+    0---1---2
+    """
+    mk = meshkernel_with_mesh2d(2, 2)
+
+    refinement_params = MeshRefinementParameters(
+        refine_intersected=False,
+        use_mass_center_when_refining=False,
+        min_face_size=2.0,
+        refinement_type=RefinementType.WAVE_COURANT,
+        connect_hanging_nodes=True,
+        account_for_samples_outside_face=False,
+        max_refinement_iterations=5,
+    )
+
+    mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)
 
     mesdh2d = mk.mesh2d_get()
 
