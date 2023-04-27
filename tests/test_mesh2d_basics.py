@@ -626,7 +626,6 @@ cases_mesh2d_refine_based_on_gridded_samples = [
             n_rows=5,
             x_origin=-50.0,
             y_origin=-50.0,
-            origin_location_type=0,
             cell_size=100.0,
             values=np.array([-0.05] * 42, dtype=np.double),
         ),

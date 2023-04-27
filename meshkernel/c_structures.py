@@ -681,11 +681,9 @@ class CGriddedSamples(Structure):
         n_rows (c_int): Number of grid rows.
         x_origin (c_double): X coordinate of the grid origin.
         y_origin (c_double): Y coordinate of the grid origin.
-        origin_location_type (c_int): Type of the origin (centre=0 / corner=1).
         cell_size (c_int):  Constant grid cell size.
         x_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in x direction.
         y_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in y direction.
-        missing_value (c_double): Value for missing data.
         values (POINTER(c_double)): Sample values.
     """
 
@@ -694,11 +692,9 @@ class CGriddedSamples(Structure):
         ("n_rows", c_int),
         ("x_origin", c_double),
         ("y_origin", c_double),
-        ("origin_location_type", c_int),
         ("cell_size", c_double),
         ("x_coordinates", POINTER(c_double)),
         ("y_coordinates", POINTER(c_double)),
-        ("missing_value", c_double),
         ("values", POINTER(c_double)),
     ]
 
@@ -735,9 +731,7 @@ class CGriddedSamples(Structure):
         c_gridded_samples.n_rows = n_rows
         c_gridded_samples.x_origin = gridded_samples.x_origin
         c_gridded_samples.y_origin = gridded_samples.y_origin
-        c_gridded_samples.origin_location_type = gridded_samples.origin_location_type
         c_gridded_samples.cell_size = gridded_samples.cell_size
-        c_gridded_samples.missing_value = gridded_samples.missing_value
         c_gridded_samples.values = as_ctypes(gridded_samples.values)
 
         return c_gridded_samples

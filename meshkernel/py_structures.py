@@ -406,11 +406,9 @@ class GriddedSamples:
         n_rows (int, optional): Number of grid rows. Default is `0`.
         x_origin (float, optional): X coordinate of the grid origin. Default is `0.0`.
         y_origin (float, optional): Y coordinate of the grid origin. Default is `0.0`.
-        origin_location_type (int, optional): Type of the origin (centre=0 / corner=1). Default is `0.0`.
-        cell_size (float, optional): Constant grid cell size. Default is `0.0`.
+        cell_size (float, optional): Constant grid edge size. Default is `0.0`.
         x_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in x direction.
         y_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in y direction.
-        missing_value(float, optional): Value for missing data. Default is `1e10`.
         values (ndarray): Sample values.
     """
 
@@ -418,9 +416,7 @@ class GriddedSamples:
     n_rows: int = 0
     x_origin: float = 0.0
     y_origin: float = 0.0
-    origin_location_type: int = 0
     cell_size: float = 0.0
     x_coordinates: ndarray = np.empty(0, dtype=np.double)
     y_coordinates: ndarray = np.empty(0, dtype=np.double)
-    missing_value: float = 1e10
     values: ndarray = np.empty(0, dtype=np.double)
