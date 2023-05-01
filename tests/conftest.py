@@ -1,6 +1,7 @@
 import pytest
+from test_utils import Mesh2dFactory
 
-from meshkernel import Mesh2dFactory, MeshKernel
+from meshkernel import MeshKernel
 
 
 @pytest.fixture(scope="function")

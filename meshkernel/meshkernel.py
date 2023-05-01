@@ -1436,7 +1436,9 @@ class MeshKernel:
         )
 
     def curvilinear_make_uniform(
-        self, make_grid_parameters: MakeGridParameters, geometry_list: GeometryList
+        self,
+        make_grid_parameters: MakeGridParameters,
+        geometry_list: GeometryList = None,
     ) -> None:
         """Makes a new curvilinear grid. If polygons is not empty,
         the curvilinear grid will be generated in the first polygon
@@ -1449,6 +1451,12 @@ class MeshKernel:
         c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
             make_grid_parameters
         )
+
+        if not geometry_list:
+            geometry_list = GeometryList(
+                np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)
+            )
+
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(

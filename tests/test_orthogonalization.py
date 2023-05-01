@@ -1,14 +1,9 @@
 import numpy as np
 from numpy.testing import assert_array_equal
 from pytest import approx
+from test_utils import Mesh2dFactory
 
-from meshkernel import (
-    GeometryList,
-    Mesh2d,
-    Mesh2dFactory,
-    MeshKernel,
-    OrthogonalizationParameters,
-)
+from meshkernel import GeometryList, Mesh2d, MeshKernel, OrthogonalizationParameters
 
 
 def test_mesh2d_compute_orthogonalization():
