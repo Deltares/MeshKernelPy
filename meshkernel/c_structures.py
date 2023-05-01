@@ -251,7 +251,7 @@ class CMeshRefinementParameters(Structure):
         refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
         use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
                                                process (yes=1/no=0)
-        min_face_size (c_double): Minimum cell size.
+        min_edge_size (c_double): Minimum cell size.
         refinement_type (c_int): Refinement criterion type.
         connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
         account_for_samples_outside (c_int): Whether to take samples outside face into account.
@@ -261,7 +261,7 @@ class CMeshRefinementParameters(Structure):
         ("max_refinement_iterations", c_int),
         ("refine_intersected", c_int),
         ("use_mass_center_when_refining", c_int),
-        ("min_face_size", c_double),
+        ("min_edge_size", c_double),
         ("refinement_type", c_int),
         ("connect_hanging_nodes", c_int),
         ("account_for_samples_outside_face", c_int),
@@ -288,7 +288,7 @@ class CMeshRefinementParameters(Structure):
         c_parameters.use_mass_center_when_refining = (
             mesh_refinement_parameters.use_mass_center_when_refining
         )
-        c_parameters.min_face_size = mesh_refinement_parameters.min_face_size
+        c_parameters.min_edge_size = mesh_refinement_parameters.min_edge_size
         c_parameters.refinement_type = mesh_refinement_parameters.refinement_type
         c_parameters.connect_hanging_nodes = (
             mesh_refinement_parameters.connect_hanging_nodes

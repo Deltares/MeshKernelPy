@@ -299,7 +299,7 @@ class MeshRefinementParameters:
         refine_intersected (bool): Whether to compute faces intersected by polygon.
         use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
                                               process.
-        min_face_size (float): Minimum cell size.
+        min_edge_size (float): Minimum edge size.
         refinement_type (RefinementType): Refinement criterion type.
         connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
         account_for_samples_outside (bool): Whether to take samples outside face into account.
@@ -308,7 +308,7 @@ class MeshRefinementParameters:
 
     refine_intersected: bool
     use_mass_center_when_refining: bool
-    min_face_size: float
+    min_edge_size: float
     refinement_type: RefinementType
     connect_hanging_nodes: bool
     account_for_samples_outside_face: bool

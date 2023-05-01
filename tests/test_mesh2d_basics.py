@@ -667,7 +667,7 @@ def test_mesh2d_refine_based_on_gridded_samples(
     refinement_params = MeshRefinementParameters(
         refine_intersected=False,
         use_mass_center_when_refining=False,
-        min_face_size=2.0,
+        min_edge_size=2.0,
         refinement_type=RefinementType.WAVE_COURANT,
         connect_hanging_nodes=True,
         account_for_samples_outside_face=False,
