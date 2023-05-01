@@ -16,8 +16,10 @@ def meshkernel_with_mesh2d():
         MeshKernel: The created instance of `meshkernel`
     """
 
-    def _create(rows: int, columns: int):
-        mesh2d = Mesh2dFactory.create(rows, columns)
+    def _create(rows: int, columns: int, spacing_x: int = 1.0, spacing_y: int = 1.0):
+        mesh2d = Mesh2dFactory.create(
+            rows=rows, columns=columns, spacing_x=spacing_x, spacing_y=spacing_y
+        )
         mk = MeshKernel()
 
         mk.mesh2d_set(mesh2d)

@@ -15,6 +15,7 @@ from meshkernel.c_structures import (
     CCurvilinearGrid,
     CCurvilinearParameters,
     CGeometryList,
+    CGriddedSamples,
     CMakeGridParameters,
     CMesh1d,
     CMesh2d,
@@ -30,6 +31,7 @@ from meshkernel.py_structures import (
     CurvilinearParameters,
     DeleteMeshOption,
     GeometryList,
+    GriddedSamples,
     MakeGridParameters,
     Mesh1d,
     Mesh2d,
@@ -493,6 +495,34 @@ class MeshKernel:
             c_double(relative_search_radius),
             c_int(minimum_num_samples),
             byref(c_refinement_params),
+        )
+
+    def mesh2d_refine_based_on_gridded_samples(
+        self,
+        gridded_samples: GriddedSamples,
+        mesh_refinement_params: MeshRefinementParameters,
+        use_nodal_refinement: bool = True,
+    ) -> None:
+        """Computes mesh refinement based of gridded samples and bilinear interpolation
+
+        Args:
+            gridded_samples (GriddedSamples): The gridded samples.
+            mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
+            use_nodal_refinement (bool): If the depth value at nodes is used for refinement. Default True.
+        """
+
+        c_gridded_samples = CGriddedSamples.from_griddedSamples(gridded_samples)
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
+            mesh_refinement_params
+        )
+        use_nodal_refinement_int = 1 if use_nodal_refinement else 0
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_refine_based_on_gridded_samples,
+            self._meshkernelid,
+            byref(c_gridded_samples),
+            byref(c_refinement_params),
+            c_int(use_nodal_refinement_int),
         )
 
     def mesh2d_refine_based_on_polygon(
@@ -1510,7 +1540,7 @@ class MeshKernel:
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
-        use_fourth_side_bool = 1 if use_fourth_side else 0
+        use_fourth_side_int = 1 if use_fourth_side else 0
 
         self._execute_function(
             self.lib.mkernel_curvilinear_compute_transfinite_from_polygon,
@@ -1519,7 +1549,7 @@ class MeshKernel:
             c_int(first_node),
             c_int(second_node),
             c_int(third_node),
-            c_int(use_fourth_side_bool),
+            c_int(use_fourth_side_int),
         )
 
     def curvilinear_compute_transfinite_from_triangle(

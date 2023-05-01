@@ -1,10 +1,10 @@
 # add development tools
 yum -y install git make wget which bzip2 netcdf centos-release-scl
-yum -y install devtoolset-9
-scl enable devtoolset-9 bash
-export PATH="/opt/rh/devtoolset-9/root/usr/bin:$PATH"
-export CC=/opt/rh/devtoolset-9/root/usr/bin/gcc 
-export CXX=/opt/rh/devtoolset-9/root/usr/bin/g++
+yum -y install ${devtoolset}
+scl enable ${devtoolset} bash
+export PATH="/opt/rh/${devtoolset}/root/usr/bin:$PATH"
+export CC=/opt/rh/${devtoolset}/root/usr/bin/gcc 
+export CXX=/opt/rh/${devtoolset}/root/usr/bin/g++
 
 # Add cmake
 cd /root

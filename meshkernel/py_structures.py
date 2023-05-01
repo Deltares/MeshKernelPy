@@ -299,7 +299,7 @@ class MeshRefinementParameters:
         refine_intersected (bool): Whether to compute faces intersected by polygon.
         use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
                                               process.
-        min_face_size (float): Minimum cell size.
+        min_edge_size (float): Minimum edge size.
         refinement_type (RefinementType): Refinement criterion type.
         connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
         account_for_samples_outside (bool): Whether to take samples outside face into account.
@@ -308,7 +308,7 @@ class MeshRefinementParameters:
 
     refine_intersected: bool
     use_mass_center_when_refining: bool
-    min_face_size: float
+    min_edge_size: float
     refinement_type: RefinementType
     connect_hanging_nodes: bool
     account_for_samples_outside_face: bool
@@ -395,3 +395,28 @@ class Contacts:
             node_y = [mesh1d.node_y[mesh1d_index], mesh2d.face_y[mesh2d_index]]
 
             ax.plot(node_x, node_y, *args, **kwargs)
+
+
+@dataclass
+class GriddedSamples:
+    """A class holding gridded samples, both for uniform gridding and non-uniform gridding.
+
+    Attributes:
+        n_cols (int, optional): Number of grid columns. Default is `0`.
+        n_rows (int, optional): Number of grid rows. Default is `0`.
+        x_origin (float, optional): X coordinate of the grid origin. Default is `0.0`.
+        y_origin (float, optional): Y coordinate of the grid origin. Default is `0.0`.
+        cell_size (float, optional): Constant grid edge size. Default is `0.0`.
+        x_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in x direction.
+        y_coordinates (ndarray, optional): Coordinates for non-uniform grid spacing in y direction.
+        values (ndarray): Sample values.
+    """
+
+    n_cols: int = 0
+    n_rows: int = 0
+    x_origin: float = 0.0
+    y_origin: float = 0.0
+    cell_size: float = 0.0
+    x_coordinates: ndarray = np.empty(0, dtype=np.double)
+    y_coordinates: ndarray = np.empty(0, dtype=np.double)
+    values: ndarray = np.empty(0, dtype=np.double)

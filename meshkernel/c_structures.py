@@ -10,6 +10,7 @@ from meshkernel.py_structures import (
     CurvilinearGrid,
     CurvilinearParameters,
     GeometryList,
+    GriddedSamples,
     MakeGridParameters,
     Mesh1d,
     Mesh2d,
@@ -250,7 +251,7 @@ class CMeshRefinementParameters(Structure):
         refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
         use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
                                                process (yes=1/no=0)
-        min_face_size (c_double): Minimum cell size.
+        min_edge_size (c_double): Minimum cell size.
         refinement_type (c_int): Refinement criterion type.
         connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
         account_for_samples_outside (c_int): Whether to take samples outside face into account.
@@ -260,7 +261,7 @@ class CMeshRefinementParameters(Structure):
         ("max_refinement_iterations", c_int),
         ("refine_intersected", c_int),
         ("use_mass_center_when_refining", c_int),
-        ("min_face_size", c_double),
+        ("min_edge_size", c_double),
         ("refinement_type", c_int),
         ("connect_hanging_nodes", c_int),
         ("account_for_samples_outside_face", c_int),
@@ -287,7 +288,7 @@ class CMeshRefinementParameters(Structure):
         c_parameters.use_mass_center_when_refining = (
             mesh_refinement_parameters.use_mass_center_when_refining
         )
-        c_parameters.min_face_size = mesh_refinement_parameters.min_face_size
+        c_parameters.min_edge_size = mesh_refinement_parameters.min_edge_size
         c_parameters.refinement_type = mesh_refinement_parameters.refinement_type
         c_parameters.connect_hanging_nodes = (
             mesh_refinement_parameters.connect_hanging_nodes
@@ -667,3 +668,70 @@ class CSplinesToCurvilinearParameters(Structure):
         )
 
         return c_splines_to_curvilinear_parameters
+
+
+class CGriddedSamples(Structure):
+    """C-structure intended for internal use only.
+    It represents a GriddedSamples struct as described by the MeshKernel API.
+
+    Used for communicating with the MeshKernel dll.
+
+    Attributes:
+        n_cols (c_int): Number of grid columns.
+        n_rows (c_int): Number of grid rows.
+        x_origin (c_double): X coordinate of the grid origin.
+        y_origin (c_double): Y coordinate of the grid origin.
+        cell_size (c_int):  Constant grid cell size.
+        x_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in x direction.
+        y_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in y direction.
+        values (POINTER(c_double)): Sample values.
+    """
+
+    _fields_ = [
+        ("n_cols", c_int),
+        ("n_rows", c_int),
+        ("x_origin", c_double),
+        ("y_origin", c_double),
+        ("cell_size", c_double),
+        ("x_coordinates", POINTER(c_double)),
+        ("y_coordinates", POINTER(c_double)),
+        ("values", POINTER(c_double)),
+    ]
+
+    @staticmethod
+    def from_griddedSamples(
+        gridded_samples: GriddedSamples,
+    ) -> CGriddedSamples:
+        """Creates a new `CGriddedSamples` instance from the given GriddedSamples instance.
+
+        Args:
+            gridded_samples (GriddedSamples): The GriddedSamples samples.
+
+        Returns:
+            CGriddedSamples: The created C-Structure for the given CGriddedSamples.
+        """
+
+        c_gridded_samples = CGriddedSamples()
+
+        if len(gridded_samples.x_coordinates) == 0:
+            n_cols = gridded_samples.n_cols
+            c_gridded_samples.x_coordinates = None
+        else:
+            n_cols = len(gridded_samples.x_coordinates) - 1
+            c_gridded_samples.x_coordinates = as_ctypes(gridded_samples.x_coordinates)
+
+        if len(gridded_samples.y_coordinates) == 0:
+            n_rows = gridded_samples.n_rows
+            c_gridded_samples.y_coordinates = None
+        else:
+            n_rows = len(gridded_samples.y_coordinates) - 1
+            c_gridded_samples.y_coordinates = as_ctypes(gridded_samples.y_coordinates)
+
+        c_gridded_samples.n_cols = n_cols
+        c_gridded_samples.n_rows = n_rows
+        c_gridded_samples.x_origin = gridded_samples.x_origin
+        c_gridded_samples.y_origin = gridded_samples.y_origin
+        c_gridded_samples.cell_size = gridded_samples.cell_size
+        c_gridded_samples.values = as_ctypes(gridded_samples.values)
+
+        return c_gridded_samples
