@@ -159,7 +159,7 @@ def test_cmeshrefinementparameters_from_meshrefinementparameters():
     assert c_parameters.max_refinement_iterations == 3
     assert c_parameters.refine_intersected == 0
     assert c_parameters.use_mass_center_when_refining == 1
-    assert c_parameters.min_face_size == 1.0
+    assert c_parameters.min_edge_size == 1.0
     assert c_parameters.refinement_type == 2
     assert c_parameters.connect_hanging_nodes == 0
     assert c_parameters.account_for_samples_outside_face == 1

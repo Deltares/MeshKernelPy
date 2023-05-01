@@ -145,7 +145,7 @@ def test_meshrefinementparameter_constructor_defaults():
 
     assert parameters.refine_intersected is False
     assert parameters.use_mass_center_when_refining is True
-    assert parameters.min_face_size == 1.0
+    assert parameters.min_edge_size == 1.0
     assert parameters.refinement_type is RefinementType.WAVE_COURANT
     assert parameters.connect_hanging_nodes is False
     assert parameters.account_for_samples_outside_face is True
