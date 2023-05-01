@@ -296,22 +296,22 @@ class MeshRefinementParameters:
     """A class holding the parameters for Mesh2d refinement.
 
     Attributes:
-        refine_intersected (bool): Whether to compute faces intersected by polygon.
+        refine_intersected (bool): Whether to compute faces intersected by polygon. Default is `False`.
         use_mass_center_when_refining (bool): Whether to use the mass center when splitting a face in the refinement
-                                              process.
-        min_edge_size (float): Minimum edge size.
-        refinement_type (RefinementType): Refinement criterion type.
-        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration.
-        account_for_samples_outside (bool): Whether to take samples outside face into account.
+                                              process. Default is `True`.
+        min_edge_size (float): Minimum edge size. Default is `0.5`.
+        refinement_type (RefinementType): Refinement criterion type. Default is `RefinementType.REFINEMENT_LEVELS`.
+        connect_hanging_nodes (bool): Whether to connect hanging nodes at the end of the iteration. Default is `True`.
+        account_for_samples_outside (bool): Whether to take samples outside face into account.  Default is `False`.
         max_refinement_iterations (int, optional): Maximum number of refinement iterations. Default is `10`.
     """
 
-    refine_intersected: bool
-    use_mass_center_when_refining: bool
-    min_edge_size: float
-    refinement_type: RefinementType
-    connect_hanging_nodes: bool
-    account_for_samples_outside_face: bool
+    refine_intersected: bool = False
+    use_mass_center_when_refining: bool = True
+    min_edge_size: float = 0.5
+    refinement_type: RefinementType = RefinementType.REFINEMENT_LEVELS
+    connect_hanging_nodes: bool = True
+    account_for_samples_outside_face: bool = False
     max_refinement_iterations: int = 10
 
 
