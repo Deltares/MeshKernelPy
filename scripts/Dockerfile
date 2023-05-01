@@ -7,7 +7,7 @@ WORKDIR /root
 ADD . .
 
 # add gcc compiler, devtoolset-11
-ENV export devtoolset=devtoolset-11
+ENV devtoolset=devtoolset-11
 RUN ./compile_deps.sh
 
 ENV GNU_COMPILER_DIRECTORY=/opt/rh/${devtoolset}/root/usr/bin
