@@ -10,20 +10,13 @@ The underlying C++ library `MeshKernel` can be found [here](https://github.com/D
 
 # Installation
 
-## Windows
-
 The library can be installed from PyPI by executing
 
 ```bash
 pip install meshkernel
 ```
 
-If you encounter any issues importing the pip wheels on Windows, you may need to install the [Visual C++ Redistributable for Visual Studio 2019](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
-
-## Linux
-
-Currently, we only offer wheels specific to Deltares' CentOS machines.
-We plan to release a manylinux wheel at PyPI in the future. 
+Under Windows, If you encounter any issues importing the pip wheels on Windows, you may need to install the [Visual C++ Redistributable for Visual Studio 2019](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
 
 # Examples
 
@@ -45,13 +38,6 @@ MeshKernel provides an algorithm to adapt the mesh and achieve a good balance be
 A mesh can be refined in areas based on samples or polygon selections. 
 
 ![](https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/GridRefinement.jpg)
-
-# License
-
-`MeshKernelPy` uses the MIT license.
-However, the wheels on PyPI bundle the LGPL licensed [MeshKernel](https://github.com/Deltares/MeshKernel).
-Please make sure that this fits your needs before depending on it.
-
 
 # Contributing
 
@@ -86,3 +72,8 @@ docker run -v %cd%:/root --rm build_linux_library
 
 The deployable linux wheels will be located in dist/wheelhouse
 
+# License
+
+`MeshKernelPy` uses the MIT license.
+However, the wheels on PyPI bundle the LGPL licensed [MeshKernel](https://github.com/Deltares/MeshKernel).
+Please make sure that this fits your needs before depending on it.
