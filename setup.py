@@ -7,6 +7,8 @@ import shutil
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
+from meshkernel.version import __backend_version__
+
 author_dict = {
     "Julian Hofer": "julian.hofer@deltares.nl",
     "Prisca van der Sluis": "prisca.vandersluis@deltares.nl",
@@ -109,7 +111,7 @@ class CMakeExtension(Extension):
 
 
 class build_ext(build_ext_orig):
-    """Class for building an  extension using cmake"""
+    """Class for building an extension using cmake"""
 
     def run(self):
         for ext in self.extensions:
@@ -127,6 +129,7 @@ class build_ext(build_ext_orig):
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
             self.spawn(["git", "clone", ext.repository])
+            # self.spawn(["git", "checkout", "-b", "release/" + __backend_version__])
 
         os.chdir(ext.name)
 
