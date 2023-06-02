@@ -60,7 +60,7 @@ To build the Docker image, please follow these steps:
 
 ```powershell
 cd scripts
-docker build --progress=plain ./scripts -t build_linux_library
+docker build --progress=plain . -t build_linux_library
 cd ..
 ```
 
