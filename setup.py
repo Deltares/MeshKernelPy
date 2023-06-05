@@ -171,7 +171,7 @@ class build_ext(build_ext_orig):
                 # spawn failed because git switch command failed (remote/origin does not exist)
                 print(
                     ex,
-                    "(Invalid reference to branch origin/{}). Remaining on master branch".format(
+                    "(Invalid reference to branch origin/{}). Remaining on master branch.".format(
                         branch
                     ),
                 )
