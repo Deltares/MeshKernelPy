@@ -6,7 +6,6 @@ import shutil
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
-from distutils.errors import DistutilsExecError
 
 from meshkernel.version import __backend_version__
 
@@ -136,13 +135,17 @@ class build_ext(build_ext_orig):
             try:
                 if branch == "release":
                     release_branch = "release/v" + __backend_version__
-                    origin_release_branch = "origin/" + release_branch
                     self.spawn(
-                        ["git", "switch", "-C", release_branch, origin_release_branch]
+                        [
+                            "git",
+                            "switch",
+                            "-C",
+                            release_branch,
+                            "origin/" + release_branch,
+                        ]
                     )
-                elif branch.startswith("feature"):
-                    origin_branch = "origin/" + branch
-                    self.spawn(["git", "switch", "-C", branch, origin_branch])
+                elif branch.startswith("feature/"):
+                    self.spawn(["git", "switch", "-C", branch, "origin/" + branch])
                 else:
                     if branch != "master":
                         print(
@@ -152,10 +155,11 @@ class build_ext(build_ext_orig):
                         )
                     else:
                         print("Remaining on master branch")
-            except DistutilsExecError as ex:
+            except Exception as ex:
+                # spawn failed because git command failed (when switching to a remote origin that does not exist)
                 print(
                     ex,
-                    " Possibly due to an invalid reference to branch {}".format(branch),
+                    "(Invalid reference to branch {})".format(branch),
                 )
 
         os.chdir(ext.name)
