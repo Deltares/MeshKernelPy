@@ -16,7 +16,4 @@ ENV PATH="/opt/rh/${devtoolset}/root/usr/bin:$PATH"
 ENV CC=${GNU_COMPILER_DIRECTORY}/gcc
 ENV CXX=${GNU_COMPILER_DIRECTORY}/g++
 
-#ARG back_end_branch
-#ENV BACK_END_BRANCH=$back_end_branch
-
 CMD ["bash", "./scripts/build_deps.sh"]

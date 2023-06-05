@@ -3,6 +3,7 @@ import os
 import pathlib
 import platform
 import shutil
+import sys
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -161,6 +162,7 @@ class build_ext(build_ext_orig):
                     ex,
                     "(Invalid reference to branch {}).".format(branch),
                 )
+                sys.exit(1)
 
         os.chdir(ext.name)
 
