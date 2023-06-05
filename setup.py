@@ -3,7 +3,6 @@ import os
 import pathlib
 import platform
 import shutil
-import sys
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -139,6 +138,8 @@ class build_ext(build_ext_orig):
                     self.spawn(
                         [
                             "git",
+                            "-C",
+                            "./MeshKernel",
                             "switch",
                             "-C",
                             release_branch,
@@ -146,23 +147,35 @@ class build_ext(build_ext_orig):
                         ]
                     )
                 elif branch.startswith("feature/"):
-                    self.spawn(["git", "switch", "-C", branch, "origin/" + branch])
+                    self.spawn(
+                        [
+                            "git",
+                            "-C",
+                            "./MeshKernel",
+                            "switch",
+                            "-C",
+                            branch,
+                            "origin/" + branch,
+                        ]
+                    )
                 else:
-                    if branch != "main":
+                    if branch != "master":
                         print(
-                            "Invalid reference to branch {}. Falling back to main branch.".format(
+                            "Invalid reference to branch origin/{}. Remaining on master branch.".format(
                                 branch
                             )
                         )
                     else:
-                        print("Remaining on main branch")
+                        print("Remaining on master branch")
             except Exception as ex:
-                # spawn failed because git command failed (when switching to a remote origin that does not exist)
+                # spawn failed because git switch command failed (remote/origin does not exist)
                 print(
                     ex,
-                    "(Invalid reference to branch {}).".format(branch),
+                    "(Invalid reference to branch origin/{}). Remaining on master branch".format(
+                        branch
+                    ),
                 )
-                sys.exit(1)
+        self.spawn(["git", "-C", "./MeshKernel", "branch"])
 
         os.chdir(ext.name)
 
