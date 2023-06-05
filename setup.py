@@ -7,6 +7,8 @@ import shutil
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
 
+from meshkernel.version import __backend_version__
+
 author_dict = {
     "Julian Hofer": "julian.hofer@deltares.nl",
     "Prisca van der Sluis": "prisca.vandersluis@deltares.nl",
@@ -109,7 +111,7 @@ class CMakeExtension(Extension):
 
 
 class build_ext(build_ext_orig):
-    """Class for building an  extension using cmake"""
+    """Class for building an extension using cmake"""
 
     def run(self):
         for ext in self.extensions:
@@ -126,7 +128,54 @@ class build_ext(build_ext_orig):
 
         os.chdir(str(build_temp))
         if not os.path.isdir(ext.name):
+            # clone repository
             self.spawn(["git", "clone", ext.repository])
+            # switch to main, release or feature branch
+            branch = os.getenv("BACK_END_BRANCH")
+            try:
+                if branch == "release":
+                    release_branch = "release/v" + __backend_version__
+                    self.spawn(
+                        [
+                            "git",
+                            "-C",
+                            "./MeshKernel",
+                            "switch",
+                            "-C",
+                            release_branch,
+                            "origin/" + release_branch,
+                        ]
+                    )
+                elif branch.startswith("feature/"):
+                    self.spawn(
+                        [
+                            "git",
+                            "-C",
+                            "./MeshKernel",
+                            "switch",
+                            "-C",
+                            branch,
+                            "origin/" + branch,
+                        ]
+                    )
+                else:
+                    if branch != "master":
+                        print(
+                            "Invalid reference to branch origin/{}. Remaining on master branch.".format(
+                                branch
+                            )
+                        )
+                    else:
+                        print("Remaining on master branch")
+            except Exception as ex:
+                # spawn failed because git switch command failed (remote/origin does not exist)
+                print(
+                    ex,
+                    "(Invalid reference to branch origin/{}). Remaining on master branch.".format(
+                        branch
+                    ),
+                )
+        self.spawn(["git", "-C", "./MeshKernel", "branch"])
 
         os.chdir(ext.name)
 
