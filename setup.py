@@ -130,7 +130,7 @@ class build_ext(build_ext_orig):
         if not os.path.isdir(ext.name):
             # clone repository
             self.spawn(["git", "clone", ext.repository])
-            # switch to master, release or feature branch
+            # switch to main, release or feature branch
             branch = os.getenv("BACK_END_BRANCH")
             try:
                 if branch == "release":
@@ -147,19 +147,19 @@ class build_ext(build_ext_orig):
                 elif branch.startswith("feature/"):
                     self.spawn(["git", "switch", "-C", branch, "origin/" + branch])
                 else:
-                    if branch != "master":
+                    if branch != "main":
                         print(
-                            "Invalid reference to branch {}. Falling back to on master".format(
+                            "Invalid reference to branch {}. Falling back to main branch.".format(
                                 branch
                             )
                         )
                     else:
-                        print("Remaining on master branch")
+                        print("Remaining on main branch")
             except Exception as ex:
                 # spawn failed because git command failed (when switching to a remote origin that does not exist)
                 print(
                     ex,
-                    "(Invalid reference to branch {})".format(branch),
+                    "(Invalid reference to branch {}).".format(branch),
                 )
 
         os.chdir(ext.name)
