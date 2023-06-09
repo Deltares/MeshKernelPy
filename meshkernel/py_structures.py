@@ -306,8 +306,8 @@ class MeshRefinementParameters:
         max_refinement_iterations (int, optional): Maximum number of refinement iterations. Default is `10`.
         smoothing_iterations (int, optional): The number of smoothing iterations. Default is `5`.
         max_courant_time (double, optional): Maximum courant time in seconds. Default is `120`.
-        max_refinement_iterations (int, optional): Directional refinement, cannot be used when the number of smoothing
-        iterations is larger than 0. Default is `0`.
+        max_refinement_iterations (bool, optional): Directional refinement, cannot be used when the number of smoothing
+        iterations is larger than 0. Default is `False`.
     """
 
     refine_intersected: bool = False
@@ -319,7 +319,7 @@ class MeshRefinementParameters:
     max_refinement_iterations: int = 10
     smoothing_iterations: int = 5
     max_courant_time: float = 120.0
-    directional_refinement: int = 0
+    directional_refinement: bool = False
 
 
 @dataclass

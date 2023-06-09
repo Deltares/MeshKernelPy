@@ -9,12 +9,14 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
+    MakeGridParameters,
     Mesh2d,
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
     RefinementType,
 )
+from test_utils import read_asc_file
 
 cases_is_geometric_constructor = [(True), (False)]
 
@@ -572,8 +574,7 @@ def test_polygon_refine(start: int, end: int, length: float, exp_nodes: int):
 
 cases_mesh2d_refine_based_on_samples = [
     (0.5, 0, 9, 12, 4),
-    (0.5, 1, 25, 40, 16),
-    # (0.5, 2, 81, 144, 64),
+    (0.5, 1, 25, 40, 16)
 ]
 
 
@@ -684,6 +685,61 @@ def test_mesh2d_refine_based_on_gridded_samples(
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
     assert mesdh2d.face_x.size == exp_faces
+
+
+def test_mesh2d_refine_based_on_gridded_asc_samples():
+    """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 5x4 mesh."""
+
+    lon_min, lon_max = -1, -0.2
+    lat_min, lat_max = 49.1, 49.6
+    lon_res, lat_res = 0.1, 0.1
+    num_x = int(np.ceil((lon_max - lon_min) / lon_res))
+    num_y = int(np.ceil((lat_max - lat_min) / lat_res))
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = num_x
+    make_grid_parameters.num_rows = num_y
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.origin_x = lon_min
+    make_grid_parameters.origin_y = lat_min
+    make_grid_parameters.block_size_x = 0.1
+    make_grid_parameters.block_size_y = 0.1
+
+    geometry_list = GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double))
+
+    mk = MeshKernel(is_geographic=True)
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_convert_to_mesh2d()
+
+    header, data = read_asc_file('./data/gebco.asc')
+
+    gridded_samples = GriddedSamples(
+        n_cols=int(header['ncols']),
+        n_rows=int(header['nrows']),
+        x_origin=header['xllcenter'],
+        y_origin=header['yllcenter'],
+        cell_size=header['cellsize'],
+        values=data)
+
+    refinement_params = MeshRefinementParameters(
+        refine_intersected=False,
+        use_mass_center_when_refining=False,
+        min_edge_size=2.0,
+        refinement_type=RefinementType.WAVE_COURANT,
+        connect_hanging_nodes=True,
+        account_for_samples_outside_face=False,
+        max_refinement_iterations=5,
+        smoothing_iterations=5,
+        max_courant_time=120.0,
+        directional_refinement=0)
+
+    mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)
+
+    mesdh2d = mk.mesh2d_get()
+
+    assert mesdh2d.node_x.size == 10021
+    assert mesdh2d.edge_x.size == 20295
+    assert mesdh2d.face_x.size == 10275
 
 
 cases_mesh2d_refine_based_on_polygon = [

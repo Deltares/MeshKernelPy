@@ -5,6 +5,33 @@ from numpy.testing import assert_array_equal
 from meshkernel import InputError, Mesh2d, MeshKernel, __version__
 
 
+def read_asc_file(file_path):
+    """Reads asc file and returns headers and data as numpy array
+    Args:
+            file_path (str): The file path
+    Returns:
+            header: The ascii header with
+            data: The ascii data as numpy array
+        """
+
+    header = {}
+    data = []
+
+    with open(file_path, 'r') as file:
+        # Read header information
+        for _ in range(6):
+            line = file.readline().strip().split()
+            header[line[0]] = float(line[1])
+
+        # Read data values
+        for line in file:
+            data_row = [float(value) for value in line.strip().split()]
+            data.insert(0, data_row)  # Insert row at the beginning
+
+        # Flatten the
+        data = np.array(data).flatten().astype(np.double)
+
+    return header, data
 class Mesh2dFactory:
     @staticmethod
     def create(
