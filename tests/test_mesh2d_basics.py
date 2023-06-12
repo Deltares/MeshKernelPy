@@ -3,6 +3,7 @@ import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
 from pytest import approx
+from test_utils import read_asc_file
 
 from meshkernel import (
     DeleteMeshOption,
@@ -16,7 +17,6 @@ from meshkernel import (
     MeshRefinementParameters,
     RefinementType,
 )
-from test_utils import read_asc_file
 
 cases_is_geometric_constructor = [(True), (False)]
 
@@ -298,7 +298,7 @@ cases_mesh2d_get_node_index = [
 
 @pytest.mark.parametrize("x, y, exp_index", cases_mesh2d_get_node_index)
 def test_mesh2d_get_node_index(
-        meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
+    meshkernel_with_mesh2d: MeshKernel, x: float, y: float, exp_index: int
 ):
     """Test `mesh2d_get_node_index` on a 1x1 Mesh2d.
 
@@ -316,7 +316,7 @@ def test_mesh2d_get_node_index(
 
 
 def test_mesh2d_get_node_index_no_node_in_search_radius(
-        meshkernel_with_mesh2d: MeshKernel,
+    meshkernel_with_mesh2d: MeshKernel,
 ):
     """Test `get_node_index` when there is no node within the search radius."""
 
@@ -341,12 +341,12 @@ cases_mesh2d_delete_small_polygon = [
     cases_mesh2d_delete_small_polygon,
 )
 def test_mesh2d_delete_small_polygon(
-        meshkernel_with_mesh2d: MeshKernel,
-        invert_deletion: bool,
-        delete_option: DeleteMeshOption,
-        exp_nodes: int,
-        exp_edges: int,
-        exp_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    invert_deletion: bool,
+    delete_option: DeleteMeshOption,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Test `mesh2d_delete` by deleting a polygon from a 5x5 mesh2d.
 
@@ -387,11 +387,11 @@ cases_mesh2d_delete_empty_polygon = [(False, 0, 0, 0), (True, 25, 40, 16)]
     cases_mesh2d_delete_empty_polygon,
 )
 def test_mesh2d_delete_empty_polygon(
-        meshkernel_with_mesh2d: MeshKernel,
-        invert_deletion: bool,
-        exp_nodes: int,
-        exp_edges: int,
-        exp_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    invert_deletion: bool,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Test `mesh2d_delete` by deleting a an empty polygon from a 4x4 mesh2d.
 
@@ -448,7 +448,7 @@ cases_mesh2d_get_hanging_edges = [
     "node_x, node_y, edge_nodes, expected", cases_mesh2d_get_hanging_edges
 )
 def test_mesh2d_get_hanging_edges(
-        node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
+    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
 ):
     """Tests `mesh2d_get_hanging_edges` by comparing the returned hanging edges with the expected ones
     4*
@@ -572,10 +572,7 @@ def test_polygon_refine(start: int, end: int, length: float, exp_nodes: int):
     assert geom.x_coordinates.size == exp_nodes
 
 
-cases_mesh2d_refine_based_on_samples = [
-    (0.5, 0, 9, 12, 4),
-    (0.5, 1, 25, 40, 16)
-]
+cases_mesh2d_refine_based_on_samples = [(0.5, 0, 9, 12, 4), (0.5, 1, 25, 40, 16)]
 
 
 @pytest.mark.parametrize(
@@ -583,12 +580,12 @@ cases_mesh2d_refine_based_on_samples = [
     cases_mesh2d_refine_based_on_samples,
 )
 def test_mesh2d_refine_based_on_samples(
-        meshkernel_with_mesh2d: MeshKernel,
-        min_face_size: float,
-        sample_value: float,
-        exp_nodes: int,
-        exp_edges: int,
-        exp_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    min_face_size: float,
+    sample_value: float,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Tests `mesh2d_refine_based_on_samples` with a simple 2x2 mesh.
 
@@ -656,11 +653,11 @@ cases_mesh2d_refine_based_on_gridded_samples = [
     cases_mesh2d_refine_based_on_gridded_samples,
 )
 def test_mesh2d_refine_based_on_gridded_samples(
-        meshkernel_with_mesh2d: MeshKernel,
-        gridded_samples: GriddedSamples,
-        exp_nodes: int,
-        exp_edges: int,
-        exp_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    gridded_samples: GriddedSamples,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 5x4 mesh."""
     mk = meshkernel_with_mesh2d(rows=5, columns=4, spacing_x=100.0, spacing_y=100.0)
@@ -675,7 +672,7 @@ def test_mesh2d_refine_based_on_gridded_samples(
         max_refinement_iterations=5,
         smoothing_iterations=0,
         max_courant_time=120.0,
-        directional_refinement=0
+        directional_refinement=0,
     )
 
     mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)
@@ -705,21 +702,24 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
     make_grid_parameters.block_size_x = 0.1
     make_grid_parameters.block_size_y = 0.1
 
-    geometry_list = GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double))
+    geometry_list = GeometryList(
+        np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)
+    )
 
     mk = MeshKernel(is_geographic=True)
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
     mk.curvilinear_convert_to_mesh2d()
 
-    header, data = read_asc_file('./data/gebco.asc')
+    header, data = read_asc_file("./data/gebco.asc")
 
     gridded_samples = GriddedSamples(
-        n_cols=int(header['ncols']) - 1,
-        n_rows=int(header['nrows']) - 1,
-        x_origin=header['xllcenter'],
-        y_origin=header['yllcenter'],
-        cell_size=header['cellsize'],
-        values=data)
+        n_cols=int(header["ncols"]) - 1,
+        n_rows=int(header["nrows"]) - 1,
+        x_origin=header["xllcenter"],
+        y_origin=header["yllcenter"],
+        cell_size=header["cellsize"],
+        values=data,
+    )
 
     refinement_params = MeshRefinementParameters(
         refine_intersected=False,
@@ -731,7 +731,8 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
         max_refinement_iterations=5,
         smoothing_iterations=5,
         max_courant_time=120.0,
-        directional_refinement=0)
+        directional_refinement=0,
+    )
 
     mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)
 
@@ -755,11 +756,11 @@ cases_mesh2d_refine_based_on_polygon = [
     cases_mesh2d_refine_based_on_polygon,
 )
 def test_mesh2d_refine_based_on_polygon(
-        meshkernel_with_mesh2d: MeshKernel,
-        max_iterations: int,
-        exp_nodes: int,
-        exp_edges: int,
-        exp_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    max_iterations: int,
+    exp_nodes: int,
+    exp_edges: int,
+    exp_faces: int,
 ):
     """Tests `mesh2d_refine_based_on_polygon` with a simple 2x2 mesh.
 
@@ -844,10 +845,10 @@ cases_mesh2d_merge_two_nodes = [(0, 1, 4), (4, 5, 4), (0, 4, 3)]
     "first_node, second_node, num_faces", cases_mesh2d_merge_two_nodes
 )
 def test_mesh2d_merge_two_nodes(
-        meshkernel_with_mesh2d: MeshKernel,
-        first_node: int,
-        second_node: int,
-        num_faces: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    first_node: int,
+    second_node: int,
+    num_faces: int,
 ):
     """Tests `mesh2d_merge_two_nodes` by checking if two selected nodes are properly merged
 
@@ -907,7 +908,7 @@ cases_polygon_get_included_points = [
     cases_polygon_get_included_points,
 )
 def test_polygon_get_included_points(
-        selecting_x: np.array, selecting_y: np.array, exp_values: np.array
+    selecting_x: np.array, selecting_y: np.array, exp_values: np.array
 ):
     """Tests `polygon_get_included_points` with a simple polygon and various selecting polygons."""
 
@@ -1374,11 +1375,11 @@ cases_nodes_in_polygons_mesh2d = [
     cases_nodes_in_polygons_mesh2d,
 )
 def test_nodes_in_polygons_mesh2d(
-        meshkernel_with_mesh2d: MeshKernel,
-        x_coordinates: ndarray,
-        y_coordinates: ndarray,
-        inside: bool,
-        exp_num_nodes: int,
+    meshkernel_with_mesh2d: MeshKernel,
+    x_coordinates: ndarray,
+    y_coordinates: ndarray,
+    inside: bool,
+    exp_num_nodes: int,
 ):
     """Tests `nodes_in_polygons_mesh2d` by checking if it returns the correct number of nodes
 

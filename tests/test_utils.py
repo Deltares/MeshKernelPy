@@ -10,14 +10,14 @@ def read_asc_file(file_path):
     Args:
             file_path (str): The file path
     Returns:
-            header: The ascii header with
-            data: The ascii data as numpy array
-        """
+            header: The ascii header
+            data: The ascii data as a numpy array of doubles
+    """
 
     header = {}
     data = []
 
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         # Read header information
         for _ in range(6):
             line = file.readline().strip().split()
@@ -32,6 +32,8 @@ def read_asc_file(file_path):
         data = np.array(data).flatten().astype(np.double)
 
     return header, data
+
+
 class Mesh2dFactory:
     @staticmethod
     def create(
