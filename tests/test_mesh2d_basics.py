@@ -714,8 +714,8 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
     header, data = read_asc_file('./data/gebco.asc')
 
     gridded_samples = GriddedSamples(
-        n_cols=int(header['ncols']),
-        n_rows=int(header['nrows']),
+        n_cols=int(header['ncols']) - 1,
+        n_rows=int(header['nrows']) - 1,
         x_origin=header['xllcenter'],
         y_origin=header['yllcenter'],
         cell_size=header['cellsize'],
@@ -723,8 +723,8 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
 
     refinement_params = MeshRefinementParameters(
         refine_intersected=False,
-        use_mass_center_when_refining=False,
-        min_edge_size=2.0,
+        use_mass_center_when_refining=True,
+        min_edge_size=0.01,
         refinement_type=RefinementType.WAVE_COURANT,
         connect_hanging_nodes=True,
         account_for_samples_outside_face=False,
@@ -737,9 +737,10 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
 
     mesdh2d = mk.mesh2d_get()
 
-    assert mesdh2d.node_x.size == 10021
-    assert mesdh2d.edge_x.size == 20295
-    assert mesdh2d.face_x.size == 10275
+    assert mesdh2d.node_x.size == 5223
+    assert mesdh2d.edge_x.size == 10745
+    assert mesdh2d.face_x.size == 5523
+    assert mesdh2d.face_nodes.size == 21212
 
 
 cases_mesh2d_refine_based_on_polygon = [
