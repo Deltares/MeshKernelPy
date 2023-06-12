@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 from numpy import ndarray
@@ -710,7 +712,8 @@ def test_mesh2d_refine_based_on_gridded_asc_samples():
     mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
     mk.curvilinear_convert_to_mesh2d()
 
-    header, data = read_asc_file("./data/gebco.asc")
+    file_path = os.path.join(*[os.getcwd(), "data", "gebco.asc"])
+    header, data = read_asc_file(file_path)
 
     gridded_samples = GriddedSamples(
         n_cols=int(header["ncols"]) - 1,
