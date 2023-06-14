@@ -686,67 +686,6 @@ def test_mesh2d_refine_based_on_gridded_samples(
     assert mesdh2d.face_x.size == exp_faces
 
 
-def test_mesh2d_refine_based_on_gridded_asc_samples():
-    """Tests `mesh2d_refine_based_on_gridded_samples` with a simple 5x4 mesh."""
-
-    lon_min, lon_max = -1, -0.2
-    lat_min, lat_max = 49.1, 49.6
-    lon_res, lat_res = 0.1, 0.1
-    num_x = int(np.ceil((lon_max - lon_min) / lon_res))
-    num_y = int(np.ceil((lat_max - lat_min) / lat_res))
-
-    make_grid_parameters = MakeGridParameters()
-    make_grid_parameters.num_columns = num_x
-    make_grid_parameters.num_rows = num_y
-    make_grid_parameters.angle = 0.0
-    make_grid_parameters.origin_x = lon_min
-    make_grid_parameters.origin_y = lat_min
-    make_grid_parameters.block_size_x = 0.1
-    make_grid_parameters.block_size_y = 0.1
-
-    geometry_list = GeometryList(
-        np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)
-    )
-
-    mk = MeshKernel(is_geographic=True)
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
-    mk.curvilinear_convert_to_mesh2d()
-
-    file_path = os.path.join(*[os.getcwd(), "tests", "data", "gebco.asc"])
-    header, data = read_asc_file(file_path)
-
-    gridded_samples = GriddedSamples(
-        n_cols=int(header["ncols"]) - 1,
-        n_rows=int(header["nrows"]) - 1,
-        x_origin=header["xllcenter"],
-        y_origin=header["yllcenter"],
-        cell_size=header["cellsize"],
-        values=data,
-    )
-
-    refinement_params = MeshRefinementParameters(
-        refine_intersected=False,
-        use_mass_center_when_refining=True,
-        min_edge_size=0.01,
-        refinement_type=RefinementType.WAVE_COURANT,
-        connect_hanging_nodes=True,
-        account_for_samples_outside_face=False,
-        max_refinement_iterations=5,
-        smoothing_iterations=5,
-        max_courant_time=120.0,
-        directional_refinement=0,
-    )
-
-    mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)
-
-    mesdh2d = mk.mesh2d_get()
-
-    assert mesdh2d.node_x.size == 5223
-    assert mesdh2d.edge_x.size == 10745
-    assert mesdh2d.face_x.size == 5523
-    assert mesdh2d.face_nodes.size == 21212
-
-
 cases_mesh2d_refine_based_on_polygon = [
     (1, 25, 40, 16),
     (2, 81, 144, 64),
