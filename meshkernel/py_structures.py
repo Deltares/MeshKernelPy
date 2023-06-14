@@ -194,7 +194,7 @@ class OrthogonalizationParameters:
         boundary_iterations=25,
         inner_iterations=25,
         orthogonalization_to_smoothing_factor=0.975,
-        orthogonalization_to_smoothing_factor_at_boundary=-1.0,
+        orthogonalization_to_smoothing_factor_at_boundary=1.0,
         areal_to_angle_smoothing_factor=1.0,
     ):
         self.outer_iterations: int = outer_iterations
