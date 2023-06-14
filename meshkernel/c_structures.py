@@ -265,6 +265,9 @@ class CMeshRefinementParameters(Structure):
         ("refinement_type", c_int),
         ("connect_hanging_nodes", c_int),
         ("account_for_samples_outside_face", c_int),
+        ("smoothing_iterations", c_int),
+        ("max_courant_time", c_double),
+        ("directional_refinement", c_int),
     ]
 
     @staticmethod
@@ -295,6 +298,14 @@ class CMeshRefinementParameters(Structure):
         )
         c_parameters.account_for_samples_outside_face = (
             mesh_refinement_parameters.account_for_samples_outside_face
+        )
+
+        c_parameters.smoothing_iterations = (
+            mesh_refinement_parameters.smoothing_iterations
+        )
+        c_parameters.max_courant_time = mesh_refinement_parameters.max_courant_time
+        c_parameters.directional_refinement = (
+            mesh_refinement_parameters.directional_refinement
         )
 
         return c_parameters
