@@ -66,6 +66,8 @@ def get_library_name() -> str:
         return "MeshKernelApi.dll"
     elif system == "Linux":
         return "libMeshKernelApi.so"
+    elif system == "Darwin":
+        return "libMeshKernelApi.dylib"
     else:
         if not str:
             system = "Unknown OS"
@@ -182,7 +184,7 @@ class build_ext(build_ext_orig):
         if not self.dry_run:
             library_name = get_library_name()
             system = platform.system()
-            if system == "Linux":
+            if system == "Linux" or system == "Darwin":
                 self.spawn(
                     [
                         "cmake",
@@ -190,6 +192,8 @@ class build_ext(build_ext_orig):
                         ".",
                         "-B",
                         "build",
+                        "-G",
+                        "Unix Makefiles",
                         "-DCMAKE_BUILD_TYPE=Release",
                         "-DENABLE_UNIT_TESTING=OFF",
                     ]
