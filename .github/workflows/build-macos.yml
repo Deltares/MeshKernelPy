@@ -82,26 +82,25 @@ jobs:
       - name: Process branch name
         id: process_branch_name
         run: |
-          str= ${{ steps.get_branch_name.outputs.current_branch }}
+          str=${{ steps.get_branch_name.outputs.current_branch }}
           if [[ "$str" = "main" ]]; then
             # MeshKernelPy default barnch is called main, but MeshKernel default branch is called master
             str="master"
           elif [[ "$str" =~ ^release/ ]]; then
             # branch name starts with "release/", get the semantic version from MeshKernelPy
             str="release"
-          elif [[ ! "$branch_name" =~ ^feature/ ]]; then
+          elif [[ ! "$str" =~ ^feature/ ]]; then
             # last possibility is being on a feature branch, which starts with "feature/"
             # if not, it is not possile to continue
             exit 1
           fi
-          echo "branch_str=$str" >> $GITHUB_OUTPUT
+          echo "BACK_END_BRANCH=$str" >> $GITHUB_ENV
 
       # Step: Build Wheel
       - name: Build Wheel
         env:
           CC: gcc-11
           CXX: g++-11
-          BACK_END_BRANCH: ${{ steps.process_branch_name.outputs.branch_str }}
         run: |
           python setup.py build_ext
           python setup.py sdist bdist_wheel
