@@ -91,5 +91,5 @@ jobs:
         if: always()
         with:
           name: meshkernel-${{ matrix.platform }}-${{ matrix.build_type }}
-          path: ./*.whl
+          path: ./dist/*.whl
           if-no-files-found: error
