@@ -210,7 +210,9 @@ class build_ext(build_ext_orig):
                         ]
                     )
                 )
-                self.spawn(["strip", "--strip-unneeded", meshkernel_path])
+                # this does not seem to work for Darwin
+                if system == "Linux":
+                  self.spawn(["strip", "--strip-unneeded", meshkernel_path])
             elif system == "Windows":
                 self.spawn(
                     [
