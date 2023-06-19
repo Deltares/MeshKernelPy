@@ -75,23 +75,32 @@ jobs:
           brew install boost
           brew install doxygen
             
-      - name: Get Branch
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v7
+      
+      - name: Set env var
         id: branch_name
         run: |
-          branch_name=${GITHUB_REF#refs/*/}
-          if [[ "$branch_name" =~ ^release/ ]]; then
-            branch_name="release"
-          elif [[ "$branch_name" = "main" ]]; then
+          branch_name= ${{ steps.branch-name.outputs.current_branch }}
+          if [[ "$branch_name" = "main" ]]; then
+            # MeshKernelPy default barnch is called main, but MeshKernel default branch is called master
             branch_name="master"
+          elif [[ "$branch_name" =~ ^release/ ]]; then
+            # branch name starts with "release/", get the semantic version from MeshKernelPy
+            branch_name="release"
+          elif [[ ! "$branch_name" =~ ^feature/ ]]; then
+            # last possibility is being on a feature branch, which starts with "feature/"
+            # if not, it is not possile to continue
+            exit 1          
           fi
-          echo "branch=$branch_name" >> $GITHUB_OUTPUT
+          echo "BACK_END_BRANCH=$branch_name" >> $GITHUB_ENV
 
       # Step: Build Wheel
       - name: Build Wheel
         env:
           CC: gcc-11
           CXX: g++-11
-          BACK_END_BRANCH: ${{ steps.branch_name.outputs.branch }}
         run: |
           python setup.py build_ext
           python setup.py sdist bdist_wheel
