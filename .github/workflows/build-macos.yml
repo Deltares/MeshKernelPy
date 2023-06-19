@@ -75,13 +75,23 @@ jobs:
           brew install boost
           brew install doxygen
             
+      - name: Get Branch
+        id: branch_name
+        run: |
+          branch_name=${GITHUB_REF#refs/*/}
+          if [[ "$branch_name" =~ ^release/ ]]; then
+            branch_name="release"
+          elif [[ "$branch_name" = "main" ]]; then
+            branch_name="master"
+          fi
+          echo "branch=$branch_name" >> $GITHUB_OUTPUT
+
       # Step: Build Wheel
       - name: Build Wheel
         env:
           CC: gcc-11
           CXX: g++-11
-          # temporary!!!!
-          BACK_END_BRANCH: feature/GRIDEDIT-559_github_actions_macos_build
+          BACK_END_BRANCH: ${{ steps.branch_name.outputs.branch }}
         run: |
           python setup.py build_ext
           python setup.py sdist bdist_wheel
