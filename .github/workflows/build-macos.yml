@@ -78,6 +78,8 @@ jobs:
         env:
           CC: gcc-11
           CXX: g++-11
+          # temporary!!!!
+          BACK_END_BRANCH: feature/GRIDEDIT-559_github_actions_macos_build
         run: |
           python setup.py build_ext
           python setup.py sdist bdist_wheel
