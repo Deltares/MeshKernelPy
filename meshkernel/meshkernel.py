@@ -75,6 +75,8 @@ class MeshKernel:
             lib_path = os.path.join(file_path, "MeshKernelApi.dll")
         elif system == "Linux":
             lib_path = os.path.join(file_path, "libMeshKernelApi.so")
+        elif system == "Darwin":
+            lib_path = os.path.join(file_path,  "libMeshKernelApi.dylib")
         else:
             if not str:
                 system = "Unknown OS"
