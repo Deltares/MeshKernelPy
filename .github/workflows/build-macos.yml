@@ -65,6 +65,7 @@ jobs:
           python -m pip install wheel
           python -m pip install numpy
           python -m pip install matplotlib
+          python -m pip install pytest
 
       # Step: Install system-provided dependencies
       # macOS
@@ -84,6 +85,13 @@ jobs:
         run: |
           python setup.py build_ext
           python setup.py sdist bdist_wheel
+
+      # Step: Test
+      - name: Test
+        run: |
+          wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
+          python -m pip install $wheel_name
+          pytest ./tests
 
       # Step: Upload artifact
       - name: Upload artifact
