@@ -89,10 +89,6 @@ jobs:
           elif [[ "$branch_name" =~ ^release/ ]]; then
             # branch name starts with "release/", get the semantic version from MeshKernelPy
             branch_name="release"
-          elif [[ ! "$branch_name" =~ ^feature/ ]]; then
-            # last possibility is being on a feature branch, which starts with "feature/"
-            # if not, it is not possile to continue
-            exit 1          
           fi
           echo "BACK_END_BRANCH=$branch_name" >> $GITHUB_ENV
 
