@@ -3,48 +3,38 @@ name: Build and test on macos
 on:
   pull_request:
     types:
-      - opened             # triggers build when opened
-      - closed             # triggers build when merged
-      - synchronize        # triggers build when commits are pushed to HEAD
+      - opened # triggers build when opened
+      - closed # triggers build when merged
+      - synchronize # triggers build when commits are pushed to HEAD
       - auto_merge_enabled # triggers build when auto-merge is enabled
-    branches: 
+    branches:
       - master
-      - 'release/v[0-9].[0-9].[0-9]'
-      - 'feature/**'
+      - "release/v[0-9].[0-9].[0-9]"
+      - "feature/**"
   # Allow triggering this workflow manually from the actions tab
   workflow_dispatch:
 
 jobs:
-  
   build:
-    
     # Build strategy
     strategy:
       fail-fast: false
       matrix:
         platform:
-          #- 'ubuntu-latest'
-          - 'macos-latest'
+          #- ubuntu-latest
+          - macos-latest
         build_type:
-          - 'Release'
-          #- 'Debug'
-          #- 'DebugWithRelInfo '
+          - Release
+          #- Debug
+          #- DebugWithRelInfo
 
     # Build platform
     runs-on: ${{ matrix.platform }}
 
     name: ${{ matrix.platform }}-${{ matrix.build_type }}
 
-    # default compiler on macos is clang, switch to gcc 11. Specifying the version is necessary.
-    # It seems like gcc and g++ are symbolic links to the default clang and clang++ compilers, respectively.
-    # CMAKE_CXX_COMPILER_ID will evaluate to AppleClang rather than GNU on macos.
-    env:
-      CC: gcc-11
-      CXX: g++-11
-    
-      # Build steps
+    # Build steps
     steps:
-
       # Step: Checkout
       - name: Checkout
         uses: actions/checkout@v3
@@ -74,11 +64,11 @@ jobs:
         run: | # brew update
           brew install boost
           brew install doxygen
-            
+
       - name: Get branch name
         id: get_branch_name
         uses: tj-actions/branch-names@v7
-      
+
       - name: Process branch name
         id: process_branch_name
         run: |
@@ -97,6 +87,9 @@ jobs:
           echo "BACK_END_BRANCH=$str" >> $GITHUB_ENV
 
       # Step: Build Wheel
+      # The default compiler on macos is clang, switch to gcc 11. Specifying the version is necessary.
+      # It seems like gcc and g++ are symbolic links to the default clang and clang++ compilers, respectively.
+      # CMAKE_CXX_COMPILER_ID will evaluate to AppleClang rather than GNU on macos.
       - name: Build Wheel
         env:
           CC: gcc-11
