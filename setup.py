@@ -3,6 +3,7 @@ import os
 import pathlib
 import platform
 import shutil
+from collections import namedtuple
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext as build_ext_orig
@@ -52,26 +53,34 @@ def get_version(rel_path: str) -> str:
     raise RuntimeError("Unable to find version string.")
 
 
-def get_library_name() -> str:
+LibraryMeta = namedtuple("LibraryMeta", "system, name")
+LibraryMeta.__doc__ = """A namedtuple that contains the library meta.
+It has 2 fields:
+system - System (OS) name
+name - Library file name"""
+
+
+def get_library_meta() -> LibraryMeta:
     """Get the filename of the MeshKernel library
 
     Raises:
         OSError: If the operating system is not supported
 
     Returns:
-        str: Filename of the MeshKernel library
+        LibraryMeta: A namedtuple containing the library meta
     """
     system = platform.system()
     if system == "Windows":
-        return "MeshKernelApi.dll"
+        name = "MeshKernelApi.dll"
     elif system == "Linux":
-        return "libMeshKernelApi.so"
+        name = "libMeshKernelApi.so"
     elif system == "Darwin":
-        return "libMeshKernelApi.dylib"
+        name = "libMeshKernelApi.dylib"
     else:
         if not str:
             system = "Unknown OS"
-        raise OSError(f"Unsupported operating system: {system}")
+        raise OSError("Unsupported operating system:".format(system))
+    return LibraryMeta(system, name)
 
 
 try:
@@ -182,23 +191,25 @@ class build_ext(build_ext_orig):
         os.chdir(ext.name)
 
         if not self.dry_run:
-            library_name = get_library_name()
-            system = platform.system()
-            if system == "Linux" or system == "Darwin":
-                self.spawn(
-                    [
-                        "cmake",
-                        "-S",
-                        ".",
-                        "-B",
-                        "build",
-                        "-G",
-                        "Unix Makefiles",
-                        "-DCMAKE_BUILD_TYPE=Release",
-                        "-DENABLE_UNIT_TESTING=OFF",
-                    ]
-                )
-                self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
+            library_meta = get_library_meta()
+
+            # configure
+            self.spawn(
+                [
+                    "cmake",
+                    "-S",
+                    ".",
+                    "-B",
+                    "build",
+                    "-DCMAKE_BUILD_TYPE=Release",
+                    "-DENABLE_UNIT_TESTING=OFF",
+                ]
+            )
+
+            # build in release mode
+            self.spawn(["cmake", "--build", "build", "--config", "Release", "-j"])
+
+            if library_meta.system == "Linux" or library_meta.system == "Darwin":
                 meshkernel_path = str(
                     os.path.join(
                         *[
@@ -206,28 +217,11 @@ class build_ext(build_ext_orig):
                             "build",
                             "libs",
                             "MeshKernelApi",
-                            library_name,
+                            library_meta.name,
                         ]
                     )
                 )
-                # this does not seem to work for Darwin
-                if system == "Linux":
-                    self.spawn(["strip", "--strip-unneeded", meshkernel_path])
-            elif system == "Windows":
-                self.spawn(
-                    [
-                        "cmake",
-                        "-S",
-                        ".",
-                        "-B",
-                        "build",
-                        "-G",
-                        "Visual Studio 16 2019",
-                        "-DCMAKE_BUILD_TYPE=Release",
-                        "-DENABLE_UNIT_TESTING=OFF",
-                    ]
-                )
-                self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
+            elif library_meta.system == "Windows":
                 meshkernel_path = str(
                     os.path.join(
                         *[
@@ -236,16 +230,12 @@ class build_ext(build_ext_orig):
                             "libs",
                             "MeshKernelApi",
                             "Release",
-                            library_name,
+                            library_meta.name,
                         ]
                     )
                 )
-            else:
-                if not str:
-                    system = "Unknown OS"
-                raise OSError(f"Unsupported operating system: {system}")
 
-            destination = os.path.join(*[cwd, "meshkernel", library_name])
+            destination = os.path.join(*[cwd, "meshkernel", library_meta.name])
             shutil.copyfile(meshkernel_path, destination)
 
         os.chdir(cwd)
@@ -262,7 +252,7 @@ setup(
     author_email=__author_email__,
     url="https://github.com/Deltares/MeshKernelPy",
     license="MIT",
-    platforms="Windows, Linux",
+    platforms="Windows, Linux, macOS",
     install_requires=["numpy"],
     extras_require={
         "tests": ["pytest", "pytest-cov", "nbval", "matplotlib"],
@@ -274,7 +264,7 @@ setup(
         "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
     },
     python_requires=">=3.8",
-    package_data={"meshkernel": [get_library_name()]},
+    package_data={"meshkernel": [get_library_meta().name]},
     packages=find_packages(),
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"build_ext": build_ext, "bdist_wheel": bdist_wheel},
