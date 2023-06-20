@@ -10,15 +10,19 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath("../meshkernel"))
+sys.path.insert(0, os.path.abspath("../tests"))
 
 
 # -- Project information -----------------------------------------------------
 
 project = "MeshKernelPy"
-copyright = "2021, Deltares"
+copyright = "2023, Deltares"
+author = "Deltares"
+release = "2.1.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -50,7 +54,7 @@ html_theme = "sphinx_book_theme"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
 
 # Don't actually execute notebooks
 jupyter_execute_notebooks = "off"
