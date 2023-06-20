@@ -207,7 +207,7 @@ class build_ext(build_ext_orig):
             )
 
             # build in release mode
-            self.spawn(["cmake", "--build", "build", "--config", "Release", "-j"])
+            self.spawn(["cmake", "--build", "build", "--config", "Release", "-j4"])
 
             if library_meta.system == "Linux" or library_meta.system == "Darwin":
                 meshkernel_path = str(
