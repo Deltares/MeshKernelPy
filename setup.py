@@ -79,7 +79,7 @@ def get_library_meta() -> LibraryMeta:
     else:
         if not str:
             system = "Unknown OS"
-        raise OSError("Unsupported operating system:".format(system))
+        raise OSError("Unsupported operating system: {}".format(system))
     return LibraryMeta(system, name)
 
 
