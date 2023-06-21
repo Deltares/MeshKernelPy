@@ -411,7 +411,7 @@ class CMesh1d(Structure):
         return c_mesh1d
 
     def allocate_memory(self) -> Mesh1d:
-        """Allocate data according to the parameters with the "num_" prefix.
+        """Allocate data according to the parameters with the \"num_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Mesh1d instance which is returned by this method.
 
@@ -472,7 +472,7 @@ class CContacts(Structure):
         return c_contacts
 
     def allocate_memory(self) -> Contacts:
-        """Allocate data according to the parameters with the "num_" prefix.
+        """Allocate data according to the parameters with the \"num_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Contacts instance which is returned by this method.
 
@@ -533,7 +533,7 @@ class CCurvilinearGrid(Structure):
         return c_curvilinear_grid
 
     def allocate_memory(self) -> CurvilinearGrid:
-        """Allocate data according to the parameters with the "num_" prefix.
+        """Allocate data according to the parameters with the \"num_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the CurvilinearGrid instance which is returned by this method.
 
