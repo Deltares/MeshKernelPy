@@ -91,7 +91,7 @@ class CMesh2d(Structure):
         return c_mesh2d
 
     def allocate_memory(self) -> Mesh2d:
-        """Allocate data according to the parameters with the "num_" prefix.
+        """Allocate data according to the parameters with the \"num_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Mesh2d instance which is returned by this method.
 
