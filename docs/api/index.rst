@@ -10,5 +10,4 @@ These are the objects which make up the public API.
 
     meshkernel
     py_structures
-    factories
     errors

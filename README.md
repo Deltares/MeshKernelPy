@@ -5,18 +5,17 @@
 
 `MeshKernelPy` is a library for creating and editing meshes.
 It supports 1D and 2D unstructured meshes.
-Support for curvilinear meshes is planned.
 The underlying C++ library `MeshKernel` can be found [here](https://github.com/Deltares/MeshKernel).
 
 # Installation
 
-The library can be installed from PyPI by executing
+The library can be installed from [PyPI](https://pypi.org/project/meshkernel/) by executing
 
 ```bash
 pip install meshkernel
 ```
 
-Under Windows, If you encounter any issues importing the pip wheels on Windows, you may need to install the [Visual C++ Redistributable for Visual Studio 2019](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
+Under Windows, If you encounter any issues importing the pip wheels, you may need to install the [Visual C++ Redistributable for Visual Studio 2019](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
 
 # Examples
 
@@ -28,14 +27,14 @@ In this example a mesh is created by discretizing the polygon perimeter with the
 
 ## Mesh orthogonalization
 
-Finite volume staggered flow solvers require the mesh to be as much orthogonal as possible. 
+Finite volume staggered flow solvers require the mesh to be as orthogonal as possible.
 MeshKernel provides an algorithm to adapt the mesh and achieve a good balance between mesh orthogonality and smoothness.
 
 ![](https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/MeshOrthogonalization.jpg)
 
 ## Mesh refinement
 
-A mesh can be refined in areas based on samples or polygon selections. 
+A mesh can be refined in areas based on samples or polygon selections.
 
 ![](https://raw.githubusercontent.com/Deltares/MeshKernelPy/main/docs/images/GridRefinement.jpg)
 
@@ -54,8 +53,8 @@ When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://ju
 
 # Building linux wheels
 
-To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64. 
-This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++). 
+To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64.
+This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++).
 To build the Docker image, please follow these steps:
 
 ```powershell
@@ -67,7 +66,7 @@ cd ..
 Once the Docker image has been built, build the linux wheels using the following command:
 
 ```powershell
-docker run -v %cd%:/root --rm build_linux_library 
+docker run -v %cd%:/root --rm build_linux_library
 ```
 
 The deployable linux wheels will be located in dist/wheelhouse
