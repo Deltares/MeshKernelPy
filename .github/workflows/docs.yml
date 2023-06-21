@@ -2,25 +2,41 @@ name: Docs
 
 on:
   push:
-    branches: [main]
+    branches:
+      - master
+      - "release/v[0-9].[0-9].[0-9]"
+  pull_request:
+    types:
+      - opened # triggers build when opened
+      - synchronize # triggers build when commits are pushed to HEAD
+    branches:
+      - master
+      - "release/v[0-9].[0-9].[0-9]"
+      - "feature/**"
+  # Manual trigger
+  workflow_dispatch:
 
 jobs:
-  check:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
       - name: Install dependencies
         run: |
-          pip install -e ".[docs]"
+          python -m pip install sphinx myst-nb sphinx-book-theme
 
       - name: Run sphinx
-        run: make html
         working-directory: docs
+        run: |
+          make clean
+          make html
 
       - name: Deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
