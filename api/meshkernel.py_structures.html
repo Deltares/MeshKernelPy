@@ -1,0 +1,1784 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>meshkernel.py_structures module &#8212; MeshKernelPy 2.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/meshkernel.py_structures';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="meshkernel.utils module" href="meshkernel.utils.html" />
+    <link rel="prev" title="meshkernel.meshkernel module" href="meshkernel.meshkernel.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MeshKernelPy 2.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/01_mesh2d_basics.html">Mesh2d Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/02_mesh1d_basics.html">Mesh1d basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/03_tri_mesh2d_pol.html">Simple triangular mesh in a given geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/04_curvilineargrid_basics.html">Curvilineargrid Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/05_mesh2d_refinement_gridded_samples.html">Mesh2d refinement based on gridded samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MeshKernelPy</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="meshkernel.html">meshkernel package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html">meshkernel.c_structures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.errors.html">meshkernel.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html">meshkernel.meshkernel module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">meshkernel.py_structures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.utils.html">meshkernel.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.version.html">meshkernel.version module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/meshkernel.py_structures.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>meshkernel.py_structures module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod"><code class="docutils literal notranslate"><span class="pre">AveragingMethod</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.CLOSEST_POINT"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.CLOSEST_POINT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.INVERSE_WEIGHT_DISTANCE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MAX"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MAX</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MIN"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MIN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MIN_ABS"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MIN_ABS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.SIMPLE_AVERAGING"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.SIMPLE_AVERAGING</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts"><code class="docutils literal notranslate"><span class="pre">Contacts</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.mesh1d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh1d_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.mesh2d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh2d_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.plot_edges"><code class="docutils literal notranslate"><span class="pre">Contacts.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.node_x"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.node_y"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.num_m"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.num_m</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.num_n"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.num_n</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.plot_edges"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.m_refinement"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.m_refinement</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.n_refinement"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.n_refinement</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_iterations"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.smoothing_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_parameter"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.smoothing_parameter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.attraction_parameter"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.attraction_parameter</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_COMPLETE_FACES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_FACE_CIRCUMCENTERS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_NODES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_NODES</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList"><code class="docutils literal notranslate"><span class="pre">GeometryList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.x_coordinates"><code class="docutils literal notranslate"><span class="pre">GeometryList.x_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.y_coordinates"><code class="docutils literal notranslate"><span class="pre">GeometryList.y_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.values"><code class="docutils literal notranslate"><span class="pre">GeometryList.values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.geometry_separator"><code class="docutils literal notranslate"><span class="pre">GeometryList.geometry_separator</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.inner_outer_separator"><code class="docutils literal notranslate"><span class="pre">GeometryList.inner_outer_separator</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples"><code class="docutils literal notranslate"><span class="pre">GriddedSamples</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.n_cols"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.n_cols</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.n_rows"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.n_rows</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.x_origin"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.x_origin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.y_origin"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.y_origin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.cell_size"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.cell_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.x_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.x_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.y_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.y_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.values"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.num_columns"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.num_columns</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.num_rows"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.num_rows</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.angle"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.angle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.origin_x"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.origin_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.origin_y"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.origin_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size_x"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size_y"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size_y</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d"><code class="docutils literal notranslate"><span class="pre">Mesh1d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.node_x"><code class="docutils literal notranslate"><span class="pre">Mesh1d.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.node_y"><code class="docutils literal notranslate"><span class="pre">Mesh1d.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh1d.edge_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh1d.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d"><code class="docutils literal notranslate"><span class="pre">Mesh2d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.node_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.node_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.nodes_per_face"><code class="docutils literal notranslate"><span class="pre">Mesh2d.nodes_per_face</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_edges()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.plot_faces"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_faces()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.EDGES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.EDGES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.FACES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.FACES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.NODES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.NODES</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.refine_intersected"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.refine_intersected</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.use_mass_center_when_refining"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.use_mass_center_when_refining</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.min_edge_size"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.min_edge_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.refinement_type"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.refinement_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.connect_hanging_nodes"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.connect_hanging_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.account_for_samples_outside"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.account_for_samples_outside</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.max_refinement_iterations"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_refinement_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.smoothing_iterations"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.smoothing_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.max_courant_time"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_courant_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_refinement_iterations</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.outer_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.outer_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.boundary_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.boundary_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.inner_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.inner_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.orthogonalization_to_smoothing_factor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.areal_to_angle_smoothing_factor</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.WHOLE_MESH"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.WHOLE_MESH</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType"><code class="docutils literal notranslate"><span class="pre">RefinementType</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType.REFINEMENT_LEVELS"><code class="docutils literal notranslate"><span class="pre">RefinementType.REFINEMENT_LEVELS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType.WAVE_COURANT"><code class="docutils literal notranslate"><span class="pre">RefinementType.WAVE_COURANT</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.aspect_ratio</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio_grow_factor"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.aspect_ratio_grow_factor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.average_width"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.average_width</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.curvature_adapted_grid_spacing"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.curvature_adapted_grid_spacing</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.grow_grid_outside"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.grow_grid_outside</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.min_cosine_crossing_angles"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.min_cosine_crossing_angles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.check_front_collisions"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.check_front_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.remove_skinny_triangles"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.remove_skinny_triangles</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-meshkernel.py_structures">
+<span id="meshkernel-py-structures-module"></span><h1>meshkernel.py_structures module<a class="headerlink" href="#module-meshkernel.py_structures" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AveragingMethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>The averaging methods.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.CLOSEST_POINT">
+<span class="sig-name descname"><span class="pre">CLOSEST_POINT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.CLOSEST_POINT" title="Permalink to this definition">#</a></dt>
+<dd><p>Takes the maximum sample value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE">
+<span class="sig-name descname"><span class="pre">INVERSE_WEIGHT_DISTANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the minimum absolute value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.MAX">
+<span class="sig-name descname"><span class="pre">MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.MAX" title="Permalink to this definition">#</a></dt>
+<dd><p>Takes the minimum sample value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.MIN">
+<span class="sig-name descname"><span class="pre">MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.MIN" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the inverse weighted sample mean.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.MIN_ABS">
+<span class="sig-name descname"><span class="pre">MIN_ABS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.MIN_ABS" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.AveragingMethod.SIMPLE_AVERAGING">
+<span class="sig-name descname"><span class="pre">SIMPLE_AVERAGING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.AveragingMethod.SIMPLE_AVERAGING" title="Permalink to this definition">#</a></dt>
+<dd><p>Takes the value of the closest sample to the interpolation location.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Contacts">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Contacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh1d_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh2d_indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Contacts" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class describes the contacts between a mesh1d and mesh2d.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Contacts.mesh1d_indices">
+<span class="sig-name descname"><span class="pre">mesh1d_indices</span></span><a class="headerlink" href="#meshkernel.py_structures.Contacts.mesh1d_indices" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the mesh1d node indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Contacts.mesh2d_indices">
+<span class="sig-name descname"><span class="pre">mesh2d_indices</span></span><a class="headerlink" href="#meshkernel.py_structures.Contacts.mesh2d_indices" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the mesh2d face indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Contacts.plot_edges">
+<span class="sig-name descname"><span class="pre">plot_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh1d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Contacts.plot_edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots the edges at a given axes.
+<cite>args</cite> and <cite>kwargs</cite> will be used as parameters of the <cite>plot</cite> method of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the edges</p></li>
+<li><p><strong>mesh1d</strong> (<a class="reference internal" href="#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><em>Mesh1d</em></a>) – The mesh1d instance used to plot the contacts</p></li>
+<li><p><strong>mesh2d</strong> (<a class="reference internal" href="#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The mesh2d instance used to plot the contacts</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CurvilinearGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used for getting and setting curvilinear grid data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid.node_x">
+<span class="sig-name descname"><span class="pre">node_x</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid.node_x" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the x-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid.node_y">
+<span class="sig-name descname"><span class="pre">node_y</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid.node_y" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the y-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid.num_m">
+<span class="sig-name descname"><span class="pre">num_m</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid.num_m" title="Permalink to this definition">#</a></dt>
+<dd><p>The number of curvilinear grid nodes along m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid.num_n">
+<span class="sig-name descname"><span class="pre">num_n</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid.num_n" title="Permalink to this definition">#</a></dt>
+<dd><p>The number of curvilinear grid nodes along n.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearGrid.plot_edges">
+<span class="sig-name descname"><span class="pre">plot_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearGrid.plot_edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots the edges at a given axes.
+<cite>args</cite> and <cite>kwargs</cite> will be used as parameters of the <cite>plot</cite> method of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the edges</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CurvilinearParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m_refinement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_refinement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attraction_parameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the parameters for generating a curvilinear grid from splines.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters.m_refinement">
+<span class="sig-name descname"><span class="pre">m_refinement</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters.m_refinement" title="Permalink to this definition">#</a></dt>
+<dd><p>M-refinement factor for regular grid generation. Default is <cite>2000</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters.n_refinement">
+<span class="sig-name descname"><span class="pre">n_refinement</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters.n_refinement" title="Permalink to this definition">#</a></dt>
+<dd><p>N-refinement factor for regular grid generation. Default is <cite>40</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters.smoothing_iterations">
+<span class="sig-name descname"><span class="pre">smoothing_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>Nr. of inner iterations in regular grid smoothing. Default is <cite>25</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters.smoothing_parameter">
+<span class="sig-name descname"><span class="pre">smoothing_parameter</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_parameter" title="Permalink to this definition">#</a></dt>
+<dd><p>Smoothing parameter. Default is <cite>0.5</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.CurvilinearParameters.attraction_parameter">
+<span class="sig-name descname"><span class="pre">attraction_parameter</span></span><a class="headerlink" href="#meshkernel.py_structures.CurvilinearParameters.attraction_parameter" title="Permalink to this definition">#</a></dt>
+<dd><p>Attraction/repulsion parameter. Default is <cite>0.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.DeleteMeshOption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DeleteMeshOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.DeleteMeshOption" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>Option to delete the mesh inside a polygon.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES">
+<span class="sig-name descname"><span class="pre">ALL_COMPLETE_FACES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS">
+<span class="sig-name descname"><span class="pre">ALL_FACE_CIRCUMCENTERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete all faces of which the complete face is inside the polygon.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.DeleteMeshOption.ALL_NODES">
+<span class="sig-name descname"><span class="pre">ALL_NODES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#meshkernel.py_structures.DeleteMeshOption.ALL_NODES" title="Permalink to this definition">#</a></dt>
+<dd><p>Delete all faces of which the circum center is inside the polygon.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeometryList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_outer_separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-998.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.GeometryList" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to describe a list of geometries.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList.x_coordinates">
+<span class="sig-name descname"><span class="pre">x_coordinates</span></span><a class="headerlink" href="#meshkernel.py_structures.GeometryList.x_coordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the x-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList.y_coordinates">
+<span class="sig-name descname"><span class="pre">y_coordinates</span></span><a class="headerlink" href="#meshkernel.py_structures.GeometryList.y_coordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the y-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList.values">
+<span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#meshkernel.py_structures.GeometryList.values" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the values of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList.geometry_separator">
+<span class="sig-name descname"><span class="pre">geometry_separator</span></span><a class="headerlink" href="#meshkernel.py_structures.GeometryList.geometry_separator" title="Permalink to this definition">#</a></dt>
+<dd><p>The value used as a separator in the coordinates. Default is <cite>-999.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GeometryList.inner_outer_separator">
+<span class="sig-name descname"><span class="pre">inner_outer_separator</span></span><a class="headerlink" href="#meshkernel.py_structures.GeometryList.inner_outer_separator" title="Permalink to this definition">#</a></dt>
+<dd><p>The value used to separate the inner part of a polygon from its outer
+part. Default is <cite>-998.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GriddedSamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding gridded samples, both for uniform gridding and non-uniform gridding.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.n_cols">
+<span class="sig-name descname"><span class="pre">n_cols</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.n_cols" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of grid columns. Default is <cite>0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.n_rows">
+<span class="sig-name descname"><span class="pre">n_rows</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.n_rows" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of grid rows. Default is <cite>0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.x_origin">
+<span class="sig-name descname"><span class="pre">x_origin</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.x_origin" title="Permalink to this definition">#</a></dt>
+<dd><p>X coordinate of the grid origin. Default is <cite>0.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.y_origin">
+<span class="sig-name descname"><span class="pre">y_origin</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.y_origin" title="Permalink to this definition">#</a></dt>
+<dd><p>Y coordinate of the grid origin. Default is <cite>0.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.cell_size">
+<span class="sig-name descname"><span class="pre">cell_size</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.cell_size" title="Permalink to this definition">#</a></dt>
+<dd><p>Constant grid edge size. Default is <cite>0.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.x_coordinates">
+<span class="sig-name descname"><span class="pre">x_coordinates</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.x_coordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>Coordinates for non-uniform grid spacing in x direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.y_coordinates">
+<span class="sig-name descname"><span class="pre">y_coordinates</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.y_coordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>Coordinates for non-uniform grid spacing in y direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.values">
+<span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.values" title="Permalink to this definition">#</a></dt>
+<dd><p>Sample values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MakeGridParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the necessary parameters to create a new curvilinear grid in a C-compatible manner.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.num_columns">
+<span class="sig-name descname"><span class="pre">num_columns</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.num_columns" title="Permalink to this definition">#</a></dt>
+<dd><p>The number of columns in x direction. Default is <cite>3</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.num_rows">
+<span class="sig-name descname"><span class="pre">num_rows</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.num_rows" title="Permalink to this definition">#</a></dt>
+<dd><p>The number of columns in y direction. Default is <cite>3</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.angle">
+<span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.angle" title="Permalink to this definition">#</a></dt>
+<dd><p>The grid angle. Default is <cite>0.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.block_size">
+<span class="sig-name descname"><span class="pre">block_size</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.block_size" title="Permalink to this definition">#</a></dt>
+<dd><p>The grid block size, used in x and y direction. Default is <cite>10.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.origin_x">
+<span class="sig-name descname"><span class="pre">origin_x</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.origin_x" title="Permalink to this definition">#</a></dt>
+<dd><p>The x coordinate of the origin, located at the bottom left corner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0.0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.origin_y">
+<span class="sig-name descname"><span class="pre">origin_y</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.origin_y" title="Permalink to this definition">#</a></dt>
+<dd><p>The y coordinate of the origin, located at the bottom left corner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0.0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.block_size_x">
+<span class="sig-name descname"><span class="pre">block_size_x</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.block_size_x" title="Permalink to this definition">#</a></dt>
+<dd><p>The grid block size in x dimension, used only for squared grids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`10.0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.block_size_y">
+<span class="sig-name descname"><span class="pre">block_size_y</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.block_size_y" title="Permalink to this definition">#</a></dt>
+<dd><p>The grid block size in y dimension, used only for squared grids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`10.0`.</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Mesh1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used for getting and setting one-dimensional mesh data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d.node_x">
+<span class="sig-name descname"><span class="pre">node_x</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d.node_x" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the x-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d.node_y">
+<span class="sig-name descname"><span class="pre">node_y</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d.node_y" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the y-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d.edge_nodes">
+<span class="sig-name descname"><span class="pre">edge_nodes</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d.edge_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the nodes composing each mesh edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d.plot_edges">
+<span class="sig-name descname"><span class="pre">plot_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d.plot_edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots the edges at a given axes.
+<cite>args</cite> and <cite>kwargs</cite> will be used as parameters of the <cite>plot</cite> method of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the edges</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Mesh2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=int32)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=int32)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_per_face</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=int32)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used for getting and setting two-dimensional mesh data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.node_x">
+<span class="sig-name descname"><span class="pre">node_x</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.node_x" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the x-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.node_y">
+<span class="sig-name descname"><span class="pre">node_y</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.node_y" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing the y-coordinates of the nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.edge_nodes">
+<span class="sig-name descname"><span class="pre">edge_nodes</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.edge_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the nodes composing each mesh 2d edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.face_nodes">
+<span class="sig-name descname"><span class="pre">face_nodes</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.face_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the nodes composing each mesh 2d face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.nodes_per_face">
+<span class="sig-name descname"><span class="pre">nodes_per_face</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.nodes_per_face" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D integer array describing the nodes composing each mesh 2d face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.edge_x">
+<span class="sig-name descname"><span class="pre">edge_x</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.edge_x" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing x-coordinates of the mesh edges’ middle points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.edge_y">
+<span class="sig-name descname"><span class="pre">edge_y</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.edge_y" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing x-coordinates of the mesh edges’ middle points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.face_x">
+<span class="sig-name descname"><span class="pre">face_x</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.face_x" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing x-coordinates of the mesh faces’ mass centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.face_y">
+<span class="sig-name descname"><span class="pre">face_y</span></span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.face_y" title="Permalink to this definition">#</a></dt>
+<dd><p>A 1D double array describing y-coordinates of the mesh faces’ mass centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.plot_edges">
+<span class="sig-name descname"><span class="pre">plot_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.plot_edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots the edges at a given axes.
+<cite>args</cite> and <cite>kwargs</cite> will be used as parameters of the <cite>plot</cite> method of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the edges</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.plot_faces">
+<span class="sig-name descname"><span class="pre">plot_faces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.plot_faces" title="Permalink to this definition">#</a></dt>
+<dd><p>Plots the faces at a given axes.
+<cite>args</cite> and <cite>kwargs</cite> will be used as parameters of the <cite>plot</cite> method of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the faces</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2dLocation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Mesh2dLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh2dLocation" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>The Mesh2d location types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2dLocation.EDGES">
+<span class="sig-name descname"><span class="pre">EDGES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.Mesh2dLocation.EDGES" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2dLocation.FACES">
+<span class="sig-name descname"><span class="pre">FACES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#meshkernel.py_structures.Mesh2dLocation.FACES" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2dLocation.NODES">
+<span class="sig-name descname"><span class="pre">NODES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.Mesh2dLocation.NODES" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshRefinementParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refine_intersected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_mass_center_when_refining</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_edge_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refinement_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">RefinementType.REFINEMENT_LEVELS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_hanging_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account_for_samples_outside_face</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_refinement_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_courant_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">120.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directional_refinement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the parameters for Mesh2d refinement.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.refine_intersected">
+<span class="sig-name descname"><span class="pre">refine_intersected</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.refine_intersected" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to compute faces intersected by polygon. Default is <cite>False</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.use_mass_center_when_refining">
+<span class="sig-name descname"><span class="pre">use_mass_center_when_refining</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.use_mass_center_when_refining" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to use the mass center when splitting a face in the refinement
+process. Default is <cite>True</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.min_edge_size">
+<span class="sig-name descname"><span class="pre">min_edge_size</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.min_edge_size" title="Permalink to this definition">#</a></dt>
+<dd><p>Minimum edge size. Default is <cite>0.5</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.refinement_type">
+<span class="sig-name descname"><span class="pre">refinement_type</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.refinement_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Refinement criterion type. Default is <cite>RefinementType.REFINEMENT_LEVELS</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#meshkernel.py_structures.RefinementType" title="meshkernel.py_structures.RefinementType">RefinementType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.connect_hanging_nodes">
+<span class="sig-name descname"><span class="pre">connect_hanging_nodes</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.connect_hanging_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to connect hanging nodes at the end of the iteration. Default is <cite>True</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.account_for_samples_outside">
+<span class="sig-name descname"><span class="pre">account_for_samples_outside</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.account_for_samples_outside" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to take samples outside face into account.  Default is <cite>False</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.max_refinement_iterations">
+<span class="sig-name descname"><span class="pre">max_refinement_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.max_refinement_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>Maximum number of refinement iterations. Default is <cite>10</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.smoothing_iterations">
+<span class="sig-name descname"><span class="pre">smoothing_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.smoothing_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>The number of smoothing iterations. Default is <cite>5</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MeshRefinementParameters.max_courant_time">
+<span class="sig-name descname"><span class="pre">max_courant_time</span></span><a class="headerlink" href="#meshkernel.py_structures.MeshRefinementParameters.max_courant_time" title="Permalink to this definition">#</a></dt>
+<dd><p>Maximum courant time in seconds. Default is <cite>120</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>double, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">max_refinement_iterations</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dd><p>Directional refinement, cannot be used when the number of smoothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">iterations</span> <span class="pre">is</span> <span class="pre">larger</span> <span class="pre">than</span> <span class="pre">0.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`False`.</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OrthogonalizationParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_to_smoothing_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.975</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_to_smoothing_factor_at_boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areal_to_angle_smoothing_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the parameters for orthogonalization.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.outer_iterations">
+<span class="sig-name descname"><span class="pre">outer_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.outer_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of outer iterations in orthogonalization. Increase this parameter
+for complex grids. Default is <cite>2</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.boundary_iterations">
+<span class="sig-name descname"><span class="pre">boundary_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.boundary_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of boundary iterations in grid/net orthogonalization within itatp.
+Default is <cite>25</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.inner_iterations">
+<span class="sig-name descname"><span class="pre">inner_iterations</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.inner_iterations" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of inner iterations in grid/net orthogonalization within itbnd.
+Default is <cite>25</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor">
+<span class="sig-name descname"><span class="pre">orthogonalization_to_smoothing_factor</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor" title="Permalink to this definition">#</a></dt>
+<dd><p>Factor from between grid smoothing (0) and
+grid orthogonality (1). Default is <cite>0.975</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary">
+<span class="sig-name descname"><span class="pre">orthogonalization_to_smoothing_factor_at_boundary</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary" title="Permalink to this definition">#</a></dt>
+<dd><p>Minimum ATPF on the boundary.
+Default is <cite>1.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor">
+<span class="sig-name descname"><span class="pre">areal_to_angle_smoothing_factor</span></span><a class="headerlink" href="#meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor" title="Permalink to this definition">#</a></dt>
+<dd><p>Factor between smoother 1d0 and area-homogenizer 0d0.
+Default is <cite>1.0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ProjectToLandBoundaryOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>Option how to project to the land boundary.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY">
+<span class="sig-name descname"><span class="pre">DO_NOT_PROJECT_TO_LANDBOUNDARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY">
+<span class="sig-name descname"><span class="pre">INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY">
+<span class="sig-name descname"><span class="pre">OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY">
+<span class="sig-name descname"><span class="pre">TO_ORIGINAL_NETBOUNDARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.ProjectToLandBoundaryOption.WHOLE_MESH">
+<span class="sig-name descname"><span class="pre">WHOLE_MESH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.WHOLE_MESH" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.RefinementType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RefinementType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.RefinementType" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>Refinement type</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.RefinementType.REFINEMENT_LEVELS">
+<span class="sig-name descname"><span class="pre">REFINEMENT_LEVELS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.RefinementType.REFINEMENT_LEVELS" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.RefinementType.WAVE_COURANT">
+<span class="sig-name descname"><span class="pre">WAVE_COURANT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.RefinementType.WAVE_COURANT" title="Permalink to this definition">#</a></dt>
+<dd><p>Refinement that refines recursively a fixed number of times.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SplinesToCurvilinearParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio_grow_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature_adapted_grid_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grow_grid_outside</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_num_faces_in_uniform_part</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_on_top_of_each_other_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cosine_crossing_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_front_collisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_skinny_triangles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the additional parameters required for generating a curvilinear grid from splines
+using the advancing front method.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio">
+<span class="sig-name descname"><span class="pre">aspect_ratio</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio" title="Permalink to this definition">#</a></dt>
+<dd><p>Aspect ratio. Default is <cite>0.1</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio_grow_factor">
+<span class="sig-name descname"><span class="pre">aspect_ratio_grow_factor</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio_grow_factor" title="Permalink to this definition">#</a></dt>
+<dd><p>Grow factor of aspect ratio. Default is <cite>1.1</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.average_width">
+<span class="sig-name descname"><span class="pre">average_width</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.average_width" title="Permalink to this definition">#</a></dt>
+<dd><p>Average mesh width on center spline. Default is <cite>0.005</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.curvature_adapted_grid_spacing">
+<span class="sig-name descname"><span class="pre">curvature_adapted_grid_spacing</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.curvature_adapted_grid_spacing" title="Permalink to this definition">#</a></dt>
+<dd><p>Curvature adapted grid spacing. Default is <cite>1</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.grow_grid_outside">
+<span class="sig-name descname"><span class="pre">grow_grid_outside</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.grow_grid_outside" title="Permalink to this definition">#</a></dt>
+<dd><p>Grow the grid outside the prescribed grid height. Default is <cite>0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part">
+<span class="sig-name descname"><span class="pre">maximum_num_faces_in_uniform_part</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part" title="Permalink to this definition">#</a></dt>
+<dd><p>Maximum number of layers in the uniform part Default is <cite>5</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance">
+<span class="sig-name descname"><span class="pre">nodes_on_top_of_each_other_tolerance</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance" title="Permalink to this definition">#</a></dt>
+<dd><p>On-top-of-each-other tolerance.). Default is <cite>0.0001</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.min_cosine_crossing_angles">
+<span class="sig-name descname"><span class="pre">min_cosine_crossing_angles</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.min_cosine_crossing_angles" title="Permalink to this definition">#</a></dt>
+<dd><p>Minimum allowed absolute value of crossing-angle cosine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0.95`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.check_front_collisions">
+<span class="sig-name descname"><span class="pre">check_front_collisions</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.check_front_collisions" title="Permalink to this definition">#</a></dt>
+<dd><p>Check for collisions with other parts of the front. Default is <cite>0</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters.remove_skinny_triangles">
+<span class="sig-name descname"><span class="pre">remove_skinny_triangles</span></span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.remove_skinny_triangles" title="Permalink to this definition">#</a></dt>
+<dd><p>Check for collisions with other parts of the front. Default is <cite>1</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="meshkernel.meshkernel.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">meshkernel.meshkernel module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="meshkernel.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">meshkernel.utils module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod"><code class="docutils literal notranslate"><span class="pre">AveragingMethod</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.CLOSEST_POINT"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.CLOSEST_POINT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.INVERSE_WEIGHT_DISTANCE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MAX"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MAX</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MIN"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MIN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.MIN_ABS"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.MIN_ABS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.AveragingMethod.SIMPLE_AVERAGING"><code class="docutils literal notranslate"><span class="pre">AveragingMethod.SIMPLE_AVERAGING</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts"><code class="docutils literal notranslate"><span class="pre">Contacts</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.mesh1d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh1d_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.mesh2d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh2d_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Contacts.plot_edges"><code class="docutils literal notranslate"><span class="pre">Contacts.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.node_x"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.node_y"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.num_m"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.num_m</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.num_n"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.num_n</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearGrid.plot_edges"><code class="docutils literal notranslate"><span class="pre">CurvilinearGrid.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.m_refinement"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.m_refinement</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.n_refinement"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.n_refinement</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_iterations"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.smoothing_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.smoothing_parameter"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.smoothing_parameter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.CurvilinearParameters.attraction_parameter"><code class="docutils literal notranslate"><span class="pre">CurvilinearParameters.attraction_parameter</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_COMPLETE_FACES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_FACE_CIRCUMCENTERS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.DeleteMeshOption.ALL_NODES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_NODES</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList"><code class="docutils literal notranslate"><span class="pre">GeometryList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.x_coordinates"><code class="docutils literal notranslate"><span class="pre">GeometryList.x_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.y_coordinates"><code class="docutils literal notranslate"><span class="pre">GeometryList.y_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.values"><code class="docutils literal notranslate"><span class="pre">GeometryList.values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.geometry_separator"><code class="docutils literal notranslate"><span class="pre">GeometryList.geometry_separator</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GeometryList.inner_outer_separator"><code class="docutils literal notranslate"><span class="pre">GeometryList.inner_outer_separator</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples"><code class="docutils literal notranslate"><span class="pre">GriddedSamples</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.n_cols"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.n_cols</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.n_rows"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.n_rows</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.x_origin"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.x_origin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.y_origin"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.y_origin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.cell_size"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.cell_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.x_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.x_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.y_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.y_coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.GriddedSamples.values"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.num_columns"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.num_columns</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.num_rows"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.num_rows</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.angle"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.angle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.origin_x"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.origin_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.origin_y"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.origin_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size_x"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MakeGridParameters.block_size_y"><code class="docutils literal notranslate"><span class="pre">MakeGridParameters.block_size_y</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d"><code class="docutils literal notranslate"><span class="pre">Mesh1d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.node_x"><code class="docutils literal notranslate"><span class="pre">Mesh1d.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.node_y"><code class="docutils literal notranslate"><span class="pre">Mesh1d.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh1d.edge_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh1d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh1d.plot_edges()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d"><code class="docutils literal notranslate"><span class="pre">Mesh2d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.node_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.node_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.node_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.node_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.nodes_per_face"><code class="docutils literal notranslate"><span class="pre">Mesh2d.nodes_per_face</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.edge_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_x</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.face_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_y</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_edges()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2d.plot_faces"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_faces()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.EDGES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.EDGES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.FACES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.FACES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.Mesh2dLocation.NODES"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation.NODES</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.refine_intersected"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.refine_intersected</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.use_mass_center_when_refining"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.use_mass_center_when_refining</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.min_edge_size"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.min_edge_size</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.refinement_type"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.refinement_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.connect_hanging_nodes"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.connect_hanging_nodes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.account_for_samples_outside"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.account_for_samples_outside</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.max_refinement_iterations"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_refinement_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.smoothing_iterations"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.smoothing_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.MeshRefinementParameters.max_courant_time"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_courant_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">MeshRefinementParameters.max_refinement_iterations</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.outer_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.outer_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.boundary_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.boundary_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.inner_iterations"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.inner_iterations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.orthogonalization_to_smoothing_factor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.orthogonalization_to_smoothing_factor_at_boundary</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor"><code class="docutils literal notranslate"><span class="pre">OrthogonalizationParameters.areal_to_angle_smoothing_factor</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.ProjectToLandBoundaryOption.WHOLE_MESH"><code class="docutils literal notranslate"><span class="pre">ProjectToLandBoundaryOption.WHOLE_MESH</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType"><code class="docutils literal notranslate"><span class="pre">RefinementType</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType.REFINEMENT_LEVELS"><code class="docutils literal notranslate"><span class="pre">RefinementType.REFINEMENT_LEVELS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.RefinementType.WAVE_COURANT"><code class="docutils literal notranslate"><span class="pre">RefinementType.WAVE_COURANT</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.aspect_ratio</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.aspect_ratio_grow_factor"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.aspect_ratio_grow_factor</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.average_width"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.average_width</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.curvature_adapted_grid_spacing"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.curvature_adapted_grid_spacing</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.grow_grid_outside"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.grow_grid_outside</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.maximum_num_faces_in_uniform_part</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.nodes_on_top_of_each_other_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.min_cosine_crossing_angles"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.min_cosine_crossing_angles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.check_front_collisions"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.check_front_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.py_structures.SplinesToCurvilinearParameters.remove_skinny_triangles"><code class="docutils literal notranslate"><span class="pre">SplinesToCurvilinearParameters.remove_skinny_triangles</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Deltares
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Deltares.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

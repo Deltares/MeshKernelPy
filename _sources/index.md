@@ -81,5 +81,5 @@ Please make sure that this fits your needs before depending on it.
 :titlesonly:
 :maxdepth: 1
 examples/index
-api/index
+api/modules
 ```

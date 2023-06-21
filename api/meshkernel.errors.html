@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Errors &#8212; MeshKernelPy 2.1.0 documentation</title>
+    <title>meshkernel.errors module &#8212; MeshKernelPy 2.1.0 documentation</title>
   
   
   
@@ -44,10 +44,11 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/errors';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/meshkernel.errors';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Parameter Objects" href="py_structures.html" />
+    <link rel="next" title="meshkernel.meshkernel module" href="meshkernel.meshkernel.html" />
+    <link rel="prev" title="meshkernel.c_structures module" href="meshkernel.c_structures.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -134,10 +135,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Python API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="meshkernel.html">MeshKernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py_structures.html">Parameter Objects</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Errors</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MeshKernelPy</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="meshkernel.html">meshkernel package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html">meshkernel.c_structures module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">meshkernel.errors module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html">meshkernel.meshkernel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html">meshkernel.py_structures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.utils.html">meshkernel.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.version.html">meshkernel.version module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -194,7 +201,7 @@
       
       
       
-      <li><a href="../_sources/api/errors.rst" target="_blank"
+      <li><a href="../_sources/api/meshkernel.errors.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -263,7 +270,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -274,11 +283,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Errors</h1>
+    <h1>meshkernel.errors module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.Error"><code class="docutils literal notranslate"><span class="pre">Error</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.InputError"><code class="docutils literal notranslate"><span class="pre">InputError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.MeshKernelError"><code class="docutils literal notranslate"><span class="pre">MeshKernelError</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -288,19 +307,27 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="errors">
-<span id="api-errors"></span><h1>Errors<a class="headerlink" href="#errors" title="Permalink to this heading">#</a></h1>
-<p>These error objects might be thrown by MeshKernelPy.</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">meshkernel.</span></span><span class="sig-name descname"><span class="pre">InputError</span></span></dt>
-<dd><p>Exception raised for errors in the input.</p>
+  <section id="module-meshkernel.errors">
+<span id="meshkernel-errors-module"></span><h1>meshkernel.errors module<a class="headerlink" href="#module-meshkernel.errors" title="Permalink to this heading">#</a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="meshkernel.errors.Error">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Error</span></span><a class="headerlink" href="#meshkernel.errors.Error" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base class for exceptions in this module.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">meshkernel.</span></span><span class="sig-name descname"><span class="pre">MeshKernelError</span></span></dt>
-<dd><p>Exception raised for errors coming from the MeshKernel library.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="meshkernel.errors.InputError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InputError</span></span><a class="headerlink" href="#meshkernel.errors.InputError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#meshkernel.errors.Error" title="meshkernel.errors.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">Error</span></code></a></p>
+<p>Exception raised for errors in the input.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="meshkernel.errors.MeshKernelError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshKernelError</span></span><a class="headerlink" href="#meshkernel.errors.MeshKernelError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#meshkernel.errors.Error" title="meshkernel.errors.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">Error</span></code></a></p>
+<p>Exception raised for errors coming from the MeshKernel library.</p>
 </dd></dl>
 
 </section>
@@ -318,13 +345,22 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="py_structures.html"
+       href="meshkernel.c_structures.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Parameter Objects</p>
+        <p class="prev-next-title">meshkernel.c_structures module</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="meshkernel.meshkernel.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">meshkernel.meshkernel module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   
@@ -335,6 +371,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.Error"><code class="docutils literal notranslate"><span class="pre">Error</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.InputError"><code class="docutils literal notranslate"><span class="pre">InputError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meshkernel.errors.MeshKernelError"><code class="docutils literal notranslate"><span class="pre">MeshKernelError</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
