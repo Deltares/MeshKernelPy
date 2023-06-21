@@ -11,7 +11,7 @@ on:
       - synchronize # triggers build when commits are pushed to HEAD
     branches:
       - "feature/**"
-  # Allow triggering this workflow manually from the actions tab
+  # Manual trigger
   workflow_dispatch:
 
 jobs:
