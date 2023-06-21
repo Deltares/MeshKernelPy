@@ -35,6 +35,7 @@ jobs:
       - name: Run sphinx
         working-directory: docs
         run: |
+          sphinx-apidoc --force --separate --tocfile modules -H MeshKernelPy -o ./api ../meshkernel
           make clean
           make html
 

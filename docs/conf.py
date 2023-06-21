@@ -56,3 +56,8 @@ html_theme = "sphinx_book_theme"
 
 # Don't actually execute notebooks
 jupyter_execute_notebooks = "off"
+
+
+# If true, the current module name will be prepended to all description
+# unit titles (such as .. function::).
+add_module_names = False
