@@ -10,6 +10,8 @@ on:
       - opened # triggers build when opened
       - synchronize # triggers build when commits are pushed to HEAD
     branches:
+      - master
+      - "release/v[0-9].[0-9].[0-9]"
       - "feature/**"
   # Manual trigger
   workflow_dispatch:
