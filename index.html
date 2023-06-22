@@ -119,14 +119,15 @@ When modifying <code class="docutils literal notranslate"><span class="pre">Jupy
 </section>
 <section id="building-and-installing-the-wheel">
 <h1>Building and installing the wheel<a class="headerlink" href="#building-and-installing-the-wheel" title="Permalink to this heading"></a></h1>
-<section id="platform-sepcific-build">
-<h2>Platform-sepcific build<a class="headerlink" href="#platform-sepcific-build" title="Permalink to this heading"></a></h2>
+<section id="platform-specific-build">
+<h2>Platform-specific build<a class="headerlink" href="#platform-specific-build" title="Permalink to this heading"></a></h2>
 <p>A setup script is provided for building the wheel. The script is known to work under Windows, Linux and macOS.</p>
 <p>To install the dependencies, use</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span>
 <span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">wheel</span> <span class="n">numpy</span> <span class="n">matplotlib</span> <span class="n">pytest</span>
 </pre></div>
 </div>
+<p>The environment variable <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH</span></code> must be set prior to building the wheel. It specifies which <a class="reference external" href="https://github.com/Deltares/MeshKernel">MeshKernel</a> branch should be built during the generation of the wheel. If one is on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of MeshKernelPy, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH</span></code> must be either set to <code class="docutils literal notranslate"><span class="pre">master</span></code>. If one is an a release branch, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">release</span></code>. The version of the MeshKernel release branch is hardcoded in <code class="docutils literal notranslate"><span class="pre">meshkernel/version.py</span></code>.</p>
 <p>While in the project’s root directory, to build the wheel use</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">build_ext</span>
 <span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="n">bdist_wheel</span>
@@ -154,7 +155,7 @@ To build the Docker image, please follow these steps:</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-e</span> <span class="n">BACK_END_BRANCH</span><span class="p">=&lt;</span><span class="n">meshkernel_back_end_branch_name</span><span class="p">&gt;</span> <span class="n">-v</span> <span class="p">$(</span><span class="n">pwd</span><span class="p">):/</span><span class="n">root</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">build_linux_library</span>
 </pre></div>
 </div>
-<p>In the above, the environment variable <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH</span></code> specifies which <a class="reference external" href="https://github.com/Deltares/MeshKernel">MeshKernel</a> branch should be built by Docker. If one is on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of MeshKernelPy, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH=master</span></code> should be used or the environment variable can be removed all together (default is master). If one is an a release branch, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH=release</span></code> should be used. The version of the MeshKernel release branch is hardcoded in <code class="docutils literal notranslate"><span class="pre">meshkernel/version.py</span></code>.</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;meshkernel_back_end_branch_name&gt;</span></code> is either <code class="docutils literal notranslate"><span class="pre">master</span></code> or <code class="docutils literal notranslate"><span class="pre">release</span></code>, as described in <span class="xref myst">Platform-specific build</span>.</p>
 <p>The deployable linux wheels will be located in dist/wheelhouse</p>
 </section>
 </section>
