@@ -408,13 +408,13 @@ class MakeGridParameters:
 
     def __init__(
         self,
-        num_columns=3,
-        num_rows=3,
+        num_columns=0,
+        num_rows=0,
         angle=0.0,
         origin_x=0.0,
         origin_y=0.0,
-        block_size_x=10.0,
-        block_size_y=10.0,
+        block_size_x=0.0,
+        block_size_y=0.0,
         upper_right_x=0.0,
         upper_right_y=0.0,
     ):

@@ -361,6 +361,8 @@ class CMakeGridParameters(Structure):
         c_parameters.origin_y = make_grid_parameters.origin_y
         c_parameters.block_size_x = make_grid_parameters.block_size_x
         c_parameters.block_size_y = make_grid_parameters.block_size_y
+        c_parameters.upper_right_x = make_grid_parameters.upper_right_x
+        c_parameters.upper_right_y = make_grid_parameters.upper_right_y
         return c_parameters
 
 

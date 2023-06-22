@@ -209,6 +209,30 @@ def test_curvilinear_make_uniform():
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
 
+def test_curvilinear_make_uniform_extension():
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid."""
+    mk = MeshKernel()
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.origin_x = -1.0
+    make_grid_parameters.origin_y = 49.1
+    make_grid_parameters.upper_right_x = -0.2
+    make_grid_parameters.upper_right_y = 49.6
+    make_grid_parameters.block_size_x = 0.01
+    make_grid_parameters.block_size_y = 0.01
+
+    node_x = np.empty(0, dtype=np.double)
+    node_y = np.empty(0, dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test the number of m and n
+    assert curvilinear_grid.num_m == 52
+    assert curvilinear_grid.num_n == 82
+
 
 def test_curvilinear_make_uniform_with_polygon():
     r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon."""
