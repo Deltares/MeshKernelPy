@@ -209,9 +209,9 @@ def test_curvilinear_make_uniform():
     assert curvilinear_grid.num_m == 4
     assert curvilinear_grid.num_n == 4
 
-def test_curvilinear_make_uniform_extension():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid."""
-    mk = MeshKernel()
+def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid within a defined extension in spherical coordinates."""
+    mk = MeshKernel(is_geographic=True)
 
     make_grid_parameters = MakeGridParameters()
     make_grid_parameters.origin_x = -1.0
@@ -230,8 +230,8 @@ def test_curvilinear_make_uniform_extension():
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of m and n
-    assert curvilinear_grid.num_m == 52
-    assert curvilinear_grid.num_n == 82
+    assert curvilinear_grid.num_m == 103
+    assert curvilinear_grid.num_n == 81
 
 
 def test_curvilinear_make_uniform_with_polygon():
