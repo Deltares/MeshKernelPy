@@ -51,23 +51,57 @@ Then add a compiled `MeshKernelApi.dll` into your `src` folder.
 Also make sure that your editor is configured to format the code with [`black`](https://black.readthedocs.io/en/stable/) and [`isort`](https://pycqa.github.io/isort/).
 When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://jupyterlab-code-formatter.readthedocs.io/en/latest/installation.html) can be used.
 
-# Building linux wheels
+# Building and installing the wheel
+
+## Platform-sepcific build
+
+A setup script is provided for building the wheel. The script is known to work under Windows, Linux and macOS.
+
+To install the dependencies, use
+
+```powershell
+python -m pip install --upgrade pip
+python -m pip install wheel numpy matplotlib pytest
+
+```
+
+While in the project's root directory, to build the wheel use
+
+```powershell
+python setup.py build_ext
+python setup.py sdist bdist_wheel
+```
+
+To install use:
+The wheel is installed
+
+```powershell
+python -m pip install <meshkernel_wheel_name>
+```
+
+where `<meshkernel_wheel_name>` is the name of the generated wheel.
+
+To test, simply run `pytest`.
+
+## Manylinux Docker image
 
 To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64.
 This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++).
 To build the Docker image, please follow these steps:
 
 ```powershell
-cd scripts
-docker build --progress=plain . -t build_linux_library
-cd ..
+chmod +x scripts/compile_deps.sh
+chmod +x scripts/build_deps.sh
+docker build --progress=plain ./scripts -t build_linux_library
 ```
 
 Once the Docker image has been built, build the linux wheels using the following command:
 
 ```powershell
-docker run -v %cd%:/root --rm build_linux_library
+docker run -e BACK_END_BRANCH=<meshkernel_back_end_branch_name> -v $(pwd):/root --rm build_linux_library
 ```
+
+In the above, the environment variable `BACK_END_BRANCH` specifies which [MeshKernel](https://github.com/Deltares/MeshKernel) branch should be built by Docker. If one is on the `main` branch of MeshKernelPy, `BACK_END_BRANCH=master` should be used or the environment variable can be removed all together (default is master). If one is an a release branch, `BACK_END_BRANCH=release` should be used. The version of the MeshKernel release branch is hardcoded in `meshkernel/version.py`.
 
 The deployable linux wheels will be located in dist/wheelhouse
 

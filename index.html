@@ -117,21 +117,46 @@ MeshKernel provides an algorithm to adapt the mesh and achieve a good balance be
 <p>Also make sure that your editor is configured to format the code with <a class="reference external" href="https://black.readthedocs.io/en/stable/"><code class="docutils literal notranslate"><span class="pre">black</span></code></a> and <a class="reference external" href="https://pycqa.github.io/isort/"><code class="docutils literal notranslate"><span class="pre">isort</span></code></a>.
 When modifying <code class="docutils literal notranslate"><span class="pre">Jupyter</span></code> notebooks, the <a class="reference external" href="https://jupyterlab-code-formatter.readthedocs.io/en/latest/installation.html"><code class="docutils literal notranslate"><span class="pre">jupyterlab-code-formatter</span></code></a> can be used.</p>
 </section>
-<section id="building-linux-wheels">
-<h1>Building linux wheels<a class="headerlink" href="#building-linux-wheels" title="Permalink to this heading"></a></h1>
+<section id="building-and-installing-the-wheel">
+<h1>Building and installing the wheel<a class="headerlink" href="#building-and-installing-the-wheel" title="Permalink to this heading"></a></h1>
+<section id="platform-sepcific-build">
+<h2>Platform-sepcific build<a class="headerlink" href="#platform-sepcific-build" title="Permalink to this heading"></a></h2>
+<p>A setup script is provided for building the wheel. The script is known to work under Windows, Linux and macOS.</p>
+<p>To install the dependencies, use</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">wheel</span> <span class="n">numpy</span> <span class="n">matplotlib</span> <span class="n">pytest</span>
+</pre></div>
+</div>
+<p>While in the project’s root directory, to build the wheel use</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">build_ext</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="n">bdist_wheel</span>
+</pre></div>
+</div>
+<p>To install use:
+The wheel is installed</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">&lt;</span><span class="n">meshkernel_wheel_name</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;meshkernel_wheel_name&gt;</span></code> is the name of the generated wheel.</p>
+<p>To test, simply run <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p>
+</section>
+<section id="manylinux-docker-image">
+<h2>Manylinux Docker image<a class="headerlink" href="#manylinux-docker-image" title="Permalink to this heading"></a></h2>
 <p>To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64.
 This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++).
 To build the Docker image, please follow these steps:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd </span><span class="n">scripts</span>
-<span class="n">docker</span> <span class="n">build</span> <span class="p">-</span><span class="n">-progress</span><span class="p">=</span><span class="n">plain</span> <span class="p">.</span> <span class="n">-t</span> <span class="n">build_linux_library</span>
-<span class="nb">cd </span><span class="p">..</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">chmod</span> <span class="p">+</span><span class="n">x</span> <span class="n">scripts</span><span class="p">/</span><span class="n">compile_deps</span><span class="p">.</span><span class="n">sh</span>
+<span class="n">chmod</span> <span class="p">+</span><span class="n">x</span> <span class="n">scripts</span><span class="p">/</span><span class="n">build_deps</span><span class="p">.</span><span class="n">sh</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="p">-</span><span class="n">-progress</span><span class="p">=</span><span class="n">plain</span> <span class="p">./</span><span class="n">scripts</span> <span class="n">-t</span> <span class="n">build_linux_library</span>
 </pre></div>
 </div>
 <p>Once the Docker image has been built, build the linux wheels using the following command:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-v</span> <span class="k">%</span><span class="n">cd</span><span class="p">%:/</span><span class="n">root</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">build_linux_library</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="n">-e</span> <span class="n">BACK_END_BRANCH</span><span class="p">=&lt;</span><span class="n">meshkernel_back_end_branch_name</span><span class="p">&gt;</span> <span class="n">-v</span> <span class="p">$(</span><span class="n">pwd</span><span class="p">):/</span><span class="n">root</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">build_linux_library</span>
 </pre></div>
 </div>
+<p>In the above, the environment variable <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH</span></code> specifies which <a class="reference external" href="https://github.com/Deltares/MeshKernel">MeshKernel</a> branch should be built by Docker. If one is on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of MeshKernelPy, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH=master</span></code> should be used or the environment variable can be removed all together (default is master). If one is an a release branch, <code class="docutils literal notranslate"><span class="pre">BACK_END_BRANCH=release</span></code> should be used. The version of the MeshKernel release branch is hardcoded in <code class="docutils literal notranslate"><span class="pre">meshkernel/version.py</span></code>.</p>
 <p>The deployable linux wheels will be located in dist/wheelhouse</p>
+</section>
 </section>
 <section id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h1>
