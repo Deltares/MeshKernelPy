@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install sphinx myst-nb sphinx-book-theme numpy matplotlib
+          python -m pip install sphinx myst-nb sphinx-rtd-theme numpy matplotlib
 
       - name: Run sphinx
         working-directory: docs

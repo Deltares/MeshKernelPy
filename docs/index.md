@@ -77,6 +77,8 @@ The deployable linux wheels will be located in dist/wheelhouse
 However, the wheels on PyPI bundle the LGPL licensed [MeshKernel](https://github.com/Deltares/MeshKernel).
 Please make sure that this fits your needs before depending on it.
 
+# Documentation
+
 ```{toctree}
 :titlesonly:
 :maxdepth: 1
