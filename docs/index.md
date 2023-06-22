@@ -53,7 +53,7 @@ When modifying `Jupyter` notebooks, the [`jupyterlab-code-formatter`](https://ju
 
 # Building and installing the wheel
 
-## Platform-sepcific build
+## Platform-specific build
 
 A setup script is provided for building the wheel. The script is known to work under Windows, Linux and macOS.
 
@@ -64,6 +64,8 @@ python -m pip install --upgrade pip
 python -m pip install wheel numpy matplotlib pytest
 
 ```
+
+The environment variable `BACK_END_BRANCH` must be set prior to building the wheel. It specifies which [MeshKernel](https://github.com/Deltares/MeshKernel) branch should be built during the generation of the wheel. If one is on the `main` branch of MeshKernelPy, `BACK_END_BRANCH` must be either set to `master`. If one is an a release branch, `BACK_END_BRANCH` should be set to `release`. The version of the MeshKernel release branch is hardcoded in `meshkernel/version.py`.
 
 While in the project's root directory, to build the wheel use
 
@@ -101,7 +103,7 @@ Once the Docker image has been built, build the linux wheels using the following
 docker run -e BACK_END_BRANCH=<meshkernel_back_end_branch_name> -v $(pwd):/root --rm build_linux_library
 ```
 
-In the above, the environment variable `BACK_END_BRANCH` specifies which [MeshKernel](https://github.com/Deltares/MeshKernel) branch should be built by Docker. If one is on the `main` branch of MeshKernelPy, `BACK_END_BRANCH=master` should be used or the environment variable can be removed all together (default is master). If one is an a release branch, `BACK_END_BRANCH=release` should be used. The version of the MeshKernel release branch is hardcoded in `meshkernel/version.py`.
+where `<meshkernel_back_end_branch_name>` is either `master` or `release`, as described in [Platform-specific build](#platform-specific-build).
 
 The deployable linux wheels will be located in dist/wheelhouse
 
