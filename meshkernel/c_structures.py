@@ -332,11 +332,12 @@ class CMakeGridParameters(Structure):
         ("num_columns", c_int),
         ("num_rows", c_int),
         ("angle", c_double),
-        ("block_size", c_double),
         ("origin_x", c_double),
         ("origin_y", c_double),
         ("block_size_x", c_double),
         ("block_size_y", c_double),
+        ("upper_right_x", c_double),
+        ("upper_right_y", c_double),
     ]
 
     @staticmethod
@@ -356,7 +357,6 @@ class CMakeGridParameters(Structure):
         c_parameters.num_columns = make_grid_parameters.num_columns
         c_parameters.num_rows = make_grid_parameters.num_rows
         c_parameters.angle = make_grid_parameters.angle
-        c_parameters.block_size = make_grid_parameters.block_size
         c_parameters.origin_x = make_grid_parameters.origin_x
         c_parameters.origin_y = make_grid_parameters.origin_y
         c_parameters.block_size_x = make_grid_parameters.block_size_x
