@@ -392,7 +392,6 @@ class MakeGridParameters:
         num_columns (int, optional): The number of columns in x direction. Default is `3`.
         num_rows (int, optional): The number of columns in y direction. Default is `3`.
         angle (float, optional): The grid angle. Default is `0.0`.
-        block_size (float, optional): The grid block size, used in x and y direction. Default is `10.0`.
         origin_x (float, optional): The x coordinate of the origin, located at the bottom left corner.
         Default is `0.0`.
         origin_y (float, optional): The y coordinate of the origin, located at the bottom left corner.
@@ -401,27 +400,33 @@ class MakeGridParameters:
         Default is `10.0`.
         block_size_y (float, optional): The grid block size in y dimension, used only for squared grids.
         Default is `10.0`.
+        upper_right_x (float, optional): The x coordinate of the upper right corner.
+        Default is `0.0`.
+        upper_right_y (float, optional): The y coordinate of the upper right corner.
+        Default is `0.0`.
     """
 
     def __init__(
         self,
-        num_columns=3,
-        num_rows=3,
+        num_columns=0,
+        num_rows=0,
         angle=0.0,
-        block_size=10.0,
         origin_x=0.0,
         origin_y=0.0,
-        block_size_x=10.0,
-        block_size_y=10.0,
+        block_size_x=0.0,
+        block_size_y=0.0,
+        upper_right_x=0.0,
+        upper_right_y=0.0,
     ):
         self.num_columns: int = num_columns
         self.num_rows: int = num_rows
         self.angle: float = angle
-        self.block_size: float = block_size
         self.origin_x: float = origin_x
         self.origin_y: float = origin_y
         self.block_size_x: float = block_size_x
         self.block_size_y: float = block_size_y
+        self.upper_right_x: float = upper_right_x
+        self.upper_right_y: float = upper_right_y
 
 
 class Mesh1d:
