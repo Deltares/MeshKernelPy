@@ -321,11 +321,12 @@ class CMakeGridParameters(Structure):
         num_columns (c_int): The number of columns in x direction.
         num_rows (c_int): The number of columns in y direction.
         angle (c_double): The grid angle.
-        block_size (c_double): The grid block size, used in x and y direction.
         origin_x (c_double): The x coordinate of the origin, located at the bottom left corner.
         origin_y (c_double): The y coordinate of the origin, located at the bottom left corner.
         block_size_x (c_double): The grid block size in x dimension, used only for squared grids.
         block_size_y (c_double): The grid block size in y dimension, used only for squared grids.
+        upper_right_x (c_double): The x coordinate of the upper right corner.
+        upper_right_y (c_double): The y coordinate of the upper right corner.
     """
 
     _fields_ = [
