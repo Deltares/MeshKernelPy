@@ -26,20 +26,20 @@ class CMesh2d(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        edge_nodes (POINTER(c_int)): The nodes composing each mesh 2d edge.
-        face_nodes (POINTER(c_int)): The nodes composing each mesh 2d face.
-        nodes_per_face (POINTER(c_int)): The nodes composing each mesh 2d face.
-        node_x (POINTER(c_double)): The x-coordinates of the nodes.
-        node_y (POINTER(c_double)): The y-coordinates of the nodes.
-        edge_x (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
-        edge_y (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
-        face_x (POINTER(c_double)): The x-coordinates of the mesh faces' mass centers.
-        face_y (POINTER(c_double)): The y-coordinates of the mesh faces' mass centers.
-        num_nodes (c_int): The number of mesh nodes.
-        num_edges (c_int): The number of edges.
-        num_faces (c_int): The number of faces.
-        num_face_nodes (c_int): The total number of nodes composing the mesh 2d faces.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - edge_nodes (POINTER(c_int)): The nodes composing each mesh 2d edge.
+        - face_nodes (POINTER(c_int)): The nodes composing each mesh 2d face.
+        - nodes_per_face (POINTER(c_int)): The nodes composing each mesh 2d face.
+        - node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        - node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        - edge_x (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        - edge_y (POINTER(c_double)): The x-coordinates of the mesh edges' middle points.
+        - face_x (POINTER(c_double)): The x-coordinates of the mesh faces' mass centers.
+        - face_y (POINTER(c_double)): The y-coordinates of the mesh faces' mass centers.
+        - num_nodes (c_int): The number of mesh nodes.
+        - num_edges (c_int): The number of edges.
+        - num_faces (c_int): The number of faces.
+        - num_face_nodes (c_int): The total number of nodes composing the mesh 2d faces.
     """
 
     _fields_ = [
@@ -91,7 +91,7 @@ class CMesh2d(Structure):
         return c_mesh2d
 
     def allocate_memory(self) -> Mesh2d:
-        """Allocate data according to the parameters with the "num_" prefix.
+        r"""Allocate data according to the parameters with the \"num\_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Mesh2d instance which is returned by this method.
 
@@ -138,13 +138,13 @@ class CGeometryList(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        geometry_separator (c_double): The value used as a separator in the coordinates.
-        inner_outer_separator (c_double): The value used to separate the inner part of a polygon from its outer part.
-        n_coordinates (c_int): The number of coordinate values.
-        x_coordinates (POINTER(c_double)): The x coordinates.
-        y_coordinates (POINTER(c_double)): The y coordinates.
-        values (POINTER(c_double)): The values on this mesh2d.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - geometry_separator (c_double): The value used as a separator in the coordinates.
+        - inner_outer_separator (c_double): The value used to separate the inner part of a polygon from its outer part.
+        - n_coordinates (c_int): The number of coordinate values.
+        - x_coordinates (POINTER(c_double)): The x coordinates.
+        - y_coordinates (POINTER(c_double)): The y coordinates.
+        - values (POINTER(c_double)): The values on this mesh2d.
     """
 
     _fields_ = [
@@ -185,14 +185,13 @@ class COrthogonalizationParameters(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        outer_iterations (c_int): Number of outer iterations in orthogonalization.
-        boundary_iterations (c_int): Number of boundary iterations in grid/net orthogonalization within itatp.
-        inner_iterations (c_int): Number of inner iterations in grid/net orthogonalization within itbnd.
-        orthogonalization_to_smoothing_factor (c_double): Factor from between grid smoothing (0) and
-                                                          grid orthogonality (1).
-        orthogonalization_to_smoothing_factor_at_boundary (c_double): Minimum ATPF on the boundary.
-        areal_to_angle_smoothing_factor (c_double): Factor between smoother 1d0 and area-homogenizer 0d0.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - outer_iterations (c_int): Number of outer iterations in orthogonalization.
+        - boundary_iterations (c_int): Number of boundary iterations in grid/net orthogonalization within itatp.
+        - inner_iterations (c_int): Number of inner iterations in grid/net orthogonalization within itbnd.
+        - orthogonalization_to_smoothing_factor (c_double): Factor from between grid smoothing (0) and grid orthogonality (1).
+        - orthogonalization_to_smoothing_factor_at_boundary (c_double): Minimum ATPF on the boundary.
+        - areal_to_angle_smoothing_factor (c_double): Factor between smoother 1d0 and area-homogenizer 0d0.
     """
 
     _fields_ = [
@@ -246,15 +245,14 @@ class CMeshRefinementParameters(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        max_refinement_iterations (c_int): Maximum number of refinement iterations.
-        refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
-        use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement
-                                               process (yes=1/no=0)
-        min_edge_size (c_double): Minimum cell size.
-        refinement_type (c_int): Refinement criterion type.
-        connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
-        account_for_samples_outside (c_int): Whether to take samples outside face into account.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - max_refinement_iterations (c_int): Maximum number of refinement iterations.
+        - refine_intersected (c_int): Whether to compute faces intersected by polygon (yes=1/no=0)
+        - use_mass_center_when_refining (c_int): Whether to use the mass center when splitting a face in the refinement process (yes=1/no=0)
+        - min_edge_size (c_double): Minimum cell size.
+        - refinement_type (c_int): Refinement criterion type.
+        - connect_hanging_nodes (c_int): Whether to connect hanging nodes at the end of the iteration.
+        - account_for_samples_outside (c_int): Whether to take samples outside face into account.
     """
 
     _fields_ = [
@@ -317,16 +315,16 @@ class CMakeGridParameters(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        num_columns (c_int): The number of columns in x direction.
-        num_rows (c_int): The number of columns in y direction.
-        angle (c_double): The grid angle.
-        origin_x (c_double): The x coordinate of the origin, located at the bottom left corner.
-        origin_y (c_double): The y coordinate of the origin, located at the bottom left corner.
-        block_size_x (c_double): The grid block size in x dimension, used only for squared grids.
-        block_size_y (c_double): The grid block size in y dimension, used only for squared grids.
-        upper_right_x (c_double): The x coordinate of the upper right corner.
-        upper_right_y (c_double): The y coordinate of the upper right corner.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - num_columns (c_int): The number of columns in x direction.
+        - num_rows (c_int): The number of columns in y direction.
+        - angle (c_double): The grid angle.
+        - origin_x (c_double): The x coordinate of the origin, located at the bottom left corner.
+        - origin_y (c_double): The y coordinate of the origin, located at the bottom left corner.
+        - block_size_x (c_double): The grid block size in x dimension, used only for squared grids.
+        - block_size_y (c_double): The grid block size in y dimension, used only for squared grids.
+        - upper_right_x (c_double): The x coordinate of the upper right corner.
+        - upper_right_y (c_double): The y coordinate of the upper right corner.
     """
 
     _fields_ = [
@@ -373,12 +371,12 @@ class CMesh1d(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        edge_nodes (POINTER(c_int)): The nodes composing each mesh 1d edge.
-        node_x (POINTER(c_double)): The x-coordinates of the nodes.
-        node_y (POINTER(c_double)): The y-coordinates of the nodes.
-        num_nodes (c_int): The number of nodes.
-        num_edges (c_int): The number of edges.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - edge_nodes (POINTER(c_int)): The nodes composing each mesh 1d edge.
+        - node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        - node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        - num_nodes (c_int): The number of nodes.
+        - num_edges (c_int): The number of edges.
     """
 
     _fields_ = [
@@ -414,7 +412,7 @@ class CMesh1d(Structure):
         return c_mesh1d
 
     def allocate_memory(self) -> Mesh1d:
-        """Allocate data according to the parameters with the "num_" prefix.
+        r"""Allocate data according to the parameters with the \"num\_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Mesh1d instance which is returned by this method.
 
@@ -443,10 +441,10 @@ class CContacts(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        mesh1d_indices (POINTER(c_int)): The indices of the mesh1d nodes.
-        mesh2d_indices (POINTER(c_int)): The indices of the mesh2d faces.
-        num_contacts (c_int): The number of contacts.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - mesh1d_indices (POINTER(c_int)): The indices of the mesh1d nodes.
+        - mesh2d_indices (POINTER(c_int)): The indices of the mesh2d faces.
+        - num_contacts (c_int): The number of contacts.
     """
 
     _fields_ = [
@@ -475,7 +473,7 @@ class CContacts(Structure):
         return c_contacts
 
     def allocate_memory(self) -> Contacts:
-        """Allocate data according to the parameters with the "num_" prefix.
+        r"""Allocate data according to the parameters with the \"num\_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the Contacts instance which is returned by this method.
 
@@ -498,11 +496,11 @@ class CCurvilinearGrid(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        node_x (POINTER(c_double)): The x-coordinates of the nodes.
-        node_y (POINTER(c_double)): The y-coordinates of the nodes.
-        num_m (c_int): The number of curvilinear grid nodes along m.
-        num_n (c_int): The number of curvilinear grid nodes along n.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - node_x (POINTER(c_double)): The x-coordinates of the nodes.
+        - node_y (POINTER(c_double)): The y-coordinates of the nodes.
+        - num_m (c_int): The number of curvilinear grid nodes along m.
+        - num_n (c_int): The number of curvilinear grid nodes along n.
     """
 
     _fields_ = [
@@ -536,7 +534,7 @@ class CCurvilinearGrid(Structure):
         return c_curvilinear_grid
 
     def allocate_memory(self) -> CurvilinearGrid:
-        """Allocate data according to the parameters with the "num_" prefix.
+        r"""Allocate data according to the parameters with the \"num\_\" prefix.
         The pointers are then set to the freshly allocated memory.
         The memory is owned by the CurvilinearGrid instance which is returned by this method.
 
@@ -559,12 +557,12 @@ class CCurvilinearParameters(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        m_refinement (c_int): M-refinement factor for regular grid generation.
-        n_refinement (c_int): N-refinement factor for regular grid generation.
-        smoothing_iterations (c_int): Nr. of inner iterations in regular grid smoothing.
-        smoothing_parameter (c_double): Smoothing parameter.
-        attraction_parameter (c_double): Attraction/repulsion parameter.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - m_refinement (c_int): M-refinement factor for regular grid generation.
+        - n_refinement (c_int): N-refinement factor for regular grid generation.
+        - smoothing_iterations (c_int): Nr. of inner iterations in regular grid smoothing.
+        - smoothing_parameter (c_double): Smoothing parameter.
+        - attraction_parameter (c_double): Attraction/repulsion parameter.
     """
 
     _fields_ = [
@@ -610,17 +608,17 @@ class CSplinesToCurvilinearParameters(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        aspect_ratio (c_double): Aspect ratio.
-        aspect_ratio_grow_factor (c_double): Grow factor of aspect ratio.
-        average_width (c_double): Average mesh width on center spline.
-        curvature_adapted_grid_spacing (c_int): Curvature adapted grid spacing.
-        grow_grid_outside (c_int): Grow the grid outside the prescribed grid height.
-        maximum_num_faces_in_uniform_part (c_int): Maximum number of layers in the uniform part.
-        nodes_on_top_of_each_other_tolerance (c_double): On-top-of-each-other tolerance.).
-        min_cosine_crossing_angles (c_double): Minimum allowed absolute value of crossing-angle cosine.
-        check_front_collisions (c_int): Check for collisions with other parts of the front.
-        remove_skinny_triangles (c_int): Check for collisions with other parts of the front.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - aspect_ratio (c_double): Aspect ratio.
+        - aspect_ratio_grow_factor (c_double): Grow factor of aspect ratio.
+        - average_width (c_double): Average mesh width on center spline.
+        - curvature_adapted_grid_spacing (c_int): Curvature adapted grid spacing.
+        - grow_grid_outside (c_int): Grow the grid outside the prescribed grid height.
+        - maximum_num_faces_in_uniform_part (c_int): Maximum number of layers in the uniform part.
+        - nodes_on_top_of_each_other_tolerance (c_double): On-top-of-each-other tolerance.).
+        - min_cosine_crossing_angles (c_double): Minimum allowed absolute value of crossing-angle cosine.
+        - check_front_collisions (c_int): Check for collisions with other parts of the front.
+        - remove_skinny_triangles (c_int): Check for collisions with other parts of the front.
     """
 
     _fields_ = [
@@ -690,15 +688,15 @@ class CGriddedSamples(Structure):
 
     Used for communicating with the MeshKernel dll.
 
-    Attributes:
-        n_cols (c_int): Number of grid columns.
-        n_rows (c_int): Number of grid rows.
-        x_origin (c_double): X coordinate of the grid origin.
-        y_origin (c_double): Y coordinate of the grid origin.
-        cell_size (c_int):  Constant grid cell size.
-        x_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in x direction.
-        y_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in y direction.
-        values (POINTER(c_double)): Sample values.
+    The ``_fields_`` attribute of this class contains the following fields:
+        - n_cols (c_int): Number of grid columns.
+        - n_rows (c_int): Number of grid rows.
+        - x_origin (c_double): X coordinate of the grid origin.
+        - y_origin (c_double): Y coordinate of the grid origin.
+        - cell_size (c_int):  Constant grid cell size.
+        - x_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in x direction.
+        - y_coordinates (POINTER(c_double)): If not nullptr, coordinates for non-uniform grid spacing in y direction.
+        - values (POINTER(c_double)): Sample values.
     """
 
     _fields_ = [
