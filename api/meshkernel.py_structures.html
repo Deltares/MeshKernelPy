@@ -484,7 +484,7 @@ part. Default is <cite>-998.0</cite>.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MakeGridParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MakeGridParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_right_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_right_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class holding the necessary parameters to create a new curvilinear grid in a C-compatible manner.</p>
 <dl class="py attribute">
@@ -513,17 +513,6 @@ part. Default is <cite>-998.0</cite>.</p>
 <dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.angle">
 <span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.angle" title="Permalink to this definition"></a></dt>
 <dd><p>The grid angle. Default is <cite>0.0</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.block_size">
-<span class="sig-name descname"><span class="pre">block_size</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.block_size" title="Permalink to this definition"></a></dt>
-<dd><p>The grid block size, used in x and y direction. Default is <cite>10.0</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float, optional</p>
@@ -593,6 +582,38 @@ part. Default is <cite>-998.0</cite>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`10.0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.upper_right_x">
+<span class="sig-name descname"><span class="pre">upper_right_x</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.upper_right_x" title="Permalink to this definition"></a></dt>
+<dd><p>The x coordinate of the upper right corner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0.0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.MakeGridParameters.upper_right_y">
+<span class="sig-name descname"><span class="pre">upper_right_y</span></span><a class="headerlink" href="#meshkernel.py_structures.MakeGridParameters.upper_right_y" title="Permalink to this definition"></a></dt>
+<dd><p>The y coordinate of the upper right corner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0.0`.</span></span></dt>
 <dd></dd></dl>
 
 </dd></dl>
