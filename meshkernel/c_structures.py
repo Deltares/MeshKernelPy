@@ -72,15 +72,15 @@ class CMesh2d(Structure):
 
         if len(mesh2d.node_x) != len(mesh2d.node_y):
             raise InputError(
-                "The length of the node_x array is not equal to the length of the node_y array"
+                "The size of the node_x array is not equal to the size of the node_y array"
             )
         if len(mesh2d.edge_x) != len(mesh2d.edge_y):
             raise InputError(
-                "The length of the edge_x array is not equal to the length of the edge_y array"
+                "The size of the edge_x array is not equal to the size of the edge_y array"
             )
         if len(mesh2d.face_x) != len(mesh2d.face_y):
             raise InputError(
-                "The length of the face_x array is not equal to the length of the face_y array"
+                "The size of the face_x array is not equal to the size of the face_y array"
             )
 
         c_mesh2d = CMesh2d()
@@ -181,17 +181,9 @@ class CGeometryList(Structure):
             CGeometryList: The created C-Structure for the given GeometryList.
         """
 
-        if len(geometry_list.x_coordinates) != geometry_list.n_coordinates:
+        if geometry_list.x_coordinates.size != geometry_list.y_coordinates.size:
             raise InputError(
-                "The length of the x_coordinates array is not equal to n_coordinates"
-            )
-        if len(geometry_list.y_coordinates) != geometry_list.n_coordinates:
-            raise InputError(
-                "The length of the y_coordinates array is not equal to n_coordinates"
-            )
-        if len(geometry_list.values) != geometry_list.n_coordinates:
-            raise InputError(
-                "The length of the values array is not equal to n_coordinates"
+                "The size of the x_coordinates array is not equal to the size of y_coordinates array"
             )
 
         c_geometry_list = CGeometryList()
@@ -427,7 +419,7 @@ class CMesh1d(Structure):
 
         if len(mesh1d.node_x) != len(mesh1d.node_y):
             raise InputError(
-                "The length of the node_x array is not equal to the length of the node_y array"
+                "The size of the node_x array is not equal to the size of the node_y array"
             )
 
         c_mesh1d = CMesh1d()
@@ -498,7 +490,7 @@ class CContacts(Structure):
 
         if len(contacts.mesh1d_indices) != len(contacts.mesh2d_indices):
             raise InputError(
-                "The length of the mesh1d_indices array is not equal to the length of the mesh2d_indices array"
+                "The size of the mesh1d_indices array is not equal to the size of the mesh2d_indices array"
             )
 
         c_contacts = CContacts()
@@ -560,7 +552,7 @@ class CCurvilinearGrid(Structure):
 
         if len(curvilinear_grid.node_x) != len(curvilinear_grid.node_y):
             raise InputError(
-                "The length of the node_x array is not equal to the length of the node_y array"
+                "The size of the node_x array is not equal to the size of the node_y array"
             )
 
         c_curvilinear_grid = CCurvilinearGrid()
@@ -767,7 +759,7 @@ class CGriddedSamples(Structure):
 
         if len(gridded_samples.x_coordinates) != len(gridded_samples.y_coordinates):
             raise InputError(
-                "The length of the x_coordinates array is not equal to the length of the y_coordinates array"
+                "The size of the x_coordinates array is not equal to the size of the y_coordinates array"
             )
 
         c_gridded_samples = CGriddedSamples()
