@@ -729,14 +729,14 @@ class CGriddedSamples(Structure):
             n_cols = gridded_samples.n_cols
             c_gridded_samples.x_coordinates = None
         else:
-            n_cols = len(gridded_samples.x_coordinates) - 1
+            n_cols = len(gridded_samples.x_coordinates)
             c_gridded_samples.x_coordinates = as_ctypes(gridded_samples.x_coordinates)
 
         if len(gridded_samples.y_coordinates) == 0:
             n_rows = gridded_samples.n_rows
             c_gridded_samples.y_coordinates = None
         else:
-            n_rows = len(gridded_samples.y_coordinates) - 1
+            n_rows = len(gridded_samples.y_coordinates)
             c_gridded_samples.y_coordinates = as_ctypes(gridded_samples.y_coordinates)
 
         c_gridded_samples.n_cols = n_cols
