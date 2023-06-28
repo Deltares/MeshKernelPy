@@ -5,6 +5,7 @@ from ctypes import POINTER, Structure, c_double, c_int
 import numpy as np
 from numpy.ctypeslib import as_ctypes
 
+from meshkernel.errors import InputError
 from meshkernel.py_structures import (
     Contacts,
     CurvilinearGrid,
@@ -68,6 +69,19 @@ class CMesh2d(Structure):
         Returns:
             CMesh2d: The created CMesh2d instance.
         """
+
+        if len(mesh2d.node_x) != len(mesh2d.node_y):
+            raise InputError(
+                "The size of the node_x array is not equal to the size of the node_y array"
+            )
+        if len(mesh2d.edge_x) != len(mesh2d.edge_y):
+            raise InputError(
+                "The size of the edge_x array is not equal to the size of the edge_y array"
+            )
+        if len(mesh2d.face_x) != len(mesh2d.face_y):
+            raise InputError(
+                "The size of the face_x array is not equal to the size of the face_y array"
+            )
 
         c_mesh2d = CMesh2d()
 
@@ -166,6 +180,11 @@ class CGeometryList(Structure):
         Returns:
             CGeometryList: The created C-Structure for the given GeometryList.
         """
+
+        if geometry_list.x_coordinates.size != geometry_list.y_coordinates.size:
+            raise InputError(
+                "The size of the x_coordinates array is not equal to the size of y_coordinates array"
+            )
 
         c_geometry_list = CGeometryList()
 
@@ -398,6 +417,11 @@ class CMesh1d(Structure):
             CMesh1d: The created CMesh1d instance.
         """
 
+        if len(mesh1d.node_x) != len(mesh1d.node_y):
+            raise InputError(
+                "The size of the node_x array is not equal to the size of the node_y array"
+            )
+
         c_mesh1d = CMesh1d()
 
         # Set the pointers
@@ -464,6 +488,11 @@ class CContacts(Structure):
             CContacts: The created C-Structure for the given Contacts.
         """
 
+        if len(contacts.mesh1d_indices) != len(contacts.mesh2d_indices):
+            raise InputError(
+                "The size of the mesh1d_indices array is not equal to the size of the mesh2d_indices array"
+            )
+
         c_contacts = CContacts()
 
         c_contacts.mesh1d_indices = as_ctypes(contacts.mesh1d_indices)
@@ -520,6 +549,11 @@ class CCurvilinearGrid(Structure):
         Returns:
             CCurvilinearGrid: The created CCurvilinearGrid instance.
         """
+
+        if len(curvilinear_grid.node_x) != len(curvilinear_grid.node_y):
+            raise InputError(
+                "The size of the node_x array is not equal to the size of the node_y array"
+            )
 
         c_curvilinear_grid = CCurvilinearGrid()
 

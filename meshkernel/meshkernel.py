@@ -1456,7 +1456,9 @@ class MeshKernel:
 
         if not geometry_list:
             geometry_list = GeometryList(
-                np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)
+                x_coordinates=np.empty(0, dtype=np.double),
+                y_coordinates=np.empty(0, dtype=np.double),
+                values=np.empty(0, dtype=np.double),
             )
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
