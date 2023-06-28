@@ -486,8 +486,10 @@ class GriddedSamples:
     """A class holding gridded samples, both for uniform gridding and non-uniform gridding.
 
     Attributes:
-        n_cols (int, optional): Number of grid columns. Default is `0`.
-        n_rows (int, optional): Number of grid rows. Default is `0`.
+        num_x (int, optional): Number of x gridded samples coordinates. The number of grid points is num_x * num_y.
+        Default is `0`.
+        num_y (int, optional): Number of y gridded samples coordinates. The number of grid points is num_x * num_y.
+        Default is `0`.
         x_origin (float, optional): X coordinate of the grid origin. Default is `0.0`.
         y_origin (float, optional): Y coordinate of the grid origin. Default is `0.0`.
         cell_size (float, optional): Constant grid edge size. Default is `0.0`.
@@ -498,8 +500,8 @@ class GriddedSamples:
 
     def __init__(
         self,
-        n_cols=0,
-        n_rows=0,
+        num_x=0,
+        num_y=0,
         x_origin=0.0,
         y_origin=0.0,
         cell_size=0.0,
@@ -507,8 +509,8 @@ class GriddedSamples:
         y_coordinates=np.empty(0, dtype=np.double),
         values=np.empty(0, dtype=np.double),
     ):
-        self.n_cols: int = n_cols
-        self.n_rows: int = n_rows
+        self.num_x: int = num_x
+        self.num_y: int = num_y
         self.x_origin: float = x_origin
         self.y_origin: float = y_origin
         self.cell_size: float = cell_size

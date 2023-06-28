@@ -622,8 +622,8 @@ def test_mesh2d_refine_based_on_samples(
 cases_mesh2d_refine_based_on_gridded_samples = [
     (
         GriddedSamples(
-            n_cols=7,
-            n_rows=6,
+            num_x=7,
+            num_y=6,
             x_origin=-50.0,
             y_origin=-50.0,
             cell_size=100.0,

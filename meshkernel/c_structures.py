@@ -689,8 +689,8 @@ class CGriddedSamples(Structure):
     Used for communicating with the MeshKernel dll.
 
     The ``_fields_`` attribute of this class contains the following fields:
-        - n_cols (c_int): Number of grid columns.
-        - n_rows (c_int): Number of grid rows.
+        - num_x (c_int): Number of x gridded samples coordinates.
+        - num_y (c_int): Number of y gridded samples coordinates.
         - x_origin (c_double): X coordinate of the grid origin.
         - y_origin (c_double): Y coordinate of the grid origin.
         - cell_size (c_int):  Constant grid cell size.
@@ -700,8 +700,8 @@ class CGriddedSamples(Structure):
     """
 
     _fields_ = [
-        ("n_cols", c_int),
-        ("n_rows", c_int),
+        ("num_x", c_int),
+        ("num_y", c_int),
         ("x_origin", c_double),
         ("y_origin", c_double),
         ("cell_size", c_double),
@@ -726,21 +726,21 @@ class CGriddedSamples(Structure):
         c_gridded_samples = CGriddedSamples()
 
         if len(gridded_samples.x_coordinates) == 0:
-            n_cols = gridded_samples.n_cols
+            num_x = gridded_samples.num_x
             c_gridded_samples.x_coordinates = None
         else:
-            n_cols = len(gridded_samples.x_coordinates)
+            num_x = len(gridded_samples.x_coordinates)
             c_gridded_samples.x_coordinates = as_ctypes(gridded_samples.x_coordinates)
 
         if len(gridded_samples.y_coordinates) == 0:
-            n_rows = gridded_samples.n_rows
+            num_y = gridded_samples.num_y
             c_gridded_samples.y_coordinates = None
         else:
-            n_rows = len(gridded_samples.y_coordinates)
+            num_y = len(gridded_samples.y_coordinates)
             c_gridded_samples.y_coordinates = as_ctypes(gridded_samples.y_coordinates)
 
-        c_gridded_samples.n_cols = n_cols
-        c_gridded_samples.n_rows = n_rows
+        c_gridded_samples.num_x = num_x
+        c_gridded_samples.num_y = num_y
         c_gridded_samples.x_origin = gridded_samples.x_origin
         c_gridded_samples.y_origin = gridded_samples.y_origin
         c_gridded_samples.cell_size = gridded_samples.cell_size
