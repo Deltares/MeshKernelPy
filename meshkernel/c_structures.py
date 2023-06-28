@@ -757,11 +757,6 @@ class CGriddedSamples(Structure):
             CGriddedSamples: The created C-Structure for the given CGriddedSamples.
         """
 
-        if len(gridded_samples.x_coordinates) != len(gridded_samples.y_coordinates):
-            raise InputError(
-                "The size of the x_coordinates array is not equal to the size of the y_coordinates array"
-            )
-
         c_gridded_samples = CGriddedSamples()
 
         if len(gridded_samples.x_coordinates) == 0:
