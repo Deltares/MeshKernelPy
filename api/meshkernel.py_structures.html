@@ -389,13 +389,13 @@ part. Default is <cite>-998.0</cite>.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GriddedSamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GriddedSamples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class holding gridded samples, both for uniform gridding and non-uniform gridding.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.n_cols">
-<span class="sig-name descname"><span class="pre">n_cols</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.n_cols" title="Permalink to this definition"></a></dt>
-<dd><p>Number of grid columns. Default is <cite>0</cite>.</p>
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.num_x">
+<span class="sig-name descname"><span class="pre">num_x</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.num_x" title="Permalink to this definition"></a></dt>
+<dd><p>Number of x gridded samples coordinates. The number of grid points is num_x * num_y.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int, optional</p>
@@ -404,15 +404,25 @@ part. Default is <cite>-998.0</cite>.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.n_rows">
-<span class="sig-name descname"><span class="pre">n_rows</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.n_rows" title="Permalink to this definition"></a></dt>
-<dd><p>Number of grid rows. Default is <cite>0</cite>.</p>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0`.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.num_y">
+<span class="sig-name descname"><span class="pre">num_y</span></span><a class="headerlink" href="#meshkernel.py_structures.GriddedSamples.num_y" title="Permalink to this definition"></a></dt>
+<dd><p>Number of y gridded samples coordinates. The number of grid points is num_x * num_y.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int, optional</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Default</span> <span class="pre">is</span> <span class="pre">`0`.</span></span></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="meshkernel.py_structures.GriddedSamples.x_origin">
