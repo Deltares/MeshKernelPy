@@ -1003,7 +1003,7 @@ class MeshKernel:
         return contacts
 
     def contacts_compute_single(
-        self, node_mask: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList, projection_factor: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
@@ -1012,6 +1012,8 @@ class MeshKernel:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
                                  should not be connected
             polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
+            projection_factor (float): The projection factor used for generating the contacts when 1d nodes are
+            not inside the 2d mesh.
         """
 
         node_mask_int = node_mask.astype(np.int32)
@@ -1023,6 +1025,7 @@ class MeshKernel:
             self._meshkernelid,
             c_node_mask,
             byref(c_polygons),
+            c_double(projection_factor),
         )
 
     def contacts_compute_multiple(self, node_mask: ndarray) -> None:

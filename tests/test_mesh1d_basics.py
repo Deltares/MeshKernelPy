@@ -78,8 +78,9 @@ def test_contacts_compute_single():
     polygon_x = np.array([-1.0, 6.0, 6.0, -1.0, -1.0], dtype=np.double)
     polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
+    projection_factor = 0.0
 
-    mk.contacts_compute_single(node_mask, polygon)
+    mk.contacts_compute_single(node_mask, polygon, projection_factor)
 
     contacts = mk.contacts_get()
     contacts = sort_contacts_by_mesh2d_indices(contacts)
