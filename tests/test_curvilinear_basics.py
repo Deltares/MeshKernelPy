@@ -222,6 +222,8 @@ def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
     make_grid_parameters.upper_right_y = 49.6
     make_grid_parameters.block_size_x = 0.01
     make_grid_parameters.block_size_y = 0.01
+    make_grid_parameters.num_columns = 0
+    make_grid_parameters.num_rows = 0
 
     node_x = np.empty(0, dtype=np.double)
     node_y = np.empty(0, dtype=np.double)
