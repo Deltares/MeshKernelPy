@@ -117,12 +117,8 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="n">lon_res</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="n">lat_res</span>
 
-<span class="n">pol_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">pol_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">pol_y</span><span class="p">)</span>
-
 <span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -166,12 +162,8 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="n">block_size_x</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="n">block_size_y</span>
 
-<span class="n">pol_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">pol_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">pol_y</span><span class="p">)</span>
-
 <span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

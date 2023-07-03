@@ -372,9 +372,20 @@ the curvilinear grid will be generated in the first polygon</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The x coordinate of the lower left corner of the block to refine.</p></li>
-<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The y coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p></li>
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon within which the grid will be generated</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform_on_extension">
+<span class="sig-name descname"><span class="pre">curvilinear_make_uniform_on_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform_on_extension" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a new curvilinear grid on defined extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p>
 </dd>
 </dl>
 </dd></dl>
