@@ -1473,6 +1473,26 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def curvilinear_make_uniform_on_extension(
+        self,
+        make_grid_parameters: MakeGridParameters,
+    ) -> None:
+        """Makes a new curvilinear grid on defined extension.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform_on_extension,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
+        )
+
     def curvilinear_refine(
         self,
         x_lower_left_corner: float,
