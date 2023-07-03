@@ -125,7 +125,7 @@ should not be connected</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_single">
-<span class="sig-name descname"><span class="pre">contacts_compute_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_single" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">contacts_compute_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_single" title="Permalink to this definition"></a></dt>
 <dd><p>Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
 The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.</p>
 <dl class="field-list simple">
@@ -134,6 +134,8 @@ The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connec
 <li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
 should not be connected</p></li>
 <li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygons selecting the area where the contacts will be be generated.</p></li>
+<li><p><strong>projection_factor</strong> (<em>float</em>) – The projection factor used for generating the contacts when 1d nodes are</p></li>
+<li><p><strong>mesh.</strong> (<em>not inside the 2d</em>) – </p></li>
 </ul>
 </dd>
 </dl>
