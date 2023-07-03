@@ -1449,8 +1449,8 @@ class MeshKernel:
         the curvilinear grid will be generated in the first polygon
 
         Args:
-            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
-            geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+            geometry_list (GeometryList): The polygon within which the grid will be generated
         """
 
         c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
@@ -1471,6 +1471,26 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
+        )
+
+    def curvilinear_make_uniform_on_extension(
+        self,
+        make_grid_parameters: MakeGridParameters,
+    ) -> None:
+        """Makes a new curvilinear grid on defined extension.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform_on_extension,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
         )
 
     def curvilinear_refine(
