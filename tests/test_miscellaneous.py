@@ -47,8 +47,8 @@ def test_get_splines(
 
     assert expected_new_number_of_coordinates == geometry_list_out.x_coordinates.size
 
-def test_get_projection(
-):
+
+def test_get_projection():
     """Test `get_projection` gets a cartesian projection type"""
     mk = MeshKernel()
     projection = mk.get_projection()
