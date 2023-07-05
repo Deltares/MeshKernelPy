@@ -1298,9 +1298,8 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_get_projection, self._meshkernelid, byref(projection)
         )
-        
-        return ProjectionType(projection.value)
 
+        return ProjectionType(projection.value)
 
     def get_meshkernel_version(self) -> str:
         """Get the version of the underlying C++ MeshKernel library
