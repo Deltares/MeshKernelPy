@@ -15,6 +15,7 @@ from meshkernel.py_structures import (
     Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
+    ProjectionType,
     ProjectToLandBoundaryOption,
     RefinementType,
     SplinesToCurvilinearParameters,
