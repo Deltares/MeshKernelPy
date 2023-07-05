@@ -38,6 +38,7 @@ from meshkernel.py_structures import (
     Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
+    ProjectionType,
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
@@ -1286,6 +1287,19 @@ class MeshKernel:
         )
 
         return interpolated_samples
+
+    def get_projection(self) -> ProjectionType:
+        """Gets the projection type of the meshkernel state
+
+        Returns:
+                   ProjectionType: The projection type
+        """
+        projection = c_int()
+        self._execute_function(
+            self.lib.mkernel_get_projection, self._meshkernelid, byref(projection)
+        )
+
+        return ProjectionType(projection.value)
 
     def get_meshkernel_version(self) -> str:
         """Get the version of the underlying C++ MeshKernel library

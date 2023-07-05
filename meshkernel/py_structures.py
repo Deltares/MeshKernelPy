@@ -77,6 +77,15 @@ class AveragingMethod(IntEnum):
     MIN_ABS = 6
 
 
+@unique
+class ProjectionType(IntEnum):
+    """The projection types."""
+
+    CARTESIAN = 0
+    SPHERICAL = 1
+    SPHERICALACCURATE = 2
+
+
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data.
 
