@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import colors as mcolors
 from matplotlib.collections import LineCollection
 
 

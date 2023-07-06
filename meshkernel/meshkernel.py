@@ -38,6 +38,7 @@ from meshkernel.py_structures import (
     Mesh2dLocation,
     MeshRefinementParameters,
     OrthogonalizationParameters,
+    ProjectionType,
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
@@ -75,10 +76,12 @@ class MeshKernel:
             lib_path = os.path.join(file_path, "MeshKernelApi.dll")
         elif system == "Linux":
             lib_path = os.path.join(file_path, "libMeshKernelApi.so")
+        elif system == "Darwin":
+            lib_path = os.path.join(file_path, "libMeshKernelApi.dylib")
         else:
             if not str:
                 system = "Unknown OS"
-            raise OSError(f"Unsupported operating system: {system}")
+            raise OSError("Unsupported operating system: {}".format(system))
 
         self.lib = CDLL(str(lib_path))
         self._allocate_state(is_geographic)
@@ -1001,7 +1004,7 @@ class MeshKernel:
         return contacts
 
     def contacts_compute_single(
-        self, node_mask: ndarray, polygons: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList, projection_factor: float
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
         The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.
@@ -1010,6 +1013,8 @@ class MeshKernel:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
                                  should not be connected
             polygons (GeometryList): The polygons selecting the area where the contacts will be be generated.
+            projection_factor (float): The projection factor used for generating the contacts when 1d nodes are
+            not inside the 2d mesh.
         """
 
         node_mask_int = node_mask.astype(np.int32)
@@ -1021,6 +1026,7 @@ class MeshKernel:
             self._meshkernelid,
             c_node_mask,
             byref(c_polygons),
+            c_double(projection_factor),
         )
 
     def contacts_compute_multiple(self, node_mask: ndarray) -> None:
@@ -1282,6 +1288,19 @@ class MeshKernel:
 
         return interpolated_samples
 
+    def get_projection(self) -> ProjectionType:
+        """Gets the projection type of the meshkernel state
+
+        Returns:
+                   ProjectionType: The projection type
+        """
+        projection = c_int()
+        self._execute_function(
+            self.lib.mkernel_get_projection, self._meshkernelid, byref(projection)
+        )
+
+        return ProjectionType(projection.value)
+
     def get_meshkernel_version(self) -> str:
         """Get the version of the underlying C++ MeshKernel library
 
@@ -1444,8 +1463,8 @@ class MeshKernel:
         the curvilinear grid will be generated in the first polygon
 
         Args:
-            make_grid_parameters (MakeGridParameters): The x coordinate of the lower left corner of the block to refine.
-            geometry_list (GeometryList): The y coordinate of the lower left corner of the block to refine.
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+            geometry_list (GeometryList): The polygon within which the grid will be generated
         """
 
         c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
@@ -1454,7 +1473,9 @@ class MeshKernel:
 
         if not geometry_list:
             geometry_list = GeometryList(
-                np.empty(0, dtype=np.double), np.empty(0, dtype=np.double)
+                x_coordinates=np.empty(0, dtype=np.double),
+                y_coordinates=np.empty(0, dtype=np.double),
+                values=np.empty(0, dtype=np.double),
             )
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
@@ -1464,6 +1485,26 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
+        )
+
+    def curvilinear_make_uniform_on_extension(
+        self,
+        make_grid_parameters: MakeGridParameters,
+    ) -> None:
+        """Makes a new curvilinear grid on defined extension.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform_on_extension,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
         )
 
     def curvilinear_refine(

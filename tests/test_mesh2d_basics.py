@@ -1,14 +1,18 @@
+import os
+
 import numpy as np
 import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_equal
 from pytest import approx
+from test_utils import read_asc_file
 
 from meshkernel import (
     DeleteMeshOption,
     GeometryList,
     GriddedSamples,
     InputError,
+    MakeGridParameters,
     Mesh2d,
     MeshKernel,
     MeshKernelError,
@@ -570,11 +574,7 @@ def test_polygon_refine(start: int, end: int, length: float, exp_nodes: int):
     assert geom.x_coordinates.size == exp_nodes
 
 
-cases_mesh2d_refine_based_on_samples = [
-    (0.5, 0, 9, 12, 4),
-    (0.5, 1, 25, 40, 16),
-    # (0.5, 2, 81, 144, 64),
-]
+cases_mesh2d_refine_based_on_samples = [(0.5, 0, 9, 12, 4), (0.5, 1, 25, 40, 16)]
 
 
 @pytest.mark.parametrize(
@@ -622,8 +622,8 @@ def test_mesh2d_refine_based_on_samples(
 cases_mesh2d_refine_based_on_gridded_samples = [
     (
         GriddedSamples(
-            n_cols=6,
-            n_rows=5,
+            num_x=7,
+            num_y=6,
             x_origin=-50.0,
             y_origin=-50.0,
             cell_size=100.0,
@@ -636,12 +636,12 @@ cases_mesh2d_refine_based_on_gridded_samples = [
     (
         GriddedSamples(
             x_coordinates=np.array(
-                [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0, 550.0], dtype=np.double
+                [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0], dtype=np.double
             ),
             y_coordinates=np.array(
                 [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0], dtype=np.double
             ),
-            values=np.array([-0.05] * 16, dtype=np.double),
+            values=np.array([-0.05] * 42, dtype=np.double),
         ),
         86,
         161,
@@ -672,6 +672,9 @@ def test_mesh2d_refine_based_on_gridded_samples(
         connect_hanging_nodes=True,
         account_for_samples_outside_face=False,
         max_refinement_iterations=5,
+        smoothing_iterations=0,
+        max_courant_time=120.0,
+        directional_refinement=0,
     )
 
     mk.mesh2d_refine_based_on_gridded_samples(gridded_samples, refinement_params, True)

@@ -210,6 +210,28 @@ def test_curvilinear_make_uniform():
     assert curvilinear_grid.num_n == 4
 
 
+def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
+    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid within
+    a defined extension in spherical coordinates."""
+    mk = MeshKernel(is_geographic=True)
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.origin_x = -1.0
+    make_grid_parameters.origin_y = 49.1
+    make_grid_parameters.upper_right_x = -0.2
+    make_grid_parameters.upper_right_y = 49.6
+    make_grid_parameters.block_size_x = 0.01
+    make_grid_parameters.block_size_y = 0.01
+
+    mk.curvilinear_make_uniform_on_extension(make_grid_parameters)
+
+    curvilinear_grid = mk.curvilineargrid_get()
+
+    # Test the number of m and n
+    assert curvilinear_grid.num_m == 103
+    assert curvilinear_grid.num_n == 81
+
+
 def test_curvilinear_make_uniform_with_polygon():
     r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon."""
     mk = MeshKernel()
