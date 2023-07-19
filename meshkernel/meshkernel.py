@@ -42,6 +42,7 @@ from meshkernel.py_structures import (
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
+from meshkernel.utils import get_maximum_bounding_box_coordinates
 from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
@@ -280,11 +281,22 @@ class MeshKernel:
             y (float): The y-coordinate of the point.
         """
 
+        (
+            x_lower_left,
+            y_lower_left,
+            x_upper_right,
+            y_upper_right,
+        ) = get_maximum_bounding_box_coordinates()
+
         self._execute_function(
             self.lib.mkernel_mesh2d_delete_edge,
             self._meshkernelid,
             c_double(x_coordinate),
             c_double(y_coordinate),
+            c_double(x_lower_left),
+            c_double(y_lower_left),
+            c_double(x_upper_right),
+            c_double(y_upper_right),
         )
 
     def mesh2d_get_edge(self, x: float, y: float) -> int:
@@ -300,11 +312,22 @@ class MeshKernel:
 
         index = c_int()
 
+        (
+            x_lower_left,
+            y_lower_left,
+            x_upper_right,
+            y_upper_right,
+        ) = get_maximum_bounding_box_coordinates()
+
         self._execute_function(
             self.lib.mkernel_mesh2d_get_edge,
             self._meshkernelid,
             c_double(x),
             c_double(y),
+            c_double(x_lower_left),
+            c_double(y_lower_left),
+            c_double(x_upper_right),
+            c_double(y_upper_right),
             byref(index),
         )
 
@@ -324,12 +347,23 @@ class MeshKernel:
 
         index = c_int()
 
+        (
+            x_lower_left,
+            y_lower_left,
+            x_upper_right,
+            y_upper_right,
+        ) = get_maximum_bounding_box_coordinates()
+
         self._execute_function(
             self.lib.mkernel_mesh2d_get_node_index,
             self._meshkernelid,
             c_double(x),
             c_double(y),
             c_double(search_radius),
+            c_double(x_lower_left),
+            c_double(y_lower_left),
+            c_double(x_upper_right),
+            c_double(y_upper_right),
             byref(index),
         )
 
