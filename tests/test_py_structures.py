@@ -19,6 +19,8 @@ cases_deletemeshoption_values = [
     (DeleteMeshOption.ALL_COMPLETE_FACES, 2),
 ]
 
+from meshkernel.errors import InputError
+
 
 @pytest.mark.parametrize("enum_val, exp_int", cases_deletemeshoption_values)
 def test_deletemeshoption_values(enum_val: DeleteMeshOption, exp_int: int):
@@ -121,6 +123,19 @@ def test_geometrylist_constructor():
     assert geometry_list.values.size == 0
     assert geometry_list.geometry_separator == -999.0
     assert geometry_list.inner_outer_separator == -998.0
+
+
+def test_geometrylist_constructor_raises_exception():
+    """Tests `GeometryList` constructor raises an exception when coordinates and values have different lengths."""
+
+    x_coordinates = np.array([0.0, 2.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 2.0], dtype=np.double)
+    values = np.array([1.0], dtype=np.double)
+
+    with pytest.raises(InputError):
+        GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+        )
 
 
 def test_orthogonalizationparameters_constructor():
