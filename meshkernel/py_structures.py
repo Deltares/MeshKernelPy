@@ -189,12 +189,6 @@ class GeometryList:
                 "The length of values is not equal to the length of x_coordinates"
             )
 
-        if len(self.values) > 0 and len(self.values) != len(self.y_coordinates):
-            raise InputError(
-                "The length of  values is not equal to the length of y_coordinates"
-            )
-
-
 class OrthogonalizationParameters:
     """A class holding the parameters for orthogonalization.
 
