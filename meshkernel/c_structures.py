@@ -28,7 +28,9 @@ class CMesh2d(Structure):
     Used for communicating with the MeshKernel dll.
 
     The ``_fields_`` attribute of this class contains the following fields:
+        - edge_faces (POINTER(c_int)): The face indices for each edge.
         - edge_nodes (POINTER(c_int)): The nodes composing each mesh 2d edge.
+        - face_edges (POINTER(c_int)): The edge indices for each face.
         - face_nodes (POINTER(c_int)): The nodes composing each mesh 2d face.
         - nodes_per_face (POINTER(c_int)): The nodes composing each mesh 2d face.
         - node_x (POINTER(c_double)): The x-coordinates of the nodes.
@@ -44,7 +46,9 @@ class CMesh2d(Structure):
     """
 
     _fields_ = [
+        ("edge_faces", POINTER(c_int)),
         ("edge_nodes", POINTER(c_int)),
+        ("face_edges", POINTER(c_int)),
         ("face_nodes", POINTER(c_int)),
         ("nodes_per_face", POINTER(c_int)),
         ("node_x", POINTER(c_double)),
@@ -86,7 +90,9 @@ class CMesh2d(Structure):
         c_mesh2d = CMesh2d()
 
         # Set the pointers
+        c_mesh2d.edge_faces = as_ctypes(mesh2d.edge_faces)
         c_mesh2d.edge_nodes = as_ctypes(mesh2d.edge_nodes)
+        c_mesh2d.face_edges = as_ctypes(mesh2d.face_edges)
         c_mesh2d.face_nodes = as_ctypes(mesh2d.face_nodes)
         c_mesh2d.nodes_per_face = as_ctypes(mesh2d.nodes_per_face)
         c_mesh2d.node_x = as_ctypes(mesh2d.node_x)
