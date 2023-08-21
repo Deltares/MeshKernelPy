@@ -128,6 +128,8 @@ class CMesh2d(Structure):
         edge_y = np.empty(self.num_edges, dtype=np.double)
         face_x = np.empty(self.num_faces, dtype=np.double)
         face_y = np.empty(self.num_faces, dtype=np.double)
+        edge_faces = np.empty(self.num_edges * 2, dtype=np.int32)
+        face_edges = np.empty(self.num_face_nodes, dtype=np.int32)
 
         self.edge_nodes = as_ctypes(edge_nodes)
         self.face_nodes = as_ctypes(face_nodes)
@@ -138,17 +140,21 @@ class CMesh2d(Structure):
         self.edge_y = as_ctypes(edge_y)
         self.face_x = as_ctypes(face_x)
         self.face_y = as_ctypes(face_y)
+        self.edge_faces = as_ctypes(edge_faces)
+        self.face_edges = as_ctypes(face_edges)
 
         return Mesh2d(
-            node_x,
-            node_y,
-            edge_nodes,
-            face_nodes,
-            nodes_per_face,
-            edge_x,
-            edge_y,
-            face_x,
-            face_y,
+            node_x=node_x,
+            node_y=node_y,
+            edge_nodes=edge_nodes,
+            face_nodes=face_nodes,
+            nodes_per_face=nodes_per_face,
+            edge_x=edge_x,
+            edge_y=edge_y,
+            face_x=face_x,
+            face_y=face_y,
+            edge_faces=edge_faces,
+            face_edges=face_edges,
         )
 
 
