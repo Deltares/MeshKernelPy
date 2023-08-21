@@ -255,8 +255,8 @@ def test_curvilinear_make_uniform_with_polygon():
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of m and n
-    assert curvilinear_grid.num_m == 6
-    assert curvilinear_grid.num_n == 6
+    assert curvilinear_grid.num_m == 11
+    assert curvilinear_grid.num_n == 11
 
 
 def test_curvilinear_refine_derefine():
