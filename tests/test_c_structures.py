@@ -35,6 +35,8 @@ def test_cmesh2d_from_mesh2d():
     edge_y = np.array([0.0, 0.5, 1.0, 0.5], dtype=np.double)
     face_x = np.array([0.5], dtype=np.double)
     face_y = np.array([0.5], dtype=np.double)
+    edge_faces = np.array([0, -1, 0, -1, 0, -1, 0, -1], dtype=np.int32)
+    face_edges = np.array([0, 1, 2, 3], dtype=np.int32)
 
     mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mesh2d.face_nodes = face_nodes
@@ -43,6 +45,8 @@ def test_cmesh2d_from_mesh2d():
     mesh2d.edge_y = edge_y
     mesh2d.face_x = face_x
     mesh2d.face_y = face_y
+    mesh2d.edge_faces = edge_faces
+    mesh2d.face_edges = face_edges
 
     c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
 
