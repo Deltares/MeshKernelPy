@@ -1,7 +1,7 @@
 import logging
 import os
 import platform
-from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t
+from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t, create_string_buffer
 from enum import IntEnum, unique
 from pathlib import Path
 from typing import Callable
@@ -1238,8 +1238,9 @@ class MeshKernel:
         return geometry_list_out
 
     def _get_error(self) -> str:
-        c_error_message = c_char_p()
-        self.lib.mkernel_get_error(byref(c_error_message))
+        c_string_size = 512
+        c_error_message = create_string_buffer(c_string_size)
+        self.lib.mkernel_get_error(c_error_message)
         return c_error_message.value.decode("ASCII")
 
     def mesh2d_triangulation_interpolation(
@@ -1342,8 +1343,9 @@ class MeshKernel:
             str: The version string
         """
 
-        c_meshkernel_version = c_char_p()
-        self.lib.mkernel_get_version(byref(c_meshkernel_version))
+        c_string_size = 64
+        c_meshkernel_version = create_string_buffer(c_string_size)
+        self.lib.mkernel_get_version(c_meshkernel_version)
         return c_meshkernel_version.value.decode("ASCII")
 
     def get_meshkernelpy_version(self) -> str:
