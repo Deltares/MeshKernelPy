@@ -6,6 +6,7 @@ from enum import IntEnum, unique
 import numpy as np
 from numpy import ndarray
 
+from meshkernel.errors import InputError
 from meshkernel.utils import plot_edges
 
 
@@ -183,6 +184,16 @@ class GeometryList:
         self.values: ndarray = values
         self.geometry_separator: float = geometry_separator
         self.inner_outer_separator: float = inner_outer_separator
+
+        if len(self.x_coordinates) != len(self.y_coordinates):
+            raise InputError(
+                "The length of x_coordinates is not equal to the length of y_coordinates"
+            )
+
+        if len(self.values) > 0 and len(self.values) != len(self.x_coordinates):
+            raise InputError(
+                "The length of values is not equal to the length of x_coordinates"
+            )
 
 
 class OrthogonalizationParameters:
