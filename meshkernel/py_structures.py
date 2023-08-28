@@ -100,6 +100,8 @@ class Mesh2d:
         edge_y (ndarray, optional): A 1D double array describing x-coordinates of the mesh edges' middle points.
         face_x (ndarray, optional): A 1D double array describing x-coordinates of the mesh faces' mass centers.
         face_y (ndarray, optional): A 1D double array describing y-coordinates of the mesh faces' mass centers.
+        edge_faces (ndarray, optional): A 1D integer array describing for each edge the indices of the faces.
+        face_edges (ndarray, optional): A 1D integer array describing for each face the indices of the edges.
 
     """
 
@@ -114,6 +116,8 @@ class Mesh2d:
         edge_y=np.empty(0, dtype=np.double),
         face_x=np.empty(0, dtype=np.double),
         face_y=np.empty(0, dtype=np.double),
+        edge_faces=np.empty(0, dtype=np.int32),
+        face_edges=np.empty(0, dtype=np.int32),
     ):
         self.node_x: ndarray = node_x
         self.node_y: ndarray = node_y
@@ -124,6 +128,8 @@ class Mesh2d:
         self.edge_y: ndarray = edge_y
         self.face_x: ndarray = face_x
         self.face_y: ndarray = face_y
+        self.edge_faces: ndarray = edge_faces
+        self.face_edges: ndarray = face_edges
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
