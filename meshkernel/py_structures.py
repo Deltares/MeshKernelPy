@@ -195,6 +195,7 @@ class GeometryList:
                 "The length of values is not equal to the length of x_coordinates"
             )
 
+
 class OrthogonalizationParameters:
     """A class holding the parameters for orthogonalization.
 

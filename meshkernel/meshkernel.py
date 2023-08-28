@@ -1,7 +1,15 @@
 import logging
 import os
 import platform
-from ctypes import CDLL, byref, c_char_p, c_double, c_int, c_size_t, create_string_buffer
+from ctypes import (
+    CDLL,
+    byref,
+    c_char_p,
+    c_double,
+    c_int,
+    c_size_t,
+    create_string_buffer,
+)
 from enum import IntEnum, unique
 from pathlib import Path
 from typing import Callable
