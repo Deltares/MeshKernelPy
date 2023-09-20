@@ -595,6 +595,18 @@ class MeshKernel:
             byref(c_refinement_params),
         )
 
+    def mesh2d_remove_disconnected_regions(
+        self,
+    ) -> None:
+        """ Remove any disconnected regions from a mesh2d. Only the most frequent remains
+
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_remove_disconnected_regions,
+            self._meshkernelid,
+        )
+
     def polygon_get_included_points(
         self, selecting_polygon: GeometryList, selected_polygon: GeometryList
     ) -> GeometryList:
