@@ -720,7 +720,7 @@ def test_mesh2d_refine_based_on_polygon(
     polygon = GeometryList(x_coordinates, y_coordinates)
 
     refinement_params = MeshRefinementParameters(
-        True, False, 0.5, 1, False, False, max_iterations
+        True, False, 0.1, 1, False, False, max_iterations
     )
 
     mk.mesh2d_refine_based_on_polygon(polygon, refinement_params)
