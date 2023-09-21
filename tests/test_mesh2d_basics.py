@@ -720,7 +720,7 @@ def test_mesh2d_refine_based_on_polygon(
     polygon = GeometryList(x_coordinates, y_coordinates)
 
     refinement_params = MeshRefinementParameters(
-        True, False, 0.5, 1, False, False, max_iterations
+        True, False, 0.1, 1, False, False, max_iterations
     )
 
     mk.mesh2d_refine_based_on_polygon(polygon, refinement_params)
@@ -730,6 +730,49 @@ def test_mesh2d_refine_based_on_polygon(
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
     assert mesdh2d.face_x.size == exp_faces
+
+
+def test_remove_disconnected_regions():
+    """Tests `mkernel_mesh2d_remove_disconnected_regions` removes the smallest disconnected mesh"""
+
+    mk = MeshKernel()
+
+    # create the first mesh
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.num_rows = 10
+    make_grid_parameters.num_columns = 10
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    # create the second mesh
+    make_grid_parameters.origin_x = -100.0
+    make_grid_parameters.origin_y = -100.0
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.num_columns = 13
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    mesh2d = mk.mesh2d_get()
+
+    assert mesh2d.node_x.size == 177
+    assert mesh2d.edge_x.size == 314
+    assert mesh2d.face_x.size == 139
+
+    mk.mesh2d_remove_disconnected_regions()
+
+    mesh2d = mk.mesh2d_get()
+
+    assert mesh2d.node_x.size == 121
+    assert mesh2d.edge_x.size == 220
+    assert mesh2d.face_x.size == 100
 
 
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):

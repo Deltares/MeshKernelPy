@@ -333,6 +333,7 @@ def test_curvilinear_compute_transfinite_from_triangle():
             558.643005,
             526.733398,
             444.095703,
+            444.504791,
         ],
         dtype=np.double,
     )
@@ -349,6 +350,7 @@ def test_curvilinear_compute_transfinite_from_triangle():
             324.653687,
             377.836578,
             436.746857,
+            437.155945,
         ],
         dtype=np.double,
     )
