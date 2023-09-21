@@ -731,11 +731,9 @@ def test_mesh2d_refine_based_on_polygon(
     assert mesdh2d.edge_x.size == exp_edges
     assert mesdh2d.face_x.size == exp_faces
 
-def test_remove_disconnected_regions(
 
-):
-    """Tests `mkernel_mesh2d_remove_disconnected_regions` removes the smallest disconnected mesh
-    """
+def test_remove_disconnected_regions():
+    """Tests `mkernel_mesh2d_remove_disconnected_regions` removes the smallest disconnected mesh"""
 
     mk = MeshKernel()
 
