@@ -598,9 +598,7 @@ class MeshKernel:
     def mesh2d_remove_disconnected_regions(
         self,
     ) -> None:
-        """ Remove any disconnected regions from a mesh2d. Only the most frequent remains
-
-        """
+        """Remove any disconnected regions from a mesh2d. Only the most frequent remains"""
 
         self._execute_function(
             self.lib.mkernel_mesh2d_remove_disconnected_regions,
