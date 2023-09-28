@@ -31,7 +31,7 @@ from meshkernel.c_structures import (
     COrthogonalizationParameters,
     CSplinesToCurvilinearParameters,
 )
-from meshkernel.errors import InputError, MeshKernelError, MeshGeometryError
+from meshkernel.errors import InputError, MeshGeometryError, MeshKernelError
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
