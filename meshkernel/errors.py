@@ -1,4 +1,4 @@
-from meshkernel.py_structures import Mesh2dLocation
+import meshkernel.py_structures as mps
 
 
 class Error(Exception):
@@ -19,12 +19,12 @@ class MeshKernelError(Error):
 class MeshGeometryError(MeshKernelError):
     """Exception raised for mesh geometry errors occurring in the eshKernel library."""
 
-    def __init__(self, message: str, info: tuple[int, Mesh2dLocation]):
+    def __init__(self, message: str, info: tuple[int, mps.Mesh2dLocation]):
         super().__init__("MeshGeometryError", message)
         self.info = info
 
     def index(self) -> int:
         return self.info[0]
 
-    def location(self) -> Mesh2dLocation:
+    def location(self) -> mps.Mesh2dLocation:
         return self.info[1]
