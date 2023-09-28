@@ -5,6 +5,8 @@ from enum import IntEnum, unique
 
 import numpy as np
 from numpy import ndarray
+from matplotlib.patches import Polygon
+from matplotlib.collections import PatchCollection
 
 from meshkernel.errors import InputError
 from meshkernel.utils import plot_edges
@@ -148,16 +150,27 @@ class Mesh2d:
             ax (matplotlib.axes.Axes): The axes where to plot the faces
         """
         node_position = 0
+        patches = []
         for num_nodes in self.nodes_per_face:
             # Calculate values to draw
             face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
             face_nodes_x = self.node_x[face_nodes]
             face_nodes_y = self.node_y[face_nodes]
+            face = np.stack((face_nodes_x, face_nodes_y)).T
+            patches.append(Polygon(face, closed=True))
             node_position += num_nodes
 
-            # Draw polygon
-            ax.fill(face_nodes_x, face_nodes_y, *args, **kwargs)
+        # Draw polygons
+        collection = PatchCollection(patches, *args, **kwargs)
+        ax.add_collection(collection)
 
+        # Ensure that you can see the full mesh
+        x_min = self.node_x.min()
+        x_max = self.node_x.max()
+        y_min = self.node_y.min()
+        y_max = self.node_y.max()
+        ax.set_xlim(x_min, x_max)
+        ax.set_ylim(y_min, y_max)
 
 class GeometryList:
     """A class to describe a list of geometries.
