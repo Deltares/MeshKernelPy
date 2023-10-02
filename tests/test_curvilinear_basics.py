@@ -83,11 +83,7 @@ def create_meshkernel_instance_with_skewed_curvilinear_grid(num_columns=3, num_r
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_make_uniform(make_grid_parameters)
 
     # Skew the grid by moving a node
     mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
@@ -197,11 +193,7 @@ def test_curvilinear_make_uniform():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_make_uniform(make_grid_parameters)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
@@ -250,7 +242,7 @@ def test_curvilinear_make_uniform_with_polygon():
     node_y = np.array([0.5, 3.0, 5.0, 2.5, 0.5], dtype=np.double)
     geometry_list = GeometryList(node_x, node_y)
 
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_make_uniform_from_polygons(make_grid_parameters, geometry_list)
 
     curvilinear_grid = mk.curvilineargrid_get()
 

@@ -1509,12 +1509,30 @@ class MeshKernel:
         )
 
     def curvilinear_make_uniform(
+        self, make_grid_parameters: MakeGridParameters
+    ) -> None:
+        """Makes a new uniform curvilinear grid
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_curvilinear_make_uniform,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
+        )
+
+    def curvilinear_make_uniform_from_polygons(
         self,
         make_grid_parameters: MakeGridParameters,
-        geometry_list: GeometryList = None,
+        geometry_list: GeometryList,
     ) -> None:
-        """Makes a new curvilinear grid. If polygons is not empty,
-        the curvilinear grid will be generated in the first polygon
+        """Makes a new curvilinear grid from polygons.
 
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
@@ -1525,17 +1543,10 @@ class MeshKernel:
             make_grid_parameters
         )
 
-        if not geometry_list:
-            geometry_list = GeometryList(
-                x_coordinates=np.empty(0, dtype=np.double),
-                y_coordinates=np.empty(0, dtype=np.double),
-                values=np.empty(0, dtype=np.double),
-            )
-
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform,
+            self.lib.mkernel_curvilinear_make_uniform_from_polygons,
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
@@ -1545,7 +1556,7 @@ class MeshKernel:
         self,
         make_grid_parameters: MakeGridParameters,
     ) -> None:
-        """Makes a new curvilinear grid on defined extension.
+        """Makes a new uniform curvilinear grid on defined extension.
 
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
