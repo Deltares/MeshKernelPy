@@ -4,9 +4,9 @@ from dataclasses import dataclass
 from enum import IntEnum, unique
 
 import numpy as np
-from numpy import ndarray
+from matplotlib.collections import PolyCollection
 from matplotlib.patches import Polygon
-from matplotlib.collections import PatchCollection
+from numpy import ndarray
 
 from meshkernel.errors import InputError
 from meshkernel.utils import plot_edges
@@ -149,19 +149,19 @@ class Mesh2d:
         Args:
             ax (matplotlib.axes.Axes): The axes where to plot the faces
         """
-        node_position = 0
-        patches = []
-        for num_nodes in self.nodes_per_face:
-            # Calculate values to draw
-            face_nodes = self.face_nodes[node_position : (node_position + num_nodes)]
-            face_nodes_x = self.node_x[face_nodes]
-            face_nodes_y = self.node_y[face_nodes]
-            face = np.stack((face_nodes_x, face_nodes_y)).T
-            patches.append(Polygon(face, closed=True))
-            node_position += num_nodes
 
-        # Draw polygons
-        collection = PatchCollection(patches, *args, **kwargs)
+        n = len(self.nodes_per_face)
+        m = self.nodes_per_face.max()
+        face_node_connectivity = np.full((n, m), -1)
+        is_node = (np.tile(np.arange(m), n).reshape((n, m)).T < self.nodes_per_face).T
+        face_node_connectivity[is_node] = self.face_nodes
+
+        node_xy = np.column_stack((self.node_x, self.node_y))
+        vertices = node_xy[face_node_connectivity]
+        vertices[~is_node] = np.nan
+
+        collection = PolyCollection(vertices)
+
         ax.add_collection(collection)
 
         # Ensure that you can see the full mesh
@@ -171,6 +171,7 @@ class Mesh2d:
         y_max = self.node_y.max()
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
+
 
 class GeometryList:
     """A class to describe a list of geometries.
