@@ -1527,7 +1527,7 @@ class MeshKernel:
             byref(c_make_grid_parameters),
         )
 
-    def curvilinear_make_uniform_from_polygons(
+    def curvilinear_make_uniform_from_polygon(
         self,
         make_grid_parameters: MakeGridParameters,
         geometry_list: GeometryList,
@@ -1546,7 +1546,7 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform_from_polygons,
+            self.lib.mkernel_curvilinear_make_uniform_from_polygon,
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
