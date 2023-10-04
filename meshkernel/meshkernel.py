@@ -457,6 +457,67 @@ class MeshKernel:
             byref(c_geometry_list),
         )
 
+    def mesh2d_make_rectangular_mesh(
+        self, make_grid_parameters: MakeGridParameters
+    ) -> None:
+        """Generates a rectangular mesh2d.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_make_rectangular_mesh,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
+        )
+
+    def mesh2d_make_rectangular_mesh_from_polygon(
+        self, make_grid_parameters: MakeGridParameters, polygon: GeometryList
+    ) -> None:
+        """Generates a rectangular mesh2d within a polygon.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+            geometry_list (GeometryList): The polygon within which the grid will be generated
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        c_geometry_list = CGeometryList.from_geometrylist(polygon)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_make_rectangular_mesh_from_polygon,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
+            byref(c_geometry_list),
+        )
+
+    def mesh2d_make_rectangular_mesh_on_extension(
+        self, make_grid_parameters: MakeGridParameters
+    ) -> None:
+        """Generates a rectangular mesh2d.
+
+        Args:
+            make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
+        """
+
+        c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
+            make_grid_parameters
+        )
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_make_rectangular_mesh_on_extension,
+            self._meshkernelid,
+            byref(c_make_grid_parameters),
+        )
+
     def polygon_refine(
         self,
         polygon: GeometryList,

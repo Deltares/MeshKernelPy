@@ -77,7 +77,6 @@ def create_meshkernel_instance_with_skewed_curvilinear_grid(num_columns=3, num_r
     make_grid_parameters.num_columns = num_columns
     make_grid_parameters.num_rows = num_rows
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 10.0
@@ -187,7 +186,6 @@ def test_curvilinear_make_rectangular_grid():
     make_grid_parameters.num_columns = 3
     make_grid_parameters.num_rows = 3
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 10.0
@@ -232,7 +230,6 @@ def test_curvilinear_make_rectangular_grid_with_polygon():
     make_grid_parameters.num_columns = 3
     make_grid_parameters.num_rows = 3
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 1.0
