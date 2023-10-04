@@ -499,7 +499,7 @@ def test_mesh2d_delete_hanging_edges():
     assert mesh2d.face_x.size == 1
 
 
-def test_mesh2d_make_mesh_from_polygon():
+def test_mesh2d_triangular_make_mesh_from_polygon():
     """Tests `mesh2d_make_mesh_from_polygon` by creating a mesh2d from a simple hexagon."""
 
     mk = MeshKernel()
@@ -512,7 +512,7 @@ def test_mesh2d_make_mesh_from_polygon():
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk.mesh2d_make_mesh_from_polygon(polygon)
+    mk.mesh2d_make_triangular_mesh_from_polygon(polygon)
 
     mesh2d = mk.mesh2d_get()
 
@@ -521,7 +521,7 @@ def test_mesh2d_make_mesh_from_polygon():
     assert mesh2d.face_x.size == 6
 
 
-def test_mesh2d_make_mesh_from_samples():
+def test_mesh2d_make_triangular_mesh_from_samples():
     """Tests `mesh2d_make_mesh_from_samples` by creating a mesh2d from six sample points."""
 
     mk = MeshKernel()
@@ -533,7 +533,7 @@ def test_mesh2d_make_mesh_from_samples():
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk.mesh2d_make_mesh_from_samples(polygon)
+    mk.mesh2d_make_triangular_mesh_from_samples(polygon)
 
     mesh2d = mk.mesh2d_get()
 
@@ -746,7 +746,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_make_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     # create the second mesh
@@ -757,7 +757,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_make_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     mesh2d = mk.mesh2d_get()

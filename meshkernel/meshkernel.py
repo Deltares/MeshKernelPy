@@ -424,7 +424,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_delete_hanging_edges, self._meshkernelid
         )
 
-    def mesh2d_make_mesh_from_polygon(self, polygon: GeometryList) -> None:
+    def mesh2d_make_triangular_mesh_from_polygon(self, polygon: GeometryList) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
 
@@ -435,12 +435,14 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
 
         self._execute_function(
-            self.lib.mkernel_mesh2d_make_mesh_from_polygon,
+            self.lib.mkernel_mesh2d_make_triangular_mesh_from_polygon,
             self._meshkernelid,
             byref(c_geometry_list),
         )
 
-    def mesh2d_make_mesh_from_samples(self, sample_points: GeometryList) -> None:
+    def mesh2d_make_triangular_mesh_from_samples(
+        self, sample_points: GeometryList
+    ) -> None:
         """Makes a triangular mesh from a set of samples, triangulating the sample points.
 
         Args:
@@ -450,7 +452,7 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(sample_points)
 
         self._execute_function(
-            self.lib.mkernel_mesh2d_make_mesh_from_samples,
+            self.lib.mkernel_mesh2d_make_triangular_mesh_from_samples,
             self._meshkernelid,
             byref(c_geometry_list),
         )
@@ -1508,7 +1510,7 @@ class MeshKernel:
             self.lib.mkernel_curvilinear_convert_to_mesh2d, self._meshkernelid
         )
 
-    def curvilinear_make_uniform(
+    def curvilinear_make_rectangular_grid(
         self, make_grid_parameters: MakeGridParameters
     ) -> None:
         """Makes a new uniform curvilinear grid
@@ -1522,12 +1524,12 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform,
+            self.lib.mkernel_curvilinear_make_rectangular_grid,
             self._meshkernelid,
             byref(c_make_grid_parameters),
         )
 
-    def curvilinear_make_uniform_from_polygon(
+    def curvilinear_make_rectangular_grid_from_polygon(
         self,
         make_grid_parameters: MakeGridParameters,
         geometry_list: GeometryList,
@@ -1546,13 +1548,13 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform_from_polygon,
+            self.lib.mkernel_curvilinear_make_rectangular_grid_from_polygon,
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
         )
 
-    def curvilinear_make_uniform_on_extension(
+    def curvilinear_make_rectangular_grid_on_extension(
         self,
         make_grid_parameters: MakeGridParameters,
     ) -> None:
@@ -1567,7 +1569,7 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_uniform_on_extension,
+            self.lib.mkernel_curvilinear_make_rectangular_grid_on_extension,
             self._meshkernelid,
             byref(c_make_grid_parameters),
         )
