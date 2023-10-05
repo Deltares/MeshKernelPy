@@ -1571,7 +1571,7 @@ class MeshKernel:
             self.lib.mkernel_curvilinear_convert_to_mesh2d, self._meshkernelid
         )
 
-    def curvilinear_make_rectangular_grid(
+    def curvilinear_compute_rectangular_grid(
         self, make_grid_parameters: MakeGridParameters
     ) -> None:
         """Makes a new uniform curvilinear grid
@@ -1585,12 +1585,12 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_rectangular_grid,
+            self.lib.mkernel_curvilinear_compute_rectangular_grid,
             self._meshkernelid,
             byref(c_make_grid_parameters),
         )
 
-    def curvilinear_make_rectangular_grid_from_polygon(
+    def curvilinear_compute_rectangular_grid_from_polygon(
         self,
         make_grid_parameters: MakeGridParameters,
         geometry_list: GeometryList,
@@ -1609,13 +1609,13 @@ class MeshKernel:
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_rectangular_grid_from_polygon,
+            self.lib.mkernel_curvilinear_compute_rectangular_grid_from_polygon,
             self._meshkernelid,
             byref(c_make_grid_parameters),
             byref(c_geometry_list),
         )
 
-    def curvilinear_make_rectangular_grid_on_extension(
+    def curvilinear_compute_rectangular_grid_on_extension(
         self,
         make_grid_parameters: MakeGridParameters,
     ) -> None:
@@ -1630,7 +1630,7 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_make_rectangular_grid_on_extension,
+            self.lib.mkernel_curvilinear_compute_rectangular_grid_on_extension,
             self._meshkernelid,
             byref(c_make_grid_parameters),
         )

@@ -580,7 +580,7 @@ def test_mesh2d_make_rectangular_mesh():
     mesh2d_1 = mk_1.mesh2d_get()
 
     mk_2 = MeshKernel()
-    mk_2.curvilinear_make_rectangular_grid(make_grid_parameters)
+    mk_2.curvilinear_compute_rectangular_grid(make_grid_parameters)
     mk_2.curvilinear_convert_to_mesh2d()
     mesh2d_2 = mk_2.mesh2d_get()
 
@@ -612,7 +612,7 @@ def test_mesh2d_make_rectangular_mesh_from_polygon():
     mesh2d_1 = mk_1.mesh2d_get()
 
     mk_2 = MeshKernel()
-    mk_2.curvilinear_make_rectangular_grid_from_polygon(
+    mk_2.curvilinear_compute_rectangular_grid_from_polygon(
         make_grid_parameters, geometry_list
     )
     mk_2.curvilinear_convert_to_mesh2d()
@@ -641,7 +641,7 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     mesh2d_1 = mk_1.mesh2d_get()
 
     mk_2 = MeshKernel(is_geographic=True)
-    mk_2.curvilinear_make_rectangular_grid_on_extension(make_grid_parameters)
+    mk_2.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk_2.curvilinear_convert_to_mesh2d()
     mesh2d_2 = mk_2.mesh2d_get()
 
@@ -856,7 +856,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_rectangular_grid(make_grid_parameters)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     # create the second mesh
@@ -867,7 +867,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_rectangular_grid(make_grid_parameters)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     mesh2d = mk.mesh2d_get()
