@@ -588,7 +588,7 @@ def test_mesh2d_make_rectangular_mesh():
     assert mesh2d_1.edge_x.size == 24
     assert mesh2d_1.face_x.size == 9
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2) == True
+    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
 
 
 def test_mesh2d_make_rectangular_mesh_from_polygon():
