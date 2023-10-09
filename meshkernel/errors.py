@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import meshkernel.py_structures as mps
 
 
@@ -17,9 +19,9 @@ class MeshKernelError(Error):
 
 
 class MeshGeometryError(MeshKernelError):
-    """Exception raised for mesh geometry errors occurring in the eshKernel library."""
+    """Exception raised for mesh geometry errors occurring in the MeshKernel library."""
 
-    def __init__(self, message: str, info: tuple[int, mps.Mesh2dLocation]):
+    def __init__(self, message: str, info: Tuple[int, mps.Mesh2dLocation]):
         super().__init__("MeshGeometryError", message)
         self.info = info
 

@@ -12,7 +12,7 @@ from ctypes import (
 )
 from enum import IntEnum
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -1307,7 +1307,7 @@ class MeshKernel:
         self.lib.mkernel_get_error(c_error_message)
         return c_error_message.value.decode("ASCII")
 
-    def _get_geometry_error(self) -> tuple[int, Mesh2dLocation]:
+    def _get_geometry_error(self) -> Tuple[int, Mesh2dLocation]:
         """Get geometry error information
         Returns:
             index (int): The index
