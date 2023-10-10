@@ -77,17 +77,12 @@ def create_meshkernel_instance_with_skewed_curvilinear_grid(num_columns=3, num_r
     make_grid_parameters.num_columns = num_columns
     make_grid_parameters.num_rows = num_rows
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
 
     # Skew the grid by moving a node
     mk.curvilinear_move_node(10.0, 20.0, 18.0, 12.0)
@@ -183,25 +178,20 @@ def test_curvilinear_convert_to_mesh2d():
     assert len(mesh2d.edge_nodes) == 440
 
 
-def test_curvilinear_make_uniform():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid."""
+def test_curvilinear_compute_rectangular_grid():
+    r"""Tests `curvilinear_compute_rectangular_grid` makes a curvilinear grid."""
     mk = MeshKernel()
 
     make_grid_parameters = MakeGridParameters()
     make_grid_parameters.num_columns = 3
     make_grid_parameters.num_rows = 3
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    node_x = np.empty(0, dtype=np.double)
-    node_y = np.empty(0, dtype=np.double)
-    geometry_list = GeometryList(node_x, node_y)
-
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
@@ -210,8 +200,8 @@ def test_curvilinear_make_uniform():
     assert curvilinear_grid.num_n == 4
 
 
-def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid within
+def test_curvilinear_compute_rectangular_grid_defined_extension_spherical_coordinates():
+    r"""Tests `curvilinear_compute_rectangular_grid` makes a curvilinear grid within
     a defined extension in spherical coordinates."""
     mk = MeshKernel(is_geographic=True)
 
@@ -223,7 +213,7 @@ def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
     make_grid_parameters.block_size_x = 0.01
     make_grid_parameters.block_size_y = 0.01
 
-    mk.curvilinear_make_uniform_on_extension(make_grid_parameters)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
@@ -232,15 +222,14 @@ def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
     assert curvilinear_grid.num_n == 81
 
 
-def test_curvilinear_make_uniform_with_polygon():
-    r"""Tests `curvilinear_make_uniform` makes a curvilinear grid using a polygon."""
+def test_curvilinear_compute_rectangular_grid_with_polygon():
+    r"""Tests `curvilinear_compute_rectangular_grid` makes a curvilinear grid using a polygon."""
     mk = MeshKernel()
 
     make_grid_parameters = MakeGridParameters()
     make_grid_parameters.num_columns = 3
     make_grid_parameters.num_rows = 3
     make_grid_parameters.angle = 0.0
-    make_grid_parameters.block_size = 0.0
     make_grid_parameters.origin_x = 0.0
     make_grid_parameters.origin_y = 0.0
     make_grid_parameters.block_size_x = 1.0
@@ -250,7 +239,9 @@ def test_curvilinear_make_uniform_with_polygon():
     node_y = np.array([0.5, 3.0, 5.0, 2.5, 0.5], dtype=np.double)
     geometry_list = GeometryList(node_x, node_y)
 
-    mk.curvilinear_make_uniform(make_grid_parameters, geometry_list)
+    mk.curvilinear_compute_rectangular_grid_from_polygon(
+        make_grid_parameters, geometry_list
+    )
 
     curvilinear_grid = mk.curvilineargrid_get()
 
