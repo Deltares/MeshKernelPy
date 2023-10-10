@@ -7,10 +7,9 @@ from meshkernel import (
     MakeGridParameters,
     MeshKernel,
     OrthogonalizationParameters,
+    ProjectionType,
     SplinesToCurvilinearParameters,
 )
-
-from meshkernel.py_structures import ProjectionType
 
 
 def create_meshkernel_instance_with_curvilinear_grid():
