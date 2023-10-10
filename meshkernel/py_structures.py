@@ -282,7 +282,7 @@ class CurvilinearGrid:
         invalid_value = -999.0
         edge_nodes = np.zeros(
             (self.num_m * (self.num_n - 1) + (self.num_m - 1) * self.num_n) * 2,
-            dtype=np.int,
+            dtype=np.int_,
         )
         index = 0
         for m in range(self.num_m - 1):
