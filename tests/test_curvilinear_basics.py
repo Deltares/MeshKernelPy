@@ -10,6 +10,8 @@ from meshkernel import (
     SplinesToCurvilinearParameters,
 )
 
+from meshkernel.py_structures import ProjectionType
+
 
 def create_meshkernel_instance_with_curvilinear_grid():
     r"""A function for creating an instance of meshkernel with a uniform curvilinear grid."""
@@ -213,7 +215,7 @@ def test_curvilinear_make_uniform():
 def test_curvilinear_make_uniform_defined_extension_spherical_coordinates():
     r"""Tests `curvilinear_make_uniform` makes a curvilinear grid within
     a defined extension in spherical coordinates."""
-    mk = MeshKernel(is_geographic=True)
+    mk = MeshKernel(projection=ProjectionType.SPHERICAL)
 
     make_grid_parameters = MakeGridParameters()
     make_grid_parameters.origin_x = -1.0
