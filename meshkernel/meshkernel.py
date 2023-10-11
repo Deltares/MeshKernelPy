@@ -1209,14 +1209,14 @@ class MeshKernel:
         )
 
     def contacts_compute_boundary(
-        self, node_mask: ndarray, polygons: GeometryList, search_radius: float
+        self, node_mask: ndarray, search_radius: float, polygons: GeometryList = GeometryList()
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
         Args:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
                                  should not be connected
-            points (GeometryList): The points selecting the Mesh2d faces to connect.
+            points (GeometryList, optional): The points selecting the Mesh2d faces to connect.
             search_radius (float): The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
                                    value double, the search radius will be calculated internally.
 
