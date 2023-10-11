@@ -332,7 +332,8 @@ def test_contacts_compute_boundary(
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
-    
+
+
 def test_contacts_compute_boundary_with_no_polygon():
     """Tests `contacts_compute_boundary` with a 2x2 Mesh2d and a Mesh1d with 5 nodes.
 
@@ -364,7 +365,7 @@ def test_contacts_compute_boundary_with_no_polygon():
     contacts = mk.contacts_get()
 
     contacts = sort_contacts_by_mesh2d_indices(contacts)
-    
+
     exp_mesh1d_indices = np.array([0, 2, 4], dtype=np.int32)
     exp_mesh2d_indices = np.array([0, 2, 3], dtype=np.int32)
 
