@@ -85,11 +85,10 @@ class MeshKernel:
             raise OSError("Unsupported operating system: {}".format(system))
 
         self.lib = CDLL(str(lib_path))
-        
-        self.exit_code = self.__get_exit_codes()
-        
-        self._allocate_state(projection)
 
+        self.exit_code = self.__get_exit_codes()
+
+        self._allocate_state(projection)
 
     def __del__(self):
         self._deallocate_state()
@@ -145,11 +144,11 @@ class MeshKernel:
             },
         )
 
-        def _allocate_state(self, projection: ProjectionType) -> None:
+    def _allocate_state(self, projection: ProjectionType) -> None:
         """Creates a new empty mesh.
 
         Args:
-            is_geographic (bool): Cartesian (False) or spherical (True) mesh.
+            projection (ProjectionType): The projection type.
         """
 
         self._meshkernelid = c_int()
