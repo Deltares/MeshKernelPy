@@ -1255,7 +1255,10 @@ class MeshKernel:
         )
 
     def contacts_compute_boundary(
-        self, node_mask: ndarray, search_radius: float, polygons: GeometryList = GeometryList()
+        self,
+        node_mask: ndarray,
+        search_radius: float,
+        polygons: GeometryList = GeometryList(),
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
