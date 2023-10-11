@@ -17,16 +17,17 @@ from meshkernel import (
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
+    ProjectionType,
     RefinementType,
 )
 
-cases_is_geometric_constructor = [(True), (False)]
+cases_projection_constructor = [(ProjectionType.CARTESIAN), (ProjectionType.SPHERICAL)]
 
 
-@pytest.mark.parametrize("is_geometric", cases_is_geometric_constructor)
-def test_constructor(is_geometric: bool):
+@pytest.mark.parametrize("projection", cases_projection_constructor)
+def test_constructor(projection: ProjectionType):
     """Test if the constructor works"""
-    MeshKernel(is_geometric)
+    MeshKernel(projection)
 
 
 def test_different_instances_have_different_ids():
@@ -499,7 +500,7 @@ def test_mesh2d_delete_hanging_edges():
     assert mesh2d.face_x.size == 1
 
 
-def test_mesh2d_make_mesh_from_polygon():
+def test_mesh2d_make_triangular_mesh_from_polygon():
     """Tests `mesh2d_make_mesh_from_polygon` by creating a mesh2d from a simple hexagon."""
 
     mk = MeshKernel()
@@ -512,7 +513,7 @@ def test_mesh2d_make_mesh_from_polygon():
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk.mesh2d_make_mesh_from_polygon(polygon)
+    mk.mesh2d_make_triangular_mesh_from_polygon(polygon)
 
     mesh2d = mk.mesh2d_get()
 
@@ -521,7 +522,7 @@ def test_mesh2d_make_mesh_from_polygon():
     assert mesh2d.face_x.size == 6
 
 
-def test_mesh2d_make_mesh_from_samples():
+def test_mesh2d_make_triangular_mesh_from_samples():
     """Tests `mesh2d_make_mesh_from_samples` by creating a mesh2d from six sample points."""
 
     mk = MeshKernel()
@@ -533,13 +534,123 @@ def test_mesh2d_make_mesh_from_samples():
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    mk.mesh2d_make_mesh_from_samples(polygon)
+    mk.mesh2d_make_triangular_mesh_from_samples(polygon)
 
     mesh2d = mk.mesh2d_get()
 
     assert mesh2d.node_x.size == 6
     assert mesh2d.edge_x.size == 9
     assert mesh2d.face_x.size == 4
+
+
+def two_mesh2d_data_are_equal(mesh2d_1: Mesh2d, mesh2d_2: Mesh2d) -> bool:
+    """Checks if all member variables of 2 Mesh2d instances are equal.
+
+    Args:
+        mesh2d_1 (Mesh2d): The first mesh
+        mesh2d_2 (Mesh2d): The second mesh
+    """
+    return (
+        (mesh2d_1.node_x == mesh2d_2.node_x).all()
+        and (mesh2d_1.node_y == mesh2d_2.node_y).all()
+        and (mesh2d_1.face_x == mesh2d_2.face_x).all()
+        and (mesh2d_1.face_y == mesh2d_2.face_y).all()
+        and (mesh2d_1.edge_x == mesh2d_2.edge_x).all()
+        and (mesh2d_1.edge_y == mesh2d_2.edge_y).all()
+        and (mesh2d_1.face_edges == mesh2d_2.face_edges).all()
+        and (mesh2d_1.face_nodes == mesh2d_2.face_nodes).all()
+        and (mesh2d_1.edge_faces == mesh2d_2.edge_faces).all()
+        and (mesh2d_1.edge_nodes == mesh2d_2.edge_nodes).all()
+        and (mesh2d_1.nodes_per_face == mesh2d_2.nodes_per_face).all()
+    )
+
+
+def test_mesh2d_make_rectangular_mesh():
+    """Tests `mesh2d_make_rectangular_mesh`."""
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    mk_1 = MeshKernel()
+    mk_1.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d_1 = mk_1.mesh2d_get()
+
+    mk_2 = MeshKernel()
+    mk_2.curvilinear_compute_rectangular_grid(make_grid_parameters)
+    mk_2.curvilinear_convert_to_mesh2d()
+    mesh2d_2 = mk_2.mesh2d_get()
+
+    assert mesh2d_1.node_x.size == 16
+    assert mesh2d_1.edge_x.size == 24
+    assert mesh2d_1.face_x.size == 9
+
+    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+
+
+def test_mesh2d_make_rectangular_mesh_from_polygon():
+    """Tests `mesh2d_make_rectangular_mesh_from_polygon`."""
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.angle = 0.0
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    node_x = np.array([2.5, 5.5, 3.5, 0.5, 2.5], dtype=np.double)
+    node_y = np.array([0.5, 3.0, 5.0, 2.5, 0.5], dtype=np.double)
+    geometry_list = GeometryList(node_x, node_y)
+
+    mk_1 = MeshKernel()
+    mk_1.mesh2d_make_rectangular_mesh_from_polygon(make_grid_parameters, geometry_list)
+    mesh2d_1 = mk_1.mesh2d_get()
+
+    mk_2 = MeshKernel()
+    mk_2.curvilinear_compute_rectangular_grid_from_polygon(
+        make_grid_parameters, geometry_list
+    )
+    mk_2.curvilinear_convert_to_mesh2d()
+    mesh2d_2 = mk_2.mesh2d_get()
+
+    assert mesh2d_1.node_x.size == 9
+    assert mesh2d_1.edge_x.size == 12
+    assert mesh2d_1.face_x.size == 4
+
+    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+
+
+def test_mesh2d_make_rectangular_mesh_on_extension():
+    """Tests `mesh2d_make_rectangular_mesh_on_extension`."""
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.origin_x = -1.0
+    make_grid_parameters.origin_y = 49.1
+    make_grid_parameters.upper_right_x = -0.2
+    make_grid_parameters.upper_right_y = 49.6
+    make_grid_parameters.block_size_x = 0.01
+    make_grid_parameters.block_size_y = 0.01
+
+    mk_1 = MeshKernel(projection=ProjectionType.SPHERICAL)
+    mk_1.mesh2d_make_rectangular_mesh_on_extension(make_grid_parameters)
+    mesh2d_1 = mk_1.mesh2d_get()
+
+    mk_2 = MeshKernel(projection=ProjectionType.SPHERICAL)
+    mk_2.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk_2.curvilinear_convert_to_mesh2d()
+    mesh2d_2 = mk_2.mesh2d_get()
+
+    assert mesh2d_1.node_x.size == 8343
+    assert mesh2d_1.edge_x.size == 16502
+    assert mesh2d_1.face_x.size == 8160
+
+    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
 
 
 cases_polygon_refine = [
@@ -746,7 +857,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     # create the second mesh
@@ -757,7 +868,7 @@ def test_remove_disconnected_regions():
     make_grid_parameters.block_size_x = 10.0
     make_grid_parameters.block_size_y = 10.0
 
-    mk.curvilinear_make_uniform(make_grid_parameters)
+    mk.curvilinear_compute_rectangular_grid(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
     mesh2d = mk.mesh2d_get()
