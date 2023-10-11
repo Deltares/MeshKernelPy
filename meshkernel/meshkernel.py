@@ -66,12 +66,11 @@ class Status(IntEnum):
 class MeshKernel:
     """This class is the entry point for interacting with the MeshKernel library"""
 
-    def __init__(self, is_geographic: bool = False):
+    def __init__(self, projection: ProjectionType = ProjectionType.CARTESIAN):
         """Constructor of MeshKernel
 
         Args:
-            is_geographic (bool, optional): Whether the mesh is cartesian (False) or spherical (True).
-                                            Default is `False`.
+            projection (ProjectionType, optional): The projection type. Default is `ProjectionType.CARTESIAN`.
 
         Raises:
             OSError: This gets raised in case MeshKernel is used within an unsupported OS.
@@ -93,12 +92,12 @@ class MeshKernel:
             raise OSError("Unsupported operating system: {}".format(system))
 
         self.lib = CDLL(str(lib_path))
-        self._allocate_state(is_geographic)
+        self._allocate_state(projection)
 
     def __del__(self):
         self._deallocate_state()
 
-    def _allocate_state(self, is_geographic: bool) -> None:
+    def _allocate_state(self, projection: ProjectionType) -> None:
         """Creates a new empty mesh.
 
         Args:
@@ -108,7 +107,7 @@ class MeshKernel:
         self._meshkernelid = c_int()
         self._execute_function(
             self.lib.mkernel_allocate_state,
-            c_int(is_geographic),
+            projection,
             byref(self._meshkernelid),
         )
 

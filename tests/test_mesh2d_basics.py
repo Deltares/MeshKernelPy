@@ -17,16 +17,17 @@ from meshkernel import (
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
+    ProjectionType,
     RefinementType,
 )
 
-cases_is_geometric_constructor = [(True), (False)]
+cases_projection_constructor = [(ProjectionType.CARTESIAN), (ProjectionType.SPHERICAL)]
 
 
-@pytest.mark.parametrize("is_geometric", cases_is_geometric_constructor)
-def test_constructor(is_geometric: bool):
+@pytest.mark.parametrize("projection", cases_projection_constructor)
+def test_constructor(projection: ProjectionType):
     """Test if the constructor works"""
-    MeshKernel(is_geometric)
+    MeshKernel(projection)
 
 
 def test_different_instances_have_different_ids():
@@ -636,11 +637,11 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     make_grid_parameters.block_size_x = 0.01
     make_grid_parameters.block_size_y = 0.01
 
-    mk_1 = MeshKernel(is_geographic=True)
+    mk_1 = MeshKernel(projection=ProjectionType.SPHERICAL)
     mk_1.mesh2d_make_rectangular_mesh_on_extension(make_grid_parameters)
     mesh2d_1 = mk_1.mesh2d_get()
 
-    mk_2 = MeshKernel(is_geographic=True)
+    mk_2 = MeshKernel(projection=ProjectionType.SPHERICAL)
     mk_2.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk_2.curvilinear_convert_to_mesh2d()
     mesh2d_2 = mk_2.mesh2d_get()
