@@ -1318,6 +1318,19 @@ class MeshKernel:
 
         return geometry_list_out
 
+    def mesh2d_connect_meshes(self, mesh2d: Mesh2d) -> None:
+        """Connect a mesh to an existing mesh
+
+        Args:
+            mesh2d (Mesh2d): The mesh to connect to the existing mesh
+        """
+
+        c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_connect_meshes, self._meshkernelid, byref(c_mesh2d)
+        )
+
     def _get_error(self) -> str:
         c_string_size = 512
         c_error_message = create_string_buffer(c_string_size)

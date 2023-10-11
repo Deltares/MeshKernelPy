@@ -20,6 +20,8 @@ from meshkernel import (
     RefinementType,
 )
 
+import matplotlib.pyplot as plt
+
 cases_is_geometric_constructor = [(True), (False)]
 
 
@@ -1490,3 +1492,43 @@ def test_nodes_in_polygons_mesh2d(
     selected_nodes = mk.mesh2d_get_nodes_in_polygons(geometry_list, inside)
 
     assert selected_nodes.size == exp_num_nodes
+
+
+def test_connect_meshes():
+    """Tests `mesh2d_connect_meshes`."""
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    mk_1 = MeshKernel()
+    mk_1.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d_1 = mk_1.mesh2d_get()
+    fig, ax = plt.subplots(2)
+    mesh2d_1.plot_edges(ax[0], color="red")
+
+    mk_2 = MeshKernel()
+    make_grid_parameters.origin_x = (
+        make_grid_parameters.num_columns + 0.1
+    ) * make_grid_parameters.block_size_x
+    make_grid_parameters.block_size_y /= 3
+
+    # make_grid_parameters.origin_x = (
+    #     make_grid_parameters.num_columns  # + 0.1
+    # ) * make_grid_parameters.block_size_x
+
+    # make_grid_parameters.block_size_y /= 3
+
+    mk_2.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d_2 = mk_2.mesh2d_get()
+    mesh2d_2.plot_edges(ax[0], color="green")
+
+    mk_1.mesh2d_connect_meshes(mesh2d_2)
+    mesh2d_1 = mk_1.mesh2d_get()
+    mesh2d_1.plot_edges(ax[1], color="blue")
+
+    fig.savefig("C:/Users/sayed/work/tmp/spliced.png")
