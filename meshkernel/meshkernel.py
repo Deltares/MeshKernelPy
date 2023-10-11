@@ -86,7 +86,7 @@ class MeshKernel:
             raise OSError("Unsupported operating system: {}".format(system))
 
         self.lib = CDLL(str(lib_path))
-        self.ExitCode = self.__get_exit_codes()
+        self.exit_code = self.__get_exit_codes()
 
         self._allocate_state(is_geographic)
 
@@ -96,7 +96,7 @@ class MeshKernel:
     def __get_exit_codes(self) -> IntEnum:
         """Stores the backend exit codes
         Returns:
-            An integer enumeration called ExitCode holding the exit codes of the backend
+            An integer enumeration called exit_code holding the exit codes of the backend
         """
         success = c_int()
         self.lib.mkernel_get_exit_code_success(byref(success))
@@ -129,7 +129,7 @@ class MeshKernel:
         self.lib.mkernel_get_exit_code_unknown_exception(byref(unknown_exception))
 
         return IntEnum(
-            "ExitCode",
+            "exit_code",
             {
                 "SUCCESS": success.value,
                 "MESHKERNEL_ERROR": meshkernel_error.value,
@@ -1462,25 +1462,25 @@ class MeshKernel:
                              if the MeshKernel library reports an error.
         """
         exit_code = function(*args)
-        if exit_code != self.ExitCode.SUCCESS:
+        if exit_code != self.exit_code.SUCCESS:
             error_message = self._get_error()
-            if exit_code == self.ExitCode.MESHKERNEL_ERROR:
+            if exit_code == self.exit_code.MESHKERNEL_ERROR:
                 raise MeshKernelError("MeshKernelError", error_message)
-            elif exit_code == self.ExitCode.NOT_IMPLEMENTED_ERROR:
+            elif exit_code == self.exit_code.NOT_IMPLEMENTED_ERROR:
                 raise MeshKernelError("NotImplementedError", error_message)
-            elif exit_code == self.ExitCode.ALGORITHM_ERROR:
+            elif exit_code == self.exit_code.ALGORITHM_ERROR:
                 raise MeshKernelError("AlgorithmError", error_message)
-            elif exit_code == self.ExitCode.CONSTRAINT_ERROR:
+            elif exit_code == self.exit_code.CONSTRAINT_ERROR:
                 raise MeshKernelError("ConstraintError", error_message)
-            elif exit_code == self.ExitCode.MESH_GEOMETRY_ERROR:
+            elif exit_code == self.exit_code.MESH_GEOMETRY_ERROR:
                 raise MeshGeometryError(error_message, self._get_geometry_error())
-            elif exit_code == self.ExitCode.LINEAR_ALGEBRA_ERROR:
+            elif exit_code == self.exit_code.LINEAR_ALGEBRA_ERROR:
                 raise MeshKernelError("LinearAlgebraError", error_message)
-            elif exit_code == self.ExitCode.RANGE_ERROR:
+            elif exit_code == self.exit_code.RANGE_ERROR:
                 raise MeshKernelError("RangeError", error_message)
-            elif exit_code == self.ExitCode.STDLIB_EXCEPTION:
+            elif exit_code == self.exit_code.STDLIB_EXCEPTION:
                 raise MeshKernelError("STDLibException", error_message)
-            elif exit_code == self.ExitCode.UNKNOWN_EXCEPTION:
+            elif exit_code == self.exit_code.UNKNOWN_EXCEPTION:
                 raise MeshKernelError("UnknownException", error_message)
 
     def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
