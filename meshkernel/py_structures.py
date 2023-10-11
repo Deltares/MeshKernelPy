@@ -16,14 +16,11 @@ from meshkernel.utils import plot_edges
 class DeleteMeshOption(IntEnum):
     """Option to delete the mesh inside a polygon."""
 
-    """Delete all nodes inside the polygon. """
-    ALL_NODES = 0
+    """Deletes mesh inside and not intersected """
+    INSIDE_NOT_INTERSECTED = 0
 
-    """ Delete all faces of which the circum center is inside the polygon. """
-    ALL_FACE_CIRCUMCENTERS = 1
-
-    """ Delete all faces of which the complete face is inside the polygon. """
-    ALL_COMPLETE_FACES = 2
+    """Deletes mesh inside and intersected """
+    INSIDE_AND_INTERSECTED = 1
 
 
 @unique
