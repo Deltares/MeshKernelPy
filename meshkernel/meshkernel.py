@@ -10,9 +10,9 @@ from ctypes import (
     c_size_t,
     create_string_buffer,
 )
-from enum import IntEnum, unique
+from enum import IntEnum
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -31,7 +31,7 @@ from meshkernel.c_structures import (
     COrthogonalizationParameters,
     CSplinesToCurvilinearParameters,
 )
-from meshkernel.errors import InputError, MeshKernelError
+from meshkernel.errors import InputError, MeshGeometryError, MeshKernelError
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
@@ -54,13 +54,6 @@ from meshkernel.utils import get_maximum_bounding_box_coordinates
 from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
-
-
-@unique
-class Status(IntEnum):
-    SUCCESS = 0
-    EXCEPTION = 1
-    INVALID_GEOMETRY = 2
 
 
 class MeshKernel:
@@ -87,21 +80,75 @@ class MeshKernel:
         elif system == "Darwin":
             lib_path = os.path.join(file_path, "libMeshKernelApi.dylib")
         else:
-            if not str:
+            if not system:
                 system = "Unknown OS"
             raise OSError("Unsupported operating system: {}".format(system))
 
         self.lib = CDLL(str(lib_path))
+
+        self.exit_code = self.__get_exit_codes()
+
         self._allocate_state(projection)
 
     def __del__(self):
         self._deallocate_state()
 
+    def __get_exit_codes(self) -> IntEnum:
+        """Stores the backend exit codes
+        Returns:
+            An integer enumeration called exit_code holding the exit codes of the backend
+        """
+        success = c_int()
+        self.lib.mkernel_get_exit_code_success(byref(success))
+
+        meshkernel_error = c_int()
+        self.lib.mkernel_get_exit_code_meshkernel_error(byref(meshkernel_error))
+
+        not_implemented = c_int()
+        self.lib.mkernel_get_exit_code_not_implemented_error(byref(not_implemented))
+
+        algorithm_error = c_int()
+        self.lib.mkernel_get_exit_code_algorithm_error(byref(algorithm_error))
+
+        constraint_error = c_int()
+        self.lib.mkernel_get_exit_code_constraint_error(byref(constraint_error))
+
+        mesh_geometry_error = c_int()
+        self.lib.mkernel_get_exit_code_mesh_geometry_error(byref(mesh_geometry_error))
+
+        linear_algebra_error = c_int()
+        self.lib.mkernel_get_exit_code_linear_algebra_error(byref(linear_algebra_error))
+
+        range_error = c_int()
+        self.lib.mkernel_get_exit_code_range_error(byref(range_error))
+
+        stdlib_exception = c_int()
+        self.lib.mkernel_get_exit_code_stdlib_exception(byref(stdlib_exception))
+
+        unknown_exception = c_int()
+        self.lib.mkernel_get_exit_code_unknown_exception(byref(unknown_exception))
+
+        return IntEnum(
+            "exit_code",
+            {
+                "SUCCESS": success.value,
+                "MESHKERNEL_ERROR": meshkernel_error.value,
+                "NOT_IMPLEMENTED_ERROR": not_implemented.value,
+                "ALGORITHM_ERROR": algorithm_error.value,
+                "CONSTRAINT_ERROR": constraint_error.value,
+                "MESH_GEOMETRY_ERROR": mesh_geometry_error.value,
+                "LINEAR_ALGEBRA_ERROR": linear_algebra_error.value,
+                "RANGE_ERROR": range_error.value,
+                "STDLIB_EXCEPTION": stdlib_exception.value,
+                "UNKNOWN_EXCEPTION": unknown_exception.value,
+            },
+        )
+
     def _allocate_state(self, projection: ProjectionType) -> None:
         """Creates a new empty mesh.
 
         Args:
-            is_geographic (bool): Cartesian (False) or spherical (True) mesh.
+            projection (ProjectionType): The projection type.
         """
 
         self._meshkernelid = c_int()
@@ -1323,6 +1370,17 @@ class MeshKernel:
         self.lib.mkernel_get_error(c_error_message)
         return c_error_message.value.decode("ASCII")
 
+    def _get_geometry_error(self) -> Tuple[int, Mesh2dLocation]:
+        """Get geometry error information
+        Returns:
+            index (int): The index
+            location (int): The location
+        """
+        index = c_int()
+        location = c_int()
+        self.lib.mkernel_get_geometry_error(byref(index), byref(location))
+        return index.value, Mesh2dLocation(location)
+
     def mesh2d_triangulation_interpolation(
         self,
         samples: GeometryList,
@@ -1466,9 +1524,27 @@ class MeshKernel:
             MeshKernelError: This exception gets raised,
                              if the MeshKernel library reports an error.
         """
-        if function(*args) != Status.SUCCESS:
+        exit_code = function(*args)
+        if exit_code != self.exit_code.SUCCESS:
             error_message = self._get_error()
-            raise MeshKernelError(error_message)
+            if exit_code == self.exit_code.MESHKERNEL_ERROR:
+                raise MeshKernelError("MeshKernelError", error_message)
+            elif exit_code == self.exit_code.NOT_IMPLEMENTED_ERROR:
+                raise MeshKernelError("NotImplementedError", error_message)
+            elif exit_code == self.exit_code.ALGORITHM_ERROR:
+                raise MeshKernelError("AlgorithmError", error_message)
+            elif exit_code == self.exit_code.CONSTRAINT_ERROR:
+                raise MeshKernelError("ConstraintError", error_message)
+            elif exit_code == self.exit_code.MESH_GEOMETRY_ERROR:
+                raise MeshGeometryError(error_message, self._get_geometry_error())
+            elif exit_code == self.exit_code.LINEAR_ALGEBRA_ERROR:
+                raise MeshKernelError("LinearAlgebraError", error_message)
+            elif exit_code == self.exit_code.RANGE_ERROR:
+                raise MeshKernelError("RangeError", error_message)
+            elif exit_code == self.exit_code.STDLIB_EXCEPTION:
+                raise MeshKernelError("STDLibException", error_message)
+            elif exit_code == self.exit_code.UNKNOWN_EXCEPTION:
+                raise MeshKernelError("UnknownException", error_message)
 
     def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
         """For internal use only.
@@ -1573,7 +1649,7 @@ class MeshKernel:
     def curvilinear_compute_rectangular_grid(
         self, make_grid_parameters: MakeGridParameters
     ) -> None:
-        """Makes a new uniform curvilinear grid
+        """Makes a rectangular grid
 
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
@@ -1594,7 +1670,7 @@ class MeshKernel:
         make_grid_parameters: MakeGridParameters,
         geometry_list: GeometryList,
     ) -> None:
-        """Makes a new curvilinear grid from polygons.
+        """Makes a rectangular grid from polygons.
 
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
@@ -1618,7 +1694,7 @@ class MeshKernel:
         self,
         make_grid_parameters: MakeGridParameters,
     ) -> None:
-        """Makes a new uniform curvilinear grid on defined extension.
+        """Makes a rectangular grid on defined extension.
 
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
