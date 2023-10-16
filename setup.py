@@ -77,7 +77,7 @@ def get_library_meta() -> LibraryMeta:
     elif system == "Darwin":
         name = "libMeshKernelApi.dylib"
     else:
-        if not str:
+        if not system:
             system = "Unknown OS"
         raise OSError("Unsupported operating system: {}".format(system))
     return LibraryMeta(system, name)

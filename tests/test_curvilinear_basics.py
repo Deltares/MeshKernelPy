@@ -7,6 +7,7 @@ from meshkernel import (
     MakeGridParameters,
     MeshKernel,
     OrthogonalizationParameters,
+    ProjectionType,
     SplinesToCurvilinearParameters,
 )
 
@@ -203,7 +204,7 @@ def test_curvilinear_compute_rectangular_grid():
 def test_curvilinear_compute_rectangular_grid_defined_extension_spherical_coordinates():
     r"""Tests `curvilinear_compute_rectangular_grid` makes a curvilinear grid within
     a defined extension in spherical coordinates."""
-    mk = MeshKernel(is_geographic=True)
+    mk = MeshKernel(projection=ProjectionType.SPHERICAL)
 
     make_grid_parameters = MakeGridParameters()
     make_grid_parameters.origin_x = -1.0

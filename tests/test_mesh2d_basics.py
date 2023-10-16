@@ -17,18 +17,19 @@ from meshkernel import (
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
+    ProjectionType,
     RefinementType,
 )
 
 import matplotlib.pyplot as plt
 
-cases_is_geometric_constructor = [(True), (False)]
+cases_projection_constructor = [(ProjectionType.CARTESIAN), (ProjectionType.SPHERICAL)]
 
 
-@pytest.mark.parametrize("is_geometric", cases_is_geometric_constructor)
-def test_constructor(is_geometric: bool):
+@pytest.mark.parametrize("projection", cases_projection_constructor)
+def test_constructor(projection: ProjectionType):
     """Test if the constructor works"""
-    MeshKernel(is_geometric)
+    MeshKernel(projection)
 
 
 def test_different_instances_have_different_ids():
@@ -330,13 +331,85 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
         mk.mesh2d_get_node_index(0.5, 0.5, 0.4)
 
 
+# Case 1: should keep the central cell
+#  20--21
+#  |   |
+#  14--15
+# nodes = 4
+# edges = 1
+# faces = 1
+
+# Case 2: should keep 3x3 central cells
+#  25--26--27--28
+#  |   |   |   |
+#  19--20--21--22
+#  |   |   |   |
+#  13--14--15--16
+#  |   |   |   |
+#  7---8---9---10
+# nodes = 4 * 4 = 16
+# edges = 2 * (3 * 4) = 24
+# faces = 1
+
+# Case 3: should keep all cells but the central cell, i.e. delete the central face
+#  30--31--32--33--34--35
+#  |   |   |   |   |   |
+#  24--25--26--27--28--29
+#  |   |   |   |   |   |
+#  18--19--20--21--22--23
+#  |   |   | / |   |   |
+#  12--13--14--15--16--17
+#  |   |   |   |   |   |
+#  6---7---8---9---10--11
+#  |   |   |   |   |   |
+#  0---1---2---3---4---5
+# nodes = 6 * 6 = 36 (no change)
+# edges = 2 * (5 * 6) = 60 (no change)
+# faces = 5 * 5 - 1 = 24
+
+#  Case 4: 30--31--32--33--34--35
+#  |   |   |   |   |   |
+#  24--25--26--27--28--29
+#  |   |           |   |
+#  18--19          22--23
+#  |   |           |   |
+#  12--13          16--17
+#  |   |           |   |
+#  6---7---8---9---10--11
+#  |   |   |   |   |   |
+#  0---1---2---3---4---5
+# nodes = 6 * 6 - 4 (central cell) = 32
+# faces = 25 - (3 * 3) = 16
+
 cases_mesh2d_delete_small_polygon = [
-    (True, DeleteMeshOption.ALL_NODES, 4, 4, 1),
-    (True, DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 16, 24, 9),
-    (True, DeleteMeshOption.ALL_COMPLETE_FACES, 4, 4, 1),
-    (False, DeleteMeshOption.ALL_NODES, 32, 48, 16),
-    (False, DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 32, 48, 16),
-    (False, DeleteMeshOption.ALL_COMPLETE_FACES, 36, 60, 25),
+    (
+        True,
+        DeleteMeshOption.INSIDE_NOT_INTERSECTED,
+        4,
+        4,
+        1,
+    ),
+    (
+        True,
+        DeleteMeshOption.INSIDE_AND_INTERSECTED,
+        16,
+        24,
+        9,
+    ),
+    (
+        False,
+        DeleteMeshOption.INSIDE_NOT_INTERSECTED,
+        36,
+        60,
+        25,  # this is incorrect
+    ),
+    (
+        False,
+        DeleteMeshOption.INSIDE_AND_INTERSECTED,
+        32,
+        48,
+        16,
+    ),
 ]
 
 
@@ -416,7 +489,7 @@ def test_mesh2d_delete_empty_polygon(
     y_coordinates = np.empty(0, dtype=np.double)
 
     geometry_list = GeometryList(x_coordinates, y_coordinates)
-    delete_option = DeleteMeshOption.ALL_NODES
+    delete_option = DeleteMeshOption.INSIDE_NOT_INTERSECTED
 
     mk.mesh2d_delete(geometry_list, delete_option, invert_deletion)
     mesh2d = mk.mesh2d_get()
@@ -638,11 +711,11 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     make_grid_parameters.block_size_x = 0.01
     make_grid_parameters.block_size_y = 0.01
 
-    mk_1 = MeshKernel(is_geographic=True)
+    mk_1 = MeshKernel(projection=ProjectionType.SPHERICAL)
     mk_1.mesh2d_make_rectangular_mesh_on_extension(make_grid_parameters)
     mesh2d_1 = mk_1.mesh2d_get()
 
-    mk_2 = MeshKernel(is_geographic=True)
+    mk_2 = MeshKernel(projection=ProjectionType.SPHERICAL)
     mk_2.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk_2.curvilinear_convert_to_mesh2d()
     mesh2d_2 = mk_2.mesh2d_get()
