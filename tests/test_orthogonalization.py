@@ -41,10 +41,10 @@ def test_mesh2d_compute_orthogonalization():
     land_boundary = GeometryList(land_boundary_x, land_boundary_y)
 
     mk.mesh2d_compute_orthogonalization(
-        project_to_land_boundary_option =0,
-        orthogonalization_parameters = OrthogonalizationParameters(outer_iterations=10),
+        project_to_land_boundary_option=0,
+        orthogonalization_parameters=OrthogonalizationParameters(outer_iterations=10),
         land_boundaries=land_boundary,
-        selecting_polygon = polygon,
+        selecting_polygon=polygon,
     )
 
     mesh2d = mk.mesh2d_get()
