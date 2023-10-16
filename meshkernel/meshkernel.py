@@ -1232,7 +1232,7 @@ class MeshKernel:
         )
 
     def contacts_compute_with_points(
-        self, node_mask: ndarray, points: GeometryList
+        self, node_mask: ndarray, polygons: GeometryList = GeometryList()
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
         the input point.
@@ -1240,31 +1240,35 @@ class MeshKernel:
         Args:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
                                  should not be connected
-            points (GeometryList): The points selecting the Mesh2d faces to connect.
+            polygons (GeometryList, optional):  The polygon selecting the Mesh2d faces to connect.
 
         """
         node_mask_int = node_mask.astype(np.int32)
         c_node_mask = as_ctypes(node_mask_int)
-        c_points = CGeometryList.from_geometrylist(points)
+        c_polygons = CGeometryList.from_geometrylist(polygons)
 
         self._execute_function(
             self.lib.mkernel_contacts_compute_with_points,
             self._meshkernelid,
             c_node_mask,
-            byref(c_points),
+            byref(c_polygons),
         )
 
     def contacts_compute_boundary(
-        self, node_mask: ndarray, polygons: GeometryList, search_radius: float
+        self,
+        node_mask: ndarray,
+        search_radius: float,
+        polygons: GeometryList = GeometryList(),
     ) -> None:
         """Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary
 
         Args:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
-                                 should not be connected
-            points (GeometryList): The points selecting the Mesh2d faces to connect.
-            search_radius (float): The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
-                                   value double, the search radius will be calculated internally.
+                                 should not be connected (1 = generate a connection, 0 = do not generate a connection)
+            search_radius (float): The radius used for searching neighboring Mesh2d faces, in meters for cartesian
+                                   projection and degrees for spherical projection. If it is equal to the missing value
+                                   double, the search radius will be calculated internally.
+            polygons (GeometryList, optional): The polygon selecting the Mesh2d faces to connect.
 
         """
 
@@ -1284,8 +1288,8 @@ class MeshKernel:
         self,
         project_to_land_boundary_option: ProjectToLandBoundaryOption,
         orthogonalization_parameters: OrthogonalizationParameters,
-        selecting_polygon: GeometryList,
         land_boundaries: GeometryList,
+        selecting_polygon: GeometryList = GeometryList(),
     ) -> None:
         """Orthogonalizes the Mesh2d.
         The function modifies the mesh for achieving orthogonality between the edges
@@ -1296,8 +1300,8 @@ class MeshKernel:
             project_to_land_boundary_option (ProjectToLandBoundaryOption): The option to determine how to snap to
                                                                            land boundaries.
             orthogonalization_parameters (OrthogonalizationParameters): The orthogonalization parameters.
-            selecting_polygon (GeometryList): The polygon where to perform the orthogonalization.
             land_boundaries (GeometryList): The land boundaries to account for in the orthogonalization process.
+            selecting_polygon (GeometryList, optional): The polygon where to perform the orthogonalization.
         """
 
         c_orthogonalization_params = (
