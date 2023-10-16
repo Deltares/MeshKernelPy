@@ -1288,7 +1288,7 @@ class MeshKernel:
         project_to_land_boundary_option: ProjectToLandBoundaryOption,
         orthogonalization_parameters: OrthogonalizationParameters,
         land_boundaries: GeometryList,
-        selecting_polygon: GeometryList = GeometryList()
+        selecting_polygon: GeometryList = GeometryList(),
     ) -> None:
         """Orthogonalizes the Mesh2d.
         The function modifies the mesh for achieving orthogonality between the edges
