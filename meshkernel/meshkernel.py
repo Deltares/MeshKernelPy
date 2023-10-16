@@ -1265,8 +1265,9 @@ class MeshKernel:
         Args:
             node_mask (ndarray): A boolean array describing whether Mesh1d nodes should or
                                  should not be connected (1 = generate a connection, 0 = do not generate a connection)
-            search_radius (float): The radius used for searching neighboring Mesh2d faces. If it is equal to the missing
-                                   value double, the search radius will be calculated internally.
+            search_radius (float): The radius used for searching neighboring Mesh2d faces, in meters for cartesian
+                                   projection and degrees for spherical projection. If it is equal to the missing value
+                                   double, the search radius will be calculated internally.
             polygons (GeometryList, optional): The polygon selecting the Mesh2d faces to connect.
 
         """
