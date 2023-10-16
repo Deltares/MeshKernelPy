@@ -14,9 +14,8 @@ from meshkernel import (
 )
 
 cases_deletemeshoption_values = [
-    (DeleteMeshOption.ALL_NODES, 0),
-    (DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 1),
-    (DeleteMeshOption.ALL_COMPLETE_FACES, 2),
+    (DeleteMeshOption.INSIDE_NOT_INTERSECTED, 0),
+    (DeleteMeshOption.INSIDE_AND_INTERSECTED, 1),
 ]
 
 from meshkernel.errors import InputError

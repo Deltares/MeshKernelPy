@@ -8,7 +8,7 @@ from matplotlib.collections import PolyCollection
 from matplotlib.patches import Polygon
 from numpy import ndarray
 
-from meshkernel.errors import InputError
+import meshkernel.errors as mk_errors
 from meshkernel.utils import plot_edges
 
 
@@ -16,14 +16,11 @@ from meshkernel.utils import plot_edges
 class DeleteMeshOption(IntEnum):
     """Option to delete the mesh inside a polygon."""
 
-    """Delete all nodes inside the polygon. """
-    ALL_NODES = 0
+    """Deletes mesh inside and not intersected """
+    INSIDE_NOT_INTERSECTED = 0
 
-    """ Delete all faces of which the circum center is inside the polygon. """
-    ALL_FACE_CIRCUMCENTERS = 1
-
-    """ Delete all faces of which the complete face is inside the polygon. """
-    ALL_COMPLETE_FACES = 2
+    """Deletes mesh inside and intersected """
+    INSIDE_AND_INTERSECTED = 1
 
 
 @unique
@@ -200,12 +197,12 @@ class GeometryList:
         self.inner_outer_separator: float = inner_outer_separator
 
         if len(self.x_coordinates) != len(self.y_coordinates):
-            raise InputError(
+            raise mk_errors.InputError(
                 "The length of x_coordinates is not equal to the length of y_coordinates"
             )
 
         if len(self.values) > 0 and len(self.values) != len(self.x_coordinates):
-            raise InputError(
+            raise mk_errors.InputError(
                 "The length of values is not equal to the length of x_coordinates"
             )
 
