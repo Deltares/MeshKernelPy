@@ -1563,3 +1563,53 @@ def test_nodes_in_polygons_mesh2d(
     selected_nodes = mk.mesh2d_get_nodes_in_polygons(geometry_list, inside)
 
     assert selected_nodes.size == exp_num_nodes
+
+
+def test_connect_meshes():
+    """Tests `mesh2d_connect_meshes`."""
+
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 10.0
+    make_grid_parameters.block_size_y = 10.0
+
+    mk_existing = MeshKernel()
+    mk_existing.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d_existing = mk_existing.mesh2d_get()
+
+    mk_to_connect = MeshKernel()
+    # shift the origin by the width of the existing mesh and a small offset
+    width = make_grid_parameters.num_columns * make_grid_parameters.block_size_x
+    offset = 1.0
+    make_grid_parameters.origin_x = width + offset
+
+    mk_to_connect.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d_to_connect = mk_to_connect.mesh2d_get()
+
+    mk_existing.mesh2d_connect_meshes(mesh2d_to_connect, 0.4)
+    mesh2d_existing = mk_existing.mesh2d_get()
+
+    assert max(mesh2d_existing.node_x) == 2 * width + 1
+
+    n_nodes_y = make_grid_parameters.num_rows + 1
+
+    expected_sorted_node_x = np.array(np.repeat(0.0, n_nodes_y))
+    expected_sorted_node_x = np.append(expected_sorted_node_x, np.repeat(10, n_nodes_y))
+    expected_sorted_node_x = np.append(expected_sorted_node_x, np.repeat(20, n_nodes_y))
+    expected_sorted_node_x = np.append(
+        expected_sorted_node_x, np.repeat(30 + offset, n_nodes_y)
+    )
+    expected_sorted_node_x = np.append(
+        expected_sorted_node_x, np.repeat(40 + offset, n_nodes_y)
+    )
+    expected_sorted_node_x = np.append(
+        expected_sorted_node_x, np.repeat(50 + offset, n_nodes_y)
+    )
+    expected_sorted_node_x = np.append(
+        expected_sorted_node_x, np.repeat(60 + offset, n_nodes_y)
+    )
+
+    assert_array_equal(np.sort(mesh2d_existing.node_x), expected_sorted_node_x)
