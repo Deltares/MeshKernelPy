@@ -987,18 +987,31 @@ class MeshKernel:
         )
         return number_of_polygon_nodes.value
 
-    def mesh2d_merge_nodes(
+    def mesh2d_merge_nodes(self, geometry_list: GeometryList) -> None:
+        """Merges the mesh2d nodes, effectively removing all small edges.
+
+        Args:
+            geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
+        """
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+        self._execute_function(
+            self.lib.mkernel_mesh2d_merge_nodes,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
+    def mesh2d_merge_nodes_with_merging_distance(
         self, geometry_list: GeometryList, merging_distance: float
     ) -> None:
         """Merges the mesh2d nodes, effectively removing all small edges.
 
         Args:
             geometry_list (GeometryList): The polygon defining the area where the operation will be performed.
-            geometry_list (float): The distance below which two nodes will be merged.
+            merging_distance (float): The distance below which two nodes will be merged.
         """
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
         self._execute_function(
-            self.lib.mkernel_mesh2d_merge_nodes,
+            self.lib.mkernel_mesh2d_merge_nodes_with_merging_distance,
             self._meshkernelid,
             byref(c_geometry_list),
             c_double(merging_distance),
