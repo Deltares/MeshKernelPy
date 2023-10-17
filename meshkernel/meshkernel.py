@@ -1368,17 +1368,22 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def mesh2d_connect_meshes(self, mesh2d: Mesh2d) -> None:
+    def mesh2d_connect_meshes(self, mesh2d: Mesh2d, search_fraction: float) -> None:
         """Connect a mesh to an existing mesh
 
         Args:
             mesh2d (Mesh2d): The mesh to connect to the existing mesh
+            search_fraction (float): Fraction of the shortest edge (along an edge to be connected)
+                                     to use when determining neighbour edge closeness
         """
 
         c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
 
         self._execute_function(
-            self.lib.mkernel_mesh2d_connect_meshes, self._meshkernelid, byref(c_mesh2d)
+            self.lib.mkernel_mesh2d_connect_meshes,
+            self._meshkernelid,
+            byref(c_mesh2d),
+            c_double(search_fraction),
         )
 
     def _get_error(self) -> str:
