@@ -35,6 +35,8 @@ def test_cmesh2d_from_mesh2d():
     edge_y = np.array([0.0, 0.5, 1.0, 0.5], dtype=np.double)
     face_x = np.array([0.5], dtype=np.double)
     face_y = np.array([0.5], dtype=np.double)
+    edge_faces = np.array([0, -1, 0, -1, 0, -1, 0, -1], dtype=np.int32)
+    face_edges = np.array([0, 1, 2, 3], dtype=np.int32)
 
     mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mesh2d.face_nodes = face_nodes
@@ -43,6 +45,8 @@ def test_cmesh2d_from_mesh2d():
     mesh2d.edge_y = edge_y
     mesh2d.face_x = face_x
     mesh2d.face_y = face_y
+    mesh2d.edge_faces = edge_faces
+    mesh2d.face_edges = face_edges
 
     c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
 
@@ -159,7 +163,7 @@ def test_cmeshrefinementparameters_from_meshrefinementparameters():
     assert c_parameters.max_refinement_iterations == 3
     assert c_parameters.refine_intersected == 0
     assert c_parameters.use_mass_center_when_refining == 1
-    assert c_parameters.min_face_size == 1.0
+    assert c_parameters.min_edge_size == 1.0
     assert c_parameters.refinement_type == 2
     assert c_parameters.connect_hanging_nodes == 0
     assert c_parameters.account_for_samples_outside_face == 1

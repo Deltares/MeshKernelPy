@@ -1,14 +1,9 @@
 import numpy as np
 from numpy.testing import assert_array_equal
 from pytest import approx
+from test_utils import Mesh2dFactory
 
-from meshkernel import (
-    GeometryList,
-    Mesh2d,
-    Mesh2dFactory,
-    MeshKernel,
-    OrthogonalizationParameters,
-)
+from meshkernel import GeometryList, Mesh2d, MeshKernel, OrthogonalizationParameters
 
 
 def test_mesh2d_compute_orthogonalization():
@@ -46,7 +41,10 @@ def test_mesh2d_compute_orthogonalization():
     land_boundary = GeometryList(land_boundary_x, land_boundary_y)
 
     mk.mesh2d_compute_orthogonalization(
-        0, OrthogonalizationParameters(outer_iterations=10), polygon, land_boundary
+        project_to_land_boundary_option=0,
+        orthogonalization_parameters=OrthogonalizationParameters(outer_iterations=10),
+        land_boundaries=land_boundary,
+        selecting_polygon=polygon,
     )
 
     mesh2d = mk.mesh2d_get()
@@ -65,7 +63,7 @@ def test_mesh2d_get_orthogonality_orthogonal_mesh2d():
     """
 
     mk = MeshKernel()
-    mk.mesh2d_set(Mesh2dFactory.create_rectilinear_mesh(2, 2))
+    mk.mesh2d_set(Mesh2dFactory.create(2, 2))
 
     orthogonality = mk.mesh2d_get_orthogonality()
 

@@ -14,10 +14,11 @@ from meshkernel import (
 )
 
 cases_deletemeshoption_values = [
-    (DeleteMeshOption.ALL_NODES, 0),
-    (DeleteMeshOption.ALL_FACE_CIRCUMCENTERS, 1),
-    (DeleteMeshOption.ALL_COMPLETE_FACES, 2),
+    (DeleteMeshOption.INSIDE_NOT_INTERSECTED, 0),
+    (DeleteMeshOption.INSIDE_AND_INTERSECTED, 1),
 ]
+
+from meshkernel.errors import InputError
 
 
 @pytest.mark.parametrize("enum_val, exp_int", cases_deletemeshoption_values)
@@ -123,6 +124,19 @@ def test_geometrylist_constructor():
     assert geometry_list.inner_outer_separator == -998.0
 
 
+def test_geometrylist_constructor_raises_exception():
+    """Tests `GeometryList` constructor raises an exception when coordinates and values have different lengths."""
+
+    x_coordinates = np.array([0.0, 2.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 2.0], dtype=np.double)
+    values = np.array([1.0], dtype=np.double)
+
+    with pytest.raises(InputError):
+        GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+        )
+
+
 def test_orthogonalizationparameters_constructor():
     """Tests the default values after constructing a `OrthogonalizationParameters`."""
 
@@ -145,7 +159,7 @@ def test_meshrefinementparameter_constructor_defaults():
 
     assert parameters.refine_intersected is False
     assert parameters.use_mass_center_when_refining is True
-    assert parameters.min_face_size == 1.0
+    assert parameters.min_edge_size == 1.0
     assert parameters.refinement_type is RefinementType.WAVE_COURANT
     assert parameters.connect_hanging_nodes is False
     assert parameters.account_for_samples_outside_face is True

@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
+import sys
+
 import numpy as np
-from matplotlib import colors as mcolors
 from matplotlib.collections import LineCollection
 
 
@@ -26,3 +26,15 @@ def plot_edges(node_x, node_y, edge_nodes, ax, *args, **kwargs):
     line_segments = LineCollection(edge_coords, *args, **kwargs)
     ax.add_collection(line_segments)
     ax.autoscale(enable=True)
+
+
+def get_maximum_bounding_box_coordinates():
+    """Get the maximum coordinate values for a bounding box defined by floating point coordinates"""
+
+    x_lower_left = -sys.float_info.max
+    y_lower_left = -sys.float_info.max
+
+    x_upper_right = sys.float_info.max
+    y_upper_right = sys.float_info.max
+
+    return x_lower_left, y_lower_left, x_upper_right, y_upper_right
