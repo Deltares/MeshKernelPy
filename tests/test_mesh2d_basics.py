@@ -325,8 +325,9 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 
     mk = meshkernel_with_mesh2d(1, 1)
 
-    with pytest.raises(MeshKernelError):
-        mk.mesh2d_get_node_index(0.5, 0.5, 0.4)
+    index_value = mk.mesh2d_get_node_index(0.5, 0.5, 0.4)
+
+    assert index_value == -1
 
 
 # Case 1: should keep the central cell
@@ -974,11 +975,7 @@ def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKern
     )
 
 
-cases_mesh2d_merge_nodes = [(1e-2, 4), (1e-4, 5)]
-
-
-@pytest.mark.parametrize("merging_distance, number_of_nodes", cases_mesh2d_merge_nodes)
-def test_mesh2d_merge_nodes(merging_distance: float, number_of_nodes: int):
+def test_mesh2d_merge_nodes():
     """Test if `mesh2d_merge_nodes` reduces the number of close nodes
 
     4---3
@@ -999,7 +996,43 @@ def test_mesh2d_merge_nodes(merging_distance: float, number_of_nodes: int):
     y_coordinates = np.array([-1.0, -1.0, 2.0, 2.0, -1.0], dtype=np.double)
     geometry_list = GeometryList(x_coordinates, y_coordinates)
 
-    mk.mesh2d_merge_nodes(geometry_list, merging_distance)
+    mk.mesh2d_merge_nodes(geometry_list)
+
+    output_mesh2d = mk.mesh2d_get()
+
+    assert output_mesh2d.node_x.size == 5
+
+
+cases_mesh2d_merge_nodes_with_merging_distance = [(1e-2, 4), (1e-4, 5)]
+
+
+@pytest.mark.parametrize(
+    "merging_distance, number_of_nodes", cases_mesh2d_merge_nodes_with_merging_distance
+)
+def test_mesh2d_merge_nodes_with_merging_distance(
+    merging_distance: float, number_of_nodes: int
+):
+    """Test if `mesh2d_merge_nodes` reduces the number of close nodes
+
+    4---3
+    |   |
+    01--2
+    """
+    mk = MeshKernel()
+
+    # Set up mesh
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4, 4, 0], dtype=np.int32)
+    node_x = np.array([0.0, 1e-3, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+    mk.mesh2d_set(input_mesh2d)
+
+    # Define polygon where we want to merge
+    x_coordinates = np.array([-1.0, 2.0, 2.0, -1.0, -1.0], dtype=np.double)
+    y_coordinates = np.array([-1.0, -1.0, 2.0, 2.0, -1.0], dtype=np.double)
+    geometry_list = GeometryList(x_coordinates, y_coordinates)
+
+    mk.mesh2d_merge_nodes_with_merging_distance(geometry_list, merging_distance)
 
     output_mesh2d = mk.mesh2d_get()
 
