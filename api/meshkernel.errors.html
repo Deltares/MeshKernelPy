@@ -103,10 +103,27 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="meshkernel.errors.MeshGeometryError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshGeometryError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.errors.MeshGeometryError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#meshkernel.errors.MeshKernelError" title="meshkernel.errors.MeshKernelError"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeshKernelError</span></code></a></p>
+<p>Exception raised for mesh geometry errors occurring in the MeshKernel library.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.errors.MeshGeometryError.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.errors.MeshGeometryError.index" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.errors.MeshGeometryError.location">
+<span class="sig-name descname"><span class="pre">location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a></span></span><a class="headerlink" href="#meshkernel.errors.MeshGeometryError.location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="meshkernel.errors.MeshKernelError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshKernelError</span></span><a class="headerlink" href="#meshkernel.errors.MeshKernelError" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshKernelError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.errors.MeshKernelError" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#meshkernel.errors.Error" title="meshkernel.errors.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">Error</span></code></a></p>
-<p>Exception raised for errors coming from the MeshKernel library.</p>
+<p>Exception raised for errors occurring in the MeshKernel library.</p>
 </dd></dl>
 
 </section>

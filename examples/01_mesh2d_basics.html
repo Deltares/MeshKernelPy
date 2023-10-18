@@ -98,13 +98,13 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span>
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">ProjectionType</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides a set of convenience methods for creating common meshes.</p>
-<p>We use the curvilinear_make_uniform method to create a simple curvilinear grid. You can look at the documentation in order to find all its parameters.</p>
+<p>We use the curvilinear_compute_rectangular_grid method to create a simple curvilinear grid. You can look at the documentation in order to find all its parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">()</span>
@@ -113,17 +113,12 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-<span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">)</span>
-    
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -132,7 +127,13 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span>
-<span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_input</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -161,7 +162,7 @@ They are one-dimensional <code class="docutils literal notranslate"><span class=
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3e59546c261457eeae11f0978f852e07af8790935e114d06aaefdec115c86f91.png" src="../_images/3e59546c261457eeae11f0978f852e07af8790935e114d06aaefdec115c86f91.png" />
+<img alt="../_images/8155b424034fd3872def0e7e5e780760af5d5b3cc40e5192e2023a0a447b65cc.png" src="../_images/8155b424034fd3872def0e7e5e780760af5d5b3cc40e5192e2023a0a447b65cc.png" />
 </div>
 </div>
 <p>The third mandatory attribute is <code class="docutils literal notranslate"><span class="pre">edge_nodes</span></code>.
@@ -190,14 +191,14 @@ So in our case the indices 0-4, 1-5, 2-6, … each describe one edge.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/11c75aa4c697b6eba120b32e607a762f35827c2799ef234b4d6b1d5670ee3faa.png" src="../_images/11c75aa4c697b6eba120b32e607a762f35827c2799ef234b4d6b1d5670ee3faa.png" />
+<img alt="../_images/480cdd70af1517520d0440ee4dd706c72a6fee6c7fb2232f13b1521509614312.png" src="../_images/480cdd70af1517520d0440ee4dd706c72a6fee6c7fb2232f13b1521509614312.png" />
 </div>
 </div>
 <p>In order to interact with the <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library, we create a new instance of the <code class="docutils literal notranslate"><span class="pre">MeshKernel</span></code> class.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">is_geographic</span></code> parameter of its constructor describes whether the mesh is cartesian (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or spherical (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">projection</span></code> parameter of its constructor describes whether the mesh is cartesian (<code class="docutils literal notranslate"><span class="pre">ProjextionType.CARTESIAN</span></code>) or spherical (<code class="docutils literal notranslate"><span class="pre">ProjextionType.SPHERICAL</span></code>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ProjectionType</span><span class="o">.</span><span class="n">CARTESIAN</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -234,7 +235,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/df119e4cf45562183840b4d05b308453cac8410b88445bc2f1efb27fbd622679.png" src="../_images/df119e4cf45562183840b4d05b308453cac8410b88445bc2f1efb27fbd622679.png" />
+<img alt="../_images/9b7302be5985a306acfec6b59a022098496bc17893a6cd5bf60f32ab1ef775f3.png" src="../_images/9b7302be5985a306acfec6b59a022098496bc17893a6cd5bf60f32ab1ef775f3.png" />
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> also searches for the middle point of edges and adds them as parameters to the <code class="docutils literal notranslate"><span class="pre">Mesh2D</span></code> class.</p>
@@ -246,7 +247,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ee0c974a46dfe43da04505a8295762a420052f065df29fa40d3db270172b4416.png" src="../_images/ee0c974a46dfe43da04505a8295762a420052f065df29fa40d3db270172b4416.png" />
+<img alt="../_images/1f8dc7c67c33c607023cbd9c71b253f80fc96798221cbf8cd517c0ba6f29458a.png" src="../_images/1f8dc7c67c33c607023cbd9c71b253f80fc96798221cbf8cd517c0ba6f29458a.png" />
 </div>
 </div>
 <p>Until now everything <em>looked</em> structured, so let us add a few nodes to change that.</p>
@@ -291,7 +292,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cd23d844740705aee4c9c71fcc35145ec85552d8410a2ad581397da49de76b58.png" src="../_images/cd23d844740705aee4c9c71fcc35145ec85552d8410a2ad581397da49de76b58.png" />
+<img alt="../_images/9a25dd744ff2ab5ddb97855cbd3cd2b644ec1e995c7e014ab746d6c0097eaa98.png" src="../_images/9a25dd744ff2ab5ddb97855cbd3cd2b644ec1e995c7e014ab746d6c0097eaa98.png" />
 </div>
 </div>
 <p>We can also delete nodes.</p>
@@ -312,7 +313,7 @@ This state can be accessed with the corresponding getter and setter methods.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/edb6e5545e9bce1d6b0a5ed7dc7e03a5af9e73b27d227d7ca82a73ae4c3faf9e.png" src="../_images/edb6e5545e9bce1d6b0a5ed7dc7e03a5af9e73b27d227d7ca82a73ae4c3faf9e.png" />
+<img alt="../_images/8054773d7ea93d1634ff2f441d819db50cd9144ca215954d352867e2f79f3a90.png" src="../_images/8054773d7ea93d1634ff2f441d819db50cd9144ca215954d352867e2f79f3a90.png" />
 </div>
 </div>
 <p>Quite often, hanging edges are unwanted.
@@ -344,7 +345,7 @@ For once we can it can count hanging edges.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/11c75aa4c697b6eba120b32e607a762f35827c2799ef234b4d6b1d5670ee3faa.png" src="../_images/11c75aa4c697b6eba120b32e607a762f35827c2799ef234b4d6b1d5670ee3faa.png" />
+<img alt="../_images/480cdd70af1517520d0440ee4dd706c72a6fee6c7fb2232f13b1521509614312.png" src="../_images/480cdd70af1517520d0440ee4dd706c72a6fee6c7fb2232f13b1521509614312.png" />
 </div>
 </div>
 </section>

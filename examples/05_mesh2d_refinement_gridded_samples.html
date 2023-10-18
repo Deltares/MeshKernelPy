@@ -101,7 +101,7 @@
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> provides a set of convenience methods for creating common meshes.</p>
-<p>We use the <code class="docutils literal notranslate"><span class="pre">curvilinear_make_uniform</span></code> method to create a simple curvilinear grid.
+<p>We use the <code class="docutils literal notranslate"><span class="pre">curvilinear_compute_rectangular_grid</span></code> method to create a simple curvilinear grid.
 You can look at the documentation in order to find all its parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -111,17 +111,12 @@ You can look at the documentation in order to find all its parameters.</p>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="mf">100.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">100.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mf">100.0</span>
-
-<span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">)</span>
-    
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+   
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -144,7 +139,7 @@ You can look at the documentation in order to find all its parameters.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d751ee36391ccc4785ec5f7b2ca2274ee8bf52dc05a54371437e18cf717dbda2.png" src="../_images/d751ee36391ccc4785ec5f7b2ca2274ee8bf52dc05a54371437e18cf717dbda2.png" />
+<img alt="../_images/ed8bfbac1999b0beffe9b920997aa970f9569f0aa6e6091ab4852820624f6169.png" src="../_images/ed8bfbac1999b0beffe9b920997aa970f9569f0aa6e6091ab4852820624f6169.png" />
 </div>
 </div>
 <p>Now we define the gridded samples with uniform spacing</p>
@@ -194,14 +189,14 @@ You can look at the documentation in order to find all its parameters.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9ce92fc6ba7dc6e5380114df8d682388386f2b34e6c0175e892e6bc98c16bd56.png" src="../_images/9ce92fc6ba7dc6e5380114df8d682388386f2b34e6c0175e892e6bc98c16bd56.png" />
+<img alt="../_images/ea89a4db419e71434325aeb32fb02bd8d129f560a23614f18da1ae83065a0160.png" src="../_images/ea89a4db419e71434325aeb32fb02bd8d129f560a23614f18da1ae83065a0160.png" />
 </div>
 </div>
-<p>If gridding is not uniform, we can create the gridded samples differently, obmitting some of the GriddedSamples parameters.
+<p>If gridding is not uniform, we can create the gridded samples differently, bmitting some of the GriddedSamples parameters.
 First regenerate the starting mesh</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -215,7 +210,7 @@ First regenerate the starting mesh</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d751ee36391ccc4785ec5f7b2ca2274ee8bf52dc05a54371437e18cf717dbda2.png" src="../_images/d751ee36391ccc4785ec5f7b2ca2274ee8bf52dc05a54371437e18cf717dbda2.png" />
+<img alt="../_images/ed8bfbac1999b0beffe9b920997aa970f9569f0aa6e6091ab4852820624f6169.png" src="../_images/ed8bfbac1999b0beffe9b920997aa970f9569f0aa6e6091ab4852820624f6169.png" />
 </div>
 </div>
 <p>When refining the mesh with gridded samples that have non-uniform x or y spacing, the non-uniform spacing can be specified by using the x_coordinates and y_coordinates parameters.</p>
@@ -244,7 +239,7 @@ First regenerate the starting mesh</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/db7cbda227901d81b5776204308cf5adc7bdd1800ea4762552f8e066705bda8e.png" src="../_images/db7cbda227901d81b5776204308cf5adc7bdd1800ea4762552f8e066705bda8e.png" />
+<img alt="../_images/62895d3ebff68789e4911970cc32fb847ac2856af6eafe461324724f7987d1fb.png" src="../_images/62895d3ebff68789e4911970cc32fb847ac2856af6eafe461324724f7987d1fb.png" />
 </div>
 </div>
 </section>

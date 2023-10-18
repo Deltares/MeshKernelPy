@@ -144,29 +144,25 @@
 </div>
 </div>
 </div>
-<p>Define a function for creating an uniform curvilinear grid</p>
+<p>Define a function for creating a rectangular curvilinear grid</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="n">num_columns</span> <span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_rows</span> <span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A local function for creating an instance of meshkernel with a uniform curvilinear grid.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="n">num_columns</span> <span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_rows</span> <span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A local function for creating an instance of meshkernel with a rectangular curvilinear grid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">()</span>
+
     <span class="c1"># Create an instance of MakeGridParameters and set the values</span>
     <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">()</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="n">num_columns</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="n">num_rows</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">10.0</span>
     <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mf">10.0</span>
     
-    <span class="c1"># A polygon must to be provided. If empty it will not be used.</span>
-    <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-    <span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-    <span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">)</span>
-
-    <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+    <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">mk</span>
 </pre></div>
@@ -191,7 +187,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" src="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" />
+<img alt="../_images/d66f1517f74a697eb2d92cbe809e85d94125839ce9a00c773a59378b3766b1e1.png" src="../_images/d66f1517f74a697eb2d92cbe809e85d94125839ce9a00c773a59378b3766b1e1.png" />
 </div>
 </div>
 </section>
@@ -247,7 +243,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c5b02114d309c2dabb070512a9380ac6ab42b1386e804c8813437e63cbec3a42.png" src="../_images/c5b02114d309c2dabb070512a9380ac6ab42b1386e804c8813437e63cbec3a42.png" />
+<img alt="../_images/b20cabebf7488ed6329b27606376341f4d25224598c567bc9288eb76d92645c0.png" src="../_images/b20cabebf7488ed6329b27606376341f4d25224598c567bc9288eb76d92645c0.png" />
 </div>
 </div>
 </section>
@@ -264,7 +260,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" src="../_images/bda4761df642788e8b855257fb8ee08340673fee33cbe01af05a94c2252e995c.png" />
+<img alt="../_images/d66f1517f74a697eb2d92cbe809e85d94125839ce9a00c773a59378b3766b1e1.png" src="../_images/d66f1517f74a697eb2d92cbe809e85d94125839ce9a00c773a59378b3766b1e1.png" />
 </div>
 </div>
 <p>Refine by adding two horizontal grid lines for each row within two selected points and plot the results</p>
@@ -278,7 +274,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/7856e08c48d84a1314c2002c1ac4f209998545484caffab1a73904613fadd5ef.png" src="../_images/7856e08c48d84a1314c2002c1ac4f209998545484caffab1a73904613fadd5ef.png" />
+<img alt="../_images/251e0bba6499a8d8c9237371692389302b3eed88ca7561efae9cbd065e77302a.png" src="../_images/251e0bba6499a8d8c9237371692389302b3eed88ca7561efae9cbd065e77302a.png" />
 </div>
 </div>
 <p>Derefine by removing the grid lines on the same rows</p>
@@ -292,15 +288,15 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b931d6408a73907e8fac9f2c3f5f4f4883a0ca6804e422b9c6c119d300c25f66.png" src="../_images/b931d6408a73907e8fac9f2c3f5f4f4883a0ca6804e422b9c6c119d300c25f66.png" />
+<img alt="../_images/80e1802f0a31bd05c61a9cfc629036abf37364e4e7c5a6dc884b59d61d57d0dc.png" src="../_images/80e1802f0a31bd05c61a9cfc629036abf37364e4e7c5a6dc884b59d61d57d0dc.png" />
 </div>
 </div>
 </section>
-<section id="make-a-uniform-rectilinear-grid">
-<h2>Make a uniform rectilinear grid<a class="headerlink" href="#make-a-uniform-rectilinear-grid" title="Permalink to this heading"></a></h2>
+<section id="make-a-rectangular-grid">
+<h2>Make a rectangular grid<a class="headerlink" href="#make-a-rectangular-grid" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -308,10 +304,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e33631434b111ac5d5bc26e5f180c5ac19a19beebd7f0e139984de671407245a.png" src="../_images/e33631434b111ac5d5bc26e5f180c5ac19a19beebd7f0e139984de671407245a.png" />
+<img alt="../_images/a1d73eef338be22f4573e6325993ed3c9caa2672ec7886528027904c76ecf72c.png" src="../_images/a1d73eef338be22f4573e6325993ed3c9caa2672ec7886528027904c76ecf72c.png" />
 </div>
 </div>
-<p>If a polygon is provided it will be used in the generation of the curvilinear grid. The polygon must be closed</p>
+<p>A rectangular grid can be also generated from a polygon. The polygon must be closed</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
@@ -327,7 +323,6 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">0.2</span>
@@ -338,7 +333,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid_from_polygon</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -346,7 +341,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/848f0bac5f38eb4f936a383c1a45e6e47a70bce393eb973c525c653e248e030f.png" src="../_images/848f0bac5f38eb4f936a383c1a45e6e47a70bce393eb973c525c653e248e030f.png" />
+<img alt="../_images/a7b6f7fda0e5386e49b773fe0d60826652a1d1a7e95c4421ec0dbc8efc482de1.png" src="../_images/a7b6f7fda0e5386e49b773fe0d60826652a1d1a7e95c4421ec0dbc8efc482de1.png" />
 </div>
 </div>
 </section>
@@ -373,7 +368,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bcf189291730873899728b890b539bcbfc4cd21019a60784a2b01542fe1fcf6d.png" src="../_images/bcf189291730873899728b890b539bcbfc4cd21019a60784a2b01542fe1fcf6d.png" />
+<img alt="../_images/c09d042784ce091f90569db95114dbb98c223b5741401f5128f424f66d6f8988.png" src="../_images/c09d042784ce091f90569db95114dbb98c223b5741401f5128f424f66d6f8988.png" />
 </div>
 </div>
 </section>
@@ -382,7 +377,7 @@
 <p>Move a node to make the grid non orthogonal and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_move_node</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">18.0</span><span class="p">,</span><span class="mf">12.0</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -391,7 +386,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+<img alt="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" src="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" />
 </div>
 </div>
 <p>Orthogonalize</p>
@@ -426,7 +421,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3eb555c77fd39703a7ee849c83de00abcf8589bab59beea605628f2187d12dda.png" src="../_images/3eb555c77fd39703a7ee849c83de00abcf8589bab59beea605628f2187d12dda.png" />
+<img alt="../_images/d32208e8738ef6e7bb69b90755f597d47ce12498c0b21e150169dbf6a1dec090.png" src="../_images/d32208e8738ef6e7bb69b90755f597d47ce12498c0b21e150169dbf6a1dec090.png" />
 </div>
 </div>
 </section>
@@ -434,7 +429,7 @@
 <h2>Perform curvilinear grid orthogonalization with a frozen line<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_move_node</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">18.0</span><span class="p">,</span><span class="mf">12.0</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -443,7 +438,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+<img alt="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" src="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" />
 </div>
 </div>
 <p>Orthogonalize, but freeze the vertical grid line where the moved node is</p>
@@ -481,7 +476,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8aac482a26380427784281d80aada44c81bcadebf4c6a3392be6e11734141164.png" src="../_images/8aac482a26380427784281d80aada44c81bcadebf4c6a3392be6e11734141164.png" />
+<img alt="../_images/27a27064e07e9291d45b9d9638cd15bc1fb2cb5133d6f0042a8ba98d06eaadd2.png" src="../_images/27a27064e07e9291d45b9d9638cd15bc1fb2cb5133d6f0042a8ba98d06eaadd2.png" />
 </div>
 </div>
 </section>
@@ -490,7 +485,7 @@
 <p>Move a node to make the grid non-smooth and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_move_node</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">18.0</span><span class="p">,</span><span class="mf">12.0</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -499,7 +494,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+<img alt="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" src="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" />
 </div>
 </div>
 <p>Smoothing</p>
@@ -520,7 +515,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bd096d1ff35dcfec722686d318ebaa698542086c42f588223523fb4c4c39639b.png" src="../_images/bd096d1ff35dcfec722686d318ebaa698542086c42f588223523fb4c4c39639b.png" />
+<img alt="../_images/d33720ff23f8f4d6ebe64b88b55fa7fe9fd48256d16ed66791f38853bc460edd.png" src="../_images/d33720ff23f8f4d6ebe64b88b55fa7fe9fd48256d16ed66791f38853bc460edd.png" />
 </div>
 </div>
 </section>
@@ -529,7 +524,7 @@
 <p>Move a node to make the grid non-smooth and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_move_node</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">18.0</span><span class="p">,</span><span class="mf">12.0</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -538,7 +533,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" src="../_images/2be1b698cf1352d1d9dbf1e664021bee13fdb355c9c12c3da74e626558d5dff7.png" />
+<img alt="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" src="../_images/45902336de04f18c9531b98de71c28faeed1611e5f99642735744dccec2b0a32.png" />
 </div>
 </div>
 <p>Directional smoothing</p>
@@ -561,7 +556,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/44dd033cec5a3ca8149dd3e230a2a95caee7dc197a8a3fa26a99cca1ee8cef44.png" src="../_images/44dd033cec5a3ca8149dd3e230a2a95caee7dc197a8a3fa26a99cca1ee8cef44.png" />
+<img alt="../_images/a0c7fca73b2fe0a1a9fcee2997d2e18c5e13e07ad014a2f64d714d71764ee0eb.png" src="../_images/a0c7fca73b2fe0a1a9fcee2997d2e18c5e13e07ad014a2f64d714d71764ee0eb.png" />
 </div>
 </div>
 </section>
@@ -569,7 +564,7 @@
 <h2>Perform curvilinear grid line shifting<a class="headerlink" href="#perform-curvilinear-grid-line-shifting" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -577,7 +572,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+<img alt="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" src="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" />
 </div>
 </div>
 <p>Initialize line shifting and set the line to shift</p>
@@ -627,7 +622,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2320cb86ddd7ca3f5a2e1a3d715ae30843863620c47967f9a308d7bfd3e57e30.png" src="../_images/2320cb86ddd7ca3f5a2e1a3d715ae30843863620c47967f9a308d7bfd3e57e30.png" />
+<img alt="../_images/8d7d69f02758f97ae3aaecd6ecd422ccbe8c0ec68037416e2ad336343411e5d5.png" src="../_images/8d7d69f02758f97ae3aaecd6ecd422ccbe8c0ec68037416e2ad336343411e5d5.png" />
 </div>
 </div>
 </section>
@@ -635,7 +630,7 @@
 <h2>Perform curvilinear insert a face<a class="headerlink" href="#perform-curvilinear-insert-a-face" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -643,7 +638,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+<img alt="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" src="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" />
 </div>
 </div>
 <p>Insert two faces</p>
@@ -664,7 +659,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/65cc18b53636bcb24f229481e4a659e6e3253106967319e931e6189dfdbedd27.png" src="../_images/65cc18b53636bcb24f229481e4a659e6e3253106967319e931e6189dfdbedd27.png" />
+<img alt="../_images/de678640571d2c2a401edcaeb2169c0aac160efa2e95a80d94c4fe11851d881e.png" src="../_images/de678640571d2c2a401edcaeb2169c0aac160efa2e95a80d94c4fe11851d881e.png" />
 </div>
 </div>
 </section>
@@ -672,7 +667,7 @@
 <h2>Perform curvilinear delete a node<a class="headerlink" href="#perform-curvilinear-delete-a-node" title="Permalink to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">curvilinear_grid</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">curvilinear_grid</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -680,7 +675,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" src="../_images/37d9ad3e7048c873800e777b8ac0d044a6e5dc51d70546e0be73ccdf43abbc79.png" />
+<img alt="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" src="../_images/8d60cd77abe1dc02b12b7c0e35291adb7a1e8f5da4aa03703877ef0c5ddcac35.png" />
 </div>
 </div>
 <p>Delete the corner node</p>
@@ -700,7 +695,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b229990ed7f9c3c5133aac1ff9dff1a355161c018db1a92230b0ed27e39c39b4.png" src="../_images/b229990ed7f9c3c5133aac1ff9dff1a355161c018db1a92230b0ed27e39c39b4.png" />
+<img alt="../_images/c4634e75aee5f24432fac1018b25cadd2335f4ebe684fac8545b8e59f816b1d5.png" src="../_images/c4634e75aee5f24432fac1018b25cadd2335f4ebe684fac8545b8e59f816b1d5.png" />
 </div>
 </div>
 </section>
@@ -709,7 +704,7 @@
 <p>Attracts the nodes within a block towards a defined line</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_line_attraction_repulsion</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span>                 <span class="c1"># positive repels lines, here by 1 times the column width</span>
                                          <span class="mf">30.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">30.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">,</span>  <span class="c1"># The line coordinate</span>
                                          <span class="mf">10.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">)</span>  <span class="c1"># The affected block</span>
@@ -726,12 +721,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8b51922df6862b85622a2f5c4267e8c40c09f3fe07efa7e115c2fb72a7b7ff71.png" src="../_images/8b51922df6862b85622a2f5c4267e8c40c09f3fe07efa7e115c2fb72a7b7ff71.png" />
+<img alt="../_images/91f8080fa9490a5d26a4cbae073fc1f865f7f8ddbc64700c548e66c842628ce6.png" src="../_images/91f8080fa9490a5d26a4cbae073fc1f865f7f8ddbc64700c548e66c842628ce6.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_line_attraction_repulsion</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>                <span class="c1"># negative attracts lines, here by 0.5 times the column width</span>
                                          <span class="mf">30.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">30.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">,</span>  <span class="c1"># The line coordinate</span>
                                          <span class="mf">10.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">)</span>  <span class="c1"># The affected block</span>
@@ -748,7 +743,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/07a277ccec5e38d8ee7ce92832a55dba233ac6613172d23ae9a94d164a07522f.png" src="../_images/07a277ccec5e38d8ee7ce92832a55dba233ac6613172d23ae9a94d164a07522f.png" />
+<img alt="../_images/2b55dbef00ebaf7b85e3c18017b99582f32abf120edb3301f33e32d8af99843e.png" src="../_images/2b55dbef00ebaf7b85e3c18017b99582f32abf120edb3301f33e32d8af99843e.png" />
 </div>
 </div>
 </section>
@@ -757,7 +752,7 @@
 <p>Mirrow the left gridline by 2 times the column width</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_uniform_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_line_mirror</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span>              <span class="c1"># the mirroring factor</span>
                            <span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">)</span> <span class="c1"># the gridline to mirrow </span>
 </pre></div>
@@ -773,7 +768,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/f6f2262a4ea41553569403929e36f7670b7692033b3a975da047d52c2729af6b.png" src="../_images/f6f2262a4ea41553569403929e36f7670b7692033b3a975da047d52c2729af6b.png" />
+<img alt="../_images/c3b0a0e496d44721c7a58415615ffd6efb5a074fc8ce99966e523bc379dd0c96.png" src="../_images/c3b0a0e496d44721c7a58415615ffd6efb5a074fc8ce99966e523bc379dd0c96.png" />
 </div>
 </div>
 </section>

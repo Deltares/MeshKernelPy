@@ -140,24 +140,19 @@
 </div>
 </div>
 </div>
-<p>We use the curvilinear_make_uniform method to create a simple curvilinear grid. You can look at the documentation in order to find all its parameters.</p>
+<p>We use the curvilinear_compute_rectangular_grid method to create a simple curvilinear grid. You can look at the documentation in order to find all its parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">()</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="mi">7</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mf">1.0</span>
-
-<span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="n">geometry_list</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="p">)</span>
-    
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">,</span> <span class="n">geometry_list</span><span class="p">)</span>
+   
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -182,7 +177,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3d0e13cdfaca3fd2643d429b1fc162e68ff6058057aa077f6999d95c995d5f1e.png" src="../_images/3d0e13cdfaca3fd2643d429b1fc162e68ff6058057aa077f6999d95c995d5f1e.png" />
+<img alt="../_images/629f7ca7a659a6d6295c48290093449f7f94494c08d0e52cc7601e1373ca10e8.png" src="../_images/629f7ca7a659a6d6295c48290093449f7f94494c08d0e52cc7601e1373ca10e8.png" />
 </div>
 </div>
 <p>Typically if we have 1d and 2d meshes we want to create contacts between them.
@@ -224,7 +219,7 @@ In our case we want to consider all nodes.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/7c24ac308a6a22987bd8d6016cdba9bc509f0fc639e464c25bf036bcc9e3254e.png" src="../_images/7c24ac308a6a22987bd8d6016cdba9bc509f0fc639e464c25bf036bcc9e3254e.png" />
+<img alt="../_images/e32696f6e65134a4232bc6e9ac611f316b37645d5698701c46cedfc09fe0bcfa.png" src="../_images/e32696f6e65134a4232bc6e9ac611f316b37645d5698701c46cedfc09fe0bcfa.png" />
 </div>
 </div>
 </section>

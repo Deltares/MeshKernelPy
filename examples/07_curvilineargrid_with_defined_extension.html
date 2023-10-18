@@ -95,7 +95,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">GriddedSamples</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">MeshRefinementParameters</span><span class="p">,</span> <span class="n">RefinementType</span>
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">GriddedSamples</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">MeshRefinementParameters</span><span class="p">,</span> <span class="n">ProjectionType</span><span class="p">,</span> <span class="n">RefinementType</span>
 </pre></div>
 </div>
 </div>
@@ -117,8 +117,8 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="n">lon_res</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="n">lat_res</span>
 
-<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
+<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ProjectionType</span><span class="o">.</span><span class="n">SPHERICAL</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -141,7 +141,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d91aacd91b4335b4c2540abb38e31ce46e7295d8b23f3cff3aa1767c6b5dd605.png" src="../_images/d91aacd91b4335b4c2540abb38e31ce46e7295d8b23f3cff3aa1767c6b5dd605.png" />
+<img alt="../_images/4bdce1efe5aff33c1d04e84a407a7e469b4bce1cb02e34051f9ffc828bd3523b.png" src="../_images/4bdce1efe5aff33c1d04e84a407a7e469b4bce1cb02e34051f9ffc828bd3523b.png" />
 </div>
 </div>
 </section>
@@ -162,8 +162,8 @@
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="n">block_size_x</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="n">block_size_y</span>
 
-<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">is_geographic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_make_uniform_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
+<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ProjectionType</span><span class="o">.</span><span class="n">CARTESIAN</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -186,7 +186,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/73b0536c9867668a5e52438be773867dd17943debe9f2f52ed47ce1e7aa50ae5.png" src="../_images/73b0536c9867668a5e52438be773867dd17943debe9f2f52ed47ce1e7aa50ae5.png" />
+<img alt="../_images/7c30da4225639e2031ce91ea04080042a57d9dc30c01d7139df0e9cc4f64c49f.png" src="../_images/7c30da4225639e2031ce91ea04080042a57d9dc30c01d7139df0e9cc4f64c49f.png" />
 </div>
 </div>
 </section>

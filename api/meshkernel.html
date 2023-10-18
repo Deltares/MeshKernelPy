@@ -165,9 +165,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d"><code class="docutils literal notranslate"><span class="pre">CMesh2d</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.allocate_memory"><code class="docutils literal notranslate"><span class="pre">CMesh2d.allocate_memory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_faces"><code class="docutils literal notranslate"><span class="pre">CMesh2d.edge_faces</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh2d.edge_nodes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_x"><code class="docutils literal notranslate"><span class="pre">CMesh2d.edge_x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_y"><code class="docutils literal notranslate"><span class="pre">CMesh2d.edge_y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_edges"><code class="docutils literal notranslate"><span class="pre">CMesh2d.face_edges</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh2d.face_nodes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_x"><code class="docutils literal notranslate"><span class="pre">CMesh2d.face_x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_y"><code class="docutils literal notranslate"><span class="pre">CMesh2d.face_y</span></code></a></li>
@@ -224,6 +226,11 @@
 <li class="toctree-l1"><a class="reference internal" href="meshkernel.errors.html">meshkernel.errors module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.Error"><code class="docutils literal notranslate"><span class="pre">Error</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.InputError"><code class="docutils literal notranslate"><span class="pre">InputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.MeshGeometryError"><code class="docutils literal notranslate"><span class="pre">MeshGeometryError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.MeshGeometryError.index"><code class="docutils literal notranslate"><span class="pre">MeshGeometryError.index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.MeshGeometryError.location"><code class="docutils literal notranslate"><span class="pre">MeshGeometryError.location()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.MeshKernelError"><code class="docutils literal notranslate"><span class="pre">MeshKernelError</span></code></a></li>
 </ul>
 </li>
@@ -236,6 +243,9 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.contacts_compute_with_polygons"><code class="docutils literal notranslate"><span class="pre">MeshKernel.contacts_compute_with_polygons()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.contacts_get"><code class="docutils literal notranslate"><span class="pre">MeshKernel.contacts_get()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_orthogonal_from_splines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_rectangular_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_from_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_rectangular_grid_from_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_on_extension"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_rectangular_grid_on_extension()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_transfinite_from_polygon()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_splines"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_transfinite_from_splines()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_triangle"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_compute_transfinite_from_triangle()</span></code></a></li>
@@ -248,8 +258,6 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_line_attraction_repulsion"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_line_attraction_repulsion()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_line_mirror()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_line_shift"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_line_shift()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_make_uniform()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform_on_extension"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_make_uniform_on_extension()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_move_node"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_move_node()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_move_node_line_shift"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_move_node_line_shift()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize"><code class="docutils literal notranslate"><span class="pre">MeshKernel.curvilinear_orthogonalize()</span></code></a></li>
@@ -269,6 +277,7 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh1d_set"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh1d_set()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_averaging_interpolation"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_averaging_interpolation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_compute_orthogonalization()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_connect_meshes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_delete"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_delete_edge"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_delete_edge()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_delete_hanging_edges"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_delete_hanging_edges()</span></code></a></li>
@@ -287,26 +296,25 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_smoothness"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_smoothness()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_insert_edge"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_insert_edge()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_insert_node"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_insert_node()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_mesh_from_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_mesh_from_polygon()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_mesh_from_samples"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_mesh_from_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_rectangular_mesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_rectangular_mesh_from_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_on_extension"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_rectangular_mesh_on_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_triangular_mesh_from_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_make_triangular_mesh_from_samples()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_merge_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes_with_merging_distance"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_merge_nodes_with_merging_distance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_two_nodes"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_merge_two_nodes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_move_node"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_move_node()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_gridded_samples"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_refine_based_on_gridded_samples()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_polygon"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_refine_based_on_polygon()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_samples"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_refine_based_on_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_remove_disconnected_regions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_set"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_set()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_triangulation_interpolation"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_triangulation_interpolation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_get_inner_outer_separator()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_separator"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_get_separator()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.polygon_get_included_points"><code class="docutils literal notranslate"><span class="pre">MeshKernel.polygon_get_included_points()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.polygon_refine"><code class="docutils literal notranslate"><span class="pre">MeshKernel.polygon_refine()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.Status.EXCEPTION"><code class="docutils literal notranslate"><span class="pre">Status.EXCEPTION</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.Status.INVALID_GEOMETRY"><code class="docutils literal notranslate"><span class="pre">Status.INVALID_GEOMETRY</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.Status.SUCCESS"><code class="docutils literal notranslate"><span class="pre">Status.SUCCESS</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -344,9 +352,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_COMPLETE_FACES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_FACE_CIRCUMCENTERS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_NODES"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.ALL_NODES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_AND_INTERSECTED"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.INSIDE_AND_INTERSECTED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_NOT_INTERSECTED"><code class="docutils literal notranslate"><span class="pre">DeleteMeshOption.INSIDE_NOT_INTERSECTED</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList"><code class="docutils literal notranslate"><span class="pre">GeometryList</span></code></a><ul>
@@ -397,6 +404,8 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.face_x"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.face_y"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_faces"><code class="docutils literal notranslate"><span class="pre">Mesh2d.edge_faces</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.face_edges"><code class="docutils literal notranslate"><span class="pre">Mesh2d.face_edges</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_edges()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.plot_faces"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_faces()</span></code></a></li>
 </ul>
@@ -464,6 +473,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshkernel.utils.html">meshkernel.utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.utils.html#meshkernel.utils.get_maximum_bounding_box_coordinates"><code class="docutils literal notranslate"><span class="pre">get_maximum_bounding_box_coordinates()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.utils.html#meshkernel.utils.plot_edges"><code class="docutils literal notranslate"><span class="pre">plot_edges()</span></code></a></li>
 </ul>
 </li>

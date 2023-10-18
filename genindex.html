@@ -81,6 +81,7 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -102,12 +103,6 @@
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMeshRefinementParameters.account_for_samples_outside_face">account_for_samples_outside_face (CMeshRefinementParameters attribute)</a>
 </li>
-      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_COMPLETE_FACES">ALL_COMPLETE_FACES (DeleteMeshOption attribute)</a>
-</li>
-      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_FACE_CIRCUMCENTERS">ALL_FACE_CIRCUMCENTERS (DeleteMeshOption attribute)</a>
-</li>
-      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.ALL_NODES">ALL_NODES (DeleteMeshOption attribute)</a>
-</li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CContacts.allocate_memory">allocate_memory() (CContacts method)</a>
 
       <ul>
@@ -124,14 +119,14 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters.angle">(MakeGridParameters attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.COrthogonalizationParameters.areal_to_angle_smoothing_factor">areal_to_angle_smoothing_factor (COrthogonalizationParameters attribute)</a>
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor">(OrthogonalizationParameters attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CSplinesToCurvilinearParameters.aspect_ratio">aspect_ratio (CSplinesToCurvilinearParameters attribute)</a>
 
       <ul>
@@ -258,6 +253,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines">curvilinear_compute_orthogonal_from_splines() (MeshKernel method)</a>
 </li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid">curvilinear_compute_rectangular_grid() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_from_polygon">curvilinear_compute_rectangular_grid_from_polygon() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_on_extension">curvilinear_compute_rectangular_grid_on_extension() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_polygon">curvilinear_compute_transfinite_from_polygon() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_splines">curvilinear_compute_transfinite_from_splines() (MeshKernel method)</a>
@@ -281,10 +282,6 @@
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror">curvilinear_line_mirror() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_line_shift">curvilinear_line_shift() (MeshKernel method)</a>
-</li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform">curvilinear_make_uniform() (MeshKernel method)</a>
-</li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_make_uniform_on_extension">curvilinear_make_uniform_on_extension() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_move_node">curvilinear_move_node() (MeshKernel method)</a>
 </li>
@@ -336,6 +333,12 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_faces">edge_faces (CMesh2d attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_faces">(Mesh2d attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.edge_nodes">edge_nodes (CMesh1d attribute)</a>
 
       <ul>
@@ -346,14 +349,14 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_nodes">(Mesh2d attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_x">edge_x (CMesh2d attribute)</a>
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_x">(Mesh2d attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.edge_y">edge_y (CMesh2d attribute)</a>
 
       <ul>
@@ -364,14 +367,18 @@
 </li>
       <li><a href="api/meshkernel.errors.html#meshkernel.errors.Error">Error</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.Status.EXCEPTION">EXCEPTION (Status attribute)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_edges">face_edges (CMesh2d attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.face_edges">(Mesh2d attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.face_nodes">face_nodes (CMesh2d attribute)</a>
 
       <ul>
@@ -394,10 +401,10 @@
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CContacts.from_contacts">from_contacts() (CContacts static method)</a>
 </li>
-      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CCurvilinearGrid.from_curvilinearGrid">from_curvilinearGrid() (CCurvilinearGrid static method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CCurvilinearGrid.from_curvilinearGrid">from_curvilinearGrid() (CCurvilinearGrid static method)</a>
+</li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CCurvilinearParameters.from_curvilinearParameters">from_curvilinearParameters() (CCurvilinearParameters static method)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CGeometryList.from_geometrylist">from_geometrylist() (CGeometryList static method)</a>
@@ -430,12 +437,14 @@
       </ul></li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.GeometryList">GeometryList (class in meshkernel.py_structures)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_meshkernel_version">get_meshkernel_version() (MeshKernel method)</a>
+      <li><a href="api/meshkernel.utils.html#meshkernel.utils.get_maximum_bounding_box_coordinates">get_maximum_bounding_box_coordinates() (in module meshkernel.utils)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_meshkernelpy_version">get_meshkernelpy_version() (MeshKernel method)</a>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_meshkernel_version">get_meshkernel_version() (MeshKernel method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_meshkernelpy_version">get_meshkernelpy_version() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_projection">get_projection() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.get_splines">get_splines() (MeshKernel method)</a>
@@ -454,6 +463,8 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.errors.html#meshkernel.errors.MeshGeometryError.index">index() (MeshGeometryError method)</a>
+</li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectToLandBoundaryOption.INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY">INNER_AND_OUTER_MESH_BOUNDARY_TO_LANDBOUNDARY (ProjectToLandBoundaryOption attribute)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.COrthogonalizationParameters.inner_iterations">inner_iterations (COrthogonalizationParameters attribute)</a>
@@ -472,9 +483,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.errors.html#meshkernel.errors.InputError">InputError</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.Status.INVALID_GEOMETRY">INVALID_GEOMETRY (Status attribute)</a>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_AND_INTERSECTED">INSIDE_AND_INTERSECTED (DeleteMeshOption attribute)</a>
+</li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_NOT_INTERSECTED">INSIDE_NOT_INTERSECTED (DeleteMeshOption attribute)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE">INVERSE_WEIGHT_DISTANCE (AveragingMethod attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.errors.html#meshkernel.errors.MeshGeometryError.location">location() (MeshGeometryError method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -528,6 +549,8 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization">mesh2d_compute_orthogonalization() (MeshKernel method)</a>
 </li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes">mesh2d_connect_meshes() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_delete">mesh2d_delete() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_delete_edge">mesh2d_delete_edge() (MeshKernel method)</a>
@@ -570,14 +593,22 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_insert_node">mesh2d_insert_node() (MeshKernel method)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_mesh_from_polygon">mesh2d_make_mesh_from_polygon() (MeshKernel method)</a>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh">mesh2d_make_rectangular_mesh() (MeshKernel method)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_mesh_from_samples">mesh2d_make_mesh_from_samples() (MeshKernel method)</a>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon">mesh2d_make_rectangular_mesh_from_polygon() (MeshKernel method)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes">mesh2d_merge_nodes() (MeshKernel method)</a>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_on_extension">mesh2d_make_rectangular_mesh_on_extension() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon">mesh2d_make_triangular_mesh_from_polygon() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples">mesh2d_make_triangular_mesh_from_samples() (MeshKernel method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes">mesh2d_merge_nodes() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes_with_merging_distance">mesh2d_merge_nodes_with_merging_distance() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_two_nodes">mesh2d_merge_two_nodes() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_move_node">mesh2d_move_node() (MeshKernel method)</a>
@@ -588,11 +619,15 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_samples">mesh2d_refine_based_on_samples() (MeshKernel method)</a>
 </li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions">mesh2d_remove_disconnected_regions() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_set">mesh2d_set() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_triangulation_interpolation">mesh2d_triangulation_interpolation() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation">Mesh2dLocation (class in meshkernel.py_structures)</a>
+</li>
+      <li><a href="api/meshkernel.errors.html#meshkernel.errors.MeshGeometryError">MeshGeometryError</a>
 </li>
       <li>
     meshkernel
@@ -920,23 +955,19 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters.smoothing_iterations">(MeshRefinementParameters attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CCurvilinearParameters.smoothing_parameter">smoothing_parameter (CCurvilinearParameters attribute)</a>
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters.smoothing_parameter">(CurvilinearParameters attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType.SPHERICAL">SPHERICAL (ProjectionType attribute)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType.SPHERICALACCURATE">SPHERICALACCURATE (ProjectionType attribute)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters">SplinesToCurvilinearParameters (class in meshkernel.py_structures)</a>
-</li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.Status">Status (class in meshkernel.meshkernel)</a>
-</li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.Status.SUCCESS">SUCCESS (Status attribute)</a>
 </li>
   </ul></td>
 </tr></table>
