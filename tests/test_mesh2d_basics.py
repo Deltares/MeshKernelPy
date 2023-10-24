@@ -1,4 +1,5 @@
 import os
+from ctypes import c_int
 
 import numpy as np
 import pytest
@@ -1555,7 +1556,12 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_triangl
 
 
 cases_nodes_in_polygons_mesh2d = [
-    (np.array([1.5, 2.5, 2.5, 1.5, 1.5]), np.array([1.5, 1.5, 2.5, 2.5, 1.5]), True, 1),
+    (
+        np.array([1.5, 2.5, 2.5, 1.5, 1.5]),
+        np.array([1.5, 1.5, 2.5, 2.5, 1.5]),
+        True,
+        1,
+    ),
     (
         np.array([1.5, 2.5, 2.5, 1.5, 1.5]),
         np.array([1.5, 1.5, 2.5, 2.5, 1.5]),

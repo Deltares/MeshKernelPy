@@ -1068,7 +1068,7 @@ class MeshKernel:
         return selected_nodes
 
     def _mesh2d_count_nodes_in_polygons(
-        self, geometry_list: GeometryList, inside: int
+        self, geometry_list: GeometryList, inside: bool
     ) -> int:
         """For internal use only.
 
