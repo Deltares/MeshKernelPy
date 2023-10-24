@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Callable, Tuple
 
 import numpy as np
+import type_enforced
 from numpy import ndarray
 from numpy.ctypeslib import as_ctypes
 
@@ -56,6 +57,7 @@ from meshkernel.version import __version__
 logger = logging.getLogger(__name__)
 
 
+@type_enforced.Enforcer
 class MeshKernel:
     """This class is the entry point for interacting with the MeshKernel library"""
 
@@ -86,14 +88,14 @@ class MeshKernel:
 
         self.lib = CDLL(str(lib_path))
 
-        self.exit_code = self.__get_exit_codes()
+        self._exit_code = self.__get_exit_codes()
 
         self._allocate_state(projection)
 
     def __del__(self):
         self._deallocate_state()
 
-    def __get_exit_codes(self) -> IntEnum:
+    def __get_exit_codes(self):
         """Stores the backend exit codes
         Returns:
             An integer enumeration called exit_code holding the exit codes of the backend
@@ -129,7 +131,7 @@ class MeshKernel:
         self.lib.mkernel_get_exit_code_unknown_exception(byref(unknown_exception))
 
         return IntEnum(
-            "exit_code",
+            "_exit_code",
             {
                 "SUCCESS": success.value,
                 "MESHKERNEL_ERROR": meshkernel_error.value,
@@ -1066,7 +1068,7 @@ class MeshKernel:
         return selected_nodes
 
     def _mesh2d_count_nodes_in_polygons(
-        self, geometry_list: GeometryList, inside: int
+        self, geometry_list: GeometryList, inside: bool
     ) -> int:
         """For internal use only.
 
@@ -1546,7 +1548,7 @@ class MeshKernel:
 
         return self.lib.mkernel_get_inner_outer_separator()
 
-    def _execute_function(self, function: Callable, *args):
+    def _execute_function(self, function, *args):
         """Utility function to execute a C function of MeshKernel and checks its status.
 
         Args:
@@ -1558,25 +1560,25 @@ class MeshKernel:
                              if the MeshKernel library reports an error.
         """
         exit_code = function(*args)
-        if exit_code != self.exit_code.SUCCESS:
+        if exit_code != self._exit_code.SUCCESS:
             error_message = self._get_error()
-            if exit_code == self.exit_code.MESHKERNEL_ERROR:
+            if exit_code == self._exit_code.MESHKERNEL_ERROR:
                 raise MeshKernelError("MeshKernelError", error_message)
-            elif exit_code == self.exit_code.NOT_IMPLEMENTED_ERROR:
+            elif exit_code == self._exit_code.NOT_IMPLEMENTED_ERROR:
                 raise MeshKernelError("NotImplementedError", error_message)
-            elif exit_code == self.exit_code.ALGORITHM_ERROR:
+            elif exit_code == self._exit_code.ALGORITHM_ERROR:
                 raise MeshKernelError("AlgorithmError", error_message)
-            elif exit_code == self.exit_code.CONSTRAINT_ERROR:
+            elif exit_code == self._exit_code.CONSTRAINT_ERROR:
                 raise MeshKernelError("ConstraintError", error_message)
-            elif exit_code == self.exit_code.MESH_GEOMETRY_ERROR:
+            elif exit_code == self._exit_code.MESH_GEOMETRY_ERROR:
                 raise MeshGeometryError(error_message, self._get_geometry_error())
-            elif exit_code == self.exit_code.LINEAR_ALGEBRA_ERROR:
+            elif exit_code == self._exit_code.LINEAR_ALGEBRA_ERROR:
                 raise MeshKernelError("LinearAlgebraError", error_message)
-            elif exit_code == self.exit_code.RANGE_ERROR:
+            elif exit_code == self._exit_code.RANGE_ERROR:
                 raise MeshKernelError("RangeError", error_message)
-            elif exit_code == self.exit_code.STDLIB_EXCEPTION:
+            elif exit_code == self._exit_code.STDLIB_EXCEPTION:
                 raise MeshKernelError("STDLibException", error_message)
-            elif exit_code == self.exit_code.UNKNOWN_EXCEPTION:
+            elif exit_code == self._exit_code.UNKNOWN_EXCEPTION:
                 raise MeshKernelError("UnknownException", error_message)
 
     def _curvilineargrid_get_dimensions(self) -> CCurvilinearGrid:
