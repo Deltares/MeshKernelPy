@@ -1,8 +1,7 @@
 #build wheels
 PYBIN=/opt/python/cp38-cp38/bin/
 rm -rf build *.egg-info
-${PYBIN}/pip install numpy
-${PYBIN}/pip install matplotlib
+${PYBIN}/python3 -m pip install numpy matplotlib type_enforced
 ${PYBIN}/python3 setup.py build_ext || exit 1
 ${PYBIN}/python3 setup.py sdist bdist_wheel || exit 1
 cd dist/

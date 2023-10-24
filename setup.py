@@ -253,7 +253,7 @@ setup(
     url="https://github.com/Deltares/MeshKernelPy",
     license="MIT",
     platforms="Windows, Linux, macOS",
-    install_requires=["numpy"],
+    install_requires=["numpy", "type_enforced"],
     extras_require={
         "tests": ["pytest", "pytest-cov", "nbval", "matplotlib"],
         "lint": [
