@@ -95,7 +95,7 @@ class MeshKernel:
     def __del__(self):
         self._deallocate_state()
 
-    def __get_exit_codes(self):  # -> IntEnum:
+    def __get_exit_codes(self):
         """Stores the backend exit codes
         Returns:
             An integer enumeration called exit_code holding the exit codes of the backend
