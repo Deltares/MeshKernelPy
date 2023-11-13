@@ -187,6 +187,20 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_set, self._meshkernelid, byref(c_mesh2d)
         )
 
+    def mesh2d_add(self, mesh2d: Mesh2d) -> None:
+        """Adds a two-dimensional mesh.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            mesh2d (Mesh2d): The input data used for setting the state.
+        """
+        c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_add, self._meshkernelid, byref(c_mesh2d)
+        )
+
     def mesh2d_get(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
@@ -1107,6 +1121,21 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_set, self._meshkernelid, byref(c_mesh1d)
         )
 
+    def mesh1d_add(self, mesh1d: Mesh1d) -> None:
+        """Adds a one-dimensional mesh.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            mesh1d (Mesh1d): The input data used for setting the state.
+        """
+
+        c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
+
+        self._execute_function(
+            self.lib.mkernel_mesh1d_add, self._meshkernelid, byref(c_mesh1d)
+        )
+
     def mesh1d_get(self) -> Mesh1d:
         """Gets the one-dimensional mesh state from the MeshKernel.
 
@@ -1140,6 +1169,21 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_get_dimensions, self._meshkernelid, byref(c_mesh1d)
         )
         return c_mesh1d
+
+    def contacts_set(self, contacts: Contacts) -> None:
+        """Sets the contacts.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            contacts (Contacts): The input data used for setting the contacts.
+        """
+
+        c_contacts = CContacts.from_contacts(contacts)
+
+        self._execute_function(
+            self.lib.mkernel_contacts_set, self._meshkernelid, byref(c_contacts)
+        )
 
     def _contacts_get_dimensions(self) -> CContacts:
         """For internal use only.
