@@ -1,4 +1,4 @@
-# add development tools
+# Add development tools
 yum -y install git make wget which bzip2 netcdf centos-release-scl
 yum -y install ${devtoolset}
 scl enable ${devtoolset} bash
@@ -14,7 +14,7 @@ chmod +x cmake-${CMAKE_VERSION}-linux-x86_64.sh
 mkdir /opt/cmake
 ./cmake-${CMAKE_VERSION}-linux-x86_64.sh --skip-license --prefix=/opt/cmake || exit 1
 
-# add boost
+# Add boost
 export BOOST_VERSION='1_81_0'
 export BOOST_VERSION_DOT='1.81.0'
 wget https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION_DOT}/source/boost_${BOOST_VERSION}.tar.gz || exit 1

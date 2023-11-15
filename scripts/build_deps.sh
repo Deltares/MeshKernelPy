@@ -1,4 +1,4 @@
-#build wheels
+# Build wheels
 PYBIN=/opt/python/cp38-cp38/bin/
 rm -rf build *.egg-info
 ${PYBIN}/python3 -m pip install numpy matplotlib type_enforced
