@@ -25,7 +25,7 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64:$LD_L
 tar -xzf boost_${BOOST_VERSION}.tar.gz
 cd boost_${BOOST_VERSION}
 ./bootstrap.sh --with-libraries=filesystem,system \
-|| (echo 'compile_deps.sh: boostrap boost failed' && exit 1)
+|| (echo 'compile_deps.sh: bootstrap boost failed' && exit 1)
 ./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=/opt/boost_${BOOST_VERSION} install \
 || (echo 'compile_deps.sh: install boost failed' && exit 1)
 cd ..
