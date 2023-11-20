@@ -1,18 +1,29 @@
 set -x
 
-echo ${DOCKER_CONDA_ENV}
+DOCKER_CONDA_ENV="docker_conda_env"
 
-source activate ${DOCKER_CONDA_ENV}
+echo $PATH
+# create conda env
+/opt/conda/bin/conda create -y --force -n ${DOCKER_CONDA_ENV} python=3.8 pip
+
+# and activate it
+source /opt/conda/bin/activate ${DOCKER_CONDA_ENV}
 
 python --version
 
-rm -rf build *.egg-info dist
+# clean up residual data deom previous run
+rm -rf build *.egg-info #dist
 
-python -m pip install setuptools wheel auditwheel
-python -m pip install numpy matplotlib type_enforced
+python -m pip install \
+  setuptools \
+  wheel \
+  auditwheel \
+  numpy \
+  matplotlib \
+  type_enforced
 
-python setup.py build_ext || exit 1
-python setup.py sdist bdist_wheel || exit 1
+python setup.py build_ext || (echo 'build_deps.sh: setup.py build_ext failed' && exit 1)
+python setup.py sdist bdist_wheel || (echo 'build_deps.sh: setup.py sdist bdist_wheel failed' && exit 1)
 
 cd dist/
 list=()
@@ -24,4 +35,4 @@ auditwheel repair ${list[0]}
 cd ..
 cp ./dist/wheelhouse/*.whl .
 
-conda remove -n ${DOCKER_CONDA_ENV} --all
+/opt/conda/bin/conda remove -n ${DOCKER_CONDA_ENV} --all
