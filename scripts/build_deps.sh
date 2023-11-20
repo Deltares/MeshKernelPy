@@ -1,5 +1,3 @@
-set -x
-
 DOCKER_CONDA_ENV="docker_conda_env"
 
 echo $PATH
@@ -35,4 +33,5 @@ auditwheel repair ${list[0]}
 cd ..
 cp ./dist/wheelhouse/*.whl .
 
-conda remove -n ${DOCKER_CONDA_ENV} --all
+conda deactivate
+conda env remove -n ${DOCKER_CONDA_ENV} --all
