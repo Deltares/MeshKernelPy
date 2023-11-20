@@ -1,14 +1,8 @@
 
-set -x
-
 # add development tools
 yum -y install git make wget which bzip2 netcdf centos-release-scl
-DEVTOOLSET=devtoolset-11
 yum -y install ${DEVTOOLSET}
 scl enable ${DEVTOOLSET} bash
-export PATH=/opt/rh/${DEVTOOLSET}/root/usr/bin:$PATH
-export CC=/opt/rh/${DEVTOOLSET}/root/usr/bin/gcc 
-export CXX=/opt/rh/${DEVTOOLSET}/root/usr/bin/g++
 
 # enter root
 cd /root
@@ -35,7 +29,6 @@ BOOST_INSTALL_PREFIX=/opt/boost_${BOOST_VERSION}
   || (echo 'compile_deps.sh: bootstrap boost failed' && exit 1)
 ./b2 -j4 cxxflags="-fPIC" runtime-link=static variant=release link=static --prefix=${BOOST_INSTALL_PREFIX} install \
   || (echo 'compile_deps.sh: install boost failed' && exit 1)
-export Boost_INCLUDE_DIR=${BOOST_INSTALL_PREFIX}/include
 
 # install miniconda
 MINICONDA_VERSION='py38_4.10.3'
@@ -44,7 +37,6 @@ wget https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x
 chmod +x Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh
 bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -b -p /opt/conda \
   || (echo 'compile_deps.sh: install miniconda failed'  && exit 1)
-export PATH=/opt/conda/bin:$PATH
 
 # leave root
 cd ..

@@ -4,10 +4,10 @@ DOCKER_CONDA_ENV="docker_conda_env"
 
 echo $PATH
 # create conda env
-/opt/conda/bin/conda create -y --force -n ${DOCKER_CONDA_ENV} python=3.8 pip
+conda create -y --force -n ${DOCKER_CONDA_ENV} python=3.8 pip
 
 # and activate it
-source /opt/conda/bin/activate ${DOCKER_CONDA_ENV}
+source activate ${DOCKER_CONDA_ENV}
 
 python --version
 
@@ -35,4 +35,4 @@ auditwheel repair ${list[0]}
 cd ..
 cp ./dist/wheelhouse/*.whl .
 
-/opt/conda/bin/conda remove -n ${DOCKER_CONDA_ENV} --all
+conda remove -n ${DOCKER_CONDA_ENV} --all
