@@ -2,18 +2,17 @@
 # By using an old linux operating system, dynamic libraries should be compatible with most linux os
 
 FROM quay.io/pypa/manylinux2014_x86_64
+
+FROM continuumio/miniconda
+
 WORKDIR /root
 
 ADD . .
 
-# add gcc compiler, devtoolset-11
-ENV devtoolset=devtoolset-11
-RUN ./compile_deps.sh
+ENV DOCKER_CONDA_ENV="docker_conda_env"
 
-ENV GNU_COMPILER_DIRECTORY=/opt/rh/${devtoolset}/root/usr/bin
-ENV Boost_INCLUDE_DIR=/opt/boost_1_81_0/include
-ENV PATH="/opt/rh/${devtoolset}/root/usr/bin:$PATH"
-ENV CC=${GNU_COMPILER_DIRECTORY}/gcc
-ENV CXX=${GNU_COMPILER_DIRECTORY}/g++
+RUN conda create -y --force -n ${DOCKER_CONDA_ENV} python=3.9 pip
+
+RUN ./compile_deps.sh
 
 CMD ["bash", "./scripts/build_deps.sh"]
