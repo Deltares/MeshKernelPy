@@ -34,4 +34,4 @@ cd ..
 cp ./dist/wheelhouse/*.whl .
 
 conda deactivate
-conda env remove -n ${DOCKER_CONDA_ENV} --all
+conda env remove -n ${DOCKER_CONDA_ENV}
