@@ -11,6 +11,8 @@ ADD . .
 
 ENV DOCKER_CONDA_ENV="docker_conda_env"
 
+RUN conda config --set ssl_verify false
+
 RUN conda create -y --force -n ${DOCKER_CONDA_ENV} python=3.9 pip
 
 RUN ./compile_deps.sh

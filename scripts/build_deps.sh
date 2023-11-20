@@ -6,7 +6,7 @@ source activate ${DOCKER_CONDA_ENV}
 
 python --version
 
-rm -rf build *.egg-info
+rm -rf build *.egg-info dist
 
 python -m pip install setuptools wheel auditwheel
 python -m pip install numpy matplotlib type_enforced
