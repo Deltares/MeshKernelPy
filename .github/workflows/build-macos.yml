@@ -3,14 +3,14 @@ name: Build and test on macos
 on:
   push:
     branches:
-      - master
+      - main
       - "release/v[0-9].[0-9].[0-9]"
   pull_request:
     types:
       - opened # triggers build when opened
       - synchronize # triggers build when commits are pushed to HEAD
     branches:
-      - master
+      - main
       - "release/v[0-9].[0-9].[0-9]"
       - "feature/**"
   # Manual trigger
@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          #- ubuntu-latest
           - macos-latest
+          - macos-13-xlarge
         build_type:
           - Release
           #- Debug
