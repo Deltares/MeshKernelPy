@@ -35,10 +35,10 @@ python -m pip install \
 
 python setup.py build_ext || error "[setup] building C/C++ extension modules failed"
 python setup.py sdist || error "[setup] Creation of source distribution failed"
-python setup.py bdist_wheel || error "[setup] Builing the wheel failed"
+python setup.py bdist_wheel || error "[setup] Building the wheel failed"
 
 (
-  cd dist || error "Could not chnage the directory to dist"
+  cd dist || error "Could not change the directory to dist"
   list=()
   for file in *linux_x86_64.whl; do
     list+=("$file")

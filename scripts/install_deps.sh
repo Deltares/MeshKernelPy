@@ -15,12 +15,12 @@ scl enable ${DEVTOOLSET} bash
 
 # enter root
 (
-  cd /root  || error "Could not chnage the directory to root"
+  cd /root  || error "Could not change the directory to root"
 
   # install CMake
   CMAKE_SCRIPT=cmake-${CMAKE_VERSION}-linux-x86_64.sh
   wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_SCRIPT} \
-    || error "[cmake] ${CMAKE_SCRIPT} downlaod failed"
+    || error "[cmake] ${CMAKE_SCRIPT} download failed"
   CMAKE_INSTALL_PREFIX=/opt/cmake
   mkdir ${CMAKE_INSTALL_PREFIX} || error "[cmake] Creation of ${CMAKE_INSTALL_PREFIX} failed"
   chmod +x ${CMAKE_SCRIPT} || error "[cmake] Changing the permissions of ${CMAKE_SCRIPT} failed"
@@ -40,7 +40,7 @@ scl enable ${DEVTOOLSET} bash
   # install miniconda
   MINICONDA3_SCRIPT=Miniconda3-${MINICONDA3_VERSION}-Linux-x86_64.sh
   wget https://repo.continuum.io/miniconda/${MINICONDA3_SCRIPT} \
-    || error "[miniconda] ${MINICONDA3_SCRIPT} downlaod failed"
+    || error "[miniconda] ${MINICONDA3_SCRIPT} download failed"
   chmod +x ${MINICONDA3_SCRIPT} || error "[miniconda] Changing the permissions of ${MINICONDA3_SCRIPT} failed"
   bash ${MINICONDA3_SCRIPT} -b -p /opt/conda || error '[miniconda] Installation failed'
 )
