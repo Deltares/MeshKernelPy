@@ -1,11 +1,11 @@
 # Container for compiling libraries using centos7. 
 # By using an old linux operating system, dynamic libraries should be compatible with most linux os
 
-FROM quay.io/pypa/manylinux2014_x86_64
+FROM quay.io/pypa/manylinux2014_x86_64:2023-11-20-745eb52
 
 WORKDIR /root
 
-ADD . .
+COPY . .
 
 # versions of deps (must be set pripor to running install_deps.sh)
 ENV DEVTOOLSET=devtoolset-11
