@@ -89,15 +89,13 @@ To test, simply run `pytest`.
 
 To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64.
 This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++).
-To build the Docker image, please follow these steps:
+To build the Docker image, use:
 
 ```powershell
-chmod +x scripts/compile_deps.sh
-chmod +x scripts/build_deps.sh
 docker build --progress=plain ./scripts -t build_linux_library
 ```
 
-Once the Docker image has been built, build the linux wheels using the following command:
+Once the Docker image has been built, build the manylinux wheel using the following command:
 
 ```powershell
 docker run -e BACK_END_BRANCH=<meshkernel_back_end_branch_name> -v $(pwd):/root --rm build_linux_library
@@ -105,7 +103,7 @@ docker run -e BACK_END_BRANCH=<meshkernel_back_end_branch_name> -v $(pwd):/root 
 
 where `<meshkernel_back_end_branch_name>` is either `master` or `release`, as described in [Platform-specific build](#platform-specific-build).
 
-The deployable linux wheels will be located in dist/wheelhouse
+The deployable manylinux wheels will be located in dist/wheelhouse.
 
 # License
 
