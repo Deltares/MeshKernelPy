@@ -73,6 +73,39 @@ def test_mesh2d_set_and_mesh2d_get():
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
 
 
+def test_mesh2d_add():
+    """Test adding a 2d mesh"""
+    mk = MeshKernel()
+
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
+    node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
+
+    input_mesh2d_1 = Mesh2d(node_x, node_y, edge_nodes)
+    mk.mesh2d_set(input_mesh2d_1)
+
+    input_mesh2d_2 = Mesh2d(node_x + 1, node_y, edge_nodes)
+    mk.mesh2d_add(input_mesh2d_2)
+
+    output_mesh2d = mk.mesh2d_get()
+
+    assert_array_equal(
+        output_mesh2d.node_x,
+        np.concatenate(
+            (input_mesh2d_1.node_x, input_mesh2d_2.node_x),
+            axis=None,
+        ),
+    )
+
+    assert_array_equal(
+        output_mesh2d.node_y,
+        np.concatenate(
+            (input_mesh2d_1.node_y, input_mesh2d_2.node_y),
+            axis=None,
+        ),
+    )
+
+
 def test_mesh2d_insert_edge(meshkernel_with_mesh2d: MeshKernel):
     """Test `mesh2d_insert_edge` by inserting one edge within a 1x1 Mesh2d.
 
