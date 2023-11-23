@@ -1693,4 +1693,4 @@ def test_mesh2d_convert_projection():
     mesh2d_final = mk.mesh2d_get()
     assert mk.get_projection() == ProjectionType.CARTESIAN
 
-    assert mesh2d.almost_equal(mesh2d_final, rel_tol=1.0e-6)
+    assert mesh2d.almost_equal(mesh2d_final, rtol=1.0e-6)
