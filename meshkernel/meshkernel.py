@@ -1540,6 +1540,24 @@ class MeshKernel:
 
         return interpolated_samples
 
+    def mesh2d_convert_projection(
+        self,
+        projection: ProjectionType,
+        zone: str,
+    ) -> None:
+        """Converts the projection of a mesh2d.
+
+        Args:
+            projection (ProjectionType): The new mesh projection.
+            zone (str): The UTM zone and information string.
+        """
+        self._execute_function(
+            self.lib.mkernel_mesh2d_convert_projection,
+            self._meshkernelid,
+            c_int(projection),
+            c_char_p(zone.encode()),
+        )
+
     def get_projection(self) -> ProjectionType:
         """Gets the projection type of the meshkernel state
 
