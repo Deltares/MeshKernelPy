@@ -130,6 +130,38 @@ class Mesh2d:
         self.edge_faces: ndarray = edge_faces
         self.face_edges: ndarray = face_edges
 
+    def __eq__(self, other: Mesh2d):
+        return (
+            (self.node_x == other.node_x).all()
+            and np.array_equal(self.node_y, other.node_y)
+            and np.array_equal(self.face_x, other.face_x)
+            and np.array_equal(self.face_y, other.face_y)
+            and np.array_equal(self.edge_x, other.edge_x)
+            and np.array_equal(self.edge_y, other.edge_y)
+            and np.array_equal(self.face_edges, other.face_edges)
+            and np.array_equal(self.face_nodes, other.face_nodes)
+            and np.array_equal(self.edge_faces, other.edge_faces)
+            and np.array_equal(self.edge_nodes, other.edge_nodes)
+            and np.array_equal(self.nodes_per_face, other.nodes_per_face)
+        )
+
+    def almost_equal(
+        self, other: Mesh2d, rel_tol: float = 1.0e-5, abs_tol: float = 1.0e-8
+    ):
+        return (
+            np.allclose(self.node_x, other.node_x, rel_tol, abs_tol)
+            and np.allclose(self.node_y, other.node_y, rel_tol, abs_tol)
+            and np.allclose(self.face_x, other.face_x, rel_tol, abs_tol)
+            and np.allclose(self.face_y, other.face_y, rel_tol, abs_tol)
+            and np.allclose(self.edge_x, other.edge_x, rel_tol, abs_tol)
+            and np.allclose(self.edge_y, other.edge_y, rel_tol, abs_tol)
+            and np.array_equal(self.face_edges, other.face_edges)
+            and np.array_equal(self.face_nodes, other.face_nodes)
+            and np.array_equal(self.edge_faces, other.edge_faces)
+            and np.array_equal(self.edge_nodes, other.edge_nodes)
+            and np.array_equal(self.nodes_per_face, other.nodes_per_face)
+        )
+
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
         `args` and `kwargs` will be used as parameters of the `plot` method of matplotlib.
