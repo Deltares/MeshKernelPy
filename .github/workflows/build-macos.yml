@@ -108,6 +108,13 @@ jobs:
           python -m pip install $wheel_name
           pytest ./tests
 
+      - name: TestPyPi
+        run: |
+          wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
+          python -m pip uninstall $wheel_name
+          python -m pip install meshkernel==3.0.0
+          pytest ./tests
+
       # Step: Upload artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v3
