@@ -650,28 +650,6 @@ def test_mesh2d_make_triangular_mesh_from_samples():
     assert mesh2d.face_x.size == 4
 
 
-def two_mesh2d_data_are_equal(mesh2d_1: Mesh2d, mesh2d_2: Mesh2d) -> bool:
-    """Checks if all member variables of 2 Mesh2d instances are equal.
-
-    Args:
-        mesh2d_1 (Mesh2d): The first mesh
-        mesh2d_2 (Mesh2d): The second mesh
-    """
-    return (
-        (mesh2d_1.node_x == mesh2d_2.node_x).all()
-        and (mesh2d_1.node_y == mesh2d_2.node_y).all()
-        and (mesh2d_1.face_x == mesh2d_2.face_x).all()
-        and (mesh2d_1.face_y == mesh2d_2.face_y).all()
-        and (mesh2d_1.edge_x == mesh2d_2.edge_x).all()
-        and (mesh2d_1.edge_y == mesh2d_2.edge_y).all()
-        and (mesh2d_1.face_edges == mesh2d_2.face_edges).all()
-        and (mesh2d_1.face_nodes == mesh2d_2.face_nodes).all()
-        and (mesh2d_1.edge_faces == mesh2d_2.edge_faces).all()
-        and (mesh2d_1.edge_nodes == mesh2d_2.edge_nodes).all()
-        and (mesh2d_1.nodes_per_face == mesh2d_2.nodes_per_face).all()
-    )
-
-
 def test_mesh2d_make_rectangular_mesh():
     """Tests `mesh2d_make_rectangular_mesh`."""
 
@@ -696,7 +674,7 @@ def test_mesh2d_make_rectangular_mesh():
     assert mesh2d_1.edge_x.size == 24
     assert mesh2d_1.face_x.size == 9
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 def test_mesh2d_make_rectangular_mesh_from_polygon():
@@ -730,7 +708,7 @@ def test_mesh2d_make_rectangular_mesh_from_polygon():
     assert mesh2d_1.edge_x.size == 12
     assert mesh2d_1.face_x.size == 4
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 def test_mesh2d_make_rectangular_mesh_on_extension():
@@ -757,7 +735,7 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     assert mesh2d_1.edge_x.size == 16502
     assert mesh2d_1.face_x.size == 8160
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 cases_polygon_refine = [
@@ -1685,3 +1663,34 @@ def test_connect_meshes():
     )
 
     assert_array_equal(np.sort(mesh2d_existing.node_x), expected_sorted_node_x)
+
+
+def test_mesh2d_convert_projection():
+    """Tests `mesh2d_convert_projection`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 10
+    make_grid_parameters.num_rows = 15
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.5
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # set the zone string
+    zone = "+proj=utm +lat_1=0.5 +lat_2=2 +n=0.5 +zone=31"
+
+    # convert from Cartesian to spherical
+    mk.mesh2d_convert_projection(ProjectionType.SPHERICAL, zone)
+    assert mk.get_projection() == ProjectionType.SPHERICAL
+
+    # round trip conversion to Cartesian
+    mk.mesh2d_convert_projection(ProjectionType.CARTESIAN, zone)
+    mesh2d_final = mk.mesh2d_get()
+    assert mk.get_projection() == ProjectionType.CARTESIAN
+
+    assert mesh2d.almost_equal(mesh2d_final, rel_tol=1.0e-6)
