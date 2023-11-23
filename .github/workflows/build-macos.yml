@@ -110,9 +110,7 @@ jobs:
 
       - name: TestPyPi
         run: |
-          wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
-          python -m pip uninstall $wheel_name
-          python -m pip install meshkernel==3.0.0
+          python -m pip install --force-reinstall --verbose meshkernel==3.0.0
           pytest ./tests
 
       # Step: Upload artifact
