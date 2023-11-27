@@ -993,6 +993,99 @@ def test_remove_disconnected_regions():
     assert mesh2d.face_x.size == 100
 
 
+def rotate(point, origin, angle):
+    """
+    Rotate a point by a given angle about a given origin.
+
+    Args:
+    point: The point to rotate
+    origin: The point about which the point is to be rotated
+    angle: The angle by which the point is to be rotated
+    """
+    origin_x, origin_y = origin
+    point_x, point_y = point
+    angle_rad = np.deg2rad(angle)
+    angle_cos = np.cos(angle_rad)
+    angle_sin = np.sin(angle_rad)
+    offset_x = point_x - origin_x
+    offset_y = point_y - origin_y
+    point_rot_x = origin_x + angle_cos * offset_x - angle_sin * offset_y
+    point_rot_y = origin_y + angle_sin * offset_x + angle_cos * offset_y
+    return point_rot_x, point_rot_y
+
+
+def test_mesh2d_rotate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # rotate the mesh about the origin with a small offset
+    rotation_angle = -30.0  # in degrees
+    rotation_origin_x = make_grid_parameters.origin_x + 1.0
+    rotation_origin_y = make_grid_parameters.origin_y + 2.0
+    mk.mesh2d_rotate(rotation_origin_x, rotation_origin_y, rotation_angle)
+    mesh2d_rotated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected, node_y_expected = rotate(
+        [mesh2d.node_x, mesh2d.node_y],
+        [rotation_origin_x, rotation_origin_y],
+        rotation_angle,
+    )
+
+    rel_tol = 0.0
+    abs_tol = 1.0e-6
+    assert np.allclose(node_x_expected, mesh2d_rotated.node_x, rel_tol, abs_tol)
+    assert np.allclose(node_y_expected, mesh2d_rotated.node_y, rel_tol, abs_tol)
+
+
+def test_mesh2d_translate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # translate the mesh
+    translation_x = 10.0
+    translation_y = 15.0
+    mk.mesh2d_translate(translation_x, translation_y)
+    mesh2d_translated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected = mesh2d.node_x + translation_x
+    node_y_expected = mesh2d.node_y + translation_y
+
+    rel_tol = 0.0
+    abs_tol = 1.0e-6
+    assert np.allclose(node_x_expected, mesh2d_translated.node_x, rel_tol, abs_tol)
+    assert np.allclose(node_y_expected, mesh2d_translated.node_y, rel_tol, abs_tol)
+
+
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):
     """Tests `mesh2d_get_mesh_boundaries_as_polygons` by checking if the resulted boundary is as expected"""
 
