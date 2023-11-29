@@ -4,9 +4,9 @@ from ctypes import c_int
 import numpy as np
 import pytest
 from numpy import ndarray
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_array_almost_equal, assert_array_equal
 from pytest import approx
-from test_utils import read_asc_file
+from transformation_utils import rotate, translate
 
 from meshkernel import (
     DeleteMeshOption,
@@ -993,27 +993,6 @@ def test_remove_disconnected_regions():
     assert mesh2d.face_x.size == 100
 
 
-def rotate(point, origin, angle):
-    """
-    Rotate a point by a given angle about a given origin.
-
-    Args:
-    point: The point to rotate
-    origin: The point about which the point is to be rotated
-    angle: The angle by which the point is to be rotated
-    """
-    origin_x, origin_y = origin
-    point_x, point_y = point
-    angle_rad = np.deg2rad(angle)
-    angle_cos = np.cos(angle_rad)
-    angle_sin = np.sin(angle_rad)
-    offset_x = point_x - origin_x
-    offset_y = point_y - origin_y
-    point_rot_x = origin_x + angle_cos * offset_x - angle_sin * offset_y
-    point_rot_y = origin_y + angle_sin * offset_x + angle_cos * offset_y
-    return point_rot_x, point_rot_y
-
-
 def test_mesh2d_rotate():
     """Tests `mesh2d_rotate`."""
 
@@ -1046,10 +1025,8 @@ def test_mesh2d_rotate():
         rotation_angle,
     )
 
-    rel_tol = 0.0
-    abs_tol = 1.0e-6
-    assert np.allclose(node_x_expected, mesh2d_rotated.node_x, rel_tol, abs_tol)
-    assert np.allclose(node_y_expected, mesh2d_rotated.node_y, rel_tol, abs_tol)
+    assert_array_almost_equal(node_x_expected, mesh2d_rotated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_rotated.node_y)
 
 
 def test_mesh2d_translate():
@@ -1077,13 +1054,12 @@ def test_mesh2d_translate():
     mesh2d_translated = mk.mesh2d_get()
 
     # compute expected outcome
-    node_x_expected = mesh2d.node_x + translation_x
-    node_y_expected = mesh2d.node_y + translation_y
+    node_x_expected, node_y_expected = translate(
+        [mesh2d.node_x, mesh2d.node_y], [translation_x, translation_y]
+    )
 
-    rel_tol = 0.0
-    abs_tol = 1.0e-6
-    assert np.allclose(node_x_expected, mesh2d_translated.node_x, rel_tol, abs_tol)
-    assert np.allclose(node_y_expected, mesh2d_translated.node_y, rel_tol, abs_tol)
+    assert_array_almost_equal(node_x_expected, mesh2d_translated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_translated.node_y)
 
 
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):
