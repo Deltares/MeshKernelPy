@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 import transformation_utils
-from numpy.testing import assert_array_equal, assert_almost_equal
+from numpy.testing import assert_almost_equal, assert_array_equal
 
 
 def test_rotate_point():
