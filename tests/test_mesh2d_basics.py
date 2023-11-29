@@ -1687,10 +1687,12 @@ def test_mesh2d_convert_projection():
     # convert from Cartesian to spherical
     mk.mesh2d_convert_projection(ProjectionType.SPHERICAL, zone)
     assert mk.get_projection() == ProjectionType.SPHERICAL
+    mesh2d_final = mk.mesh2d_get()
+    assert not mesh2d.almost_equal(mesh2d_final, rtol=0)
 
     # round trip conversion to Cartesian
     mk.mesh2d_convert_projection(ProjectionType.CARTESIAN, zone)
-    mesh2d_final = mk.mesh2d_get()
     assert mk.get_projection() == ProjectionType.CARTESIAN
+    mesh2d_final = mk.mesh2d_get()
 
-    assert mesh2d.almost_equal(mesh2d_final, rtol=1.0e-6)
+    assert mesh2d.almost_equal(mesh2d_final, rtol=0)

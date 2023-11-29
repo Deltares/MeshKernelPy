@@ -137,7 +137,7 @@ class Mesh2d:
              other: (Mesh2d): The mesh to compare to.
         """
         return (
-            (self.node_x == other.node_x).all()
+            np.array_equal(self.node_x, other.node_x)
             and np.array_equal(self.node_y, other.node_y)
             and np.array_equal(self.face_x, other.face_x)
             and np.array_equal(self.face_y, other.face_y)
@@ -150,7 +150,9 @@ class Mesh2d:
             and np.array_equal(self.nodes_per_face, other.nodes_per_face)
         )
 
-    def almost_equal(self, other: Mesh2d, rtol: float = 1.0e-5, atol: float = 1.0e-8):
+    def almost_equal(
+        self, other: Mesh2d, rtol: float = 1.0e-5, atol: float = 1.0e-8
+    ) -> bool:
         """Checks if the mesh is almost equal to another given relative and absolute tolerances.
            This applies only to float arrays (node_x, node_y, face_x, faces_y, edge_x, and edge_y).
            The following must be satisfied for each float array:
@@ -163,6 +165,7 @@ class Mesh2d:
              rtol (float): The relative tolerance. Default is1.0e-5.
              atol (float): The absolute tolerance. Default is  1.0e-8.
         """
+
         return (
             np.allclose(self.node_x, other.node_x, rtol, atol)
             and np.allclose(self.node_y, other.node_y, rtol, atol)
