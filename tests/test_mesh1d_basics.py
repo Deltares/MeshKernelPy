@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
+from mesh2d_factory import Mesh2dFactory
 from numpy import ndarray
 from numpy.testing import assert_array_equal
-from test_utils import Mesh2dFactory
 
 from meshkernel import Contacts, GeometryList, Mesh1d, MeshKernel
 

@@ -4,9 +4,9 @@ from ctypes import c_int
 import numpy as np
 import pytest
 from numpy import ndarray
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_array_almost_equal, assert_array_equal
 from pytest import approx
-from test_utils import read_asc_file
+from transformation_utils import rotate, translate
 
 from meshkernel import (
     DeleteMeshOption,
@@ -969,6 +969,75 @@ def test_remove_disconnected_regions():
     assert mesh2d.node_x.size == 121
     assert mesh2d.edge_x.size == 220
     assert mesh2d.face_x.size == 100
+
+
+def test_mesh2d_rotate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # rotate the mesh about the origin with a small offset
+    rotation_angle = -30.0  # in degrees
+    rotation_origin_x = make_grid_parameters.origin_x + 1.0
+    rotation_origin_y = make_grid_parameters.origin_y + 2.0
+    mk.mesh2d_rotate(rotation_origin_x, rotation_origin_y, rotation_angle)
+    mesh2d_rotated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected, node_y_expected = rotate(
+        [mesh2d.node_x, mesh2d.node_y],
+        [rotation_origin_x, rotation_origin_y],
+        rotation_angle,
+    )
+
+    assert_array_almost_equal(node_x_expected, mesh2d_rotated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_rotated.node_y)
+
+
+def test_mesh2d_translate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # translate the mesh
+    translation_x = 10.0
+    translation_y = 15.0
+    mk.mesh2d_translate(translation_x, translation_y)
+    mesh2d_translated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected, node_y_expected = translate(
+        [mesh2d.node_x, mesh2d.node_y], [translation_x, translation_y]
+    )
+
+    assert_array_almost_equal(node_x_expected, mesh2d_translated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_translated.node_y)
 
 
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):

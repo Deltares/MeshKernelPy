@@ -730,6 +730,40 @@ class MeshKernel:
             self._meshkernelid,
         )
 
+    def mesh2d_rotate(self, centre_x: float, centre_y: float, angle: float) -> None:
+        """Rotates a mesh2d by about a centre of rotation.
+
+        Args:
+        centre_x (float): X-coordinate of the centre of rotation.
+        centre_y (float): Y-coordinate of the centre of rotation.
+        angle (float): Angle of rotation in degrees.
+
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_rotate,
+            self._meshkernelid,
+            c_double(centre_x),
+            c_double(centre_y),
+            c_double(angle),
+        )
+
+    def mesh2d_translate(self, translation_x: float, translation_y: float) -> None:
+        """Translates a mesh2d.
+
+        Args:
+        translation_x (float): X-component of the translation vector.
+        translation_y (float): Y-component of the translation vector
+
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_translate,
+            self._meshkernelid,
+            c_double(translation_x),
+            c_double(translation_y),
+        )
+
     def polygon_get_included_points(
         self, selecting_polygon: GeometryList, selected_polygon: GeometryList
     ) -> GeometryList:
