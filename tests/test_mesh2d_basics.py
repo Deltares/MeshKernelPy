@@ -622,7 +622,7 @@ def test_mesh2d_make_global():
     assert mesh2d.node_x.size == 629
 
 
-def test_mesh2d_make_global_with_cartisian_coordinates_should_throw():
+def test_mesh2d_make_global_with_cartesian_coordinates_should_throw():
     """Tests `mesh2d_make_global`, generating a global mesh"""
 
     mk = MeshKernel(ProjectionType.CARTESIAN)
