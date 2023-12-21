@@ -608,7 +608,7 @@ def test_mesh2d_delete_hanging_edges():
 
 
 def test_mesh2d_make_global():
-    """Tests `mesh2d_make_global`, generating a global grid"""
+    """Tests `mesh2d_make_global`, generating a global mesh"""
 
     mk = MeshKernel(ProjectionType.SPHERICAL)
 
@@ -620,6 +620,18 @@ def test_mesh2d_make_global():
 
     assert mesh2d.edge_x.size == 1200
     assert mesh2d.node_x.size == 629
+
+
+def test_mesh2d_make_global_with_cartisian_coordinates_should_throw():
+    """Tests `mesh2d_make_global`, generating a global mesh"""
+
+    mk = MeshKernel(ProjectionType.CARTESIAN)
+
+    num_longitude_nodes = 19
+    num_latitude_nodes = 25
+
+    with pytest.raises(MeshKernelError):
+        mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
 
 
 def test_mesh2d_make_triangular_mesh_from_polygon():
