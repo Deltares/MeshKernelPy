@@ -486,6 +486,23 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_delete_hanging_edges, self._meshkernelid
         )
 
+    def mesh2d_make_global(
+        self, num_longitude_nodes: int, num_latitude_nodes: int
+    ) -> None:
+        """Compute the global mesh with a given number of points along the longitude and latitude directions.
+
+        Args:
+        num_longitude_nodes (int): The number of points along the longitude.
+        num_latitude_nodes (int):  The number of points along the latitude (half hemisphere)
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_make_global,
+            self._meshkernelid,
+            c_int(num_longitude_nodes),
+            c_int(num_latitude_nodes),
+        )
+
     def mesh2d_make_triangular_mesh_from_polygon(self, polygon: GeometryList) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
