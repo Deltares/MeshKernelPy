@@ -489,7 +489,7 @@ class MeshKernel:
     def mesh2d_make_global(
         self, num_longitude_nodes: int, num_latitude_nodes: int
     ) -> None:
-        """Compute the mesh with a given number of points along the longitude and latitude directions.
+        """Compute the global mesh with a given number of points along the longitude and latitude directions.
 
         Args:
         num_longitude_nodes (int): The number of points along the longitude.
