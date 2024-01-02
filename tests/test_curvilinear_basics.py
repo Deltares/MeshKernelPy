@@ -561,8 +561,24 @@ def test_curvilinear_line_mirror():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test some few nodes have been generated in the left side
+    # Test some few nodes have been generated on the left side
     assert curvilinear_grid.node_x[0] == -20.0
     assert curvilinear_grid.node_x[7] == -20.0
     assert curvilinear_grid.node_y[0] == 0.0
     assert curvilinear_grid.node_y[7] == 10.0
+
+
+def test_curvilinear_compute_smothness():
+    r"""Tests 'curvilinear_compute_smothness' gets correct smothness data."""
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+
+    # Execute
+    smoothness = mk.curvilinear_compute_smoothness(1)
+
+    # Assert
+    # Test the smoothness values
+    assert smoothness[0] == -999.0
+    assert smoothness[1] == 1.0
+    assert smoothness[5] == -999.0
+    assert smoothness[6] == -999.0
+    assert smoothness[7] == 1.0

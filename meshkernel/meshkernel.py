@@ -1788,6 +1788,31 @@ class MeshKernel:
             byref(c_splines_to_curvilinear_params),
         )
 
+    def curvilinear_compute_smoothness(
+        self,
+        direction: int,
+    ) -> ndarray:
+        """Computes the smoothness of a curvilinear grid.
+
+        Args:
+            direction (int): The direction in which to compute the smoothness.
+        """
+
+        curvilinear_grid_dimensions = self._curvilineargrid_get_dimensions()
+
+        num_m = curvilinear_grid_dimensions.num_m
+        num_n = curvilinear_grid_dimensions.num_n
+
+        result = np.empty(num_m * num_n, dtype=np.double)
+        c_result = np.ctypeslib.as_ctypes(result)
+        self._execute_function(
+            self.lib.mkernel_curvilinear_compute_smoothness,
+            self._meshkernelid,
+            c_int(direction),
+            byref(c_result),
+        )
+        return result
+
     def curvilinear_convert_to_mesh2d(self) -> None:
         """Converts a curvilinear grid to an unstructured mesh"""
         self._execute_function(
