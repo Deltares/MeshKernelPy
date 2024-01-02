@@ -36,6 +36,7 @@ from meshkernel.errors import InputError, MeshGeometryError, MeshKernelError
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
+    CurvilinearDirection,
     CurvilinearGrid,
     CurvilinearParameters,
     DeleteMeshOption,
@@ -1790,7 +1791,7 @@ class MeshKernel:
 
     def curvilinear_compute_smoothness(
         self,
-        direction: int,
+        direction: CurvilinearDirection,
     ) -> ndarray:
         """Computes the smoothness of a curvilinear grid.
 

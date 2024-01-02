@@ -10,6 +10,7 @@ from meshkernel import (
     ProjectionType,
     SplinesToCurvilinearParameters,
 )
+from meshkernel.py_structures import CurvilinearDirection
 
 
 def create_meshkernel_instance_with_curvilinear_grid():
@@ -573,7 +574,7 @@ def test_curvilinear_compute_smothness():
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Execute
-    smoothness = mk.curvilinear_compute_smoothness(1)
+    smoothness = mk.curvilinear_compute_smoothness(CurvilinearDirection.M)
 
     # Assert
     # Test the smoothness values
