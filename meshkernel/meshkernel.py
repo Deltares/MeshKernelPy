@@ -187,6 +187,20 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_set, self._meshkernelid, byref(c_mesh2d)
         )
 
+    def mesh2d_add(self, mesh2d: Mesh2d) -> None:
+        """Adds a two-dimensional mesh.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            mesh2d (Mesh2d): The input data used for setting the state.
+        """
+        c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_add, self._meshkernelid, byref(c_mesh2d)
+        )
+
     def mesh2d_get(self) -> Mesh2d:
         """Gets the two-dimensional mesh state from the MeshKernel.
 
@@ -472,6 +486,23 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_delete_hanging_edges, self._meshkernelid
         )
 
+    def mesh2d_make_global(
+        self, num_longitude_nodes: int, num_latitude_nodes: int
+    ) -> None:
+        """Compute the global mesh with a given number of points along the longitude and latitude directions.
+
+        Args:
+        num_longitude_nodes (int): The number of points along the longitude.
+        num_latitude_nodes (int):  The number of points along the latitude (half hemisphere)
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_make_global,
+            self._meshkernelid,
+            c_int(num_longitude_nodes),
+            c_int(num_latitude_nodes),
+        )
+
     def mesh2d_make_triangular_mesh_from_polygon(self, polygon: GeometryList) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
@@ -714,6 +745,40 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_remove_disconnected_regions,
             self._meshkernelid,
+        )
+
+    def mesh2d_rotate(self, centre_x: float, centre_y: float, angle: float) -> None:
+        """Rotates a mesh2d by about a centre of rotation.
+
+        Args:
+        centre_x (float): X-coordinate of the centre of rotation.
+        centre_y (float): Y-coordinate of the centre of rotation.
+        angle (float): Angle of rotation in degrees.
+
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_rotate,
+            self._meshkernelid,
+            c_double(centre_x),
+            c_double(centre_y),
+            c_double(angle),
+        )
+
+    def mesh2d_translate(self, translation_x: float, translation_y: float) -> None:
+        """Translates a mesh2d.
+
+        Args:
+        translation_x (float): X-component of the translation vector.
+        translation_y (float): Y-component of the translation vector
+
+        """
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_translate,
+            self._meshkernelid,
+            c_double(translation_x),
+            c_double(translation_y),
         )
 
     def polygon_get_included_points(
@@ -1107,6 +1172,21 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_set, self._meshkernelid, byref(c_mesh1d)
         )
 
+    def mesh1d_add(self, mesh1d: Mesh1d) -> None:
+        """Adds a one-dimensional mesh.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            mesh1d (Mesh1d): The input data used for setting the state.
+        """
+
+        c_mesh1d = CMesh1d.from_mesh1d(mesh1d)
+
+        self._execute_function(
+            self.lib.mkernel_mesh1d_add, self._meshkernelid, byref(c_mesh1d)
+        )
+
     def mesh1d_get(self) -> Mesh1d:
         """Gets the one-dimensional mesh state from the MeshKernel.
 
@@ -1140,6 +1220,21 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_get_dimensions, self._meshkernelid, byref(c_mesh1d)
         )
         return c_mesh1d
+
+    def contacts_set(self, contacts: Contacts) -> None:
+        """Sets the contacts.
+
+        Please note that this involves a copy of the data.
+
+        Args:
+            contacts (Contacts): The input data used for setting the contacts.
+        """
+
+        c_contacts = CContacts.from_contacts(contacts)
+
+        self._execute_function(
+            self.lib.mkernel_contacts_set, self._meshkernelid, byref(c_contacts)
+        )
 
     def _contacts_get_dimensions(self) -> CContacts:
         """For internal use only.
@@ -1495,6 +1590,24 @@ class MeshKernel:
         )
 
         return interpolated_samples
+
+    def mesh2d_convert_projection(
+        self,
+        projection: ProjectionType,
+        zone: str,
+    ) -> None:
+        """Converts the projection of a mesh2d.
+
+        Args:
+            projection (ProjectionType): The new mesh projection.
+            zone (str): The UTM zone and information string.
+        """
+        self._execute_function(
+            self.lib.mkernel_mesh2d_convert_projection,
+            self._meshkernelid,
+            c_int(projection),
+            c_char_p(zone.encode()),
+        )
 
     def get_projection(self) -> ProjectionType:
         """Gets the projection type of the meshkernel state

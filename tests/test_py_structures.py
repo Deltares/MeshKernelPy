@@ -110,6 +110,33 @@ def test_mesdh2d_constructor():
     assert mesh2d.face_y.size == 0
 
 
+def test_mesh2d_equal():
+    node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
+
+    mesh2d_1 = Mesh2d(node_x, node_y, edge_nodes)
+    mesh2d_2 = Mesh2d(node_x, node_y, edge_nodes)
+
+    assert mesh2d_1 == mesh2d_2
+
+
+def test_mesh2d_almost_equal():
+    node_x_1 = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
+
+    mesh2d_1 = Mesh2d(node_x_1, node_y, edge_nodes)
+
+    # Apply a small perturbation to the first element of node_x then create a new mesh
+    node_x_2 = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_x_2[1] += 1.0e-6
+    mesh2d_2 = Mesh2d(node_x_2, node_y, edge_nodes)
+
+    assert mesh2d_1.almost_equal(mesh2d_2, rtol=0.0, atol=1.0e-5)
+    assert not mesh2d_1.almost_equal(mesh2d_2, rtol=0.0, atol=1.0e-7)
+
+
 def test_geometrylist_constructor():
     """Tests the default values after constructing a `GeometryList`."""
 

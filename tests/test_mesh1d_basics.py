@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
+from mesh2d_factory import Mesh2dFactory
 from numpy import ndarray
 from numpy.testing import assert_array_equal
-from test_utils import Mesh2dFactory
 
-from meshkernel import GeometryList, Mesh1d, MeshKernel
+from meshkernel import Contacts, GeometryList, Mesh1d, MeshKernel
 
 
 def sort_contacts_by_mesh2d_indices(contacts):
@@ -19,7 +19,7 @@ def sort_contacts_by_mesh2d_indices(contacts):
     contacts.mesh2d_indices = contacts.mesh2d_indices[indices]
 
 
-def test_mesh1d_get():
+def test_mesh1d_set_and_mesh1d_get():
     r"""Tests `mesh1d_set` and `mesh1d_get` to set and get a simple mesh.
 
       1   3
@@ -41,6 +41,52 @@ def test_mesh1d_get():
     assert_array_equal(output_mesh1d.edge_nodes, input_mesh1d.edge_nodes)
     assert_array_equal(output_mesh1d.node_x, input_mesh1d.node_x)
     assert_array_equal(output_mesh1d.node_y, input_mesh1d.node_y)
+
+
+def test_mesh1d_add():
+    r"""Tests `mesh1d_add`."""
+    mk = MeshKernel()
+
+    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
+    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
+
+    input_mesh1d_1 = Mesh1d(node_x, node_y, edge_nodes)
+    mk.mesh1d_set(input_mesh1d_1)
+
+    input_mesh1d_2 = Mesh1d(node_x + 4, node_y, edge_nodes)
+    mk.mesh1d_add(input_mesh1d_2)
+
+    output_mesh1d = mk.mesh1d_get()
+
+    assert_array_equal(
+        output_mesh1d.node_x,
+        np.concatenate(
+            (input_mesh1d_1.node_x, input_mesh1d_2.node_x),
+            axis=None,
+        ),
+    )
+
+    assert_array_equal(
+        output_mesh1d.node_y,
+        np.concatenate(
+            (input_mesh1d_1.node_y, input_mesh1d_2.node_y),
+            axis=None,
+        ),
+    )
+
+
+def test_contacts_set_and_get():
+    """Tests `contacts_set` and `contacts_get`."""
+
+    mk = MeshKernel()
+
+    mesh1d_indices = np.array([1, 2, 3, 4], dtype=np.int32)
+    mesh2d_indices = np.array([5, 6, 7, 8], dtype=np.int32)
+    mk.contacts_set(Contacts(mesh1d_indices, mesh2d_indices))
+    contacts = mk.contacts_get()
+    assert_array_equal(mesh1d_indices, contacts.mesh1d_indices)
+    assert_array_equal(mesh2d_indices, contacts.mesh2d_indices)
 
 
 def test_contacts_compute_single():

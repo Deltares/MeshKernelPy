@@ -4,9 +4,9 @@ from ctypes import c_int
 import numpy as np
 import pytest
 from numpy import ndarray
-from numpy.testing import assert_array_equal
+from numpy.testing import assert_array_almost_equal, assert_array_equal
 from pytest import approx
-from test_utils import read_asc_file
+from transformation_utils import rotate, translate
 
 from meshkernel import (
     DeleteMeshOption,
@@ -71,6 +71,39 @@ def test_mesh2d_set_and_mesh2d_get():
     # Test if edges are correctly calculated
     assert_array_equal(output_mesh2d.edge_x, np.array([0.5, 1.0, 0.5, 0.0]))
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
+
+
+def test_mesh2d_add():
+    """Test adding a 2d mesh"""
+    mk = MeshKernel()
+
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
+    node_x = np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double)
+    node_y = np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double)
+
+    input_mesh2d_1 = Mesh2d(node_x, node_y, edge_nodes)
+    mk.mesh2d_set(input_mesh2d_1)
+
+    input_mesh2d_2 = Mesh2d(node_x + 1, node_y, edge_nodes)
+    mk.mesh2d_add(input_mesh2d_2)
+
+    output_mesh2d = mk.mesh2d_get()
+
+    assert_array_equal(
+        output_mesh2d.node_x,
+        np.concatenate(
+            (input_mesh2d_1.node_x, input_mesh2d_2.node_x),
+            axis=None,
+        ),
+    )
+
+    assert_array_equal(
+        output_mesh2d.node_y,
+        np.concatenate(
+            (input_mesh2d_1.node_y, input_mesh2d_2.node_y),
+            axis=None,
+        ),
+    )
 
 
 def test_mesh2d_insert_edge(meshkernel_with_mesh2d: MeshKernel):
@@ -574,6 +607,33 @@ def test_mesh2d_delete_hanging_edges():
     assert mesh2d.face_x.size == 1
 
 
+def test_mesh2d_make_global():
+    """Tests `mesh2d_make_global`, generating a global mesh"""
+
+    mk = MeshKernel(ProjectionType.SPHERICAL)
+
+    num_longitude_nodes = 19
+    num_latitude_nodes = 25
+
+    mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
+    mesh2d = mk.mesh2d_get()
+
+    assert mesh2d.edge_x.size == 1200
+    assert mesh2d.node_x.size == 629
+
+
+def test_mesh2d_make_global_with_cartesian_coordinates_should_throw():
+    """Tests `mesh2d_make_global`, generating a global mesh"""
+
+    mk = MeshKernel(ProjectionType.CARTESIAN)
+
+    num_longitude_nodes = 19
+    num_latitude_nodes = 25
+
+    with pytest.raises(MeshKernelError):
+        mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
+
+
 def test_mesh2d_make_triangular_mesh_from_polygon():
     """Tests `mesh2d_make_mesh_from_polygon` by creating a mesh2d from a simple hexagon."""
 
@@ -617,28 +677,6 @@ def test_mesh2d_make_triangular_mesh_from_samples():
     assert mesh2d.face_x.size == 4
 
 
-def two_mesh2d_data_are_equal(mesh2d_1: Mesh2d, mesh2d_2: Mesh2d) -> bool:
-    """Checks if all member variables of 2 Mesh2d instances are equal.
-
-    Args:
-        mesh2d_1 (Mesh2d): The first mesh
-        mesh2d_2 (Mesh2d): The second mesh
-    """
-    return (
-        (mesh2d_1.node_x == mesh2d_2.node_x).all()
-        and (mesh2d_1.node_y == mesh2d_2.node_y).all()
-        and (mesh2d_1.face_x == mesh2d_2.face_x).all()
-        and (mesh2d_1.face_y == mesh2d_2.face_y).all()
-        and (mesh2d_1.edge_x == mesh2d_2.edge_x).all()
-        and (mesh2d_1.edge_y == mesh2d_2.edge_y).all()
-        and (mesh2d_1.face_edges == mesh2d_2.face_edges).all()
-        and (mesh2d_1.face_nodes == mesh2d_2.face_nodes).all()
-        and (mesh2d_1.edge_faces == mesh2d_2.edge_faces).all()
-        and (mesh2d_1.edge_nodes == mesh2d_2.edge_nodes).all()
-        and (mesh2d_1.nodes_per_face == mesh2d_2.nodes_per_face).all()
-    )
-
-
 def test_mesh2d_make_rectangular_mesh():
     """Tests `mesh2d_make_rectangular_mesh`."""
 
@@ -663,7 +701,7 @@ def test_mesh2d_make_rectangular_mesh():
     assert mesh2d_1.edge_x.size == 24
     assert mesh2d_1.face_x.size == 9
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 def test_mesh2d_make_rectangular_mesh_from_polygon():
@@ -697,7 +735,7 @@ def test_mesh2d_make_rectangular_mesh_from_polygon():
     assert mesh2d_1.edge_x.size == 12
     assert mesh2d_1.face_x.size == 4
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 def test_mesh2d_make_rectangular_mesh_on_extension():
@@ -724,7 +762,7 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     assert mesh2d_1.edge_x.size == 16502
     assert mesh2d_1.face_x.size == 8160
 
-    assert two_mesh2d_data_are_equal(mesh2d_1, mesh2d_2)
+    assert mesh2d_1 == mesh2d_2
 
 
 cases_polygon_refine = [
@@ -958,6 +996,75 @@ def test_remove_disconnected_regions():
     assert mesh2d.node_x.size == 121
     assert mesh2d.edge_x.size == 220
     assert mesh2d.face_x.size == 100
+
+
+def test_mesh2d_rotate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # rotate the mesh about the origin with a small offset
+    rotation_angle = -30.0  # in degrees
+    rotation_origin_x = make_grid_parameters.origin_x + 1.0
+    rotation_origin_y = make_grid_parameters.origin_y + 2.0
+    mk.mesh2d_rotate(rotation_origin_x, rotation_origin_y, rotation_angle)
+    mesh2d_rotated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected, node_y_expected = rotate(
+        [mesh2d.node_x, mesh2d.node_y],
+        [rotation_origin_x, rotation_origin_y],
+        rotation_angle,
+    )
+
+    assert_array_almost_equal(node_x_expected, mesh2d_rotated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_rotated.node_y)
+
+
+def test_mesh2d_translate():
+    """Tests `mesh2d_rotate`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 3
+    make_grid_parameters.num_rows = 3
+    make_grid_parameters.origin_x = 0.0
+    make_grid_parameters.origin_y = 0.0
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.0
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # translate the mesh
+    translation_x = 10.0
+    translation_y = 15.0
+    mk.mesh2d_translate(translation_x, translation_y)
+    mesh2d_translated = mk.mesh2d_get()
+
+    # compute expected outcome
+    node_x_expected, node_y_expected = translate(
+        [mesh2d.node_x, mesh2d.node_y], [translation_x, translation_y]
+    )
+
+    assert_array_almost_equal(node_x_expected, mesh2d_translated.node_x)
+    assert_array_almost_equal(node_y_expected, mesh2d_translated.node_y)
 
 
 def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKernel):
@@ -1652,3 +1759,36 @@ def test_connect_meshes():
     )
 
     assert_array_equal(np.sort(mesh2d_existing.node_x), expected_sorted_node_x)
+
+
+def test_mesh2d_convert_projection():
+    """Tests `mesh2d_convert_projection`."""
+
+    mk = MeshKernel()
+
+    # set grid parameters
+    make_grid_parameters = MakeGridParameters()
+    make_grid_parameters.num_columns = 10
+    make_grid_parameters.num_rows = 15
+    make_grid_parameters.block_size_x = 1.0
+    make_grid_parameters.block_size_y = 1.5
+
+    # create cartesian grid
+    mk.mesh2d_make_rectangular_mesh(make_grid_parameters)
+    mesh2d = mk.mesh2d_get()
+
+    # set the zone string
+    zone = "+proj=utm +lat_1=0.5 +lat_2=2 +n=0.5 +zone=31"
+
+    # convert from Cartesian to spherical
+    mk.mesh2d_convert_projection(ProjectionType.SPHERICAL, zone)
+    assert mk.get_projection() == ProjectionType.SPHERICAL
+    mesh2d_final = mk.mesh2d_get()
+    assert not mesh2d.almost_equal(mesh2d_final, rtol=0)
+
+    # round trip conversion to Cartesian
+    mk.mesh2d_convert_projection(ProjectionType.CARTESIAN, zone)
+    assert mk.get_projection() == ProjectionType.CARTESIAN
+    mesh2d_final = mk.mesh2d_get()
+
+    assert mesh2d.almost_equal(mesh2d_final, rtol=0)

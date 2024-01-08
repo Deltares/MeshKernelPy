@@ -1,7 +1,7 @@
 import numpy as np
+from mesh2d_factory import Mesh2dFactory
 from numpy.testing import assert_array_equal
 from pytest import approx
-from test_utils import Mesh2dFactory
 
 from meshkernel import (
     GeometryList,
