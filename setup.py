@@ -253,15 +253,26 @@ setup(
     url="https://github.com/Deltares/MeshKernelPy",
     license="MIT",
     platforms="Windows, Linux, macOS",
-    install_requires=["numpy"],
+    install_requires=[
+        "numpy>=1.22",
+        "matplotlib>=3.6",
+    ],
     extras_require={
-        "tests": ["pytest", "pytest-cov", "nbval", "matplotlib"],
+        "tests": [
+            "pytest",
+            "pytest-cov",
+            "nbval",
+        ],
         "lint": [
             "flake8",
             "black",
             "isort",
         ],
-        "docs": ["sphinx", "sphinx_book_theme", "myst_nb"],
+        "docs": [
+            "sphinx",
+            "sphinx_book_theme",
+            "myst_nb",
+        ],
     },
     python_requires=">=3.8",
     package_data={"meshkernel": [get_library_meta().name]},

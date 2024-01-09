@@ -24,13 +24,7 @@ error() {
 # clean up residual data from previous run
 rm -rf ./build ./*.egg-info #./dist
 
-python -m pip install \
-  setuptools \
-  wheel \
-  auditwheel \
-  numpy \
-  matplotlib \
-  || error "pip install failed"
+python -m pip install -r requirements.txt || error "pip install failed"
 
 python setup.py build_ext || error "[setup] building C/C++ extension modules failed"
 python setup.py sdist || error "[setup] Creation of source distribution failed"

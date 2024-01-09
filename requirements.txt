@@ -1,0 +1,5 @@
+setuptools
+wheel
+auditwheel
+numpy>=1.22
+matplotlib>=3.6
