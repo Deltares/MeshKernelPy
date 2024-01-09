@@ -3,14 +3,14 @@ name: Build and test on macos
 on:
   push:
     branches:
-      - master
+      - main
       - "release/v[0-9].[0-9].[0-9]"
   pull_request:
     types:
       - opened # triggers build when opened
       - synchronize # triggers build when commits are pushed to HEAD
     branches:
-      - master
+      - main
       - "release/v[0-9].[0-9].[0-9]"
       - "feature/**"
   # Manual trigger
@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          #- ubuntu-latest
           - macos-latest
+          - macos-13-xlarge
         build_type:
           - Release
           #- Debug
@@ -48,7 +48,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: "3.10"
 
       # Step: Install Python dependencies
       - name: Install Python dependencies
@@ -58,7 +58,6 @@ jobs:
           python -m pip install numpy
           python -m pip install matplotlib
           python -m pip install pytest
-          python -m pip install type_enforced
 
       # Step: Install system-provided dependencies
       # macOS

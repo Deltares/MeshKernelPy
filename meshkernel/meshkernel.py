@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Callable, Tuple
 
 import numpy as np
-import type_enforced
 from numpy import ndarray
 from numpy.ctypeslib import as_ctypes
 
@@ -58,7 +57,6 @@ from meshkernel.version import __version__
 logger = logging.getLogger(__name__)
 
 
-@type_enforced.Enforcer
 class MeshKernel:
     """This class is the entry point for interacting with the MeshKernel library"""
 

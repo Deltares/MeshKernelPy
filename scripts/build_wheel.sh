@@ -30,7 +30,6 @@ python -m pip install \
   auditwheel \
   numpy \
   matplotlib \
-  type_enforced \
   || error "pip install failed"
 
 python setup.py build_ext || error "[setup] building C/C++ extension modules failed"
