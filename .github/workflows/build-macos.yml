@@ -98,8 +98,10 @@ jobs:
           CC: gcc-11
           CXX: g++-11
         run: |
+          export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
           python setup.py build_ext
-          python setup.py sdist bdist_wheel
+          python setup.py sdist
+          python setup.py bdist_wheel
 
       # Step: Test
       - name: Test
