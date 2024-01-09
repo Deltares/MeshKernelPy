@@ -58,7 +58,6 @@ jobs:
           python -m pip install numpy
           python -m pip install matplotlib
           python -m pip install pytest
-          python -m pip install type_enforced
 
       # Step: Install system-provided dependencies
       # macOS
