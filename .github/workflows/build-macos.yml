@@ -100,10 +100,11 @@ jobs:
       # Step: Audit Wheel
       - name: Repair wheel's name
         run: |
-          platform=$(python -c "import sysconfig; print(sysconfig.get_platform())")
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
-          wheel tags --platform-tag $platform $wheel_name
-          ls -ltr
+          platform_tag=$(python -c "import platform; tag='macosx_' + platform.mac_ver()[0] + '_' + platform.machine().lower()")
+          echo $platform_tag
+          wheel tags --platform-tag $platform_tag $wheel_name
+          ls -ltr ./dist
           rm -f $wheel_name
 
       # Step: Test
