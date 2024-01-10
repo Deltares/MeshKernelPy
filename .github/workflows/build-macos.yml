@@ -93,6 +93,7 @@ jobs:
           CC: gcc-11
           CXX: g++-11
         run: |
+          export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
           python setup.py build_ext
           python setup.py sdist
           python setup.py bdist_wheel
@@ -106,7 +107,7 @@ jobs:
           echo $platform_tag
           wheel tags --platform-tag $platform_tag $wheel_name
           ls -ltr ./dist
-          #rm -f $wheel_name
+          rm -f $wheel_name
 
       # Step: Test
       - name: Test
