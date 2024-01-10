@@ -102,7 +102,7 @@ jobs:
         run: |
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
           platform_tag=$(python -c "import platform; tag='macosx_' + platform.mac_ver()[0] + '_' + platform.machine().lower()")
-          echo $platform_tag
+          echo "$platform_tag"
           wheel tags --platform-tag $platform_tag $wheel_name
           ls -ltr ./dist
           rm -f $wheel_name
