@@ -96,6 +96,13 @@ jobs:
           python setup.py build_ext
           python setup.py sdist bdist_wheel
 
+      # Step: Audit Wheel
+      - name: Audit Wheel
+        run: |
+          wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
+          auditwheel show $wheel_name
+          auditwheel repair $wheel_name
+
       # Step: Test
       - name: Test
         run: |
