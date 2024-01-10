@@ -39,14 +39,14 @@ jobs:
     steps:
       # Step: Checkout
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         # Workaround for getting "git describe --tags" to work in cmake/get_version_from_git.cmake (Build step)
         with:
           fetch-depth: 0
 
       # Step: Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
@@ -65,7 +65,7 @@ jobs:
 
       - name: Get branch name
         id: get_branch_name
-        uses: tj-actions/branch-names@v7
+        uses: tj-actions/branch-names@v8
 
       - name: Process branch name
         id: process_branch_name
@@ -116,7 +116,7 @@ jobs:
 
       # Step: Upload artifact
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: meshkernel-${{ matrix.platform }}-${{ matrix.build_type }}
