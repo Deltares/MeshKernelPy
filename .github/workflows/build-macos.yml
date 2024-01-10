@@ -99,9 +99,9 @@ jobs:
       # Step: Audit Wheel
       - name: Audit Wheel
         run: |
+          python -m pip install delocate
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
-          auditwheel show $wheel_name
-          auditwheel repair $wheel_name
+          delocate-wheel -v $wheel_name
 
       # Step: Test
       - name: Test
