@@ -103,12 +103,14 @@ jobs:
           echo Found $wheel_name
           # generate the tag
           platform_tag=$(python3 -c 'import platform; tag = "macosx_" + platform.mac_ver()[0].rsplit(".", 2)[0] + "_0_" + platform.machine().lower(); print(tag)')
-          # apply new tag
-          echo Apply platform tag $platform_tag
-          wheel tags --platform-tag $platform_tag $wheel_name
-          ls -ltr ./dist
-          # remove original wheel
-          rm -f $wheel_name
+          # apply new tag only if it is incorrect
+          if [[ "$wheel_name" != *"$platform_tag"* ]]; then
+            echo Apply platform tag $platform_tag
+            wheel tags --platform-tag $platform_tag $wheel_name
+            ls -ltr ./dist
+            # remove original wheel
+            rm -f $wheel_name
+          fi
 
       # Step: Test
       - name: Test
