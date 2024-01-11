@@ -101,15 +101,16 @@ jobs:
         run: |
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
           echo Found $wheel_name
-          # generate the tag
+          # generate the tag: in macosx_[MAJOR_VERSION]_[MINOR_VERSION]_[ARCH], set MINOR_VERSION to 0 otherwise pip install will fail
           platform_tag=$(python -c 'import platform; tag = "macosx_" + platform.mac_ver()[0].rsplit(".", 2)[0] + "_0_" + platform.machine().lower(); print(tag)')
           # apply new tag only if it is incorrect
           if [[ "$wheel_name" != *"$platform_tag"* ]]; then
-            echo Apply platform tag $platform_tag
+            echo Apply the platform tag $platform_tag to $wheel_name
             wheel tags --platform-tag $platform_tag $wheel_name
-            ls -ltr ./dist
-            # remove original wheel
-            rm -f $wheel_name
+            # remove incorrectly tagged wheel
+            rm $wheel_name
+          else
+            echo Platform tag is correct. No action needed.
           fi
 
       # Step: Test
