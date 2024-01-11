@@ -102,7 +102,7 @@ jobs:
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
           echo Found $wheel_name
           # generate the tag
-          platform_tag=$(python3 -c 'import platform; tag = "macosx_" + platform.mac_ver()[0].rsplit(".", 2)[0] + "_0_" + platform.machine().lower(); print(tag)')
+          platform_tag=$(python -c 'import platform; tag = "macosx_" + platform.mac_ver()[0].rsplit(".", 2)[0] + "_0_" + platform.machine().lower(); print(tag)')
           # apply new tag only if it is incorrect
           if [[ "$wheel_name" != *"$platform_tag"* ]]; then
             echo Apply platform tag $platform_tag
