@@ -850,7 +850,7 @@ cases_mesh2d_refine_based_on_gridded_samples = [
             x_origin=-50.0,
             y_origin=-50.0,
             cell_size=100.0,
-            values=np.array([-0.05] * 42, dtype=np.double),
+            values=np.array([-0.05] * 42, dtype=np.float32),
         ),
         86,
         161,
@@ -864,7 +864,7 @@ cases_mesh2d_refine_based_on_gridded_samples = [
             y_coordinates=np.array(
                 [-50.0, 50.0, 150.0, 250.0, 350.0, 450.0], dtype=np.double
             ),
-            values=np.array([-0.05] * 42, dtype=np.double),
+            values=np.array([-0.05] * 42, dtype=np.float32),
         ),
         86,
         161,
