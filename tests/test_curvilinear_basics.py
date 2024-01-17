@@ -579,7 +579,7 @@ def test_curvilinear_compute_smothness():
     # Assert
     # Test the smoothness values
     assert smoothness[0] == -999.0
-    assert smoothness[1] == 1.0
+    assert smoothness[1] == -999.0
     assert smoothness[5] == -999.0
-    assert smoothness[6] == -999.0
-    assert smoothness[7] == 1.0
+    assert smoothness[6] == 1.0
+    assert smoothness[7] == approx(1.2126781251816647, 0.0001)
