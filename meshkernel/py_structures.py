@@ -614,3 +614,11 @@ class GriddedSamples:
             self.value_type: int = InterpolationValues.FLOAT
         else:
             raise RuntimeError("Unsupported value type: the values should be int16 or float32!")
+
+
+@unique
+class CurvilinearDirection(IntEnum):
+    """Direction to use in curvilinear grid algorithms."""
+
+    M = 0
+    N = 1

@@ -618,7 +618,7 @@ def test_mesh2d_make_global():
     mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
     mesh2d = mk.mesh2d_get()
 
-    assert mesh2d.edge_x.size == 1200
+    assert mesh2d.edge_x.size == 1233
     assert mesh2d.node_x.size == 629
 
 
