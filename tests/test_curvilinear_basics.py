@@ -569,8 +569,31 @@ def test_curvilinear_line_mirror():
     assert curvilinear_grid.node_y[7] == 10.0
 
 
-def test_curvilinear_compute_smothness():
-    r"""Tests 'curvilinear_compute_smothness' gets correct smothness data."""
+def test_curvilinear_compute_curvature():
+    r"""Tests 'test_curvilinear_compute_curvature' gets curvature data."""
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+
+    # Execute
+    curvature = mk.curvilinear_compute_curvature(CurvilinearDirection.M)
+
+    # Assert
+    # Test the curvature values
+    assert curvature[0] == -999.0
+    assert curvature[1] == -999.0
+    assert curvature[2] == -999.0
+    assert curvature[3] == -999.0
+    assert curvature[4] == -999.0
+    assert curvature[5] == -999.0
+    assert curvature[6] == 0.001000001000001
+    assert curvature[7] == 90.9090909090909
+    assert curvature[8] == 0.001000001000001
+    assert curvature[9] == 0.001000001000001
+    assert curvature[10] == 0.001000001000001
+    print(curvature)
+
+
+def test_curvilinear_compute_smoothness():
+    r"""Tests 'curvilinear_compute_smoothness' gets smoothness data."""
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Execute
