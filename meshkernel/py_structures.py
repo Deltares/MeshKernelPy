@@ -604,3 +604,11 @@ class GriddedSamples:
         self.x_coordinates: ndarray = x_coordinates
         self.y_coordinates: ndarray = y_coordinates
         self.values: ndarray = values
+
+
+@unique
+class CurvilinearDirection(IntEnum):
+    """Direction to use in curvilinear grid algorithms."""
+
+    M = 0
+    N = 1
