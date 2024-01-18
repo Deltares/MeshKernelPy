@@ -589,7 +589,6 @@ def test_curvilinear_compute_curvature():
     assert curvature[8] == 0.001000001000001
     assert curvature[9] == 0.001000001000001
     assert curvature[10] == 0.001000001000001
-    print(curvature)
 
 
 def test_curvilinear_compute_smoothness():
