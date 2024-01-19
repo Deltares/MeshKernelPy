@@ -617,7 +617,7 @@ class GriddedSamples:
             self.value_type: int = InterpolationValues.SHORT
         else:
             raise RuntimeError(
-                "Unsupported value type: the values should be np.int16 or np.float32!"
+                "Unsupported value type: the values should be np.int16 or np.float32"
             )
 
 
