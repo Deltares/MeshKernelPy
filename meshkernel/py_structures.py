@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from enum import IntEnum, unique
 
 import numpy as np
 from matplotlib.collections import PolyCollection
-from matplotlib.patches import Polygon
 from numpy import ndarray
 
 import meshkernel.errors as mk_errors
@@ -118,17 +116,17 @@ class Mesh2d:
         edge_faces=np.empty(0, dtype=np.int32),
         face_edges=np.empty(0, dtype=np.int32),
     ):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
-        self.edge_nodes: ndarray = edge_nodes
-        self.face_nodes: ndarray = face_nodes
-        self.nodes_per_face: ndarray = nodes_per_face
-        self.edge_x: ndarray = edge_x
-        self.edge_y: ndarray = edge_y
-        self.face_x: ndarray = face_x
-        self.face_y: ndarray = face_y
-        self.edge_faces: ndarray = edge_faces
-        self.face_edges: ndarray = face_edges
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
+        self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
+        self.face_nodes: ndarray = np.asarray(face_nodes, dtype=np.int32)
+        self.nodes_per_face: ndarray = np.asarray(nodes_per_face, dtype=np.int32)
+        self.edge_x: ndarray = np.asarray(edge_x, dtype=np.double)
+        self.edge_y: ndarray = np.asarray(edge_y, dtype=np.double)
+        self.face_x: ndarray = np.asarray(face_x, dtype=np.double)
+        self.face_y: ndarray = np.asarray(face_y, dtype=np.double)
+        self.edge_faces: ndarray = np.asarray(edge_faces, dtype=np.int32)
+        self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
     def __eq__(self, other: Mesh2d):
         """Checks if the mesh is exactly equal to another.
@@ -240,9 +238,9 @@ class GeometryList:
         geometry_separator=-999.0,
         inner_outer_separator=-998.0,
     ):
-        self.x_coordinates: ndarray = x_coordinates
-        self.y_coordinates: ndarray = y_coordinates
-        self.values: ndarray = values
+        self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
+        self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
+        self.values: ndarray = np.asarray(values, dtype=np.double)
         self.geometry_separator: float = geometry_separator
         self.inner_outer_separator: float = inner_outer_separator
 
@@ -307,8 +305,8 @@ class CurvilinearGrid:
     """
 
     def __init__(self, node_x, node_y, num_m, num_n):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
         self.num_m: int = num_m
         self.num_n: int = num_n
 
@@ -526,8 +524,8 @@ class Mesh1d:
     """
 
     def __init__(self, node_x, node_y, edge_nodes):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
         self.edge_nodes: ndarray = edge_nodes
 
     def plot_edges(self, ax, *args, **kwargs):
@@ -549,8 +547,8 @@ class Contacts:
     """
 
     def __init__(self, mesh1d_indices, mesh2d_indices):
-        self.mesh1d_indices: ndarray = mesh1d_indices
-        self.mesh2d_indices: ndarray = mesh2d_indices
+        self.mesh1d_indices: ndarray = np.asarray(mesh1d_indices, dtype=np.int)
+        self.mesh2d_indices: ndarray = np.asarray(mesh2d_indices, dtype=np.int)
 
     def plot_edges(self, ax, mesh1d, mesh2d, *args, **kwargs):
         """Plots the edges at a given axes.
@@ -601,8 +599,8 @@ class GriddedSamples:
         self.x_origin: float = x_origin
         self.y_origin: float = y_origin
         self.cell_size: float = cell_size
-        self.x_coordinates: ndarray = x_coordinates
-        self.y_coordinates: ndarray = y_coordinates
+        self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
+        self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
         self.values: ndarray = values
 
 
