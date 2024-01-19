@@ -600,7 +600,7 @@ class GriddedSamples:
         cell_size=0.0,
         x_coordinates=np.empty(0, dtype=np.double),
         y_coordinates=np.empty(0, dtype=np.double),
-        values=np.empty(0, dtype=np.float),
+        values=np.empty(0, dtype=np.float32),
     ):
         self.num_x: int = num_x
         self.num_y: int = num_y
@@ -611,10 +611,10 @@ class GriddedSamples:
         self.y_coordinates: ndarray = y_coordinates
         self.values: ndarray = values
 
-        if values.dtype == np.int16:
-            self.value_type: int = InterpolationValues.SHORT
-        elif values.dtype == np.float32:
+        if values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
+        elif values.dtype == np.int16:
+            self.value_type: int = InterpolationValues.SHORT
         else:
             raise RuntimeError(
                 "Unsupported value type: the values should be np.int16 or np.float32!"
