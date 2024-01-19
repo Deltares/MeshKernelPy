@@ -613,7 +613,7 @@ class GriddedSamples:
         elif values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
         else:
-            raise RuntimeError("Unsupported value type: the values should be int16 or float32!")
+            raise RuntimeError("Unsupported value type: the values should be np.int16 or np.float32!")
 
 
 @unique
