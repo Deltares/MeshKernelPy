@@ -9,6 +9,7 @@ from numpy import ndarray
 import meshkernel.errors as mk_errors
 from meshkernel.utils import plot_edges
 
+
 @unique
 class DeleteMeshOption(IntEnum):
     """Option to delete the mesh inside a polygon."""
@@ -82,12 +83,14 @@ class ProjectionType(IntEnum):
     SPHERICAL = 1
     SPHERICALACCURATE = 2
 
+
 @unique
 class InterpolationValues(IntEnum):
     """The possible types of the values to be interpolated in the gridded sample."""
 
     SHORT = 0
     FLOAT = 1
+
 
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data.
@@ -613,7 +616,9 @@ class GriddedSamples:
         elif values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
         else:
-            raise RuntimeError("Unsupported value type: the values should be np.int16 or np.float32!")
+            raise RuntimeError(
+                "Unsupported value type: the values should be np.int16 or np.float32!"
+            )
 
 
 @unique
