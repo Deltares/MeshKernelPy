@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from enum import IntEnum, unique
 
 import numpy as np
 from matplotlib.collections import PolyCollection
-from matplotlib.patches import Polygon
 from numpy import ndarray
 
 import meshkernel.errors as mk_errors
@@ -84,6 +82,14 @@ class ProjectionType(IntEnum):
     CARTESIAN = 0
     SPHERICAL = 1
     SPHERICALACCURATE = 2
+
+
+@unique
+class InterpolationValues(IntEnum):
+    """The possible types of the values to be interpolated in the gridded sample."""
+
+    SHORT = 0
+    FLOAT = 1
 
 
 class Mesh2d:
@@ -594,7 +600,7 @@ class GriddedSamples:
         cell_size=0.0,
         x_coordinates=np.empty(0, dtype=np.double),
         y_coordinates=np.empty(0, dtype=np.double),
-        values=np.empty(0, dtype=np.double),
+        values=np.empty(0, dtype=np.float32),
     ):
         self.num_x: int = num_x
         self.num_y: int = num_y
@@ -604,6 +610,15 @@ class GriddedSamples:
         self.x_coordinates: ndarray = x_coordinates
         self.y_coordinates: ndarray = y_coordinates
         self.values: ndarray = values
+
+        if values.dtype == np.float32:
+            self.value_type: int = InterpolationValues.FLOAT
+        elif values.dtype == np.int16:
+            self.value_type: int = InterpolationValues.SHORT
+        else:
+            raise RuntimeError(
+                "Unsupported value type: the values should be np.int16 or np.float32"
+            )
 
 
 @unique

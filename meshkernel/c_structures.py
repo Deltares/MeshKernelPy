@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ctypes import POINTER, Structure, c_double, c_int
+from ctypes import POINTER, Structure, c_double, c_int, c_void_p
 
 import numpy as np
 from numpy.ctypeslib import as_ctypes
@@ -753,7 +753,8 @@ class CGriddedSamples(Structure):
         ("cell_size", c_double),
         ("x_coordinates", POINTER(c_double)),
         ("y_coordinates", POINTER(c_double)),
-        ("values", POINTER(c_double)),
+        ("values", c_void_p),
+        ("value_type", c_int),
     ]
 
     @staticmethod
@@ -790,6 +791,7 @@ class CGriddedSamples(Structure):
         c_gridded_samples.x_origin = gridded_samples.x_origin
         c_gridded_samples.y_origin = gridded_samples.y_origin
         c_gridded_samples.cell_size = gridded_samples.cell_size
-        c_gridded_samples.values = as_ctypes(gridded_samples.values)
+        c_gridded_samples.values = gridded_samples.values.ctypes.data_as(c_void_p)
+        c_gridded_samples.value_type = gridded_samples.value_type
 
         return c_gridded_samples

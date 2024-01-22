@@ -12,7 +12,7 @@ from ctypes import (
 )
 from enum import IntEnum
 from pathlib import Path
-from typing import Callable, Tuple
+from typing import Tuple
 
 import numpy as np
 from numpy import ndarray
