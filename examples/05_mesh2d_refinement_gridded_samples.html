@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mesh2d refinement based on gridded samples &mdash; MeshKernelPy 2.1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=20623aea"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Mesh2d refinement based on Gebco gridded samples" href="06_mesh2d_refinement_gridded_samples_gebco.html" />
+    <link rel="next" title="Mesh2d refinement based on Gebco gridded samples with variable depth precision" href="06_mesh2d_refinement_gridded_samples_gebco.html" />
     <link rel="prev" title="Curvilineargrid Basics" href="04_curvilineargrid_basics.html" /> 
 </head>
 
@@ -51,11 +52,11 @@
 <li class="toctree-l2"><a class="reference internal" href="03_tri_mesh2d_pol.html">Simple triangular mesh in a given geometry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_curvilineargrid_basics.html">Curvilineargrid Basics</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh2d refinement based on gridded samples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples with variable depth precision</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#generating-a-mesh-of-defined-extension">1. Generating a mesh of defined extension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#saving-the-generated-mesh-to-ugrid-file">2. Saving the generated mesh to UGrid file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#reading-bathymetric-data-form-a-large-netdfc-file">3. Reading bathymetric data form a large NetDFC file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#performing-mesh-refinement-based-on-gridded-data">4. Performing mesh refinement based on gridded data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#performing-mesh-refinement-based-on-gridded-data-depths-as-np-float32-or-np-int16">4. Performing mesh refinement based on gridded data, depths as np.float32 or np.int16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07_curvilineargrid_with_defined_extension.html">Curvilinear grid generation with defined extension</a></li>
 </ul>
 </li>
@@ -88,7 +89,7 @@
            <div itemprop="articleBody">
              
   <section id="mesh2d-refinement-based-on-gridded-samples">
-<h1>Mesh2d refinement based on gridded samples<a class="headerlink" href="#mesh2d-refinement-based-on-gridded-samples" title="Permalink to this heading"></a></h1>
+<h1>Mesh2d refinement based on gridded samples<a class="headerlink" href="#mesh2d-refinement-based-on-gridded-samples" title="Link to this heading"></a></h1>
 <p>This is a brief introduction to the process of mesh refinement using gridded samples. When refining the mesh using gridded samples, bilinear interpolation is used to calculate the depth values at the mesh nodes.</p>
 <p>At the very beginning, the necessary libraries have to be imported.</p>
 <div class="cell docutils container">
@@ -249,7 +250,7 @@ First regenerate the starting mesh</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="04_curvilineargrid_basics.html" class="btn btn-neutral float-left" title="Curvilineargrid Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="06_mesh2d_refinement_gridded_samples_gebco.html" class="btn btn-neutral float-right" title="Mesh2d refinement based on Gebco gridded samples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="06_mesh2d_refinement_gridded_samples_gebco.html" class="btn btn-neutral float-right" title="Mesh2d refinement based on Gebco gridded samples with variable depth precision" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

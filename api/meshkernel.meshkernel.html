@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>meshkernel.meshkernel module &mdash; MeshKernelPy 2.1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=20623aea"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -86,8 +87,1319 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="meshkernel-meshkernel-module">
-<h1>meshkernel.meshkernel module<a class="headerlink" href="#meshkernel-meshkernel-module" title="Permalink to this heading"></a></h1>
+  <section id="module-meshkernel.meshkernel">
+<span id="meshkernel-meshkernel-module"></span><h1>meshkernel.meshkernel module<a class="headerlink" href="#module-meshkernel.meshkernel" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MeshKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType" title="meshkernel.py_structures.ProjectionType"><span class="pre">ProjectionType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ProjectionType.CARTESIAN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is the entry point for interacting with the MeshKernel library</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_boundary">
+<span class="sig-name descname"><span class="pre">contacts_compute_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_radius:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span> <span class="pre">=</span> <span class="pre">&lt;meshkernel.py_structures.GeometryList</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_boundary" title="Link to this definition"></a></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the closest Mesh2d faces at the boundary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected (1 = generate a connection, 0 = do not generate a connection)</p></li>
+<li><p><strong>search_radius</strong> (<em>float</em>) – The radius used for searching neighboring Mesh2d faces, in meters for cartesian
+projection and degrees for spherical projection. If it is equal to the missing value
+double, the search radius will be calculated internally.</p></li>
+<li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a><em>, </em><em>optional</em>) – The polygon selecting the Mesh2d faces to connect.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_multiple">
+<span class="sig-name descname"><span class="pre">contacts_compute_multiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_multiple" title="Link to this definition"></a></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where a single Mesh1d node is connected to
+multiple Mesh2d face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_single">
+<span class="sig-name descname"><span class="pre">contacts_compute_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_single" title="Link to this definition"></a></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where each single Mesh1d node is connected to one Mesh2d face circumcenter.
+The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connected to any Mesh2d face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
+<li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygons selecting the area where the contacts will be be generated.</p></li>
+<li><p><strong>projection_factor</strong> (<em>float</em>) – The projection factor used for generating the contacts when 1d nodes are</p></li>
+<li><p><strong>mesh.</strong> (<em>not inside the 2d</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_with_points">
+<span class="sig-name descname"><span class="pre">contacts_compute_with_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span> <span class="pre">=</span> <span class="pre">&lt;meshkernel.py_structures.GeometryList</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_with_points" title="Link to this definition"></a></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where Mesh1d nodes are connected to the Mesh2d face mass centers containing
+the input point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
+<li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a><em>, </em><em>optional</em>) – The polygon selecting the Mesh2d faces to connect.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_compute_with_polygons">
+<span class="sig-name descname"><span class="pre">contacts_compute_with_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_compute_with_polygons" title="Link to this definition"></a></dt>
+<dd><p>Computes Mesh1d-Mesh2d contacts, where a Mesh2d face per polygon is connected to the closest Mesh1d node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>ndarray</em>) – A boolean array describing whether Mesh1d nodes should or
+should not be connected</p></li>
+<li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygons in which the closest Mesh2d face to a Mesh1d node will be connected.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_get">
+<span class="sig-name descname"><span class="pre">contacts_get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts" title="meshkernel.py_structures.Contacts"><span class="pre">Contacts</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_get" title="Link to this definition"></a></dt>
+<dd><p>Gets the Contacts between the Mesh1d and Mesh2d from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The contacts.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts" title="meshkernel.py_structures.Contacts">Contacts</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.contacts_set">
+<span class="sig-name descname"><span class="pre">contacts_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts" title="meshkernel.py_structures.Contacts"><span class="pre">Contacts</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.contacts_set" title="Link to this definition"></a></dt>
+<dd><p>Sets the contacts.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>contacts</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts" title="meshkernel.py_structures.Contacts"><em>Contacts</em></a>) – The input data used for setting the contacts.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_curvature">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearDirection" title="meshkernel.py_structures.CurvilinearDirection"><span class="pre">CurvilinearDirection</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_curvature" title="Link to this definition"></a></dt>
+<dd><p>Computes the curvature of a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>direction</strong> (<em>int</em>) – The direction in which to compute the smoothness.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_orthogonal_from_splines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">splines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvilinear_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters" title="meshkernel.py_structures.CurvilinearParameters"><span class="pre">CurvilinearParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">splines_to_curvilinear_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters" title="meshkernel.py_structures.SplinesToCurvilinearParameters"><span class="pre">SplinesToCurvilinearParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines" title="Link to this definition"></a></dt>
+<dd><p>Generates curvilinear grid from splines with the advancing front method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>splines</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The spline to use for curvilinear grid generation.</p></li>
+<li><p><strong>curvilinear_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters" title="meshkernel.py_structures.CurvilinearParameters"><em>CurvilinearParameters</em></a>) – The curvilinear grid parameters.</p></li>
+<li><p><strong>splines_to_curvilinear_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters" title="meshkernel.py_structures.SplinesToCurvilinearParameters"><em>SplinesToCurvilinearParameters</em></a>) – Additional parameters required</p></li>
+<li><p><strong>algorithm.</strong> (<em>by the</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_rectangular_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid" title="Link to this definition"></a></dt>
+<dd><p>Makes a rectangular grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_from_polygon">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_rectangular_grid_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_from_polygon" title="Link to this definition"></a></dt>
+<dd><p>Makes a rectangular grid from polygons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p></li>
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon within which the grid will be generated</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_on_extension">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_rectangular_grid_on_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_on_extension" title="Link to this definition"></a></dt>
+<dd><p>Makes a rectangular grid on defined extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_smoothness">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_smoothness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearDirection" title="meshkernel.py_structures.CurvilinearDirection"><span class="pre">CurvilinearDirection</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_smoothness" title="Link to this definition"></a></dt>
+<dd><p>Computes the smoothness of a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>direction</strong> (<em>int</em>) – The direction in which to compute the smoothness.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_polygon">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_transfinite_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">third_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_fourth_side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_polygon" title="Link to this definition"></a></dt>
+<dd><p>Computes a curvilinear mesh in a polygon. 3 separate polygon nodes need to be selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon.</p></li>
+<li><p><strong>first_node</strong> (<em>int</em>) – The first selected node.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The second selected node.</p></li>
+<li><p><strong>third_node</strong> (<em>int</em>) – The third selected node.</p></li>
+<li><p><strong>use_fourth_side</strong> (<em>bool</em>) – Use the fourth polygon side to compute the curvilinear grid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_splines">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_transfinite_from_splines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">splines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvilinear_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters" title="meshkernel.py_structures.CurvilinearParameters"><span class="pre">CurvilinearParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_splines" title="Link to this definition"></a></dt>
+<dd><p>Generates curvilinear grid from splines with transfinite interpolation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>splines</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The spline to use for curvilinear grid generation.</p></li>
+<li><p><strong>curvilinear_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters" title="meshkernel.py_structures.CurvilinearParameters"><em>CurvilinearParameters</em></a>) – The curvilinear grid parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_triangle">
+<span class="sig-name descname"><span class="pre">curvilinear_compute_transfinite_from_triangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">third_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_compute_transfinite_from_triangle" title="Link to this definition"></a></dt>
+<dd><p>Computes a curvilinear mesh in a triangle. 3 separate polygon nodes need to be selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon.</p></li>
+<li><p><strong>first_node</strong> (<em>int</em>) – The first selected node.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The second selected node.</p></li>
+<li><p><strong>third_node</strong> (<em>int</em>) – The third selected node.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_convert_to_mesh2d">
+<span class="sig-name descname"><span class="pre">curvilinear_convert_to_mesh2d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_convert_to_mesh2d" title="Link to this definition"></a></dt>
+<dd><p>Converts a curvilinear grid to an unstructured mesh</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_delete_node">
+<span class="sig-name descname"><span class="pre">curvilinear_delete_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_delete_node" title="Link to this definition"></a></dt>
+<dd><p>Delete the node closest to a point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_coordinate</strong> (<em>float</em>) – The x coordinate of the point.</p></li>
+<li><p><strong>y_coordinate</strong> (<em>float</em>) – The y coordinate of the point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_derefine">
+<span class="sig-name descname"><span class="pre">curvilinear_derefine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_derefine" title="Link to this definition"></a></dt>
+<dd><p>Directional curvilinear grid derefinement.
+Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner
+and upper_right_corner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to refine.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to refine.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_initialize_line_shift</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Initializes the curvilinear line shift algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_initialize_orthogonalize">
+<span class="sig-name descname"><span class="pre">curvilinear_initialize_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><span class="pre">OrthogonalizationParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_initialize_orthogonalize" title="Link to this definition"></a></dt>
+<dd><p>Initializes the algorithm for performing curvilinear grid orthogonalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>orthogonalization_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><em>OrthogonalizationParameters</em></a>) – The input orthogonalization parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_insert_face">
+<span class="sig-name descname"><span class="pre">curvilinear_insert_face</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_insert_face" title="Link to this definition"></a></dt>
+<dd><p>Inserts a new face on a curvilinear grid.
+The new face will be inserted on top of the closest edge by linear extrapolation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_coordinate</strong> (<em>float</em>) – The x coordinate of the point used for finding the closest face.</p></li>
+<li><p><strong>y_coordinate</strong> (<em>float</em>) – The y coordinate of the point used for finding the closest face.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_line_attraction_repulsion">
+<span class="sig-name descname"><span class="pre">curvilinear_line_attraction_repulsion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repulsion_parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_line_attraction_repulsion" title="Link to this definition"></a></dt>
+<dd><p>Attracts/repulses grid lines in a block towards another set grid line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repulsion_parameter</strong> (<em>float</em>) – The repulsion parameter.</p></li>
+<li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – The x coordinate of the first node.</p></li>
+<li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – The y coordinate of the first node.</p></li>
+<li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – The x coordinate of the second node.</p></li>
+<li><p><strong>y_second_grid_line_node</strong> (<em>float</em>) – The y coordinate of the second node.</p></li>
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror">
+<span class="sig-name descname"><span class="pre">curvilinear_line_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirroring_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror" title="Link to this definition"></a></dt>
+<dd><p>Mirrors a boundary grid line outwards. The boundary grid line is defined by its start and end points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mirroring_factor</strong> (<em>float</em>) – The mirroring factor.</p></li>
+<li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – The x coordinate of the first node.</p></li>
+<li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – The y coordinate of the first node.</p></li>
+<li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – The x coordinate of the second node.</p></li>
+<li><p><strong>y_second_grid_line_node</strong> (<em>float</em>) – The y coordinate of the second node.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_line_shift</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Performs the curvilinear line shifting and finalizes the algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_move_node">
+<span class="sig-name descname"><span class="pre">curvilinear_move_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_from_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_from_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_to_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_to_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_move_node" title="Link to this definition"></a></dt>
+<dd><p>Moves a point of a curvilinear grid from one location to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_from_point</strong> (<em>float</em>) – The x coordinate of point to move.</p></li>
+<li><p><strong>y_from_point</strong> (<em>float</em>) – The y coordinate of point to move.</p></li>
+<li><p><strong>x_to_point</strong> (<em>float</em>) – The new x coordinate of the point.</p></li>
+<li><p><strong>y_to_point</strong> (<em>float</em>) – The new y coordinate of the point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_move_node_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_move_node_line_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_from_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_from_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_to_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_to_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_move_node_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Moves a node of the line to shift. The operation can be performed multiple times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_from_coordinate</strong> (<em>float</em>) – The x coordinate of the node to move.</p></li>
+<li><p><strong>y_from_coordinate</strong> (<em>float</em>) – The y coordinate of the node to move.</p></li>
+<li><p><strong>x_to_coordinate</strong> (<em>float</em>) – The x coordinate of the new node position.</p></li>
+<li><p><strong>y_to_coordinate</strong> (<em>float</em>) – The y coordinate of the new node position.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize">
+<span class="sig-name descname"><span class="pre">curvilinear_orthogonalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize" title="Link to this definition"></a></dt>
+<dd><p>Performs curvilinear grid orthogonalization and finalizes the algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_refine">
+<span class="sig-name descname"><span class="pre">curvilinear_refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refinement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_refine" title="Link to this definition"></a></dt>
+<dd><p>Directional curvilinear grid refinement.
+Additional gridlines are added perpendicularly to the segment defined by lower_left_corner
+and upper_right_corner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to refine.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to refine.</p></li>
+<li><p><strong>refinement</strong> (<em>int</em>) – The number of grid lines to add between lower left and upper right</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_block_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_set_block_line_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_block_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Defines a block on the curvilinear where the grid line shifting is distributed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_block_orthogonalize">
+<span class="sig-name descname"><span class="pre">curvilinear_set_block_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_block_orthogonalize" title="Link to this definition"></a></dt>
+<dd><p>Defines a block on the curvilinear grid where to perform orthogonalization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to orthogonalize.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to orthogonalize.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to orthogonalize.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to orthogonalize.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_frozen_lines_orthogonalize">
+<span class="sig-name descname"><span class="pre">curvilinear_set_frozen_lines_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_first_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_frozen_lines_orthogonalize" title="Link to this definition"></a></dt>
+<dd><p>Freezes a curvilinear grid line during the orthogonalization process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_first_gridline_node</strong> (<em>float</em>) – The x coordinate of the first point of the line to freeze.</p></li>
+<li><p><strong>y_first_gridline_node</strong> (<em>float</em>) – The y coordinate of the first point of the line to freeze.</p></li>
+<li><p><strong>x_second_gridline_node</strong> (<em>float</em>) – The x coordinate of the second point of the line to freeze.</p></li>
+<li><p><strong>y_second_gridline_node</strong> (<em>float</em>) – The y coordinate of the second point of the line to freeze.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_line_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_set_line_line_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_line_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Sets the start and end grid nodes of the grid line to shift.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – The x coordinate of the first curvilinear grid node to shift.</p></li>
+<li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – The y coordinate of the first curvilinear grid node to shift.</p></li>
+<li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – The x coordinate of the second curvilinear grid node to shift.</p></li>
+<li><p><strong>y_second_grid_line_node</strong> (<em>float</em>) – The y coordinate of the second curvilinear grid node to shift.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_smoothing">
+<span class="sig-name descname"><span class="pre">curvilinear_smoothing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothing_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_smoothing" title="Link to this definition"></a></dt>
+<dd><p>Smooths a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>smoothing_iterations</strong> (<em>int</em>) – The number of smoothing iterations to perform</p></li>
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to refine.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to refine.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_smoothing_directional">
+<span class="sig-name descname"><span class="pre">curvilinear_smoothing_directional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothing_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_smoothing_directional" title="Link to this definition"></a></dt>
+<dd><p>Smooths a curvilinear grid along the direction specified by a segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>smoothing_iterations</strong> (<em>int</em>) – The number of smoothing iterations to perform</p></li>
+<li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – The x coordinate of the first curvilinear grid node.</p></li>
+<li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – The y coordinate of the first curvilinear grid node.</p></li>
+<li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – The x coordinate of the second curvilinear grid node.</p></li>
+<li><p><strong>y_second_grid_line_node</strong> (<em>float</em>) – The y coordinate of the second curvilinear grid node.</p></li>
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to refine.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to refine.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to refine.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilineargrid_get">
+<span class="sig-name descname"><span class="pre">curvilineargrid_get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearGrid" title="meshkernel.py_structures.CurvilinearGrid"><span class="pre">CurvilinearGrid</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilineargrid_get" title="Link to this definition"></a></dt>
+<dd><p>Gets the curvilinear grid state from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the curvilinear grid state.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearGrid" title="meshkernel.py_structures.CurvilinearGrid">CurvilinearGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.get_meshkernel_version">
+<span class="sig-name descname"><span class="pre">get_meshkernel_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.get_meshkernel_version" title="Link to this definition"></a></dt>
+<dd><p>Get the version of the underlying C++ MeshKernel library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The version string</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.get_meshkernelpy_version">
+<span class="sig-name descname"><span class="pre">get_meshkernelpy_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.get_meshkernelpy_version" title="Link to this definition"></a></dt>
+<dd><p>Get the version of this Python wrapper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The version string</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.get_projection">
+<span class="sig-name descname"><span class="pre">get_projection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType" title="meshkernel.py_structures.ProjectionType"><span class="pre">ProjectionType</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.get_projection" title="Link to this definition"></a></dt>
+<dd><p>Gets the projection type of the meshkernel state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The projection type</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType" title="meshkernel.py_structures.ProjectionType">ProjectionType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.get_splines">
+<span class="sig-name descname"><span class="pre">get_splines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_points_between_nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.get_splines" title="Link to this definition"></a></dt>
+<dd><p>Get the computed spline points between two corner nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input corner nodes of the splines.</p></li>
+<li><p><strong>number_of_points_between_nodes</strong> (<em>int</em>) – The number of spline points to generate between two corner nodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output spline.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh1d_add">
+<span class="sig-name descname"><span class="pre">mesh1d_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh1d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><span class="pre">Mesh1d</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh1d_add" title="Link to this definition"></a></dt>
+<dd><p>Adds a one-dimensional mesh.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mesh1d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><em>Mesh1d</em></a>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh1d_get">
+<span class="sig-name descname"><span class="pre">mesh1d_get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><span class="pre">Mesh1d</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh1d_get" title="Link to this definition"></a></dt>
+<dd><p>Gets the one-dimensional mesh state from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the two-dimensional mesh state.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d">Mesh1d</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh1d_set">
+<span class="sig-name descname"><span class="pre">mesh1d_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh1d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><span class="pre">Mesh1d</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh1d_set" title="Link to this definition"></a></dt>
+<dd><p>Sets the one-dimensional mesh state of the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mesh1d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><em>Mesh1d</em></a>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_add">
+<span class="sig-name descname"><span class="pre">mesh2d_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_add" title="Link to this definition"></a></dt>
+<dd><p>Adds a two-dimensional mesh.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mesh2d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_averaging_interpolation">
+<span class="sig-name descname"><span class="pre">mesh2d_averaging_interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaging_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod" title="meshkernel.py_structures.AveragingMethod"><span class="pre">AveragingMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_averaging_interpolation" title="Link to this definition"></a></dt>
+<dd><p>Performs averaging interpolation of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The samples to interpolate.</p></li>
+<li><p><strong>location_type</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><em>Mesh2dLocation</em></a>) – The location type on which to interpolate.</p></li>
+<li><p><strong>averaging_method</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod" title="meshkernel.py_structures.AveragingMethod"><em>AveragingMethod</em></a>) – The averaging method.</p></li>
+<li><p><strong>relative_search_size</strong> (<em>float</em>) – The relative search size.</p></li>
+<li><p><strong>min_samples</strong> (<em>int</em>) – The minimum number of samples used for some interpolation algorithms to perform
+a valid interpolation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The interpolated samples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization">
+<span class="sig-name descname"><span class="pre">mesh2d_compute_orthogonalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_option:</span> <span class="pre">~meshkernel.py_structures.ProjectToLandBoundaryOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters:</span> <span class="pre">~meshkernel.py_structures.OrthogonalizationParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span> <span class="pre">=</span> <span class="pre">&lt;meshkernel.py_structures.GeometryList</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization" title="Link to this definition"></a></dt>
+<dd><p>Orthogonalizes the Mesh2d.
+The function modifies the mesh for achieving orthogonality between the edges
+and the segments connecting the face circumcenters.
+The amount of orthogonality is traded against the mesh smoothing (in this case the equality of face areas).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_to_land_boundary_option</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectToLandBoundaryOption" title="meshkernel.py_structures.ProjectToLandBoundaryOption"><em>ProjectToLandBoundaryOption</em></a>) – The option to determine how to snap to
+land boundaries.</p></li>
+<li><p><strong>orthogonalization_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><em>OrthogonalizationParameters</em></a>) – The orthogonalization parameters.</p></li>
+<li><p><strong>land_boundaries</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The land boundaries to account for in the orthogonalization process.</p></li>
+<li><p><strong>selecting_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a><em>, </em><em>optional</em>) – The polygon where to perform the orthogonalization.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes">
+<span class="sig-name descname"><span class="pre">mesh2d_connect_meshes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes" title="Link to this definition"></a></dt>
+<dd><p>Connect a mesh to an existing mesh</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh2d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The mesh to connect to the existing mesh</p></li>
+<li><p><strong>search_fraction</strong> (<em>float</em>) – Fraction of the shortest edge (along an edge to be connected)
+to use when determining neighbour edge closeness</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_convert_projection">
+<span class="sig-name descname"><span class="pre">mesh2d_convert_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType" title="meshkernel.py_structures.ProjectionType"><span class="pre">ProjectionType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_convert_projection" title="Link to this definition"></a></dt>
+<dd><p>Converts the projection of a mesh2d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>projection</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.ProjectionType" title="meshkernel.py_structures.ProjectionType"><em>ProjectionType</em></a>) – The new mesh projection.</p></li>
+<li><p><strong>zone</strong> (<em>str</em>) – The UTM zone and information string.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete">
+<span class="sig-name descname"><span class="pre">mesh2d_delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption" title="meshkernel.py_structures.DeleteMeshOption"><span class="pre">DeleteMeshOption</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_deletion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete" title="Link to this definition"></a></dt>
+<dd><p>Deletes a mesh in a polygon using several options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The GeometryList describing the polygon where to perform the operation.</p></li>
+<li><p><strong>delete_option</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption" title="meshkernel.py_structures.DeleteMeshOption"><em>DeleteMeshOption</em></a>) – The option describing the strategy to delete the mesh.</p></li>
+<li><p><strong>invert_deletion</strong> (<em>bool</em>) – Whether or not to invert the deletion.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete_edge">
+<span class="sig-name descname"><span class="pre">mesh2d_delete_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete_edge" title="Link to this definition"></a></dt>
+<dd><p>Deletes the closest mesh2d edge to a point.
+The coordinates of the edge middle points are used for calculating the distances to the point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete_hanging_edges">
+<span class="sig-name descname"><span class="pre">mesh2d_delete_hanging_edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete_hanging_edges" title="Link to this definition"></a></dt>
+<dd><p>Delete the hanging edges in the Mesh2d.
+A hanging edge is an edge where one of the two nodes is not connected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete_node">
+<span class="sig-name descname"><span class="pre">mesh2d_delete_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete_node" title="Link to this definition"></a></dt>
+<dd><p>Deletes a Mesh2d node with the given <cite>index</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_index</strong> (<em>int</em>) – The index of the node to be deleted.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.InputError" title="meshkernel.errors.InputError"><strong>InputError</strong></a> – Raised when <cite>node_index</cite> is smaller than 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete_small_flow_edges_and_small_triangles">
+<span class="sig-name descname"><span class="pre">mesh2d_delete_small_flow_edges_and_small_triangles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">small_flow_edges_length_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_fractional_area_triangles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete_small_flow_edges_and_small_triangles" title="Link to this definition"></a></dt>
+<dd><p>Deletes all small mesh2d flow edges and small triangles.
+The flow edges are the edges connecting faces circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>small_flow_edges_length_threshold</strong> (<em>float</em>) – The configurable length for detecting a small flow edge.</p></li>
+<li><p><strong>min_fractional_area_triangles</strong> (<em>float</em>) – The ratio of the face area to the average area of neighboring
+non-triangular faces. This parameter is used for determining whether
+a triangular face is small.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_flip_edges">
+<span class="sig-name descname"><span class="pre">mesh2d_flip_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">triangulation_required</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_required</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_flip_edges" title="Link to this definition"></a></dt>
+<dd><p>Flips mesh2d edges to optimize the mesh smoothness.
+Nodes that are connected to more than six other nodes are typically enclosed by faces of highly non-uniform
+shape and wildly varying areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>triangulation_required</strong> (<em>bool</em>) – Whether to triangulate non-triangular cells.</p></li>
+<li><p><strong>project_to_land_boundary_required</strong> (<em>bool</em>) – Whether projection to land boundaries is required.</p></li>
+<li><p><strong>selecting_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon where to perform the edge flipping.</p></li>
+<li><p><strong>land_boundaries</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The land boundaries to account for when flipping the edges.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get">
+<span class="sig-name descname"><span class="pre">mesh2d_get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get" title="Link to this definition"></a></dt>
+<dd><p>Gets the two-dimensional mesh state from the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the two-dimensional mesh state.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d">Mesh2d</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_edge">
+<span class="sig-name descname"><span class="pre">mesh2d_get_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_edge" title="Link to this definition"></a></dt>
+<dd><p>Gets the closest mesh2d edge to a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of the edge.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges">
+<span class="sig-name descname"><span class="pre">mesh2d_get_hanging_edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges" title="Link to this definition"></a></dt>
+<dd><p>Gets the indices of hanging edges. A hanging edge is an edge where one of the two nodes is not connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The integer array describing the indices of the hanging edges.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_boundaries_as_polygons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the boundaries of a mesh as a series of separated polygons.</p>
+<p>For example, if a mesh has an single inner hole, two polygons will be generated,
+one for the inner boundary and one for the outer boundary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output network boundary polygon.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_node_index">
+<span class="sig-name descname"><span class="pre">mesh2d_get_node_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_node_index" title="Link to this definition"></a></dt>
+<dd><p>Finds the node closest to a point within a given search radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
+<li><p><strong>search_radius</strong> (<em>float</em>) – The search radius.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_nodes_in_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_get_nodes_in_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inside</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_nodes_in_polygons" title="Link to this definition"></a></dt>
+<dd><p>Gets the indices of the mesh2d nodes selected with a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon.</p></li>
+<li><p><strong>inside</strong> (<em>bool</em>) – Selection of the nodes inside the polygon (True) or outside (False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The integer array describing the selected nodes indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_obtuse_triangles_mass_centers">
+<span class="sig-name descname"><span class="pre">mesh2d_get_obtuse_triangles_mass_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_obtuse_triangles_mass_centers" title="Link to this definition"></a></dt>
+<dd><p>Gets the mass centers of obtuse mesh2d triangles.
+Obtuse triangles are those having one angle larger than 90°.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The geometry list with the mass center coordinates.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_orthogonality">
+<span class="sig-name descname"><span class="pre">mesh2d_get_orthogonality</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_orthogonality" title="Link to this definition"></a></dt>
+<dd><p>Gets the mesh orthogonality, expressed as the ratio between the edges and
+the segments connecting the face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The geometry list with the orthogonality values of each edge.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_small_flow_edge_centers">
+<span class="sig-name descname"><span class="pre">mesh2d_get_small_flow_edge_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">small_flow_edges_length_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_small_flow_edge_centers" title="Link to this definition"></a></dt>
+<dd><p>Gets the small mesh2d flow edges centers.
+The flow edges are the edges connecting face circumcenters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>small_flow_edges_length_threshold</strong> (<em>float</em>) – The configurable length for detecting a small flow edge.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The geometry list with the small flow edge center coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_smoothness">
+<span class="sig-name descname"><span class="pre">mesh2d_get_smoothness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_smoothness" title="Link to this definition"></a></dt>
+<dd><p>Gets the smoothness, expressed as the ratio between the values of two neighboring faces areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The geometry list with the smoothness values of each edge.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_insert_edge">
+<span class="sig-name descname"><span class="pre">mesh2d_insert_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_insert_edge" title="Link to this definition"></a></dt>
+<dd><p>Insert a new mesh2d edge connecting two given nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_node</strong> (<em>int</em>) – The index of the first node.</p></li>
+<li><p><strong>end_node</strong> (<em>int</em>) – The index of the second node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of the new edge.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_insert_node">
+<span class="sig-name descname"><span class="pre">mesh2d_insert_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_insert_node" title="Link to this definition"></a></dt>
+<dd><p>Insert a new node at the specified coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the new node.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the new node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of the new node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_global">
+<span class="sig-name descname"><span class="pre">mesh2d_make_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_longitude_nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_latitude_nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_global" title="Link to this definition"></a></dt>
+<dd><p>Compute the global mesh with a given number of points along the longitude and latitude directions.</p>
+<p>Args:
+num_longitude_nodes (int): The number of points along the longitude.
+num_latitude_nodes (int):  The number of points along the latitude (half hemisphere)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh">
+<span class="sig-name descname"><span class="pre">mesh2d_make_rectangular_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh" title="Link to this definition"></a></dt>
+<dd><p>Generates a rectangular mesh2d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon">
+<span class="sig-name descname"><span class="pre">mesh2d_make_rectangular_mesh_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon" title="Link to this definition"></a></dt>
+<dd><p>Generates a rectangular mesh2d within a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p></li>
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon within which the grid will be generated</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_on_extension">
+<span class="sig-name descname"><span class="pre">mesh2d_make_rectangular_mesh_on_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">make_grid_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><span class="pre">MakeGridParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_on_extension" title="Link to this definition"></a></dt>
+<dd><p>Generates a rectangular mesh2d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>make_grid_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters" title="meshkernel.py_structures.MakeGridParameters"><em>MakeGridParameters</em></a>) – The parameters used for making the uniform grid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon">
+<span class="sig-name descname"><span class="pre">mesh2d_make_triangular_mesh_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon" title="Link to this definition"></a></dt>
+<dd><p>Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
+the polygon edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples">
+<span class="sig-name descname"><span class="pre">mesh2d_make_triangular_mesh_from_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples" title="Link to this definition"></a></dt>
+<dd><p>Makes a triangular mesh from a set of samples, triangulating the sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_points</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The sample points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes">
+<span class="sig-name descname"><span class="pre">mesh2d_merge_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes" title="Link to this definition"></a></dt>
+<dd><p>Merges the mesh2d nodes, effectively removing all small edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon defining the area where the operation will be performed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes_with_merging_distance">
+<span class="sig-name descname"><span class="pre">mesh2d_merge_nodes_with_merging_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">merging_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes_with_merging_distance" title="Link to this definition"></a></dt>
+<dd><p>Merges the mesh2d nodes, effectively removing all small edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon defining the area where the operation will be performed.</p></li>
+<li><p><strong>merging_distance</strong> (<em>float</em>) – The distance below which two nodes will be merged.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_merge_two_nodes">
+<span class="sig-name descname"><span class="pre">mesh2d_merge_two_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_merge_two_nodes" title="Link to this definition"></a></dt>
+<dd><p>Merges <cite>first_node</cite> into <cite>second_node</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_node</strong> (<em>int</em>) – The index of the first node to merge.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The index of the second node to merge.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_move_node">
+<span class="sig-name descname"><span class="pre">mesh2d_move_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_move_node" title="Link to this definition"></a></dt>
+<dd><p>Moves a Mesh2d node with the given <cite>index</cite> to the point position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the new position of the node.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the new position of the node.</p></li>
+<li><p><strong>node_index</strong> (<em>int</em>) – The index of the node to be moved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.errors.html#meshkernel.errors.InputError" title="meshkernel.errors.InputError"><strong>InputError</strong></a> – Raised when <cite>node_index</cite> is smaller than 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_gridded_samples">
+<span class="sig-name descname"><span class="pre">mesh2d_refine_based_on_gridded_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gridded_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples" title="meshkernel.py_structures.GriddedSamples"><span class="pre">GriddedSamples</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><span class="pre">MeshRefinementParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_nodal_refinement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_gridded_samples" title="Link to this definition"></a></dt>
+<dd><p>Computes mesh refinement based of gridded samples and bilinear interpolation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gridded_samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples" title="meshkernel.py_structures.GriddedSamples"><em>GriddedSamples</em></a>) – The gridded samples.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><em>MeshRefinementParameters</em></a>) – The mesh refinement parameters.</p></li>
+<li><p><strong>use_nodal_refinement</strong> (<em>bool</em>) – If the depth value at nodes is used for refinement. Default True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_polygon">
+<span class="sig-name descname"><span class="pre">mesh2d_refine_based_on_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><span class="pre">MeshRefinementParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_polygon" title="Link to this definition"></a></dt>
+<dd><p>Refines a mesh2d within a polygon. Refinement is achieved by splitting the edges contained
+in the polygon in two.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The closed polygon.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><em>MeshRefinementParameters</em></a>) – The mesh refinement parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_samples">
+<span class="sig-name descname"><span class="pre">mesh2d_refine_based_on_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><span class="pre">MeshRefinementParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_refine_based_on_samples" title="Link to this definition"></a></dt>
+<dd><p>Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
+The number of successive splits is indicated by the sample value.
+For example:
+- a value of 0 means no split and hence no refinement;
+- a value of 1 means a single split (a quadrilateral face generates 4 faces);
+- a value of 2 two splits (a quadrilateral face generates 16 faces).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The samples.</p></li>
+<li><p><strong>relative_search_radius</strong> (<em>float</em>) – The relative search radius relative to the face size,
+used for some interpolation algorithms.</p></li>
+<li><p><strong>minimum_num_samples</strong> (<em>int</em>) – The minimum number of samples used for some averaging algorithms.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><em>MeshRefinementParameters</em></a>) – The mesh refinement parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions">
+<span class="sig-name descname"><span class="pre">mesh2d_remove_disconnected_regions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions" title="Link to this definition"></a></dt>
+<dd><p>Remove any disconnected regions from a mesh2d. Only the most frequent remains</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_rotate">
+<span class="sig-name descname"><span class="pre">mesh2d_rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">centre_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centre_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_rotate" title="Link to this definition"></a></dt>
+<dd><p>Rotates a mesh2d by about a centre of rotation.</p>
+<p>Args:
+centre_x (float): X-coordinate of the centre of rotation.
+centre_y (float): Y-coordinate of the centre of rotation.
+angle (float): Angle of rotation in degrees.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_set">
+<span class="sig-name descname"><span class="pre">mesh2d_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_set" title="Link to this definition"></a></dt>
+<dd><p>Sets the two-dimensional mesh state of the MeshKernel.</p>
+<p>Please note that this involves a copy of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mesh2d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The input data used for setting the state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_translate">
+<span class="sig-name descname"><span class="pre">mesh2d_translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_translate" title="Link to this definition"></a></dt>
+<dd><p>Translates a mesh2d.</p>
+<p>Args:
+translation_x (float): X-component of the translation vector.
+translation_y (float): Y-component of the translation vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_triangulation_interpolation">
+<span class="sig-name descname"><span class="pre">mesh2d_triangulation_interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_triangulation_interpolation" title="Link to this definition"></a></dt>
+<dd><p>Performs triangulation interpolation of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The samples to interpolate.</p></li>
+<li><p><strong>location_type</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><em>Mesh2dLocation</em></a>) – The location type on which to interpolate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The interpolated samples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator">
+<span class="sig-name descname"><span class="pre">mkernel_get_inner_outer_separator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator" title="Link to this definition"></a></dt>
+<dd><p>Get the separator used in MeshKernel for separating the outer perimeter of a polygon from is inner perimeter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The polygon inner/outer separator</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_get_separator">
+<span class="sig-name descname"><span class="pre">mkernel_get_separator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_get_separator" title="Link to this definition"></a></dt>
+<dd><p>Get the separator used in MeshKernel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The separator</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.polygon_get_included_points">
+<span class="sig-name descname"><span class="pre">polygon_get_included_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selecting_polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.polygon_get_included_points" title="Link to this definition"></a></dt>
+<dd><p>Selects the polygon points within another polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>selecting_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The selection polygon.</p></li>
+<li><p><strong>selected_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon of which to get the selected points.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The selection result. The selected points are contained in the values array of the returned</dt><dd><p>GeometryList (0.0 not selected, 1.0 selected).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.polygon_refine">
+<span class="sig-name descname"><span class="pre">polygon_refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_edge_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.polygon_refine" title="Link to this definition"></a></dt>
+<dd><p>Refines the polygon perimeter between two nodes. This interval is refined to achieve a target edge length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon to refine.</p></li>
+<li><p><strong>first_node</strong> (<em>int</em>) – The first index of the refinement interval.</p></li>
+<li><p><strong>second_node</strong> (<em>int</em>) – The second index of the refinement interval.</p></li>
+<li><p><strong>target_edge_length</strong> (<em>float</em>) – The target interval edge length.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The refined polygon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

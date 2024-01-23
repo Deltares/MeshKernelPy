@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Curvilineargrid Basics &mdash; MeshKernelPy 2.1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=20623aea"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -51,11 +52,11 @@
 <li class="toctree-l2"><a class="reference internal" href="03_tri_mesh2d_pol.html">Simple triangular mesh in a given geometry</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Curvilineargrid Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05_mesh2d_refinement_gridded_samples.html">Mesh2d refinement based on gridded samples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html">Mesh2d refinement based on Gebco gridded samples with variable depth precision</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#generating-a-mesh-of-defined-extension">1. Generating a mesh of defined extension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#saving-the-generated-mesh-to-ugrid-file">2. Saving the generated mesh to UGrid file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#reading-bathymetric-data-form-a-large-netdfc-file">3. Reading bathymetric data form a large NetDFC file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#performing-mesh-refinement-based-on-gridded-data">4. Performing mesh refinement based on gridded data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_mesh2d_refinement_gridded_samples_gebco.html#performing-mesh-refinement-based-on-gridded-data-depths-as-np-float32-or-np-int16">4. Performing mesh refinement based on gridded data, depths as np.float32 or np.int16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07_curvilineargrid_with_defined_extension.html">Curvilinear grid generation with defined extension</a></li>
 </ul>
 </li>
@@ -88,7 +89,7 @@
            <div itemprop="articleBody">
              
   <section id="curvilineargrid-basics">
-<h1>Curvilineargrid Basics<a class="headerlink" href="#curvilineargrid-basics" title="Permalink to this heading"></a></h1>
+<h1>Curvilineargrid Basics<a class="headerlink" href="#curvilineargrid-basics" title="Link to this heading"></a></h1>
 <p>This is the basic introduction for using <code class="docutils literal notranslate"><span class="pre">meshkernel</span></code> library for generating curvilinear grids.</p>
 <p>At the very beginning, the necessary libraries have to be imported.</p>
 <div class="cell docutils container">
@@ -170,7 +171,7 @@
 </div>
 </div>
 <section id="generate-a-curvilinear-grid-using-the-transfinite-interpolation-method">
-<h2>Generate a curvilinear grid using the transfinite interpolation method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-transfinite-interpolation-method" title="Permalink to this heading"></a></h2>
+<h2>Generate a curvilinear grid using the transfinite interpolation method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-transfinite-interpolation-method" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">curvilinear_grid_transfinite</span> <span class="o">=</span> <span class="n">create_mk_instance_with_curvilinear_grid_from_transfinite_method</span><span class="p">()</span><span class="o">.</span><span class="n">curvilineargrid_get</span><span class="p">()</span>
@@ -192,7 +193,7 @@
 </div>
 </section>
 <section id="generate-a-curvilinear-grid-using-the-advancing-front-method">
-<h2>Generate a curvilinear grid using the advancing front method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-advancing-front-method" title="Permalink to this heading"></a></h2>
+<h2>Generate a curvilinear grid using the advancing front method<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-advancing-front-method" title="Link to this heading"></a></h2>
 <p>Define a function for creating a mesh kernel instance with a curvilinear grid generated using curvilinear_compute_orthogonal_from_splines:</p>
 <ul class="simple">
 <li><p>We first create the splines for curvilinear grid generation. Each spline is separated by -999.0</p></li>
@@ -248,7 +249,7 @@
 </div>
 </section>
 <section id="refine-derefine-a-curvilinear-mesh">
-<h2>Refine/derefine a curvilinear mesh<a class="headerlink" href="#refine-derefine-a-curvilinear-mesh" title="Permalink to this heading"></a></h2>
+<h2>Refine/derefine a curvilinear mesh<a class="headerlink" href="#refine-derefine-a-curvilinear-mesh" title="Link to this heading"></a></h2>
 <p>Before refinement</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -293,7 +294,7 @@
 </div>
 </section>
 <section id="make-a-rectangular-grid">
-<h2>Make a rectangular grid<a class="headerlink" href="#make-a-rectangular-grid" title="Permalink to this heading"></a></h2>
+<h2>Make a rectangular grid<a class="headerlink" href="#make-a-rectangular-grid" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
@@ -346,7 +347,7 @@
 </div>
 </section>
 <section id="generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter">
-<h2>Generate a curvilinear grid using the nodes at the polygons’s perimeter<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter" title="Permalink to this heading"></a></h2>
+<h2>Generate a curvilinear grid using the nodes at the polygons’s perimeter<a class="headerlink" href="#generate-a-curvilinear-grid-using-the-nodes-at-the-polygons-s-perimeter" title="Link to this heading"></a></h2>
 <p>Define the polygon and generate the curvilinear grid</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -373,7 +374,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-grid-orthogonalization">
-<h2>Perform curvilinear grid orthogonalization<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear grid orthogonalization<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization" title="Link to this heading"></a></h2>
 <p>Move a node to make the grid non orthogonal and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -426,7 +427,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-grid-orthogonalization-with-a-frozen-line">
-<h2>Perform curvilinear grid orthogonalization with a frozen line<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear grid orthogonalization with a frozen line<a class="headerlink" href="#perform-curvilinear-grid-orthogonalization-with-a-frozen-line" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">()</span>
@@ -481,7 +482,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-grid-smoothing">
-<h2>Perform curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-grid-smoothing" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-grid-smoothing" title="Link to this heading"></a></h2>
 <p>Move a node to make the grid non-smooth and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -520,7 +521,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-directional-curvilinear-grid-smoothing">
-<h2>Perform curvilinear directional curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-directional-curvilinear-grid-smoothing" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear directional curvilinear grid smoothing<a class="headerlink" href="#perform-curvilinear-directional-curvilinear-grid-smoothing" title="Link to this heading"></a></h2>
 <p>Move a node to make the grid non-smooth and plot the result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -561,7 +562,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-grid-line-shifting">
-<h2>Perform curvilinear grid line shifting<a class="headerlink" href="#perform-curvilinear-grid-line-shifting" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear grid line shifting<a class="headerlink" href="#perform-curvilinear-grid-line-shifting" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
@@ -627,7 +628,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-insert-a-face">
-<h2>Perform curvilinear insert a face<a class="headerlink" href="#perform-curvilinear-insert-a-face" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear insert a face<a class="headerlink" href="#perform-curvilinear-insert-a-face" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
@@ -664,7 +665,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-delete-a-node">
-<h2>Perform curvilinear delete a node<a class="headerlink" href="#perform-curvilinear-delete-a-node" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear delete a node<a class="headerlink" href="#perform-curvilinear-delete-a-node" title="Link to this heading"></a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">create_mk_instance_with_a_rectangular_curvilinear_grid</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
@@ -700,7 +701,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-line-attraction-repulsion">
-<h2>Perform curvilinear line attraction/repulsion<a class="headerlink" href="#perform-curvilinear-line-attraction-repulsion" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear line attraction/repulsion<a class="headerlink" href="#perform-curvilinear-line-attraction-repulsion" title="Link to this heading"></a></h2>
 <p>Attracts the nodes within a block towards a defined line</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -748,7 +749,7 @@
 </div>
 </section>
 <section id="perform-curvilinear-line-mirror">
-<h2>Perform curvilinear line mirror<a class="headerlink" href="#perform-curvilinear-line-mirror" title="Permalink to this heading"></a></h2>
+<h2>Perform curvilinear line mirror<a class="headerlink" href="#perform-curvilinear-line-mirror" title="Link to this heading"></a></h2>
 <p>Mirrow the left gridline by 2 times the column width</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mesh2d refinement based on Gebco gridded samples &mdash; MeshKernelPy 2.1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+  <title>Mesh2d refinement based on Gebco gridded samples with variable depth precision &mdash; MeshKernelPy 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=20623aea"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -51,11 +52,11 @@
 <li class="toctree-l2"><a class="reference internal" href="03_tri_mesh2d_pol.html">Simple triangular mesh in a given geometry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_curvilineargrid_basics.html">Curvilineargrid Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05_mesh2d_refinement_gridded_samples.html">Mesh2d refinement based on gridded samples</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh2d refinement based on Gebco gridded samples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh2d refinement based on Gebco gridded samples with variable depth precision</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-a-mesh-of-defined-extension">1. Generating a mesh of defined extension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#saving-the-generated-mesh-to-ugrid-file">2. Saving the generated mesh to UGrid file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reading-bathymetric-data-form-a-large-netdfc-file">3. Reading bathymetric data form a large NetDFC file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#performing-mesh-refinement-based-on-gridded-data">4. Performing mesh refinement based on gridded data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performing-mesh-refinement-based-on-gridded-data-depths-as-np-float32-or-np-int16">4. Performing mesh refinement based on gridded data, depths as np.float32 or np.int16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07_curvilineargrid_with_defined_extension.html">Curvilinear grid generation with defined extension</a></li>
 </ul>
 </li>
@@ -77,7 +78,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
-      <li class="breadcrumb-item active">Mesh2d refinement based on Gebco gridded samples</li>
+      <li class="breadcrumb-item active">Mesh2d refinement based on Gebco gridded samples with variable depth precision</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/examples/06_mesh2d_refinement_gridded_samples_gebco.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,8 +88,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mesh2d-refinement-based-on-gebco-gridded-samples">
-<h1>Mesh2d refinement based on Gebco gridded samples<a class="headerlink" href="#mesh2d-refinement-based-on-gebco-gridded-samples" title="Permalink to this heading"></a></h1>
+  <section id="mesh2d-refinement-based-on-gebco-gridded-samples-with-variable-depth-precision">
+<h1>Mesh2d refinement based on Gebco gridded samples with variable depth precision<a class="headerlink" href="#mesh2d-refinement-based-on-gebco-gridded-samples-with-variable-depth-precision" title="Link to this heading"></a></h1>
 <p>This is a brief introduction to the process of mesh refinement using gridded samples from Gebco global dataset.</p>
 <p>It is also an example of</p>
 <ol class="arabic simple">
@@ -111,7 +112,7 @@
 </div>
 </section>
 <section id="generating-a-mesh-of-defined-extension">
-<h1>1. Generating a mesh of defined extension<a class="headerlink" href="#generating-a-mesh-of-defined-extension" title="Permalink to this heading"></a></h1>
+<h1>1. Generating a mesh of defined extension<a class="headerlink" href="#generating-a-mesh-of-defined-extension" title="Link to this heading"></a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#general settings</span>
@@ -148,12 +149,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2be53fe262f687c03e9c21aa7df8b1634bf46e6850e620c6c26ff12a40211457.png" src="../_images/2be53fe262f687c03e9c21aa7df8b1634bf46e6850e620c6c26ff12a40211457.png" />
+<img alt="../_images/e4748f3e7171e1446f4bf4d09eca14f44e5d27ef498b4159000350b783e8a674.png" src="../_images/e4748f3e7171e1446f4bf4d09eca14f44e5d27ef498b4159000350b783e8a674.png" />
 </div>
 </div>
 </section>
 <section id="saving-the-generated-mesh-to-ugrid-file">
-<h1>2. Saving the generated mesh to UGrid file<a class="headerlink" href="#saving-the-generated-mesh-to-ugrid-file" title="Permalink to this heading"></a></h1>
+<h1>2. Saving the generated mesh to UGrid file<a class="headerlink" href="#saving-the-generated-mesh-to-ugrid-file" title="Link to this heading"></a></h1>
 <p>To save the generated mesh to a UGrid file, you can use the following code snippet. Please note that in order to execute the code below, the UGrid Python package needs to be installed.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -196,12 +197,12 @@
 </div>
 </section>
 <section id="reading-bathymetric-data-form-a-large-netdfc-file">
-<h1>3. Reading bathymetric data form a large NetDFC file<a class="headerlink" href="#reading-bathymetric-data-form-a-large-netdfc-file" title="Permalink to this heading"></a></h1>
+<h1>3. Reading bathymetric data form a large NetDFC file<a class="headerlink" href="#reading-bathymetric-data-form-a-large-netdfc-file" title="Link to this heading"></a></h1>
 <p>Bathymetric data can be read from a large dataset using the xarray package, which allows you to load only a selected portion of the data. When the longitude and latitude arrays are assumed not uniformly spaced, bilinear interpolation is slower</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#select and plot bathy</span>
-<span class="n">uniform_grid_spacing</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">uniform_grid_spacing</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_grid_spacing</span><span class="p">:</span>
     
     <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
@@ -212,7 +213,7 @@
     
     <span class="n">lon_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> 
     <span class="n">lat_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> 
-    <span class="n">values_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span> 
+    <span class="n">values_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -220,26 +221,60 @@
 <p>Otherwise, read from ascii, assuming uniform spacing</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_asc_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_asc_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads asc file and returns headers and data as numpy array</span>
+<span class="sd">    Args:</span>
+<span class="sd">            file_path (str): The file path</span>
+<span class="sd">    Returns:</span>
+<span class="sd">            header: The ascii header</span>
+<span class="sd">            data: The ascii data as a numpy array of doubles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">header</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="c1"># Read header information</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="n">header</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            
+
+        <span class="c1"># Read data values</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">data_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_row</span><span class="p">)</span>
-            
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_row</span><span class="p">)</span>  <span class="c1"># Insert row at the beginning</span>
+
+        <span class="c1"># Flatten the data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">data</span>
-
-<span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s1">&#39;./data_examples/gebco.asc&#39;</span><span class="p">)</span>
-
-<span class="n">num_x</span><span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ncols&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="performing-mesh-refinement-based-on-gridded-data-depths-as-np-float32-or-np-int16">
+<h1>4. Performing mesh refinement based on gridded data, depths as np.float32 or np.int16<a class="headerlink" href="#performing-mesh-refinement-based-on-gridded-data-depths-as-np-float32-or-np-int16" title="Link to this heading"></a></h1>
+<p>Read the depths in file as np.float32</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s1">&#39;./data_examples/gebco.asc&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Read the depths in file as np.int16</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s1">&#39;./data_examples/gebco.asc&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Grid properties</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_x</span><span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ncols&#39;</span><span class="p">])</span>
 <span class="n">num_y</span><span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;nrows&#39;</span><span class="p">])</span>
 <span class="n">x_origin</span><span class="o">=</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;xllcenter&#39;</span><span class="p">]</span>
 <span class="n">y_origin</span><span class="o">=</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;yllcenter&#39;</span><span class="p">]</span>
@@ -247,12 +282,10 @@
 </div>
 </div>
 </div>
-</section>
-<section id="performing-mesh-refinement-based-on-gridded-data">
-<h1>4. Performing mesh refinement based on gridded data<a class="headerlink" href="#performing-mesh-refinement-based-on-gridded-data" title="Permalink to this heading"></a></h1>
+<p>Gridded samples</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gridded_samples</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">GriddedSamples</span><span class="p">(</span><span class="n">num_x</span><span class="o">=</span><span class="n">num_x</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gridded_samples</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">GriddedSamples</span><span class="p">(</span><span class="n">num_x</span> <span class="o">=</span> <span class="n">num_x</span><span class="p">,</span>
                                             <span class="n">num_y</span><span class="o">=</span> <span class="n">num_y</span><span class="p">,</span>
                                             <span class="n">x_origin</span><span class="o">=</span><span class="n">x_origin</span><span class="p">,</span>
                                             <span class="n">y_origin</span><span class="o">=</span><span class="n">y_origin</span><span class="p">,</span>
@@ -315,7 +348,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d30853825d9d5b5f403f2ea1ef87fd643b6385eab4e4032ef0787c8c0e76b27d.png" src="../_images/d30853825d9d5b5f403f2ea1ef87fd643b6385eab4e4032ef0787c8c0e76b27d.png" />
+<img alt="../_images/eac8ad107b76e4cf4c51992843a9d4fd116b1244edb93d1ecfe2962f6655fc6e.png" src="../_images/eac8ad107b76e4cf4c51992843a9d4fd116b1244edb93d1ecfe2962f6655fc6e.png" />
 </div>
 </div>
 </section>
