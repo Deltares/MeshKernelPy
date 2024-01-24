@@ -49,7 +49,7 @@ def test_projecttolandboundaryoption_values(
 cases_refinement_type_values = [
     (RefinementType.WAVE_COURANT, 1),
     (RefinementType.REFINEMENT_LEVELS, 2),
-    (RefinementType.REFINEMENT_LEVELS, 3),
+    (RefinementType.RIDGE_DETECTION, 3),
 ]
 
 
