@@ -1268,6 +1268,24 @@ used for some interpolation algorithms.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_refine_ridges_based_on_gridded_samples">
+<span class="sig-name descname"><span class="pre">mesh2d_refine_ridges_based_on_gridded_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gridded_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples" title="meshkernel.py_structures.GriddedSamples"><span class="pre">GriddedSamples</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_smoothing_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_refinement_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><span class="pre">MeshRefinementParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_refine_ridges_based_on_gridded_samples" title="Link to this definition"></a></dt>
+<dd><p>Refines a mesh2d based on samples with ridge refinement. This method automatically detects the ridges in a sample set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gridded_samples</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples" title="meshkernel.py_structures.GriddedSamples"><em>GriddedSamples</em></a>) – The gridded samples.</p></li>
+<li><p><strong>relative_search_radius</strong> (<em>float</em>) – The relative search radius relative to the face size,
+used for some interpolation algorithms.</p></li>
+<li><p><strong>minimum_num_samples</strong> (<em>int</em>) – The minimum number of samples used for some averaging algorithms.</p></li>
+<li><p><strong>number_of_smoothing_iterations</strong> (<em>int</em>) – The number of smoothing iterations to apply to the input sample set.</p></li>
+<li><p><strong>mesh_refinement_params</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><em>MeshRefinementParameters</em></a>) – The mesh refinement parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions">
 <span class="sig-name descname"><span class="pre">mesh2d_remove_disconnected_regions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_remove_disconnected_regions" title="Link to this definition"></a></dt>
 <dd><p>Remove any disconnected regions from a mesh2d. Only the most frequent remains</p>
