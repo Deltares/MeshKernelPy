@@ -856,7 +856,7 @@ def test_refine_ridges_based_on_gridded_samples(meshkernel_with_mesh2d: MeshKern
         min_edge_size=2.0,
         connect_hanging_nodes=True,
         account_for_samples_outside_face=False,
-        refinement_type=3,
+        refinement_type=RefinementType.RIDGE_DETECTION,
         max_refinement_iterations=3,
         smoothing_iterations=0,
     )
