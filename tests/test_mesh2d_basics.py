@@ -844,8 +844,8 @@ def test_mesh2d_refine_based_on_samples(
 
 def test_refine_ridges_based_on_gridded_samples(meshkernel_with_mesh2d: MeshKernel):
     """Tests `mkernel_mesh2d_refine_ridges_based_on_gridded_samples` with a simple 5x4 mesh."""
-    num_rows = 5
-    num_columns = 4
+    num_rows = 21
+    num_columns = 41
     mk = meshkernel_with_mesh2d(rows=num_rows,
                                 columns=num_columns,
                                 spacing_x=100.0,
@@ -862,14 +862,14 @@ def test_refine_ridges_based_on_gridded_samples(meshkernel_with_mesh2d: MeshKern
         smoothing_iterations=0
     )
 
-    num_sample_x_coordinates = (num_columns + 1) * 10
-    num_sample_y_coordinates = (num_rows + 1) * 10
+    num_sample_x_coordinates = (num_columns - 1) * 2 + 1
+    num_sample_y_coordinates = (num_rows * 1) * 2 + 1
 
     gridded_samples = GriddedSamples(num_x=num_sample_x_coordinates,
                                      num_y=num_sample_y_coordinates,
                                      x_origin=0.0,
                                      y_origin=-0.0,
-                                     cell_size=10.0,
+                                     cell_size=5.0,
                                      values=np.array([-0.05] * num_sample_x_coordinates * num_sample_y_coordinates,
                                                      dtype=np.float32))
 
@@ -885,9 +885,9 @@ def test_refine_ridges_based_on_gridded_samples(meshkernel_with_mesh2d: MeshKern
 
     mesdh2d = mk.mesh2d_get()
 
-    assert mesdh2d.node_x.size == 1353
-    assert mesdh2d.edge_x.size == 2632
-    assert mesdh2d.face_x.size == 1280
+    assert mesdh2d.node_x.size == 924
+    assert mesdh2d.edge_x.size == 1784
+    assert mesdh2d.face_x.size == 861
 
 
 cases_mesh2d_refine_based_on_gridded_samples = [
