@@ -26,7 +26,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 28,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -47,7 +47,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 29,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -74,7 +74,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 30,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -91,7 +91,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 31,
    "metadata": {},
    "outputs": [
     {
@@ -119,7 +119,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 32,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -129,7 +129,7 @@
     "    x_origin=-50.0,\n",
     "    y_origin=-50.0,\n",
     "    cell_size=100.0,\n",
-    "    values=np.array([-0.05] * 42, dtype=np.double))"
+    "    values=np.array([-0.05] * 42, dtype=np.float32))"
    ]
   },
   {
@@ -141,7 +141,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 33,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -164,7 +164,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 34,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -180,7 +180,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 35,
    "metadata": {},
    "outputs": [
     {
@@ -210,7 +210,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 36,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -220,7 +220,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 37,
    "metadata": {},
    "outputs": [
     {
@@ -248,18 +248,18 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 38,
    "metadata": {},
    "outputs": [],
    "source": [
     "gridded_samples = GriddedSamples(x_coordinates=np.array([-50.0, 50.0, 150.0, 250.0, 350.0, 450.0], dtype=np.double),\n",
     "                                 y_coordinates=np.array([-50.0, 50.0, 150.0, 250.0, 350.0, 450.0, 550.0], dtype=np.double),\n",
-    "                                 values=np.array([-0.05] * 42, dtype=np.double))"
+    "                                 values=np.array([-0.05] * 42, dtype=np.float32))"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 39,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -268,7 +268,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 40,
    "metadata": {},
    "outputs": [
     {
