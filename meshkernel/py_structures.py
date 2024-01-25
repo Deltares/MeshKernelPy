@@ -42,6 +42,9 @@ class RefinementType(IntEnum):
     """Refinement that refines recursively a fixed number of times."""
     REFINEMENT_LEVELS = 2
 
+    """Refinement based on ridge detection."""
+    RIDGE_DETECTION = 3
+
 
 @unique
 class Mesh2dLocation(IntEnum):
