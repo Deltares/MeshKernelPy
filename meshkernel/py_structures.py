@@ -615,12 +615,16 @@ class GriddedSamples:
         self.cell_size: float = cell_size
         self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
         self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
-        self.values: ndarray = values
+
+        if not isinstance(values, np.ndarray):
+            raise RuntimeError("the gridded sample values must be a numpy array")
 
         if values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
+            self.values: ndarray = np.asarray(y_coordinates, dtype=np.float32)
         elif values.dtype == np.int16:
             self.value_type: int = InterpolationValues.SHORT
+            self.values: ndarray = np.asarray(y_coordinates, dtype=np.int16)
         else:
             raise RuntimeError(
                 "Unsupported value type: the values should be np.int16 or np.float32"
