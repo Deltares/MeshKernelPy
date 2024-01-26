@@ -37,8 +37,8 @@ def test_mesh2d_implicit_int_conversions():
     assert_array_equal(output_mesh2d.face_y, np.array([0.5]))
 
 
-def test_mesh2d_implicit_unicode_conversions():
-    """Test implicit conversions and exceptions for Mesh2d
+def test_mesh2d_implicit_string_conversions():
+    """Test implicit conversions from string to doubles works for Mesh2d
     """
     node_x = ['1.0', '2.0', '3.0']
     node_y = ['4.0', '5.0', '6.0']
@@ -79,6 +79,8 @@ def test_mesh2d_implicit_unicode_conversions():
     assert_array_equal(mesh_2d.face_edges, np.array([2, 3], dtype=np.int32))
 
 def test_mesh2d_invalid_input():
+    """Test exceptions due to malformed input for Mesh2d
+    """
     with pytest.raises(ValueError):
         Mesh2d(node_x=['1.0', 'invalid', '3.0'])
 
@@ -109,8 +111,8 @@ def test_geometrylist_implicit_int_conversions():
     assert_array_equal(geometry_list.values, values_valid)
 
 
-def test_geometrylist_implicit_unicode_conversions():
-    """Test implicit conversions and exceptions for GeometryList
+def test_geometrylist_implicit_string_conversions():
+    """Test implicit conversions from string to doubles works for GeometryList
     """
 
     # Test implicit conversion and valid input
@@ -143,7 +145,7 @@ def test_geometrylist_invalid_input():
     with pytest.raises(ValueError):
         GeometryList(x_coordinates=['1.0', 'invalid', '3.0'], y_coordinates=['4.0', '5.0', '6.0'])
 
-def test_orthogonalization_parameters_implicit_unicode_conversions():
+def test_orthogonalization_parameters_implicit_string_conversions():
     """Test implicit conversion from unicode to double for OrthogonalizationParameters works
     """
 
