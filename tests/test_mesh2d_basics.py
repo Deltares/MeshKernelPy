@@ -1,6 +1,3 @@
-import os
-from ctypes import c_int
-
 import numpy as np
 import pytest
 from numpy import ndarray
