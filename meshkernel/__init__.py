@@ -5,6 +5,7 @@ from meshkernel.meshkernel import MeshKernel
 from meshkernel.py_structures import (
     AveragingMethod,
     Contacts,
+    CurvilinearGrid,
     CurvilinearParameters,
     DeleteMeshOption,
     GeometryList,

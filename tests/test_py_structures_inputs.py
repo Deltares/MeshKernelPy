@@ -7,7 +7,9 @@ from meshkernel import (
     MeshKernel,
     GeometryList,
     OrthogonalizationParameters,
-    InputError
+    InputError,
+    CurvilinearGrid,
+    CurvilinearParameters
 )
 
 
@@ -115,7 +117,6 @@ def test_geometrylist_implicit_string_conversions():
     """Test implicit conversions from string to doubles works for GeometryList
     """
 
-    # Test implicit conversion and valid input
     x_coordinates = ['1.0', '2.0', '3.0']
     y_coordinates = ['4.0', '5.0', '6.0']
     values = ['0.1', '0.2', '0.3']
@@ -133,7 +134,7 @@ def test_geometrylist_implicit_string_conversions():
     assert geometry_list.inner_outer_separator == -998.0
 
 def test_geometrylist_invalid_input():
-    """Test implicit conversions and exceptions for GeometryList
+    """Test exceptions due to malformed input for GeometryList
     """
 
     with pytest.raises(InputError):
@@ -146,10 +147,9 @@ def test_geometrylist_invalid_input():
         GeometryList(x_coordinates=['1.0', 'invalid', '3.0'], y_coordinates=['4.0', '5.0', '6.0'])
 
 def test_orthogonalization_parameters_implicit_string_conversions():
-    """Test implicit conversion from unicode to double for OrthogonalizationParameters works
+    """Test implicit conversion from string to double for OrthogonalizationParameters works
     """
 
-    # Test implicit conversion from unicode to double
     orthogonalization_parameters = OrthogonalizationParameters(
         outer_iterations='2',
         boundary_iterations='25',
@@ -167,7 +167,7 @@ def test_orthogonalization_parameters_implicit_string_conversions():
     assert orthogonalization_parameters.areal_to_angle_smoothing_factor == 1.0
 
 def test_orthogonalization_parameters_invalid_input():
-    """Test orthogonalization parameters invalid inputs works
+    """Test exceptions due to malformed input for OrthogonalizationParameters
     """
 
     # Test exceptions for invalid inputs
@@ -188,5 +188,77 @@ def test_orthogonalization_parameters_invalid_input():
 
     with pytest.raises(ValueError):
         OrthogonalizationParameters(areal_to_angle_smoothing_factor='invalid')
+
+def test_curvilinear_grid_implicit_string_conversions():
+    """Test implicit conversion from string to double for CurvilinearGrid works
+    """
+
+    # Test valid input
+    node_x = ['1.0', '2.0', '3.0']
+    node_y = ['4.0', '5.0', '6.0']
+    num_m = '3'
+    num_n = '3'
+
+    curvilinear_grid = CurvilinearGrid(
+        node_x=node_x,
+        node_y=node_y,
+        num_m=num_m,
+        num_n=num_n
+    )
+
+    assert_array_equal(curvilinear_grid.node_x, np.array([1.0, 2.0, 3.0], dtype=np.double))
+    assert_array_equal(curvilinear_grid.node_y, np.array([4.0, 5.0, 6.0], dtype=np.double))
+    assert curvilinear_grid.num_m == 3
+    assert curvilinear_grid.num_n == 3
+
+def test_curvilinear_grid_invalid_input():
+    """Test exceptions due to malformed input for CurvilinearGrid
+    """
+    with pytest.raises(ValueError):
+        CurvilinearGrid(node_x=['1.0', 'invalid', '3.0'],
+                        node_y=['4.0', '5.0', '6.0'],
+                        num_m='3',
+                        num_n='3')
+
+    with pytest.raises(ValueError):
+        CurvilinearGrid(node_x=['1.0', '2.0', '3.0'],
+                        node_y=['4.0', '5.0', '6.0'],
+                        num_m='3',
+                        num_n='abc')
+
+
+def test_curvilinear_parameters_implicit_string_conversions():
+    """Test implicit conversion from string to double for CurvilinearParameters works
+    """
+    # Test valid input
+    curvilinear_parameters = CurvilinearParameters(
+        m_refinement='2000',
+        n_refinement='40',
+        smoothing_iterations='10',
+        smoothing_parameter='0.5',
+        attraction_parameter='0.0',
+    )
+
+    assert curvilinear_parameters.m_refinement == 2000
+    assert curvilinear_parameters.n_refinement == 40
+    assert curvilinear_parameters.smoothing_iterations == 10
+    assert curvilinear_parameters.smoothing_parameter == 0.5
+    assert curvilinear_parameters.attraction_parameter == 0.0
+
+
+def test_curvilinear_parameters_invalid_input():
+    """Test exceptions due to malformed input for CurvilinearParameters
+    """
+    with pytest.raises(ValueError):
+        CurvilinearParameters(m_refinement='abc')
+
+    with pytest.raises(ValueError):
+        CurvilinearParameters(n_refinement='2.5')
+
+    with pytest.raises(ValueError):
+        CurvilinearParameters(smoothing_iterations='xyz')
+
+    with pytest.raises(ValueError):
+        CurvilinearParameters(smoothing_parameter='invalid')
 
 
