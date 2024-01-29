@@ -24,9 +24,9 @@ def test_mesh2d_implicit_int_conversions():
     """Test implicit conversion from int to double for Mesh2d works"""
     mk = MeshKernel()
 
-    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
-    node_x = np.array([0, 1, 1, 0], dtype=np.int32)
-    node_y = np.array([0, 0, 1, 1], dtype=np.int32)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=int)
+    node_x = np.array([0, 1, 1, 0], dtype=int)
+    node_y = np.array([0, 0, 1, 1], dtype=int)
 
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mk.mesh2d_set(input_mesh2d)
@@ -75,15 +75,15 @@ def test_mesh2d_implicit_string_conversions():
 
     assert_array_equal(mesh_2d.node_x, np.array([1.0, 2.0, 3.0], dtype=np.double))
     assert_array_equal(mesh_2d.node_y, np.array([4.0, 5.0, 6.0], dtype=np.double))
-    assert_array_equal(mesh_2d.edge_nodes, np.array([0, 1, 1, 2], dtype=np.int32))
-    assert_array_equal(mesh_2d.face_nodes, np.array([0, 1, 2], dtype=np.int32))
-    assert_array_equal(mesh_2d.nodes_per_face, np.array([3, 4, 5], dtype=np.int32))
+    assert_array_equal(mesh_2d.edge_nodes, np.array([0, 1, 1, 2], dtype=int))
+    assert_array_equal(mesh_2d.face_nodes, np.array([0, 1, 2], dtype=int))
+    assert_array_equal(mesh_2d.nodes_per_face, np.array([3, 4, 5], dtype=int))
     assert_array_equal(mesh_2d.edge_x, np.array([1.5, 2.5], dtype=np.double))
     assert_array_equal(mesh_2d.edge_y, np.array([4.5, 5.5], dtype=np.double))
     assert_array_equal(mesh_2d.face_x, np.array([2.0, 3.0], dtype=np.double))
     assert_array_equal(mesh_2d.face_y, np.array([5.0, 6.0], dtype=np.double))
-    assert_array_equal(mesh_2d.edge_faces, np.array([0, 1], dtype=np.int32))
-    assert_array_equal(mesh_2d.face_edges, np.array([2, 3], dtype=np.int32))
+    assert_array_equal(mesh_2d.edge_faces, np.array([0, 1], dtype=int))
+    assert_array_equal(mesh_2d.face_edges, np.array([2, 3], dtype=int))
 
 
 def test_mesh2d_invalid_input():
@@ -101,9 +101,9 @@ def test_mesh2d_invalid_input():
 def test_geometrylist_implicit_int_conversions():
     """Test implicit conversion from int to double for GeometryList works"""
 
-    x_coordinates = np.array([2, 5, 3, 0, 2], dtype=np.int32)
-    y_coordinates = np.array([5, 3, 5, 2, 0], dtype=np.int32)
-    values = np.array([0, 0, 1, 1, 1], dtype=np.int32)
+    x_coordinates = np.array([2, 5, 3, 0, 2], dtype=int)
+    y_coordinates = np.array([5, 3, 5, 2, 0], dtype=int)
+    values = np.array([0, 0, 1, 1, 1], dtype=int)
 
     geometry_list = GeometryList(
         x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
@@ -417,7 +417,7 @@ def test_mesh1d_implicit_string_conversions():
 
     assert np.array_equal(mesh_1d.node_x, np.array([1.0, 2.0, 3.0], dtype=np.double))
     assert np.array_equal(mesh_1d.node_y, np.array([4.0, 5.0, 6.0], dtype=np.double))
-    assert np.array_equal(mesh_1d.edge_nodes, np.array([0, 1, 1, 2], dtype=np.int32))
+    assert np.array_equal(mesh_1d.edge_nodes, np.array([0, 1, 1, 2], dtype=int))
 
 
 def test_mesh1d_invalid_input():
@@ -499,16 +499,16 @@ def test_gridded_parameters_implicit_string_conversions():
     assert gridded_samples.y_origin == 2.0
     assert gridded_samples.cell_size == 0.5
     assert np.array_equal(
-        gridded_samples.x_coordinates, np.array([1.0, 2.0, 3.0], dtype=np.double)
+        gridded_samples.x_coordinates, np.array([1.0, 2.0, 3.0], dtype=float)
     )
     assert np.array_equal(
-        gridded_samples.y_coordinates, np.array([2.0, 3.0, 4.0], dtype=np.double)
+        gridded_samples.y_coordinates, np.array([2.0, 3.0, 4.0], dtype=float)
     )
     assert np.array_equal(
         gridded_samples.values,
         np.array(
             [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0],
-            dtype=np.float32,
+            dtype=float,
         ),
     )
 
