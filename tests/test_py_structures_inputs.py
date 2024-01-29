@@ -352,7 +352,7 @@ def test_mesh_refinement_implicit_string_conversions():
     assert refinement_parameters.directional_refinement
 
 
-def test_curvilinear_parameters_invalid_input():
+def test_mesh_refinement_parameters_invalid_input():
     """Test exceptions due to malformed input for MeshRefinementParameters"""
 
     # Test exceptions for invalid inputs
