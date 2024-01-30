@@ -249,8 +249,8 @@ class GeometryList:
         self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
         self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
         self.values: ndarray = np.asarray(values, dtype=np.double)
-        self.geometry_separator: float = geometry_separator
-        self.inner_outer_separator: float = inner_outer_separator
+        self.geometry_separator: float = float(geometry_separator)
+        self.inner_outer_separator: float = float(inner_outer_separator)
 
         if len(self.x_coordinates) != len(self.y_coordinates):
             raise mk_errors.InputError(
@@ -608,11 +608,11 @@ class GriddedSamples:
         y_coordinates=np.empty(0, dtype=np.double),
         values=np.empty(0, dtype=np.float32),
     ):
-        self.num_x: int = num_x
-        self.num_y: int = num_y
-        self.x_origin: float = x_origin
-        self.y_origin: float = y_origin
-        self.cell_size: float = cell_size
+        self.num_x: int = int(num_x)
+        self.num_y: int = int(num_y)
+        self.x_origin: float = float(x_origin)
+        self.y_origin: float = float(y_origin)
+        self.cell_size: float = float(cell_size)
         self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
         self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
 
@@ -621,15 +621,13 @@ class GriddedSamples:
 
         if values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
-            self.values: ndarray = np.asarray(y_coordinates, dtype=np.float32)
+            self.values: ndarray = np.asarray(values, dtype=np.float32)
         elif values.dtype == np.int16:
             self.value_type: int = InterpolationValues.SHORT
-            self.values: ndarray = np.asarray(y_coordinates, dtype=np.int16)
+            self.values: ndarray = np.asarray(values, dtype=np.int16)
         else:
-            raise RuntimeError(
-                "Unsupported value type: the values should be np.int16 or np.float32"
-            )
-
+            self.value_type: int = InterpolationValues.FLOAT
+            self.values: ndarray = np.asarray(values, dtype=np.float32)
 
 @unique
 class CurvilinearDirection(IntEnum):
