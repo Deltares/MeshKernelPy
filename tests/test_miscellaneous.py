@@ -7,18 +7,18 @@ from meshkernel.py_structures import ProjectionType
 cases_get_splines = [
     (
         20,  # number_of_points_between_nodes
-        np.array([10.0, 20.0, 30.0], dtype=float),  # x_coordinates
-        np.array([-5.0, 5.0, -5.0], dtype=float),  # y_coordinates
+        np.array([10.0, 20.0, 30.0], dtype=np.double),  # x_coordinates
+        np.array([-5.0, 5.0, -5.0], dtype=np.double),  # y_coordinates
     ),
     (
         1,  # number_of_points_between_nodes
-        np.array([10.0, 20.0, 30.0], dtype=float),  # x_coordinates
-        np.array([-5.0, 5.0, -5.0], dtype=float),  # y_coordinates
+        np.array([10.0, 20.0, 30.0], dtype=np.double),  # x_coordinates
+        np.array([-5.0, 5.0, -5.0], dtype=np.double),  # y_coordinates
     ),
     (
         10000,  # number_of_points_between_nodes
-        np.array([-5.0, 0.0, 5.0], dtype=float),  # x_coordinates
-        np.array([-5.0, 100.0, 5.0], dtype=float),  # y_coordinates
+        np.array([-5.0, 0.0, 5.0], dtype=np.double),  # x_coordinates
+        np.array([-5.0, 100.0, 5.0], dtype=np.double),  # y_coordinates
     ),
 ]
 

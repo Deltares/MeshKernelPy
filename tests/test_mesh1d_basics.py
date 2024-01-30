@@ -28,8 +28,8 @@ def test_mesh1d_set_and_mesh1d_get():
     """
     mk = MeshKernel()
 
-    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=float)
-    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=float)
+    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
+    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
     input_mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
@@ -47,8 +47,8 @@ def test_mesh1d_add():
     r"""Tests `mesh1d_add`."""
     mk = MeshKernel()
 
-    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=float)
-    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=float)
+    node_x = np.array([0.0, 1.0, 2.0, 3.0], dtype=np.double)
+    node_y = np.array([0.0, 1.0, 0.0, 1.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3], dtype=np.int32)
 
     input_mesh1d_1 = Mesh1d(node_x, node_y, edge_nodes)
@@ -109,8 +109,8 @@ def test_contacts_compute_single():
 
     mesh2d = Mesh2dFactory.create(5, 5)
 
-    node_x = np.array([0.75, 1.75, 2.75, 3.75, 4.75], dtype=float)
-    node_y = np.array([0.25, 1.25, 2.25, 3.25, 4.25], dtype=float)
+    node_x = np.array([0.75, 1.75, 2.75, 3.75, 4.75], dtype=np.double)
+    node_y = np.array([0.25, 1.25, 2.25, 3.25, 4.25], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
@@ -119,8 +119,8 @@ def test_contacts_compute_single():
 
     node_mask = np.full(node_x.size, True)
 
-    polygon_x = np.array([-1.0, 6.0, 6.0, -1.0, -1.0], dtype=float)
-    polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=float)
+    polygon_x = np.array([-1.0, 6.0, 6.0, -1.0, -1.0], dtype=np.double)
+    polygon_y = np.array([-1.0, -1.0, 6.0, 6.0, -1.0], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
     projection_factor = 0.0
 
@@ -165,8 +165,8 @@ def test_contacts_compute_multiple():
 
     mesh2d = Mesh2dFactory.create(5, 5)
 
-    node_x = np.array([0.7, 1.5, 2.6, 3.9, 4.8], dtype=float)
-    node_y = np.array([0.3, 1.4, 2.6, 3.2, 4.2], dtype=float)
+    node_x = np.array([0.7, 1.5, 2.6, 3.9, 4.8], dtype=np.double)
+    node_y = np.array([0.3, 1.4, 2.6, 3.2, 4.2], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
@@ -207,8 +207,8 @@ def test_contacts_compute_with_polygons():
 
     mesh2d = Mesh2dFactory.create(5, 5)
 
-    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=float)
-    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=float)
+    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
@@ -221,11 +221,11 @@ def test_contacts_compute_with_polygons():
     separator = -999.0
     polygon_x = np.array(
         [-0.1, 1.1, 1.1, -0.1, -0.1, separator, 3.9, 5.1, 5.1, 3.9, 3.9],
-        dtype=float,
+        dtype=np.double,
     )
     polygon_y = np.array(
         [1.9, 1.9, 5.1, 5.1, 1.9, separator, -0.1, -0.1, 3.1, 3.1, -0.1],
-        dtype=float,
+        dtype=np.double,
     )
     polygon = GeometryList(polygon_x, polygon_y)
 
@@ -264,8 +264,8 @@ def test_contacts_compute_with_points():
 
     mesh2d = Mesh2dFactory.create(5, 5)
 
-    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=float)
-    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=float)
+    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
@@ -275,8 +275,8 @@ def test_contacts_compute_with_points():
     node_mask = np.full(node_x.size, True)
 
     # Three points in Mesh2d faces 10, 8, 14
-    points_x = np.array([0.5, 3.5, 4.5], dtype=float)
-    points_y = np.array([2.5, 1.5, 2.5], dtype=float)
+    points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
+    points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
     mk.contacts_compute_with_points(node_mask, points)
@@ -353,16 +353,16 @@ def test_contacts_compute_boundary(
 
     mesh2d = Mesh2dFactory.create(2, 2)
 
-    node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=float)
-    node_y = np.array([-1.0, 1.5, 2.5, 3.0, 3.0], dtype=float)
+    node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=np.double)
+    node_y = np.array([-1.0, 1.5, 2.5, 3.0, 3.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
     mk.mesh2d_set(mesh2d)
     mk.mesh1d_set(mesh1d)
 
-    polygon_x = np.array([-1.1, 3.1, 3.1, -1.1, -1.1], dtype=float)
-    polygon_y = np.array([-0.1, -0.1, 3.1, 3.1, -0.1], dtype=float)
+    polygon_x = np.array([-1.1, 3.1, 3.1, -1.1, -1.1], dtype=np.double)
+    polygon_y = np.array([-0.1, -0.1, 3.1, 3.1, -0.1], dtype=np.double)
     polygon = GeometryList(polygon_x, polygon_y)
 
     mk.contacts_compute_boundary(node_mask, 2.0, polygon)
@@ -391,8 +391,8 @@ def test_contacts_compute_boundary_with_no_polygon():
 
     mesh2d = Mesh2dFactory.create(2, 2)
 
-    node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=float)
-    node_y = np.array([0.5, 1.5, 2.5, 3.0, 3.0], dtype=float)
+    node_x = np.array([-1.0, -1.0, -0.5, 0.5, 1.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.0, 3.0], dtype=np.double)
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 

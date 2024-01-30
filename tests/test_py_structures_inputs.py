@@ -499,16 +499,16 @@ def test_gridded_parameters_implicit_string_conversions():
     assert gridded_samples.y_origin == 2.0
     assert gridded_samples.cell_size == 0.5
     assert np.array_equal(
-        gridded_samples.x_coordinates, np.array([1.0, 2.0, 3.0], dtype=float)
+        gridded_samples.x_coordinates, np.array([1.0, 2.0, 3.0], dtype=np.double)
     )
     assert np.array_equal(
-        gridded_samples.y_coordinates, np.array([2.0, 3.0, 4.0], dtype=float)
+        gridded_samples.y_coordinates, np.array([2.0, 3.0, 4.0], dtype=np.double)
     )
     assert np.array_equal(
         gridded_samples.values,
         np.array(
             [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0],
-            dtype=float,
+            dtype=np.double,
         ),
     )
 
