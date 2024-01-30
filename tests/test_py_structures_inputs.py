@@ -444,8 +444,8 @@ def test_contacts_implicit_string_conversions():
 
     contacts = Contacts(mesh1d_indices=mesh1d_indices, mesh2d_indices=mesh2d_indices)
 
-    assert np.array_equal(contacts.mesh1d_indices, np.array([0, 1, 2], dtype=np.int))
-    assert np.array_equal(contacts.mesh2d_indices, np.array([0, 1, 2], dtype=np.int))
+    assert np.array_equal(contacts.mesh1d_indices, np.array([0, 1, 2], dtype=int))
+    assert np.array_equal(contacts.mesh2d_indices, np.array([0, 1, 2], dtype=int))
 
 
 def test_contacts_invalid_input():
