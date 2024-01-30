@@ -561,8 +561,8 @@ class Contacts:
     """
 
     def __init__(self, mesh1d_indices, mesh2d_indices):
-        self.mesh1d_indices: ndarray = np.asarray(mesh1d_indices, dtype=np.int)
-        self.mesh2d_indices: ndarray = np.asarray(mesh2d_indices, dtype=np.int)
+        self.mesh1d_indices: ndarray = np.asarray(mesh1d_indices, dtype=int)
+        self.mesh2d_indices: ndarray = np.asarray(mesh2d_indices, dtype=int)
 
     def plot_edges(self, ax, mesh1d, mesh2d, *args, **kwargs):
         """Plots the edges at a given axes.
