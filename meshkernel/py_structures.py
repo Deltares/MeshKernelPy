@@ -629,6 +629,7 @@ class GriddedSamples:
             self.value_type: int = InterpolationValues.FLOAT
             self.values: ndarray = np.asarray(values, dtype=np.float32)
 
+
 @unique
 class CurvilinearDirection(IntEnum):
     """Direction to use in curvilinear grid algorithms."""
