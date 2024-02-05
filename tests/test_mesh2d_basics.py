@@ -1877,7 +1877,7 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
             12.55208333,
         ]
     )
-    values_np_2d = np.array(
+    values_2d = np.array(
         [
             [-1700, -1769, -1688, -1641, -1526, -1291, -1121, -1537],
             [-1561, -1674, -1354, -757, -837, -838, -1080, -1466],
@@ -1892,7 +1892,7 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
         ]
     )
 
-    values_np = values_np_2d.flatten().astype(np.float32)
+    values_np = values_2d.flatten().astype(np.float32)
     gridded_samples = GriddedSamples(
         x_coordinates=lon_np, y_coordinates=lat_np, values=values_np
     )
