@@ -2044,5 +2044,3 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
 
     assert len(mesh2d.node_x) == 1676
     assert len(mesh2d.edge_nodes) == 7176
-
-
