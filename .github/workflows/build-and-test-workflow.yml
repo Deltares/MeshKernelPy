@@ -1,39 +1,23 @@
-name: Build and test on macos
+name: Build and test workflow
 
 on:
-  push:
-    branches:
-      - main
-      - "release/v[0-9].[0-9].[0-9]"
-  pull_request:
-    types:
-      - opened # triggers build when opened
-      - synchronize # triggers build when commits are pushed to HEAD
-    branches:
-      - main
-      - "release/v[0-9].[0-9].[0-9]"
-      - "feature/**"
-  # Manual trigger
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      platform:
+        description: "Platform"
+        required: true
+        type: string
+      build_type:
+        description: "Build type"
+        required: true
+        type: string
 
 jobs:
   build:
-    # Build strategy
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - macos-latest
-          - macos-13-xlarge
-        build_type:
-          - Release
-          #- Debug
-          #- DebugWithRelInfo
-
     # Build platform
-    runs-on: ${{ matrix.platform }}
+    runs-on: ${{ inputs.platform }}
 
-    name: ${{ matrix.platform }}-${{ matrix.build_type }}
+    name: ${{ inputs.platform }}-${{ inputs.build_type }}
 
     # Build steps
     steps:
@@ -125,6 +109,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: meshkernel-${{ matrix.platform }}-${{ matrix.build_type }}
+          name: meshkernel-${{ inputs.platform }}-${{ inputs.build_type }}
           path: ./dist
           if-no-files-found: error
