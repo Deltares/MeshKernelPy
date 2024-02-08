@@ -20,6 +20,7 @@ jobs:
       matrix:
         platform:
           - macos-12
+          - macos-14
         build_type:
           - Release
 
