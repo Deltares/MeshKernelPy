@@ -20,6 +20,9 @@ class DeleteMeshOption(IntEnum):
     """Deletes mesh inside and intersected """
     INSIDE_AND_INTERSECTED = 1
 
+    """Deletes the faces with circumcenters included in the polygon """
+    FACES_WITH_INCLUDED_CIRCUMCENTERS = 2
+
 
 @unique
 class ProjectToLandBoundaryOption(IntEnum):
