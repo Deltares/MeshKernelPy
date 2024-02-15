@@ -399,8 +399,9 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 # nodes = 6 * 6 = 36 (no change)
 # edges = 2 * (5 * 6) = 60 (no change)
 # faces = 5 * 5 - 1 = 24
-
-#  Case 4: 30--31--32--33--34--35
+#
+# Case 4:
+#  30--31--32--33--34--35
 #  |   |   |   |   |   |
 #  24--25--26--27--28--29
 #  |   |           |   |
@@ -413,6 +414,34 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 #  0---1---2---3---4---5
 # nodes = 6 * 6 - 4 (central cell) = 32
 # faces = 25 - (3 * 3) = 16
+#
+# Case 5:
+#  30--31--32--33--34--35
+#  |   |   |   |   |   |
+#  24--25--26--27--28--29
+#  |   |           |   |
+#  18--19          22--23
+#  |   |           |   |
+#  12--13          16--17
+#  |   |           |   |
+#  6---7---8---9---10--11
+#  |   |   |   |   |   |
+#  0---1---2---3---4---5
+# nodes = 6 * 6 - 4 (central cell) = 32
+# faces = 25 - (3 * 3) = 16
+#
+# Case 6:
+# only the 9 central cells
+
+#  25--26--27--28
+#  |   |   |   |
+#  19--20--21--22
+#  |   | / |   |
+#  13--14--15--16
+#  |   |   |   |
+#  7---8---9---10
+# nodes = 16
+# faces = 9
 
 cases_mesh2d_delete_small_polygon = [
     (
@@ -442,6 +471,20 @@ cases_mesh2d_delete_small_polygon = [
         32,
         48,
         16,
+    ),
+    (
+        False,
+        DeleteMeshOption.FACES_WITH_INCLUDED_CIRCUMCENTERS,
+        32,
+        48,
+        16,
+    ),
+    (
+        True,
+        DeleteMeshOption.FACES_WITH_INCLUDED_CIRCUMCENTERS,
+        16,
+        24,
+        9,
     ),
 ]
 
