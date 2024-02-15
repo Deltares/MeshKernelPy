@@ -126,7 +126,7 @@ You can look at the documentation in order to find all its parameters.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ec8522d1114792278c644066c128a76e5b626e2005472aecdeca4152e923634b.png" src="../_images/ec8522d1114792278c644066c128a76e5b626e2005472aecdeca4152e923634b.png" />
+<img alt="../_images/0a19bf53fa7e1a0212d1206f2534a0aa3ef0316fcd7be16a82f19935800985ea.png" src="../_images/0a19bf53fa7e1a0212d1206f2534a0aa3ef0316fcd7be16a82f19935800985ea.png" />
 </div>
 </div>
 <p>Now we define the gridded samples with uniform spacing</p>
@@ -153,7 +153,7 @@ You can look at the documentation in order to find all its parameters.</p>
         <span class="c1"># Read data values</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">data_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_row</span><span class="p">)</span>  <span class="c1"># Insert row at the beginning</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_row</span><span class="p">)</span> <span class="c1"># Insert row at the beginning</span>
 
         <span class="c1"># Flatten the data</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
@@ -181,7 +181,7 @@ You can look at the documentation in order to find all its parameters.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/46aa2ecad7cd855b4948a5b4a6112532deaeff57903587d3ad94baf92449ad92.png" src="../_images/46aa2ecad7cd855b4948a5b4a6112532deaeff57903587d3ad94baf92449ad92.png" />
+<img alt="../_images/654987a4a10197b8591032e1232a5cf0e7c1c4016bdad6683e6cd8fd8f87b657.png" src="../_images/654987a4a10197b8591032e1232a5cf0e7c1c4016bdad6683e6cd8fd8f87b657.png" />
 </div>
 </div>
 <p>We can store the ascii data in a gridded sample instance, assuming uniform spacing</p>
@@ -240,7 +240,7 @@ You can look at the documentation in order to find all its parameters.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/26bb5d7e462c3e9e68397cc29d243cb0e47f4196c314f3b41a295701e2a490a0.png" src="../_images/26bb5d7e462c3e9e68397cc29d243cb0e47f4196c314f3b41a295701e2a490a0.png" />
+<img alt="../_images/1b5f262a966df503c1b88176a468488714d9e103045267d96400cca230da9d26.png" src="../_images/1b5f262a966df503c1b88176a468488714d9e103045267d96400cca230da9d26.png" />
 </div>
 </div>
 </section>

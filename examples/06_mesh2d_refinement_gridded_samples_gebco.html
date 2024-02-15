@@ -149,7 +149,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e4748f3e7171e1446f4bf4d09eca14f44e5d27ef498b4159000350b783e8a674.png" src="../_images/e4748f3e7171e1446f4bf4d09eca14f44e5d27ef498b4159000350b783e8a674.png" />
+<img alt="../_images/2be53fe262f687c03e9c21aa7df8b1634bf46e6850e620c6c26ff12a40211457.png" src="../_images/2be53fe262f687c03e9c21aa7df8b1634bf46e6850e620c6c26ff12a40211457.png" />
 </div>
 </div>
 </section>
@@ -242,7 +242,7 @@
         <span class="c1"># Read data values</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">data_row</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_row</span><span class="p">)</span>  <span class="c1"># Insert row at the beginning</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_row</span><span class="p">)</span>  <span class="c1"># Insert row at the beginning</span>
 
         <span class="c1"># Flatten the data</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
@@ -348,7 +348,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eac8ad107b76e4cf4c51992843a9d4fd116b1244edb93d1ecfe2962f6655fc6e.png" src="../_images/eac8ad107b76e4cf4c51992843a9d4fd116b1244edb93d1ecfe2962f6655fc6e.png" />
+<img alt="../_images/d30853825d9d5b5f403f2ea1ef87fd643b6385eab4e4032ef0787c8c0e76b27d.png" src="../_images/d30853825d9d5b5f403f2ea1ef87fd643b6385eab4e4032ef0787c8c0e76b27d.png" />
 </div>
 </div>
 </section>

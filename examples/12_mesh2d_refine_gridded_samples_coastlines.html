@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh2d refine based on gridded samples with a costline &mdash; MeshKernelPy 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=20623aea"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MeshKernelPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">MeshKernelPy</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MeshKernelPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mesh2d refine based on gridded samples with a costline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/12_mesh2d_refine_gridded_samples_coastlines.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mesh2d-refine-based-on-gridded-samples-with-a-costline">
+<h1>Mesh2d refine based on gridded samples with a costline<a class="headerlink" href="#mesh2d-refine-based-on-gridded-samples-with-a-costline" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">meshkernel</span>
+<span class="kn">import</span> <span class="nn">contextily</span> <span class="k">as</span> <span class="nn">ctx</span>
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">GriddedSamples</span><span class="p">,</span> <span class="n">ProjectionType</span><span class="p">,</span> <span class="n">MeshRefinementParameters</span><span class="p">,</span> <span class="n">RefinementType</span>
+
+<span class="n">mk_version</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="sampled-bathymetry">
+<h2>Sampled bathymetry<a class="headerlink" href="#sampled-bathymetry" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sampled GEBCO bathymetry</span>
+<span class="n">lon_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">68.54791667</span><span class="p">,</span> <span class="o">-</span><span class="mf">68.46458333</span><span class="p">,</span> <span class="o">-</span><span class="mf">68.38125</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">68.29791667</span><span class="p">,</span>
+                   <span class="o">-</span><span class="mf">68.21458333</span><span class="p">,</span> <span class="o">-</span><span class="mf">68.13125</span><span class="p">,</span> <span class="o">-</span><span class="mf">68.04791667</span><span class="p">,</span> <span class="o">-</span><span class="mf">67.96458333</span><span class="p">])</span>
+<span class="n">lat_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">11.80208333</span><span class="p">,</span> <span class="mf">11.88541667</span><span class="p">,</span> <span class="mf">11.96875</span><span class="p">,</span> <span class="mf">12.05208333</span><span class="p">,</span> <span class="mf">12.13541667</span><span class="p">,</span>
+                   <span class="mf">12.21875</span><span class="p">,</span> <span class="mf">12.30208333</span><span class="p">,</span> <span class="mf">12.38541667</span><span class="p">,</span> <span class="mf">12.46875</span><span class="p">,</span> <span class="mf">12.55208333</span><span class="p">])</span>
+<span class="n">values_np_2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1700</span><span class="p">,</span> <span class="o">-</span><span class="mi">1769</span><span class="p">,</span> <span class="o">-</span><span class="mi">1688</span><span class="p">,</span> <span class="o">-</span><span class="mi">1641</span><span class="p">,</span> <span class="o">-</span><span class="mi">1526</span><span class="p">,</span> <span class="o">-</span><span class="mi">1291</span><span class="p">,</span> <span class="o">-</span><span class="mi">1121</span><span class="p">,</span> <span class="o">-</span><span class="mi">1537</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1561</span><span class="p">,</span> <span class="o">-</span><span class="mi">1674</span><span class="p">,</span> <span class="o">-</span><span class="mi">1354</span><span class="p">,</span>  <span class="o">-</span><span class="mi">757</span><span class="p">,</span>  <span class="o">-</span><span class="mi">837</span><span class="p">,</span>  <span class="o">-</span><span class="mi">838</span><span class="p">,</span> <span class="o">-</span><span class="mi">1080</span><span class="p">,</span> <span class="o">-</span><span class="mi">1466</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1630</span><span class="p">,</span> <span class="o">-</span><span class="mi">1390</span><span class="p">,</span>  <span class="o">-</span><span class="mi">710</span><span class="p">,</span>  <span class="o">-</span><span class="mi">562</span><span class="p">,</span>  <span class="o">-</span><span class="mi">479</span><span class="p">,</span>  <span class="o">-</span><span class="mi">753</span><span class="p">,</span> <span class="o">-</span><span class="mi">1246</span><span class="p">,</span> <span class="o">-</span><span class="mi">1703</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1553</span><span class="p">,</span> <span class="o">-</span><span class="mi">1446</span><span class="p">,</span> <span class="o">-</span><span class="mi">1147</span><span class="p">,</span>  <span class="o">-</span><span class="mi">248</span><span class="p">,</span>  <span class="o">-</span><span class="mi">175</span><span class="p">,</span>  <span class="o">-</span><span class="mi">712</span><span class="p">,</span> <span class="o">-</span><span class="mi">1621</span><span class="p">,</span> <span class="o">-</span><span class="mi">1920</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1503</span><span class="p">,</span> <span class="o">-</span><span class="mi">1380</span><span class="p">,</span> <span class="o">-</span><span class="mi">1080</span><span class="p">,</span>  <span class="o">-</span><span class="mi">305</span><span class="p">,</span>    <span class="mi">18</span><span class="p">,</span>  <span class="o">-</span><span class="mi">543</span><span class="p">,</span> <span class="o">-</span><span class="mi">1563</span><span class="p">,</span> <span class="o">-</span><span class="mi">2241</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1477</span><span class="p">,</span> <span class="o">-</span><span class="mi">1571</span><span class="p">,</span>    <span class="o">-</span><span class="mi">3</span><span class="p">,</span>   <span class="mi">100</span><span class="p">,</span>    <span class="mi">11</span><span class="p">,</span>  <span class="o">-</span><span class="mi">891</span><span class="p">,</span> <span class="o">-</span><span class="mi">1521</span><span class="p">,</span> <span class="o">-</span><span class="mi">2446</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">1892</span><span class="p">,</span> <span class="o">-</span><span class="mi">1808</span><span class="p">,</span>    <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">3102</span><span class="p">,</span> <span class="o">-</span><span class="mi">2015</span><span class="p">,</span> <span class="o">-</span><span class="mi">1302</span><span class="p">,</span> <span class="o">-</span><span class="mi">1484</span><span class="p">,</span> <span class="o">-</span><span class="mi">2581</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">2516</span><span class="p">,</span> <span class="o">-</span><span class="mi">2091</span><span class="p">,</span> <span class="o">-</span><span class="mi">1957</span><span class="p">,</span> <span class="o">-</span><span class="mi">2647</span><span class="p">,</span> <span class="o">-</span><span class="mi">1422</span><span class="p">,</span> <span class="o">-</span><span class="mi">1486</span><span class="p">,</span> <span class="o">-</span><span class="mi">2340</span><span class="p">,</span> <span class="o">-</span><span class="mi">2702</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">2689</span><span class="p">,</span> <span class="o">-</span><span class="mi">2353</span><span class="p">,</span> <span class="o">-</span><span class="mi">2614</span><span class="p">,</span> <span class="o">-</span><span class="mi">3612</span><span class="p">,</span> <span class="o">-</span><span class="mi">3058</span><span class="p">,</span> <span class="o">-</span><span class="mi">3017</span><span class="p">,</span> <span class="o">-</span><span class="mi">3181</span><span class="p">,</span> <span class="o">-</span><span class="mi">2848</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mi">3110</span><span class="p">,</span> <span class="o">-</span><span class="mi">3025</span><span class="p">,</span> <span class="o">-</span><span class="mi">3861</span><span class="p">,</span> <span class="o">-</span><span class="mi">3927</span><span class="p">,</span> <span class="o">-</span><span class="mi">3818</span><span class="p">,</span> <span class="o">-</span><span class="mi">4162</span><span class="p">,</span> <span class="o">-</span><span class="mi">4386</span><span class="p">,</span> <span class="o">-</span><span class="mi">4504</span><span class="p">]])</span>
+<span class="n">values_np</span> <span class="o">=</span> <span class="n">values_np_2d</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="generate-regular-grid">
+<h2>Generate regular grid<a class="headerlink" href="#generate-regular-grid" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">68.55</span><span class="p">,</span> <span class="o">-</span><span class="mf">67.9</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">12.6</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                          <span class="n">origin_x</span><span class="o">=</span><span class="n">lon_min</span><span class="p">,</span>
+                                          <span class="n">origin_y</span><span class="o">=</span><span class="n">lat_min</span><span class="p">,</span>
+                                          <span class="n">upper_right_x</span><span class="o">=</span><span class="n">lon_max</span><span class="p">,</span>
+                                          <span class="n">upper_right_y</span><span class="o">=</span><span class="n">lat_max</span><span class="p">,</span>
+                                          <span class="n">block_size_x</span><span class="o">=</span><span class="n">dx</span><span class="p">,</span>
+                                          <span class="n">block_size_y</span><span class="o">=</span><span class="n">dy</span><span class="p">)</span>
+
+<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ProjectionType</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span> <span class="c1">#convert to ugrid/mesh2d</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="perform-refinement">
+<h2>Perform refinement<a class="headerlink" href="#perform-refinement" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gridded_samples</span> <span class="o">=</span> <span class="n">GriddedSamples</span><span class="p">(</span><span class="n">x_coordinates</span><span class="o">=</span><span class="n">lon_np</span><span class="p">,</span><span class="n">y_coordinates</span><span class="o">=</span><span class="n">lat_np</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="n">values_np</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_refinement_parameters</span> <span class="o">=</span> <span class="n">MeshRefinementParameters</span><span class="p">(</span><span class="n">min_edge_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="c1">#always in meters</span>
+                                                      <span class="n">refinement_type</span><span class="o">=</span><span class="n">RefinementType</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="c1">#Wavecourant/1,</span>
+                                                      <span class="n">connect_hanging_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1">#set to False to do multiple refinement steps (e.g. for multiple regions)</span>
+                                                      <span class="n">smoothing_iterations</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                                      <span class="n">max_courant_time</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_refine_based_on_gridded_samples</span><span class="p">(</span><span class="n">gridded_samples</span><span class="o">=</span><span class="n">gridded_samples</span><span class="p">,</span>
+                                           <span class="n">mesh_refinement_params</span><span class="o">=</span><span class="n">mesh_refinement_parameters</span><span class="p">,</span>
+                                           <span class="n">use_nodal_refinement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0d4707cf57a8f175a5b46ac76fc0ddcf7bf9b2aa2b8a0d5b87bcec61c6204cc6.png" src="../_images/0d4707cf57a8f175a5b46ac76fc0ddcf7bf9b2aa2b8a0d5b87bcec61c6204cc6.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Deltares.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
