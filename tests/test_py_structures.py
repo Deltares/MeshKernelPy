@@ -46,14 +46,15 @@ def test_projecttolandboundaryoption_values(
     assert enum_val == exp_int
 
 
-cases_refinementtype_values = [
+cases_refinement_type_values = [
     (RefinementType.WAVE_COURANT, 1),
     (RefinementType.REFINEMENT_LEVELS, 2),
+    (RefinementType.RIDGE_DETECTION, 3),
 ]
 
 
-@pytest.mark.parametrize("enum_val, exp_int", cases_refinementtype_values)
-def test_refinementtype_values(enum_val: RefinementType, exp_int: int):
+@pytest.mark.parametrize("enum_val, exp_int", cases_refinement_type_values)
+def test_refinement_type_values(enum_val: RefinementType, exp_int: int):
     """Tests the integer values of the `RefinementType` enum."""
 
     assert enum_val == exp_int

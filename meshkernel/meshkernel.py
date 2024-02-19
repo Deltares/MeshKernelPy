@@ -683,6 +683,40 @@ class MeshKernel:
             byref(c_refinement_params),
         )
 
+    def mesh2d_refine_ridges_based_on_gridded_samples(
+        self,
+        gridded_samples: GriddedSamples,
+        relative_search_radius: float,
+        minimum_num_samples: int,
+        number_of_smoothing_iterations: int,
+        mesh_refinement_params: MeshRefinementParameters,
+    ) -> None:
+        """Refines a mesh2d based on samples with ridge refinement. This method automatically detects the ridges in a sample set.
+
+        Args:
+            gridded_samples (GriddedSamples): The gridded samples.
+            relative_search_radius (float): The relative search radius relative to the face size,
+                                            used for some interpolation algorithms.
+            minimum_num_samples (int): The minimum number of samples used for some averaging algorithms.
+            number_of_smoothing_iterations (int): The number of smoothing iterations to apply to the input sample set.
+            mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
+        """
+
+        c_gridded_samples = CGriddedSamples.from_griddedSamples(gridded_samples)
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
+            mesh_refinement_params
+        )
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_refine_ridges_based_on_gridded_samples,
+            self._meshkernelid,
+            byref(c_gridded_samples),
+            c_double(relative_search_radius),
+            c_int(minimum_num_samples),
+            c_int(number_of_smoothing_iterations),
+            byref(c_refinement_params),
+        )
+
     def mesh2d_refine_based_on_gridded_samples(
         self,
         gridded_samples: GriddedSamples,

@@ -396,8 +396,9 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 # nodes = 6 * 6 = 36 (no change)
 # edges = 2 * (5 * 6) = 60 (no change)
 # faces = 5 * 5 - 1 = 24
-
-#  Case 4: 30--31--32--33--34--35
+#
+# Case 4:
+#  30--31--32--33--34--35
 #  |   |   |   |   |   |
 #  24--25--26--27--28--29
 #  |   |           |   |
@@ -410,6 +411,34 @@ def test_mesh2d_get_node_index_no_node_in_search_radius(
 #  0---1---2---3---4---5
 # nodes = 6 * 6 - 4 (central cell) = 32
 # faces = 25 - (3 * 3) = 16
+#
+# Case 5:
+#  30--31--32--33--34--35
+#  |   |   |   |   |   |
+#  24--25--26--27--28--29
+#  |   |           |   |
+#  18--19          22--23
+#  |   |           |   |
+#  12--13          16--17
+#  |   |           |   |
+#  6---7---8---9---10--11
+#  |   |   |   |   |   |
+#  0---1---2---3---4---5
+# nodes = 6 * 6 - 4 (central cell) = 32
+# faces = 25 - (3 * 3) = 16
+#
+# Case 6:
+# only the 9 central cells
+
+#  25--26--27--28
+#  |   |   |   |
+#  19--20--21--22
+#  |   | / |   |
+#  13--14--15--16
+#  |   |   |   |
+#  7---8---9---10
+# nodes = 16
+# faces = 9
 
 cases_mesh2d_delete_small_polygon = [
     (
@@ -439,6 +468,20 @@ cases_mesh2d_delete_small_polygon = [
         32,
         48,
         16,
+    ),
+    (
+        False,
+        DeleteMeshOption.FACES_WITH_INCLUDED_CIRCUMCENTERS,
+        32,
+        48,
+        16,
+    ),
+    (
+        True,
+        DeleteMeshOption.FACES_WITH_INCLUDED_CIRCUMCENTERS,
+        16,
+        24,
+        9,
     ),
 ]
 
@@ -837,6 +880,59 @@ def test_mesh2d_refine_based_on_samples(
     assert mesdh2d.node_x.size == exp_nodes
     assert mesdh2d.edge_x.size == exp_edges
     assert mesdh2d.face_x.size == exp_faces
+
+
+def test_refine_ridges_based_on_gridded_samples(meshkernel_with_mesh2d: MeshKernel):
+    """Tests `mkernel_mesh2d_refine_ridges_based_on_gridded_samples` with a simple 5x4 mesh."""
+    num_rows = 21
+    num_columns = 41
+    mk = meshkernel_with_mesh2d(
+        rows=num_rows, columns=num_columns, spacing_x=100.0, spacing_y=100.0
+    )
+
+    refinement_params = MeshRefinementParameters(
+        refine_intersected=False,
+        use_mass_center_when_refining=False,
+        min_edge_size=2.0,
+        connect_hanging_nodes=True,
+        account_for_samples_outside_face=False,
+        refinement_type=RefinementType.RIDGE_DETECTION,
+        max_refinement_iterations=3,
+        smoothing_iterations=0,
+    )
+
+    num_sample_x_coordinates = (num_columns - 1) * 2 + 1
+    num_sample_y_coordinates = (num_rows * 1) * 2 + 1
+
+    gridded_samples = GriddedSamples(
+        num_x=num_sample_x_coordinates,
+        num_y=num_sample_y_coordinates,
+        x_origin=0.0,
+        y_origin=-0.0,
+        cell_size=5.0,
+        values=np.array(
+            [-0.05] * num_sample_x_coordinates * num_sample_y_coordinates,
+            dtype=np.float32,
+        ),
+    )
+
+    relative_search_radius = 1.01
+    minimum_num_samples = 1
+    number_of_smoothing_iterations = 0
+
+    mk.mesh2d_refine_ridges_based_on_gridded_samples(
+        gridded_samples=gridded_samples,
+        relative_search_radius=relative_search_radius,
+        minimum_num_samples=minimum_num_samples,
+        number_of_smoothing_iterations=number_of_smoothing_iterations,
+        mesh_refinement_params=refinement_params,
+    )
+
+    mesdh2d = mk.mesh2d_get()
+
+    assert mesdh2d.node_x.size == 924
+    assert mesdh2d.edge_x.size == 1784
+    assert mesdh2d.face_x.size == 861
 
 
 cases_mesh2d_refine_based_on_gridded_samples = [
@@ -1789,3 +1885,202 @@ def test_mesh2d_convert_projection():
     mesh2d_final = mk.mesh2d_get()
 
     assert mesh2d.almost_equal(mesh2d_final, rtol=0)
+
+
+def test_mesh2d_refine_based_on_gridded_samples_coastline():
+    """Tests `mesh2d_refine_based_on_gridded_samples` with real world data"""
+
+    # set up
+    lon_np = np.array(
+        [
+            -68.54791667,
+            -68.46458333,
+            -68.38125,
+            -68.29791667,
+            -68.21458333,
+            -68.13125,
+            -68.04791667,
+            -67.96458333,
+        ]
+    )
+    lat_np = np.array(
+        [
+            11.80208333,
+            11.88541667,
+            11.96875,
+            12.05208333,
+            12.13541667,
+            12.21875,
+            12.30208333,
+            12.38541667,
+            12.46875,
+            12.55208333,
+        ]
+    )
+    values_2d = np.array(
+        [
+            [-1700, -1769, -1688, -1641, -1526, -1291, -1121, -1537],
+            [-1561, -1674, -1354, -757, -837, -838, -1080, -1466],
+            [-1630, -1390, -710, -562, -479, -753, -1246, -1703],
+            [-1553, -1446, -1147, -248, -175, -712, -1621, -1920],
+            [-1503, -1380, -1080, -305, 18, -543, -1563, -2241],
+            [-1477, -1571, -3, 100, 11, -891, -1521, -2446],
+            [-1892, -1808, 16, -3102, -2015, -1302, -1484, -2581],
+            [-2516, -2091, -1957, -2647, -1422, -1486, -2340, -2702],
+            [-2689, -2353, -2614, -3612, -3058, -3017, -3181, -2848],
+            [-3110, -3025, -3861, -3927, -3818, -4162, -4386, -4504],
+        ]
+    )
+
+    values_np = values_2d.flatten().astype(np.float32)
+    gridded_samples = GriddedSamples(
+        x_coordinates=lon_np, y_coordinates=lat_np, values=values_np
+    )
+
+    lon_min, lon_max, lat_min, lat_max = -68.55, -67.9, 11.8, 12.6
+    dx = dy = 0.05
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=lon_min,
+        origin_y=lat_min,
+        upper_right_x=lon_max,
+        upper_right_y=lat_max,
+        block_size_x=dx,
+        block_size_y=dy,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.SPHERICAL)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    mesh_refinement_parameters = MeshRefinementParameters(
+        min_edge_size=300,
+        refinement_type=RefinementType.WAVE_COURANT,
+        connect_hanging_nodes=True,
+        smoothing_iterations=2,
+        max_courant_time=120,
+    )
+
+    mk.mesh2d_refine_based_on_gridded_samples(
+        gridded_samples=gridded_samples,
+        mesh_refinement_params=mesh_refinement_parameters,
+        use_nodal_refinement=True,
+    )
+
+    mesh2d = mk.mesh2d_get()
+
+    node_x_expected = np.array(
+        [
+            -68.23749931,
+            -68.23124931,
+            -68.23749965,
+            -68.23749969,
+            -68.23124936,
+            -68.24374969,
+            -68.21874931,
+            -68.21249964,
+            -68.21249969,
+            -68.21874936,
+            -68.21249936,
+            -68.20624969,
+            -68.19374965,
+            -68.18749931,
+            -68.32499934,
+            -68.31249934,
+            -68.32499934,
+            -68.33749934,
+            -68.27499934,
+            -68.26249934,
+            -68.28749934,
+            -68.25,
+            -68.2,
+            -68.35,
+            -68.3,
+            -68.25,
+            -68.2,
+            -68.3,
+            -68.23125,
+            -68.18125,
+            -68.3625,
+            -68.28125,
+            -68.23125,
+            -68.3625,
+            -68.3125,
+            -68.28125,
+            -68.23125,
+            -68.3125,
+            -68.21874901,
+            -68.22499901,
+            -68.23124901,
+            -68.26874901,
+            -68.27499901,
+            -68.28124901,
+            -68.22499901,
+            -68.21874901,
+            -68.22499901,
+            -68.23124901,
+            -68.17499901,
+            -68.18124901,
+        ]
+    )
+
+    node_y_expected = np.array(
+        [
+            12.21541261,
+            12.22142544,
+            12.22743842,
+            12.23946235,
+            12.2454732,
+            12.24547334,
+            12.24547309,
+            12.23946224,
+            12.22743853,
+            12.22142555,
+            12.21541271,
+            12.22142569,
+            12.22142558,
+            12.21541261,
+            12.1973741,
+            12.20939978,
+            12.22142545,
+            12.20939978,
+            12.2454731,
+            12.25749508,
+            12.25749508,
+            12.15527532,
+            12.15527532,
+            12.22142577,
+            12.20338726,
+            12.20338726,
+            12.20338726,
+            12.26951737,
+            12.13723127,
+            12.13723127,
+            12.18534874,
+            12.18534874,
+            12.18534874,
+            12.23345145,
+            12.23345145,
+            12.23345145,
+            12.23345145,
+            12.28153934,
+            12.11316478,
+            12.1191813,
+            12.11316478,
+            12.1612896,
+            12.16730428,
+            12.1612896,
+            12.15527491,
+            12.1612896,
+            12.16730428,
+            12.1612896,
+            12.15527491,
+            12.1612896,
+        ]
+    )
+
+    assert mesh2d.node_x[600:650] == pytest.approx(node_x_expected, abs=1e-4)
+    assert mesh2d.node_y[600:650] == pytest.approx(node_y_expected, abs=1e-4)
+
+    assert len(mesh2d.node_x) == 1676
+    assert len(mesh2d.edge_nodes) == 7176

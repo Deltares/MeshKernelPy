@@ -20,6 +20,9 @@ class DeleteMeshOption(IntEnum):
     """Deletes mesh inside and intersected """
     INSIDE_AND_INTERSECTED = 1
 
+    """Deletes the faces with circumcenters included in the polygon """
+    FACES_WITH_INCLUDED_CIRCUMCENTERS = 2
+
 
 @unique
 class ProjectToLandBoundaryOption(IntEnum):
@@ -41,6 +44,9 @@ class RefinementType(IntEnum):
 
     """Refinement that refines recursively a fixed number of times."""
     REFINEMENT_LEVELS = 2
+
+    """Refinement based on ridge detection."""
+    RIDGE_DETECTION = 3
 
 
 @unique
