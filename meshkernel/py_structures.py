@@ -130,17 +130,17 @@ class Mesh2d:
         edge_faces=np.empty(0, dtype=np.int32),
         face_edges=np.empty(0, dtype=np.int32),
     ):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
-        self.edge_nodes: ndarray = edge_nodes
-        self.face_nodes: ndarray = face_nodes
-        self.nodes_per_face: ndarray = nodes_per_face
-        self.edge_x: ndarray = edge_x
-        self.edge_y: ndarray = edge_y
-        self.face_x: ndarray = face_x
-        self.face_y: ndarray = face_y
-        self.edge_faces: ndarray = edge_faces
-        self.face_edges: ndarray = face_edges
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
+        self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
+        self.face_nodes: ndarray = np.asarray(face_nodes, dtype=np.int32)
+        self.nodes_per_face: ndarray = np.asarray(nodes_per_face, dtype=np.int32)
+        self.edge_x: ndarray = np.asarray(edge_x, dtype=np.double)
+        self.edge_y: ndarray = np.asarray(edge_y, dtype=np.double)
+        self.face_x: ndarray = np.asarray(face_x, dtype=np.double)
+        self.face_y: ndarray = np.asarray(face_y, dtype=np.double)
+        self.edge_faces: ndarray = np.asarray(edge_faces, dtype=np.int32)
+        self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
     def __eq__(self, other: Mesh2d):
         """Checks if the mesh is exactly equal to another.
@@ -252,11 +252,11 @@ class GeometryList:
         geometry_separator=-999.0,
         inner_outer_separator=-998.0,
     ):
-        self.x_coordinates: ndarray = x_coordinates
-        self.y_coordinates: ndarray = y_coordinates
-        self.values: ndarray = values
-        self.geometry_separator: float = geometry_separator
-        self.inner_outer_separator: float = inner_outer_separator
+        self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
+        self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
+        self.values: ndarray = np.asarray(values, dtype=np.double)
+        self.geometry_separator: float = float(geometry_separator)
+        self.inner_outer_separator: float = float(inner_outer_separator)
 
         if len(self.x_coordinates) != len(self.y_coordinates):
             raise mk_errors.InputError(
@@ -296,16 +296,18 @@ class OrthogonalizationParameters:
         orthogonalization_to_smoothing_factor_at_boundary=1.0,
         areal_to_angle_smoothing_factor=1.0,
     ):
-        self.outer_iterations: int = outer_iterations
-        self.boundary_iterations: int = boundary_iterations
-        self.inner_iterations: int = inner_iterations
-        self.orthogonalization_to_smoothing_factor: float = (
+        self.outer_iterations: int = int(outer_iterations)
+        self.boundary_iterations: int = int(boundary_iterations)
+        self.inner_iterations: int = int(inner_iterations)
+        self.orthogonalization_to_smoothing_factor: float = float(
             orthogonalization_to_smoothing_factor
         )
-        self.orthogonalization_to_smoothing_factor_at_boundary: float = (
+        self.orthogonalization_to_smoothing_factor_at_boundary: float = float(
             orthogonalization_to_smoothing_factor_at_boundary
         )
-        self.areal_to_angle_smoothing_factor: float = areal_to_angle_smoothing_factor
+        self.areal_to_angle_smoothing_factor: float = float(
+            areal_to_angle_smoothing_factor
+        )
 
 
 class CurvilinearGrid:
@@ -319,10 +321,10 @@ class CurvilinearGrid:
     """
 
     def __init__(self, node_x, node_y, num_m, num_n):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
-        self.num_m: int = num_m
-        self.num_n: int = num_n
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
+        self.num_m: int = int(num_m)
+        self.num_n: int = int(num_n)
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
@@ -389,11 +391,11 @@ class CurvilinearParameters:
         smoothing_parameter=0.5,
         attraction_parameter=0.0,
     ):
-        self.m_refinement: int = m_refinement
-        self.n_refinement: int = n_refinement
-        self.smoothing_iterations: int = smoothing_iterations
-        self.smoothing_parameter: float = smoothing_parameter
-        self.attraction_parameter: float = attraction_parameter
+        self.m_refinement: int = int(m_refinement)
+        self.n_refinement: int = int(n_refinement)
+        self.smoothing_iterations: int = int(smoothing_iterations)
+        self.smoothing_parameter: float = float(smoothing_parameter)
+        self.attraction_parameter: float = float(attraction_parameter)
 
 
 class SplinesToCurvilinearParameters:
@@ -420,25 +422,27 @@ class SplinesToCurvilinearParameters:
         aspect_ratio_grow_factor=1.1,
         average_width=500.0,
         curvature_adapted_grid_spacing=1,
-        grow_grid_outside=0,
+        grow_grid_outside=False,
         maximum_num_faces_in_uniform_part=5,
         nodes_on_top_of_each_other_tolerance=0.0001,
         min_cosine_crossing_angles=0.95,
-        check_front_collisions=0,
-        remove_skinny_triangles=1,
+        check_front_collisions=False,
+        remove_skinny_triangles=True,
     ):
-        self.aspect_ratio: float = aspect_ratio
-        self.aspect_ratio_grow_factor: float = aspect_ratio_grow_factor
-        self.average_width: float = average_width
-        self.curvature_adapted_grid_spacing: int = curvature_adapted_grid_spacing
-        self.grow_grid_outside: int = grow_grid_outside
-        self.maximum_num_faces_in_uniform_part: int = maximum_num_faces_in_uniform_part
-        self.nodes_on_top_of_each_other_tolerance: float = (
+        self.aspect_ratio: float = float(aspect_ratio)
+        self.aspect_ratio_grow_factor: float = float(aspect_ratio_grow_factor)
+        self.average_width: float = float(average_width)
+        self.curvature_adapted_grid_spacing: int = int(curvature_adapted_grid_spacing)
+        self.grow_grid_outside: bool = bool(grow_grid_outside)
+        self.maximum_num_faces_in_uniform_part: int = int(
+            maximum_num_faces_in_uniform_part
+        )
+        self.nodes_on_top_of_each_other_tolerance: float = float(
             nodes_on_top_of_each_other_tolerance
         )
-        self.min_cosine_crossing_angles: float = min_cosine_crossing_angles
-        self.check_front_collisions: int = check_front_collisions
-        self.remove_skinny_triangles: int = remove_skinny_triangles
+        self.min_cosine_crossing_angles: float = float(min_cosine_crossing_angles)
+        self.check_front_collisions: bool = bool(check_front_collisions)
+        self.remove_skinny_triangles: bool = bool(remove_skinny_triangles)
 
 
 class MeshRefinementParameters:
@@ -472,16 +476,18 @@ class MeshRefinementParameters:
         max_courant_time=120.0,
         directional_refinement=False,
     ):
-        self.refine_intersected: bool = refine_intersected
-        self.use_mass_center_when_refining: bool = use_mass_center_when_refining
-        self.min_edge_size: float = min_edge_size
-        self.refinement_type: RefinementType = refinement_type
-        self.connect_hanging_nodes: bool = connect_hanging_nodes
-        self.account_for_samples_outside_face: bool = account_for_samples_outside_face
-        self.max_refinement_iterations: int = max_refinement_iterations
-        self.smoothing_iterations: int = smoothing_iterations
-        self.max_courant_time: float = max_courant_time
-        self.directional_refinement: bool = directional_refinement
+        self.refine_intersected: bool = bool(refine_intersected)
+        self.use_mass_center_when_refining: bool = bool(use_mass_center_when_refining)
+        self.min_edge_size: float = float(min_edge_size)
+        self.refinement_type: RefinementType = RefinementType(refinement_type)
+        self.connect_hanging_nodes: bool = bool(connect_hanging_nodes)
+        self.account_for_samples_outside_face: bool = bool(
+            account_for_samples_outside_face
+        )
+        self.max_refinement_iterations: int = int(max_refinement_iterations)
+        self.smoothing_iterations: int = int(smoothing_iterations)
+        self.max_courant_time: float = float(max_courant_time)
+        self.directional_refinement: bool = bool(directional_refinement)
 
 
 class MakeGridParameters:
@@ -517,15 +523,15 @@ class MakeGridParameters:
         upper_right_x=0.0,
         upper_right_y=0.0,
     ):
-        self.num_columns: int = num_columns
-        self.num_rows: int = num_rows
-        self.angle: float = angle
-        self.origin_x: float = origin_x
-        self.origin_y: float = origin_y
-        self.block_size_x: float = block_size_x
-        self.block_size_y: float = block_size_y
-        self.upper_right_x: float = upper_right_x
-        self.upper_right_y: float = upper_right_y
+        self.num_columns: int = int(num_columns)
+        self.num_rows: int = int(num_rows)
+        self.angle: float = float(angle)
+        self.origin_x: float = float(origin_x)
+        self.origin_y: float = float(origin_y)
+        self.block_size_x: float = float(block_size_x)
+        self.block_size_y: float = float(block_size_y)
+        self.upper_right_x: float = float(upper_right_x)
+        self.upper_right_y: float = float(upper_right_y)
 
 
 class Mesh1d:
@@ -538,9 +544,9 @@ class Mesh1d:
     """
 
     def __init__(self, node_x, node_y, edge_nodes):
-        self.node_x: ndarray = node_x
-        self.node_y: ndarray = node_y
-        self.edge_nodes: ndarray = edge_nodes
+        self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
+        self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
+        self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
@@ -561,8 +567,8 @@ class Contacts:
     """
 
     def __init__(self, mesh1d_indices, mesh2d_indices):
-        self.mesh1d_indices: ndarray = mesh1d_indices
-        self.mesh2d_indices: ndarray = mesh2d_indices
+        self.mesh1d_indices: ndarray = np.asarray(mesh1d_indices, dtype=np.int32)
+        self.mesh2d_indices: ndarray = np.asarray(mesh2d_indices, dtype=np.int32)
 
     def plot_edges(self, ax, mesh1d, mesh2d, *args, **kwargs):
         """Plots the edges at a given axes.
@@ -608,23 +614,26 @@ class GriddedSamples:
         y_coordinates=np.empty(0, dtype=np.double),
         values=np.empty(0, dtype=np.float32),
     ):
-        self.num_x: int = num_x
-        self.num_y: int = num_y
-        self.x_origin: float = x_origin
-        self.y_origin: float = y_origin
-        self.cell_size: float = cell_size
-        self.x_coordinates: ndarray = x_coordinates
-        self.y_coordinates: ndarray = y_coordinates
-        self.values: ndarray = values
+        self.num_x: int = int(num_x)
+        self.num_y: int = int(num_y)
+        self.x_origin: float = float(x_origin)
+        self.y_origin: float = float(y_origin)
+        self.cell_size: float = float(cell_size)
+        self.x_coordinates: ndarray = np.asarray(x_coordinates, dtype=np.double)
+        self.y_coordinates: ndarray = np.asarray(y_coordinates, dtype=np.double)
+
+        if not isinstance(values, np.ndarray):
+            raise RuntimeError("the gridded sample values must be a numpy array")
 
         if values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
+            self.values: ndarray = np.asarray(values, dtype=np.float32)
         elif values.dtype == np.int16:
             self.value_type: int = InterpolationValues.SHORT
+            self.values: ndarray = np.asarray(values, dtype=np.int16)
         else:
-            raise RuntimeError(
-                "Unsupported value type: the values should be np.int16 or np.float32"
-            )
+            self.value_type: int = InterpolationValues.FLOAT
+            self.values: ndarray = np.asarray(values, dtype=np.float32)
 
 
 @unique
