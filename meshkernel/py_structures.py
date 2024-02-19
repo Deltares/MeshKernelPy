@@ -416,18 +416,18 @@ class SplinesToCurvilinearParameters:
         aspect_ratio_grow_factor=1.1,
         average_width=500.0,
         curvature_adapted_grid_spacing=1,
-        grow_grid_outside=0,
+        grow_grid_outside=False,
         maximum_num_faces_in_uniform_part=5,
         nodes_on_top_of_each_other_tolerance=0.0001,
         min_cosine_crossing_angles=0.95,
-        check_front_collisions=0,
-        remove_skinny_triangles=1,
+        check_front_collisions=False,
+        remove_skinny_triangles=True,
     ):
         self.aspect_ratio: float = float(aspect_ratio)
         self.aspect_ratio_grow_factor: float = float(aspect_ratio_grow_factor)
         self.average_width: float = float(average_width)
         self.curvature_adapted_grid_spacing: int = int(curvature_adapted_grid_spacing)
-        self.grow_grid_outside: int = int(grow_grid_outside)
+        self.grow_grid_outside: bool = bool(grow_grid_outside)
         self.maximum_num_faces_in_uniform_part: int = int(
             maximum_num_faces_in_uniform_part
         )
@@ -435,8 +435,8 @@ class SplinesToCurvilinearParameters:
             nodes_on_top_of_each_other_tolerance
         )
         self.min_cosine_crossing_angles: float = float(min_cosine_crossing_angles)
-        self.check_front_collisions: int = int(check_front_collisions)
-        self.remove_skinny_triangles: int = int(remove_skinny_triangles)
+        self.check_front_collisions: bool = bool(check_front_collisions)
+        self.remove_skinny_triangles: bool = bool(remove_skinny_triangles)
 
 
 class MeshRefinementParameters:

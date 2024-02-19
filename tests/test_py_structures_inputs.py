@@ -39,10 +39,10 @@ def test_mesh2d_implicit_int_conversions():
     assert_array_equal(output_mesh2d.node_y, input_mesh2d.node_y)
 
     # Test if faces are correctly calculated
-    assert_array_equal(output_mesh2d.face_nodes, np.array([0, 1, 2, 3]))
-    assert_array_equal(output_mesh2d.nodes_per_face, np.array([4]))
-    assert_array_equal(output_mesh2d.face_x, np.array([0.5]))
-    assert_array_equal(output_mesh2d.face_y, np.array([0.5]))
+    assert_array_equal(output_mesh2d.face_nodes, np.array([0, 1, 2, 3], dtype=np.int32))
+    assert_array_equal(output_mesh2d.nodes_per_face, np.array([4], dtype=np.int32))
+    assert_array_equal(output_mesh2d.face_x, np.array([0.5], dtype=np.double))
+    assert_array_equal(output_mesh2d.face_y, np.array([0.5], dtype=np.double))
 
 
 def test_mesh2d_implicit_string_conversions():
@@ -73,17 +73,19 @@ def test_mesh2d_implicit_string_conversions():
         face_edges=face_edges,
     )
 
-    assert_array_equal(mesh_2d.node_x, np.array([1.0, 2.0, 3.0], dtype=np.double))
-    assert_array_equal(mesh_2d.node_y, np.array([4.0, 5.0, 6.0], dtype=np.double))
-    assert_array_equal(mesh_2d.edge_nodes, np.array([0, 1, 1, 2], dtype=np.int32))
-    assert_array_equal(mesh_2d.face_nodes, np.array([0, 1, 2], dtype=np.int32))
-    assert_array_equal(mesh_2d.nodes_per_face, np.array([3, 4, 5], dtype=np.int32))
-    assert_array_equal(mesh_2d.edge_x, np.array([1.5, 2.5], dtype=np.double))
-    assert_array_equal(mesh_2d.edge_y, np.array([4.5, 5.5], dtype=np.double))
-    assert_array_equal(mesh_2d.face_x, np.array([2.0, 3.0], dtype=np.double))
-    assert_array_equal(mesh_2d.face_y, np.array([5.0, 6.0], dtype=np.double))
-    assert_array_equal(mesh_2d.edge_faces, np.array([0, 1], dtype=np.int32))
-    assert_array_equal(mesh_2d.face_edges, np.array([2, 3], dtype=np.int32))
+    assert_array_equal(mesh_2d.node_x, np.asarray(node_x, dtype=np.double))
+    assert_array_equal(mesh_2d.node_y, np.asarray(node_y, dtype=np.double))
+    assert_array_equal(mesh_2d.edge_nodes, np.asarray(edge_nodes, dtype=np.int32))
+    assert_array_equal(mesh_2d.face_nodes, np.asarray(face_nodes, dtype=np.int32))
+    assert_array_equal(
+        mesh_2d.nodes_per_face, np.asarray(nodes_per_face, dtype=np.int32)
+    )
+    assert_array_equal(mesh_2d.edge_x, np.asarray(edge_x, dtype=np.double))
+    assert_array_equal(mesh_2d.edge_y, np.asarray(edge_y, dtype=np.double))
+    assert_array_equal(mesh_2d.face_x, np.asarray(face_x, dtype=np.double))
+    assert_array_equal(mesh_2d.face_y, np.asarray(face_y, dtype=np.double))
+    assert_array_equal(mesh_2d.edge_faces, np.asarray(edge_faces, dtype=np.int32))
+    assert_array_equal(mesh_2d.face_edges, np.asarray(face_edges, dtype=np.int32))
 
 
 def test_mesh2d_invalid_input():
@@ -109,13 +111,13 @@ def test_geometrylist_implicit_int_conversions():
         x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
     )
 
-    x_coordinates_valid = np.array([2, 5, 3, 0, 2], dtype=np.double)
-    y_coordinates_valid = np.array([5, 3, 5, 2, 0], dtype=np.double)
-    values_valid = np.array([0, 0, 1, 1, 1], dtype=np.double)
-
-    assert_array_equal(geometry_list.x_coordinates, x_coordinates_valid)
-    assert_array_equal(geometry_list.y_coordinates, y_coordinates_valid)
-    assert_array_equal(geometry_list.values, values_valid)
+    assert_array_equal(
+        geometry_list.x_coordinates, np.asarray(x_coordinates, dtype=np.double)
+    )
+    assert_array_equal(
+        geometry_list.y_coordinates, np.asarray(y_coordinates, dtype=np.double)
+    )
+    assert_array_equal(geometry_list.values, np.asarray(values, dtype=np.double))
 
 
 def test_geometrylist_implicit_string_conversions():
@@ -278,7 +280,7 @@ def test_curvilinear_parameters_invalid_input():
         CurvilinearParameters(smoothing_parameter="invalid")
 
 
-def test_splines_to_curvilinear_parameters_implicit_string_conversions():
+def test_splines_to_curvilinear_parameters_implicit_conversions():
     """Test implicit conversion from string to double for SplinesToCurvilinearParameters works"""
 
     splines_to_curvilinear_parameters = SplinesToCurvilinearParameters(
@@ -286,26 +288,26 @@ def test_splines_to_curvilinear_parameters_implicit_string_conversions():
         aspect_ratio_grow_factor="1.1",
         average_width="500.0",
         curvature_adapted_grid_spacing="1",
-        grow_grid_outside="0",
+        grow_grid_outside=0,
         maximum_num_faces_in_uniform_part="5",
         nodes_on_top_of_each_other_tolerance="0.0001",
         min_cosine_crossing_angles="0.95",
-        check_front_collisions="0",
-        remove_skinny_triangles="1",
+        check_front_collisions=0,
+        remove_skinny_triangles=1,
     )
 
     assert splines_to_curvilinear_parameters.aspect_ratio == 0.1
     assert splines_to_curvilinear_parameters.aspect_ratio_grow_factor == 1.1
     assert splines_to_curvilinear_parameters.average_width == 500.0
     assert splines_to_curvilinear_parameters.curvature_adapted_grid_spacing == 1
-    assert splines_to_curvilinear_parameters.grow_grid_outside == 0
+    assert not splines_to_curvilinear_parameters.grow_grid_outside
     assert splines_to_curvilinear_parameters.maximum_num_faces_in_uniform_part == 5
     assert (
         splines_to_curvilinear_parameters.nodes_on_top_of_each_other_tolerance == 0.0001
     )
     assert splines_to_curvilinear_parameters.min_cosine_crossing_angles == 0.95
-    assert splines_to_curvilinear_parameters.check_front_collisions == 0
-    assert splines_to_curvilinear_parameters.remove_skinny_triangles == 1
+    assert not splines_to_curvilinear_parameters.check_front_collisions
+    assert splines_to_curvilinear_parameters.remove_skinny_triangles
 
 
 def test_splines_to_curvilinear_parameters_invalid_input():
@@ -415,9 +417,9 @@ def test_mesh1d_implicit_string_conversions():
 
     mesh_1d = Mesh1d(node_x=node_x, node_y=node_y, edge_nodes=edge_nodes)
 
-    assert np.array_equal(mesh_1d.node_x, np.array([1.0, 2.0, 3.0], dtype=np.double))
-    assert np.array_equal(mesh_1d.node_y, np.array([4.0, 5.0, 6.0], dtype=np.double))
-    assert np.array_equal(mesh_1d.edge_nodes, np.array([0, 1, 1, 2], dtype=np.int32))
+    assert np.array_equal(mesh_1d.node_x, np.asarray(node_x, dtype=np.double))
+    assert np.array_equal(mesh_1d.node_y, np.asarray(node_y, dtype=np.double))
+    assert np.array_equal(mesh_1d.edge_nodes, np.asarray(edge_nodes, dtype=np.int32))
 
 
 def test_mesh1d_invalid_input():
@@ -444,8 +446,12 @@ def test_contacts_implicit_string_conversions():
 
     contacts = Contacts(mesh1d_indices=mesh1d_indices, mesh2d_indices=mesh2d_indices)
 
-    assert np.array_equal(contacts.mesh1d_indices, np.array([0, 1, 2], dtype=np.int32))
-    assert np.array_equal(contacts.mesh2d_indices, np.array([0, 1, 2], dtype=np.int32))
+    assert np.array_equal(
+        contacts.mesh1d_indices, np.asarray(mesh1d_indices, dtype=np.int32)
+    )
+    assert np.array_equal(
+        contacts.mesh2d_indices, np.asarray(mesh2d_indices, dtype=np.int32)
+    )
 
 
 def test_contacts_invalid_input():
@@ -499,18 +505,12 @@ def test_gridded_parameters_implicit_string_conversions():
     assert gridded_samples.y_origin == 2.0
     assert gridded_samples.cell_size == 0.5
     assert np.array_equal(
-        gridded_samples.x_coordinates, np.array([1.0, 2.0, 3.0], dtype=np.double)
+        gridded_samples.x_coordinates, np.asarray(x_coordinates, dtype=np.double)
     )
     assert np.array_equal(
-        gridded_samples.y_coordinates, np.array([2.0, 3.0, 4.0], dtype=np.double)
+        gridded_samples.y_coordinates, np.asarray(y_coordinates, dtype=np.double)
     )
-    assert np.array_equal(
-        gridded_samples.values,
-        np.array(
-            [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0],
-            dtype=np.double,
-        ),
-    )
+    assert np.array_equal(gridded_samples.values, np.asarray(values, dtype=np.double))
 
 
 def test_gridded_parameters_invalid_input():
