@@ -24,7 +24,7 @@ def test_mesh2d_implicit_int_conversions():
     """Test implicit conversion from int to double for Mesh2d works"""
     mk = MeshKernel()
 
-    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int32)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 0], dtype=np.int16)
     node_x = np.array([0, 1, 1, 0], dtype=np.int32)
     node_y = np.array([0, 0, 1, 1], dtype=np.int32)
 
