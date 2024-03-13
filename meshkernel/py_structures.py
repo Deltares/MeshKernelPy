@@ -143,7 +143,7 @@ class Mesh2d:
         self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
     def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
-        """Removes invalid values that might be present in the node array.
+        """Removes invalid values that might be present in the arrays.
         Remove the corresponding entries in the others
 
         Args:
@@ -153,6 +153,10 @@ class Mesh2d:
 
         self.node_x = self.node_x[self.node_x != float_invalid_value]
         self.node_y = self.node_y[self.node_y != float_invalid_value]
+        self.edge_x = self.edge_x[self.edge_x != float_invalid_value]
+        self.edge_y = self.edge_y[self.edge_y != float_invalid_value]
+        self.face_x = self.face_x[self.face_x != float_invalid_value]
+        self.face_y = self.face_y[self.face_y != float_invalid_value]
 
         indices_to_remove = np.where(self.edge_nodes == int_invalid_value)[0]
         self.edge_nodes = np.delete(self.edge_nodes, indices_to_remove)
@@ -574,8 +578,7 @@ class Mesh1d:
         self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
 
     def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
-        """Removes invalid values that might be present in the node array.
-        Remove the corresponding entries in the others
+        """Removes invalid values that might be present in the arrays.
 
         Args:
              float_invalid_value: (float): The float invalid value.

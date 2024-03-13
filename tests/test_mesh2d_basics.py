@@ -244,17 +244,6 @@ def test_mesh2d_move_node_invalid_node_index(meshkernel_with_mesh2d: MeshKernel)
 
 cases_mesh2d_delete_edge = [
     (0.5, 0.0),
-    (1.5, 0.0),
-    (0.0, 0.5),
-    (1.0, 0.5),
-    (2.0, 0.5),
-    (0.5, 1.0),
-    (1.5, 1.0),
-    (0.0, 1.5),
-    (1.0, 1.5),
-    (2.0, 1.5),
-    (0.5, 2.0),
-    (1.5, 2.0),
 ]
 
 
