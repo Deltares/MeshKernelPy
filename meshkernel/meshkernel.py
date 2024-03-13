@@ -91,6 +91,12 @@ class MeshKernel:
 
         self._allocate_state(projection)
 
+        invalid_value = self.mkernel_get_separator()
+
+        self._int_invalid_value = int(invalid_value)
+
+        self._float_invalid_value = float(invalid_value)
+
     def __del__(self):
         self._deallocate_state()
 
@@ -211,9 +217,10 @@ class MeshKernel:
 
         c_mesh2d = self._mesh2d_get_dimensions()
         mesh2d = c_mesh2d.allocate_memory()
-        self._execute_function(
-            self.lib.mkernel_mesh2d_get_data, self._meshkernelid, byref(c_mesh2d)
-        )
+        self._execute_function(self.lib.mkernel_mesh2d_get_data,
+                               self._meshkernelid, byref(c_mesh2d))
+
+        mesh2d.remove_invalid_values(self._float_invalid_value, self._int_invalid_value)
 
         return mesh2d
 
@@ -1236,6 +1243,8 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_get_data, self._meshkernelid, byref(c_mesh1d)
         )
 
+        mesh1d.remove_invalid_values(self._float_invalid_value, self._int_invalid_value)
+
         return mesh1d
 
     def _mesh1d_get_dimensions(self) -> CMesh1d:
@@ -1682,6 +1691,7 @@ class MeshKernel:
         Returns:
             float: The separator
         """
+        self.lib.mkernel_get_separator.restype = c_double
 
         return self.lib.mkernel_get_separator()
 
@@ -1691,6 +1701,8 @@ class MeshKernel:
         Returns:
             float: The polygon inner/outer separator
         """
+
+        self.lib.mkernel_get_inner_outer_separator.restype = c_double
 
         return self.lib.mkernel_get_inner_outer_separator()
 

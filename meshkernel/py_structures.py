@@ -142,6 +142,31 @@ class Mesh2d:
         self.edge_faces: ndarray = np.asarray(edge_faces, dtype=np.int32)
         self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
+    def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
+        """Removes invalid values that might be present in the node array.
+        Remove the corresponding entries in the others
+
+        Args:
+             float_invalid_value: (float): The float invalid value.
+             int_invalid_value: (float): The int invalid value.
+        """
+
+        self.node_x = self.node_x[self.node_x != float_invalid_value]
+        self.node_y = self.node_y[self.node_y != float_invalid_value]
+
+        indices_to_remove = np.where(self.edge_nodes == int_invalid_value)[0]
+        self.edge_nodes = np.delete(self.edge_nodes, indices_to_remove)
+
+        indices_to_remove = np.where(self.face_nodes == int_invalid_value)[0]
+        self.face_nodes = np.delete(self.face_nodes, indices_to_remove)
+
+        indices_to_remove = np.where(self.edge_faces == int_invalid_value)[0]
+        self.edge_faces = np.delete(self.edge_faces, indices_to_remove)
+
+        indices_to_remove = np.where(self.face_edges == int_invalid_value)[0]
+        self.face_edges = np.delete(self.face_edges, indices_to_remove)
+
+
     def __eq__(self, other: Mesh2d):
         """Checks if the mesh is exactly equal to another.
 
@@ -547,6 +572,21 @@ class Mesh1d:
         self.node_x: ndarray = np.asarray(node_x, dtype=np.double)
         self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
         self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
+
+    def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
+        """Removes invalid values that might be present in the node array.
+        Remove the corresponding entries in the others
+
+        Args:
+             float_invalid_value: (float): The float invalid value.
+             int_invalid_value: (float): The int invalid value.
+        """
+
+        self.node_x = self.node_x[self.node_x != float_invalid_value]
+        self.node_y = self.node_y[self.node_y != float_invalid_value]
+
+        indices_to_remove = np.where(self.edge_nodes == int_invalid_value)[0]
+        self.edge_nodes = np.delete(self.edge_nodes, indices_to_remove)
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
