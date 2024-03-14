@@ -159,8 +159,8 @@ def test_curvilinear_compute_orthogonal_from_splines():
     output_curvilinear = mk.curvilineargrid_get()
 
     # Test the number of m and n are as expected
-    assert output_curvilinear.num_m == 3
-    assert output_curvilinear.num_n == 9
+    assert output_curvilinear.num_m == 9
+    assert output_curvilinear.num_n == 3
 
 
 def test_curvilinear_convert_to_mesh2d():
@@ -220,8 +220,8 @@ def test_curvilinear_compute_rectangular_grid_defined_extension_spherical_coordi
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Test the number of m and n
-    assert curvilinear_grid.num_m == 103
-    assert curvilinear_grid.num_n == 81
+    assert curvilinear_grid.num_m == 81
+    assert curvilinear_grid.num_n == 103
 
 
 def test_curvilinear_compute_rectangular_grid_with_polygon():
@@ -574,7 +574,7 @@ def test_curvilinear_compute_curvature():
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Execute
-    curvature = mk.curvilinear_compute_curvature(CurvilinearDirection.M)
+    curvature = mk.curvilinear_compute_curvature(CurvilinearDirection.N)
 
     # Assert
     # Test the curvature values
@@ -596,7 +596,7 @@ def test_curvilinear_compute_smoothness():
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Execute
-    smoothness = mk.curvilinear_compute_smoothness(CurvilinearDirection.M)
+    smoothness = mk.curvilinear_compute_smoothness(CurvilinearDirection.N)
 
     # Assert
     # Test the smoothness values

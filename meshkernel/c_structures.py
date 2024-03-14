@@ -40,7 +40,9 @@ class CMesh2d(Structure):
         - face_x (POINTER(c_double)): The x-coordinates of the mesh faces' mass centers.
         - face_y (POINTER(c_double)): The y-coordinates of the mesh faces' mass centers.
         - num_nodes (c_int): The number of mesh nodes.
+        - num_valid_nodes (c_int): The number of valid 1d nodes
         - num_edges (c_int): The number of edges.
+        - num_valid_edges (c_int): The number of valid edges
         - num_faces (c_int): The number of faces.
         - num_face_nodes (c_int): The total number of nodes composing the mesh 2d faces.
     """
@@ -58,7 +60,9 @@ class CMesh2d(Structure):
         ("face_x", POINTER(c_double)),
         ("face_y", POINTER(c_double)),
         ("num_nodes", c_int),
+        ("num_valid_nodes", c_int),
         ("num_edges", c_int),
+        ("num_valid_edges", c_int),
         ("num_faces", c_int),
         ("num_face_nodes", c_int),
     ]
@@ -407,7 +411,9 @@ class CMesh1d(Structure):
         - node_x (POINTER(c_double)): The x-coordinates of the nodes.
         - node_y (POINTER(c_double)): The y-coordinates of the nodes.
         - num_nodes (c_int): The number of nodes.
+        - num_valid_nodes (c_int): The number of valid mesh nodes.
         - num_edges (c_int): The number of edges.
+        - num_valid_edges (c_int): The number of valid edges.
     """
 
     _fields_ = [
@@ -415,7 +421,9 @@ class CMesh1d(Structure):
         ("node_x", POINTER(c_double)),
         ("node_y", POINTER(c_double)),
         ("num_nodes", c_int),
+        ("num_valid_nodes", c_int),
         ("num_edges", c_int),
+        ("num_valid_edges", c_int),
     ]
 
     @staticmethod
