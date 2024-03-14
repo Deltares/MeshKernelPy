@@ -163,21 +163,21 @@ def test_curvilinear_compute_orthogonal_from_splines():
     assert output_curvilinear.num_n == 3
 
 
-#def test_curvilinear_convert_to_mesh2d():
-    #    r"""Tests `curvilinear_compute_transfinite_from_splines` converts a curvilinear mesh into an unstructured mesh."""
-    #mk = create_meshkernel_instance_with_curvilinear_grid()
+def test_curvilinear_convert_to_mesh2d():
+    r"""Tests `curvilinear_compute_transfinite_from_splines` converts a curvilinear mesh into an unstructured mesh."""
+    mk = create_meshkernel_instance_with_curvilinear_grid()
 
-    #mk.curvilinear_convert_to_mesh2d()
+    mk.curvilinear_convert_to_mesh2d()
 
-    #mesh2d = mk.mesh2d_get()
+    mesh2d = mk.mesh2d_get()
 
-    #curvilinear_grid = mk.curvilineargrid_get()
+    curvilinear_grid = mk.curvilineargrid_get()
 
     # Test curvilinear grid is empty and mesh2d is filled
-    #assert curvilinear_grid.num_m == 0
-    #assert curvilinear_grid.num_n == 0
-    #assert len(mesh2d.node_x) == 121
-    #assert len(mesh2d.edge_nodes) == 440
+    assert curvilinear_grid.num_m == 0
+    assert curvilinear_grid.num_n == 0
+    assert len(mesh2d.node_x) == 121
+    assert len(mesh2d.edge_nodes) == 440
 
 
 def test_curvilinear_compute_rectangular_grid():
