@@ -633,7 +633,7 @@ class Mesh1d:
         """Removes invalid values that might be present in the arrays.
 
         Args:
-             int_invalid_value: (float): The float invalid value.
+             float_invalid_value: (float): The float invalid value.
         """
 
         valid_node_indices = [
