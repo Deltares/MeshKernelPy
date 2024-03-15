@@ -472,11 +472,7 @@ class CMesh1d(Structure):
         self.node_x = as_ctypes(node_x)
         self.node_y = as_ctypes(node_y)
 
-        return Mesh1d(
-            node_x,
-            node_y,
-            edge_nodes,
-        )
+        return Mesh1d(node_x=node_x, node_y=node_y, edge_nodes=edge_nodes)
 
 
 class CContacts(Structure):
