@@ -366,7 +366,7 @@ class CurvilinearGrid:
         node_indices = np.fromiter(
             (int(x) for x in range(self.num_m * self.num_n)), int
         )
-        node_indices = node_indices.reshape((self.num_m, self.num_n))
+        node_indices = node_indices.reshape((self.num_n, self.num_m))
 
         invalid_value = -999.0
         edge_nodes = np.zeros(
@@ -374,26 +374,27 @@ class CurvilinearGrid:
             dtype=np.int_,
         )
         index = 0
-        for m in range(self.num_m - 1):
-            for n in range(self.num_n):
+
+        for n in range(self.num_n - 1):
+            for m in range(self.num_m):
                 if (
-                    self.node_x[node_indices[m][n]] != invalid_value
-                    and self.node_x[node_indices[m + 1][n]] != invalid_value
+                    self.node_x[node_indices[n][m]] != invalid_value
+                    and self.node_x[node_indices[n + 1][m]] != invalid_value
                 ):
-                    edge_nodes[index] = node_indices[m][n]
+                    edge_nodes[index] = node_indices[n][m]
                     index += 1
-                    edge_nodes[index] = node_indices[m + 1][n]
+                    edge_nodes[index] = node_indices[n + 1][m]
                     index += 1
 
-        for m in range(self.num_m):
-            for n in range(self.num_n - 1):
+        for n in range(self.num_n):
+            for m in range(self.num_m - 1):
                 if (
-                    self.node_x[node_indices[m][n]] != invalid_value
-                    and self.node_x[node_indices[m][n + 1]] != invalid_value
+                    self.node_x[node_indices[n][m]] != invalid_value
+                    and self.node_x[node_indices[n][m + 1]] != invalid_value
                 ):
-                    edge_nodes[index] = node_indices[m][n]
+                    edge_nodes[index] = node_indices[n][m]
                     index += 1
-                    edge_nodes[index] = node_indices[m][n + 1]
+                    edge_nodes[index] = node_indices[n][m + 1]
                     index += 1
 
         edge_nodes = np.resize(edge_nodes, index)
