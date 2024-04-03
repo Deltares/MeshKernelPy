@@ -91,9 +91,9 @@ class MeshKernel:
 
         self._allocate_state(projection)
 
-        invalid_value = self.mkernel_get_separator()
+        self._int_invalid_value = int(-1)
 
-        self._int_invalid_value = int(invalid_value)
+        invalid_value = self.mkernel_get_separator()
 
         self._float_invalid_value = float(invalid_value)
 
@@ -221,7 +221,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_get_data, self._meshkernelid, byref(c_mesh2d)
         )
 
-        mesh2d.remove_invalid_values(self._float_invalid_value, self._int_invalid_value)
+        mesh2d.remove_invalid_values(float_invalid_value=self._float_invalid_value)
 
         return mesh2d
 
@@ -1244,7 +1244,7 @@ class MeshKernel:
             self.lib.mkernel_mesh1d_get_data, self._meshkernelid, byref(c_mesh1d)
         )
 
-        mesh1d.remove_invalid_values(self._float_invalid_value, self._int_invalid_value)
+        mesh1d.remove_invalid_values(float_invalid_value=self._float_invalid_value)
 
         return mesh1d
 
@@ -1315,7 +1315,7 @@ class MeshKernel:
             self.lib.mkernel_contacts_get_data, self._meshkernelid, byref(c_contacts)
         )
 
-        contacts.remove_invalid_values(self._int_invalid_value)
+        contacts.remove_invalid_values(int_invalid_value=self._int_invalid_value)
 
         return contacts
 

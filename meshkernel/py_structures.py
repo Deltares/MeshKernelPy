@@ -142,33 +142,85 @@ class Mesh2d:
         self.edge_faces: ndarray = np.asarray(edge_faces, dtype=np.int32)
         self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
-    def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
+    def remove_invalid_values(self, float_invalid_value: float):
         """Removes invalid values that might be present in the arrays.
         Remove the corresponding entries in the others
 
         Args:
              float_invalid_value: (float): The float invalid value.
-             int_invalid_value: (int): The int invalid value.
         """
 
-        self.node_x = self.node_x[self.node_x != float_invalid_value]
-        self.node_y = self.node_y[self.node_y != float_invalid_value]
-        self.edge_x = self.edge_x[self.edge_x != float_invalid_value]
-        self.edge_y = self.edge_y[self.edge_y != float_invalid_value]
-        self.face_x = self.face_x[self.face_x != float_invalid_value]
-        self.face_y = self.face_y[self.face_y != float_invalid_value]
+        valid_node_indices = [
+            i
+            for i, (x, y) in enumerate(zip(self.node_x, self.node_y))
+            if x != float_invalid_value and y != float_invalid_value
+        ]
+        valid_nodes_map = {
+            old_index: new_index
+            for new_index, old_index in enumerate(valid_node_indices)
+        }
 
-        indices_to_remove = np.where(self.edge_nodes == int_invalid_value)[0]
-        self.edge_nodes = np.delete(self.edge_nodes, indices_to_remove)
+        self.node_x = np.array(
+            [self.node_x[i] for i in valid_node_indices], dtype=np.double
+        )
+        self.node_y = np.array(
+            [self.node_y[i] for i in valid_node_indices], dtype=np.double
+        )
+        self.edge_nodes = np.array(
+            [
+                valid_nodes_map[edge_node]
+                for edge_node in self.edge_nodes
+                if edge_node in valid_nodes_map
+            ],
+            dtype=np.int32,
+        )
+        self.face_nodes = np.array(
+            [
+                valid_nodes_map[face_node]
+                for face_node in self.face_nodes
+                if face_node in valid_nodes_map
+            ],
+            dtype=np.int32,
+        )
 
-        indices_to_remove = np.where(self.face_nodes == int_invalid_value)[0]
-        self.face_nodes = np.delete(self.face_nodes, indices_to_remove)
+        valid_face_indices = [
+            i
+            for i, (x, y) in enumerate(zip(self.face_x, self.face_y))
+            if x != float_invalid_value and y != float_invalid_value
+        ]
+        valid_face_map = {
+            old_index: new_index
+            for new_index, old_index in enumerate(valid_face_indices)
+        }
+        self.face_x = np.array(
+            [self.face_x[i] for i in valid_face_map], dtype=np.double
+        )
+        self.face_y = np.array(
+            [self.face_y[i] for i in valid_face_map], dtype=np.double
+        )
 
-        indices_to_remove = np.where(self.edge_faces == int_invalid_value)[0]
-        self.edge_faces = np.delete(self.edge_faces, indices_to_remove)
+        valid_edge_indices = [
+            i
+            for i, (x, y) in enumerate(zip(self.edge_x, self.edge_y))
+            if x != float_invalid_value and y != float_invalid_value
+        ]
+        valid_edge_map = {
+            old_index: new_index
+            for new_index, old_index in enumerate(valid_edge_indices)
+        }
+        self.edge_x = np.array(
+            [self.edge_x[i] for i in valid_edge_map], dtype=np.double
+        )
+        self.edge_y = np.array(
+            [self.edge_y[i] for i in valid_edge_map], dtype=np.double
+        )
 
-        indices_to_remove = np.where(self.face_edges == int_invalid_value)[0]
-        self.face_edges = np.delete(self.face_edges, indices_to_remove)
+        self.edge_faces = np.array(
+            [self.edge_faces[i] for i in valid_edge_indices], dtype=np.int32
+        )
+        self.face_edges = np.array(
+            [self.face_edges[i] for i in valid_face_indices], dtype=np.int32
+        )
 
     def __eq__(self, other: Mesh2d):
         """Checks if the mesh is exactly equal to another.
@@ -366,7 +418,7 @@ class CurvilinearGrid:
         node_indices = np.fromiter(
             (int(x) for x in range(self.num_m * self.num_n)), int
         )
-        node_indices = node_indices.reshape((self.num_m, self.num_n))
+        node_indices = node_indices.reshape((self.num_n, self.num_m))
 
         invalid_value = -999.0
         edge_nodes = np.zeros(
@@ -374,26 +426,27 @@ class CurvilinearGrid:
             dtype=np.int_,
         )
         index = 0
-        for m in range(self.num_m - 1):
-            for n in range(self.num_n):
+
+        for n in range(self.num_n - 1):
+            for m in range(self.num_m):
                 if (
-                    self.node_x[node_indices[m][n]] != invalid_value
-                    and self.node_x[node_indices[m + 1][n]] != invalid_value
+                    self.node_x[node_indices[n][m]] != invalid_value
+                    and self.node_x[node_indices[n + 1][m]] != invalid_value
                 ):
-                    edge_nodes[index] = node_indices[m][n]
+                    edge_nodes[index] = node_indices[n][m]
                     index += 1
-                    edge_nodes[index] = node_indices[m + 1][n]
+                    edge_nodes[index] = node_indices[n + 1][m]
                     index += 1
 
-        for m in range(self.num_m):
-            for n in range(self.num_n - 1):
+        for n in range(self.num_n):
+            for m in range(self.num_m - 1):
                 if (
-                    self.node_x[node_indices[m][n]] != invalid_value
-                    and self.node_x[node_indices[m][n + 1]] != invalid_value
+                    self.node_x[node_indices[n][m]] != invalid_value
+                    and self.node_x[node_indices[n][m + 1]] != invalid_value
                 ):
-                    edge_nodes[index] = node_indices[m][n]
+                    edge_nodes[index] = node_indices[n][m]
                     index += 1
-                    edge_nodes[index] = node_indices[m][n + 1]
+                    edge_nodes[index] = node_indices[n][m + 1]
                     index += 1
 
         edge_nodes = np.resize(edge_nodes, index)
@@ -576,19 +629,30 @@ class Mesh1d:
         self.node_y: ndarray = np.asarray(node_y, dtype=np.double)
         self.edge_nodes: ndarray = np.asarray(edge_nodes, dtype=np.int32)
 
-    def remove_invalid_values(self, float_invalid_value: float, int_invalid_value: int):
+    def remove_invalid_values(self, float_invalid_value: float):
         """Removes invalid values that might be present in the arrays.
 
         Args:
              float_invalid_value: (float): The float invalid value.
-             int_invalid_value: (int): The int invalid value.
         """
 
-        self.node_x = self.node_x[self.node_x != float_invalid_value]
-        self.node_y = self.node_y[self.node_y != float_invalid_value]
-
-        indices_to_remove = np.where(self.edge_nodes == int_invalid_value)[0]
-        self.edge_nodes = np.delete(self.edge_nodes, indices_to_remove)
+        valid_node_indices = [
+            i
+            for i, (x, y) in enumerate(zip(self.node_x, self.node_y))
+            if x != float_invalid_value and y != float_invalid_value
+        ]
+        valid_nodes_map = {
+            old_index: new_index
+            for new_index, old_index in enumerate(valid_node_indices)
+        }
+        self.edge_nodes = np.array(
+            [
+                valid_nodes_map[edge_node]
+                for edge_node in self.edge_nodes
+                if edge_node in valid_nodes_map
+            ],
+            dtype=np.int32,
+        )
 
     def plot_edges(self, ax, *args, **kwargs):
         """Plots the edges at a given axes.
