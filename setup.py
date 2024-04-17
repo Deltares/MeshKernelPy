@@ -235,7 +235,7 @@ class build_ext(build_ext_orig):
                     )
                 )
 
-            destination = os.path.join(*[cwd, "meshkernelTest", library_meta.name])
+            destination = os.path.join(*[cwd, "meshkernel", library_meta.name])
             shutil.copyfile(meshkernel_path, destination)
 
         os.chdir(cwd)
