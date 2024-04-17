@@ -250,7 +250,7 @@ setup(
     long_description_content_type="text/markdown",
     author=__author__,
     author_email=__author_email__,
-    url="https://github.com/Deltares/MeshKernelPy",
+    url="https://github.com/Deltares/MeshKernelPyTest",
     license="MIT",
     platforms="Windows, Linux, macOS",
     install_requires=[
@@ -277,7 +277,7 @@ setup(
     python_requires=">=3.8",
     package_data={"meshkernel": [get_library_meta().name]},
     packages=find_packages(),
-    ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
+    ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernelTest")],
     cmdclass={"build_ext": build_ext, "bdist_wheel": bdist_wheel},
     version=get_version("meshkernel/version.py"),
     classifiers=["Topic :: Scientific/Engineering :: Mathematics"],
