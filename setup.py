@@ -150,7 +150,7 @@ class build_ext(build_ext_orig):
                         [
                             "git",
                             "-C",
-                            "./MeshKernel",
+                            "./MeshKernelTest",
                             "switch",
                             "-C",
                             release_branch,
@@ -162,7 +162,7 @@ class build_ext(build_ext_orig):
                         [
                             "git",
                             "-C",
-                            "./MeshKernel",
+                            "./MeshKernelTest",
                             "switch",
                             "-C",
                             branch,
