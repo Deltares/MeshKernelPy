@@ -1,8 +1,9 @@
-name: Build and test (feature)
+name: Build and test (feature/main)
 
 on:
   push:
     branches:
+      - main
       - "feature/**"
   pull_request:
     types:
