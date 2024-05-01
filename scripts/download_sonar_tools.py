@@ -2,7 +2,6 @@
 Script used to download sonar tools
 """
 
-
 import platform
 import shutil
 import zipfile
@@ -10,7 +9,7 @@ from pathlib import Path
 
 import requests
 
-SONAR_SCANNER_VERSION = "4.4.0.2170"
+SONAR_SCANNER_VERSION = "5.0.1.3006"
 
 
 def download_file(url: str, save_path: Path, chunk_size=128) -> None:
