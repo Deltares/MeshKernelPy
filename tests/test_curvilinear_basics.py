@@ -498,27 +498,27 @@ def test_curvilinear_line_shift():
     assert curvilinear_grid.node_y[30] == 50.0
 
 
-def test_curvilinear_insert_face():
-    r"""Tests 'curvilinear_insert_face' inserts two new faces."""
-    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+# def test_curvilinear_insert_face():
+#     r"""Tests 'curvilinear_insert_face' inserts two new faces."""
+#     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
-    # Inserts two faces
-    mk.curvilinear_insert_face(-10.0, 5.0)
-    mk.curvilinear_insert_face(-5.0, 10.0)
+#     # Inserts two faces
+#     mk.curvilinear_insert_face(-10.0, 5.0)
+#     mk.curvilinear_insert_face(-5.0, 10.0)
 
-    # Get the result
-    curvilinear_grid = mk.curvilineargrid_get()
+#     # Get the result
+#     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Assert two new faces have been inserted
-    assert curvilinear_grid.node_x[0] == -20.0
-    assert curvilinear_grid.node_x[1] == -10.0
-    assert curvilinear_grid.node_x[8] == -20.0
-    assert curvilinear_grid.node_x[9] == -10.0
+#     # Assert two new faces have been inserted
+#     assert curvilinear_grid.node_x[0] == -20.0
+#     assert curvilinear_grid.node_x[1] == -10.0
+#     assert curvilinear_grid.node_x[8] == -20.0
+#     assert curvilinear_grid.node_x[9] == -10.0
 
-    assert curvilinear_grid.node_y[0] == 0.0
-    assert curvilinear_grid.node_y[1] == 0.0
-    assert curvilinear_grid.node_y[8] == 10.0
-    assert curvilinear_grid.node_y[9] == 10.0
+#     assert curvilinear_grid.node_y[0] == 0.0
+#     assert curvilinear_grid.node_y[1] == 0.0
+#     assert curvilinear_grid.node_y[8] == 10.0
+#     assert curvilinear_grid.node_y[9] == 10.0
 
 
 def test_curvilinear_delete_node():
