@@ -21,7 +21,7 @@ from meshkernel.py_structures import (
 )
 
 
-def as_contiguous_vec(vec):
+def as_contiguous_vec(vec) -> np.ndarray:
     """Ensures the input vector is contiguous before passing it to a MeshKernel C API function,
      if the vector has been created with slicing operations.
 
@@ -35,7 +35,7 @@ def as_contiguous_vec(vec):
         TypeError: If `vec` is not a NumPy array.
     """
     if not isinstance(vec, np.ndarray):
-        raise TypeError("Input must be a NumPy array in contiguous_vec function.")
+        raise TypeError("Input must be a NumPy array in as_contiguous_vec function.")
 
     return np.ascontiguousarray(vec)
 
