@@ -2097,11 +2097,11 @@ def test_mesh2d_refine_based_on_gridded_samples_with_non_contiguos_arrays():
     y_coordinates = np.linspace(0, upper_right_y, num=7, dtype=np.float32)
     values = np.full(len(x_coordinates) * len(y_coordinates), 2)
 
-    # Assert non contiguous coordinates
     x_coordinates = x_coordinates[::2]
     y_coordinates = y_coordinates[::2]
     values = values[::2]
 
+    # Assert non contiguous coordinates
     assert not x_coordinates.flags.contiguous
     assert not y_coordinates.flags.contiguous
     assert not values.flags.contiguous
