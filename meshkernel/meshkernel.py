@@ -51,7 +51,7 @@ from meshkernel.py_structures import (
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
-from meshkernel.utils import get_maximum_bounding_box_coordinates
+from meshkernel.utils import as_contiguous_vec, get_maximum_bounding_box_coordinates
 from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
@@ -1333,7 +1333,7 @@ class MeshKernel:
             not inside the 2d mesh.
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = as_contiguous_vec(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1354,7 +1354,7 @@ class MeshKernel:
                                  should not be connected
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = as_contiguous_vec(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
 
         self._execute_function(
@@ -1375,7 +1375,7 @@ class MeshKernel:
 
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = as_contiguous_vec(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1398,7 +1398,7 @@ class MeshKernel:
             polygons (GeometryList, optional):  The polygon selecting the Mesh2d faces to connect.
 
         """
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = as_contiguous_vec(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1427,7 +1427,7 @@ class MeshKernel:
 
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = as_contiguous_vec(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
