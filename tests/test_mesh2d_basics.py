@@ -2086,6 +2086,102 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
     assert len(mesh2d.edge_nodes) == 7176
 
 
+def test_mesh2d_get_face_polygons():
+    """Tests `mesh2d_get_face_polygons` with a real mesh"""
+
+    edge_nodes = np.array(
+        [
+            0,
+            4,
+            1,
+            5,
+            2,
+            6,
+            3,
+            7,
+            4,
+            8,
+            5,
+            9,
+            7,
+            10,
+            8,
+            11,
+            10,
+            12,
+            0,
+            1,
+            1,
+            2,
+            2,
+            3,
+            5,
+            6,
+            6,
+            7,
+            8,
+            9,
+            9,
+            10,
+            11,
+            12,
+        ],
+        dtype=np.int32,
+    )
+    node_x = np.array([0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 3, 0, 1], dtype=np.double)
+
+    node_y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3], dtype=np.double)
+
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+    mk = MeshKernel()
+    mk.mesh2d_set(input_mesh2d)
+
+    output_geometry_list = mk.mesh2d_get_face_polygons(5)
+
+    # Test if edges are correctly calculated
+    assert_array_equal(
+        output_geometry_list.x_coordinates,
+        np.array(
+            [
+                1.0000,
+                2.0000,
+                3.0000,
+                3.0000,
+                1.0000,
+                1.0000,
+                -999.0,
+                0.0000,
+                1.0000,
+                3.0000,
+                1.0000,
+                0.0000,
+                0.0000,
+            ]
+        ),
+    )
+
+    assert_array_equal(
+        output_geometry_list.y_coordinates,
+        np.array(
+            [
+                1.0000,
+                1.0000,
+                1.0000,
+                2.0000,
+                2.0000,
+                1.0000,
+                -999.0,
+                2.0000,
+                2.0000,
+                2.0000,
+                3.0000,
+                3.0000,
+                2.0000,
+            ]
+        ),
+    )
+
+
 def test_mesh2d_refine_based_on_gridded_samples_with_non_contiguos_arrays():
     """Tests `mesh2d_refine_based_on_gridded_samples` with non contiguos arrays"""
 

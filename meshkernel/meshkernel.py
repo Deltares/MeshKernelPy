@@ -410,6 +410,39 @@ class MeshKernel:
 
         return index.value
 
+    def mesh2d_get_face_polygons(self, num_edges: int) -> GeometryList:
+        """ Gets the faces polygons with a number of edges equal to num_edges.
+
+        Args:
+            num_edges (int): The number of edges
+
+        Returns:
+            GeometryList: The resulting face polygons
+        """
+        c_geometry_list_dimension = c_int()
+
+        self._execute_function(self.lib.mkernel_mesh2d_get_face_polygons_dimension,
+                               self._meshkernelid,
+                               c_int(num_edges),
+                               byref(c_geometry_list_dimension))
+
+        n_coordinates = c_geometry_list_dimension.value
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+
+        face_polygons = GeometryList(x_coordinates=x_coordinates,
+                                     y_coordinates=y_coordinates)
+        c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_face_polygons,
+            self._meshkernelid,
+            c_int(num_edges),
+            byref(c_face_polygons)
+        )
+
+        return face_polygons
+
     def mesh2d_get_node_index(self, x: float, y: float, search_radius: float) -> int:
         """Finds the node closest to a point within a given search radius.
 
@@ -620,7 +653,7 @@ class MeshKernel:
             target_edge_length (float): The target interval edge length.
 
         Returns:
-            int: The refined polygon.
+            GeometryList: The refined polygon.
         """
         c_polygon = CGeometryList.from_geometrylist(polygon)
         c_n_polygon_nodes = c_int()

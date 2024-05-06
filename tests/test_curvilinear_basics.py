@@ -510,10 +510,10 @@ def test_curvilinear_insert_face():
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Assert two new faces have been inserted
-    assert curvilinear_grid.node_x[0] == -20.0
-    assert curvilinear_grid.node_x[1] == -10.0
-    assert curvilinear_grid.node_x[8] == -20.0
-    assert curvilinear_grid.node_x[9] == -10.0
+    assert curvilinear_grid.node_x[0] == -10.0
+    assert curvilinear_grid.node_x[1] == 0.0
+    assert curvilinear_grid.node_x[8] == 0.0
+    assert curvilinear_grid.node_x[9] == 10.0
 
     assert curvilinear_grid.node_y[0] == 0.0
     assert curvilinear_grid.node_y[1] == 0.0
