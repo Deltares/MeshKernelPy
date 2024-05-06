@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib.collections import LineCollection
 
 
-def as_contiguous_vec(vec) -> np.ndarray:
+def to_contiguous_numpy_array(vec) -> np.ndarray:
     """Ensures the input vector is contiguous before passing it to a MeshKernel C API function,
      if the vector has been created with slicing operations.
 
@@ -18,7 +18,7 @@ def as_contiguous_vec(vec) -> np.ndarray:
         TypeError: If `vec` is not a NumPy array.
     """
     if not isinstance(vec, np.ndarray):
-        raise TypeError("Input must be a NumPy array in as_contiguous_vec function.")
+        raise TypeError("Input must be a NumPy array in to_contiguous_numpy_array function.")
 
     return np.ascontiguousarray(vec)
 
