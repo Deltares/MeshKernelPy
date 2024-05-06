@@ -2084,3 +2084,67 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
 
     assert len(mesh2d.node_x) == 1676
     assert len(mesh2d.edge_nodes) == 7176
+
+
+def test_mesh2d_refine_based_on_gridded_samples_with_non_contiguos_arrays():
+    """Tests `mesh2d_refine_based_on_gridded_samples` with non contiguos arrays"""
+
+    # Set up
+    upper_right_x = 6000
+    upper_right_y = 6000
+
+    x_coordinates = np.linspace(0, upper_right_x, num=7, dtype=np.float32)
+    y_coordinates = np.linspace(0, upper_right_y, num=7, dtype=np.float32)
+    values = np.full(len(x_coordinates) * len(y_coordinates), 2)
+
+    # Assert non contiguous coordinates
+    x_coordinates = x_coordinates[::2]
+    y_coordinates = y_coordinates[::2]
+    values = values[::2]
+
+    assert not x_coordinates.flags.contiguous
+    assert not y_coordinates.flags.contiguous
+    assert not values.flags.contiguous
+
+    gridded_samples = GriddedSamples(
+        x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+    )
+
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=0,
+        origin_y=0,
+        upper_right_x=upper_right_x,
+        upper_right_y=upper_right_y,
+        block_size_x=2000,
+        block_size_y=2000,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.CARTESIAN)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    # original mesh dimension
+    mesh2d = mk.mesh2d_get()
+    assert len(mesh2d.node_x) == 16
+    assert len(mesh2d.edge_nodes) == 48
+
+    mesh_refinement_parameters = MeshRefinementParameters(
+        min_edge_size=0.1,
+        refinement_type=RefinementType.WAVE_COURANT,
+        connect_hanging_nodes=True,
+        smoothing_iterations=2,
+        max_courant_time=12,
+    )
+
+    mk.mesh2d_refine_based_on_gridded_samples(
+        gridded_samples=gridded_samples,
+        mesh_refinement_params=mesh_refinement_parameters,
+        use_nodal_refinement=True,
+    )
+
+    mesh2d = mk.mesh2d_get()
+
+    # new mesh has more nodes and edges, it has been refined
+    assert len(mesh2d.node_x) == 49
+    assert len(mesh2d.edge_nodes) == 168

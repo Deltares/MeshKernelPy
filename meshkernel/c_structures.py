@@ -21,7 +21,7 @@ from meshkernel.py_structures import (
 )
 
 
-def contiguous_vec(vec):
+def as_contiguous_vec(vec):
     """Ensures the input vector is contiguous before passing it to a MeshKernel C API function,
      if the vector has been created with slicing operations.
 
@@ -230,12 +230,12 @@ class CGeometryList(Structure):
         c_geometry_list.inner_outer_separator = geometry_list.inner_outer_separator
         c_geometry_list.n_coordinates = geometry_list.x_coordinates.size
         c_geometry_list.x_coordinates = as_ctypes(
-            contiguous_vec(geometry_list.x_coordinates)
+            as_contiguous_vec(geometry_list.x_coordinates)
         )
         c_geometry_list.y_coordinates = as_ctypes(
-            contiguous_vec(geometry_list.y_coordinates)
+            as_contiguous_vec(geometry_list.y_coordinates)
         )
-        c_geometry_list.values = as_ctypes(contiguous_vec(geometry_list.values))
+        c_geometry_list.values = as_ctypes(as_contiguous_vec(geometry_list.values))
 
         return c_geometry_list
 
@@ -808,7 +808,7 @@ class CGriddedSamples(Structure):
         else:
             num_x = len(gridded_samples.x_coordinates)
             c_gridded_samples.x_coordinates = as_ctypes(
-                contiguous_vec(gridded_samples.x_coordinates)
+                as_contiguous_vec(gridded_samples.x_coordinates)
             )
 
         if len(gridded_samples.y_coordinates) == 0:
@@ -817,7 +817,7 @@ class CGriddedSamples(Structure):
         else:
             num_y = len(gridded_samples.y_coordinates)
             c_gridded_samples.y_coordinates = as_ctypes(
-                contiguous_vec(gridded_samples.y_coordinates)
+                as_contiguous_vec(gridded_samples.y_coordinates)
             )
 
         c_gridded_samples.num_x = num_x
@@ -825,7 +825,7 @@ class CGriddedSamples(Structure):
         c_gridded_samples.x_origin = gridded_samples.x_origin
         c_gridded_samples.y_origin = gridded_samples.y_origin
         c_gridded_samples.cell_size = gridded_samples.cell_size
-        c_gridded_samples.values = contiguous_vec(
+        c_gridded_samples.values = as_contiguous_vec(
             gridded_samples.values
         ).ctypes.data_as(c_void_p)
         c_gridded_samples.value_type = gridded_samples.value_type
