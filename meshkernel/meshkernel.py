@@ -410,11 +410,11 @@ class MeshKernel:
 
         return index.value
 
-    def mesh2d_get_face_polygons(self, num_nodes: int) -> GeometryList:
-        """ Gets the faces polygons with a number of edges equal to num_nodes.
+    def mesh2d_get_face_polygons(self, num_edges: int) -> GeometryList:
+        """ Gets the faces polygons with a number of edges equal to num_edges.
 
         Args:
-            num_nodes (int): The number of nodes
+            num_edges (int): The number of edges
 
         Returns:
             GeometryList: The resulting face polygons
@@ -423,7 +423,7 @@ class MeshKernel:
 
         self._execute_function(self.lib.mkernel_mesh2d_get_face_polygons_dimension,
                                self._meshkernelid,
-                               c_int(num_nodes),
+                               c_int(num_edges),
                                byref(c_geometry_list_dimension))
 
         n_coordinates = c_geometry_list_dimension.value
@@ -437,7 +437,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_face_polygons,
             self._meshkernelid,
-            c_int(num_nodes),
+            c_int(num_edges),
             byref(c_face_polygons)
         )
 
