@@ -37,10 +37,7 @@ def as_contiguous_vec(vec):
     if not isinstance(vec, np.ndarray):
         raise TypeError("Input must be a NumPy array in contiguous_vec function.")
 
-    if not vec.flags.contiguous:
-        vec = np.ascontiguousarray(vec)
-
-    return vec
+    return np.ascontiguousarray(vec)
 
 
 class CMesh2d(Structure):
