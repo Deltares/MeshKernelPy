@@ -51,7 +51,10 @@ from meshkernel.py_structures import (
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
-from meshkernel.utils import to_contiguous_numpy_array, get_maximum_bounding_box_coordinates
+from meshkernel.utils import (
+    get_maximum_bounding_box_coordinates,
+    to_contiguous_numpy_array,
+)
 from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
@@ -411,7 +414,7 @@ class MeshKernel:
         return index.value
 
     def mesh2d_get_face_polygons(self, num_edges: int) -> GeometryList:
-        """ Gets the faces polygons with a number of edges equal to num_edges.
+        """Gets the faces polygons with a number of edges equal to num_edges.
 
         Args:
             num_edges (int): The number of edges
@@ -421,24 +424,27 @@ class MeshKernel:
         """
         c_geometry_list_dimension = c_int()
 
-        self._execute_function(self.lib.mkernel_mesh2d_get_face_polygons_dimension,
-                               self._meshkernelid,
-                               c_int(num_edges),
-                               byref(c_geometry_list_dimension))
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_face_polygons_dimension,
+            self._meshkernelid,
+            c_int(num_edges),
+            byref(c_geometry_list_dimension),
+        )
 
         n_coordinates = c_geometry_list_dimension.value
         x_coordinates = np.empty(n_coordinates, dtype=np.double)
         y_coordinates = np.empty(n_coordinates, dtype=np.double)
 
-        face_polygons = GeometryList(x_coordinates=x_coordinates,
-                                     y_coordinates=y_coordinates)
+        face_polygons = GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+        )
         c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
 
         self._execute_function(
             self.lib.mkernel_mesh2d_get_face_polygons,
             self._meshkernelid,
             c_int(num_edges),
-            byref(c_face_polygons)
+            byref(c_face_polygons),
         )
 
         return face_polygons

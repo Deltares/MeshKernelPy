@@ -214,7 +214,9 @@ class CGeometryList(Structure):
         c_geometry_list.y_coordinates = as_ctypes(
             to_contiguous_numpy_array(geometry_list.y_coordinates)
         )
-        c_geometry_list.values = as_ctypes(to_contiguous_numpy_array(geometry_list.values))
+        c_geometry_list.values = as_ctypes(
+            to_contiguous_numpy_array(geometry_list.values)
+        )
 
         return c_geometry_list
 
