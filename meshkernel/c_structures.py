@@ -19,6 +19,7 @@ from meshkernel.py_structures import (
     OrthogonalizationParameters,
     SplinesToCurvilinearParameters,
 )
+from meshkernel.utils import to_contiguous_numpy_array
 
 
 class CMesh2d(Structure):
@@ -207,9 +208,15 @@ class CGeometryList(Structure):
         c_geometry_list.geometry_separator = geometry_list.geometry_separator
         c_geometry_list.inner_outer_separator = geometry_list.inner_outer_separator
         c_geometry_list.n_coordinates = geometry_list.x_coordinates.size
-        c_geometry_list.x_coordinates = as_ctypes(geometry_list.x_coordinates)
-        c_geometry_list.y_coordinates = as_ctypes(geometry_list.y_coordinates)
-        c_geometry_list.values = as_ctypes(geometry_list.values)
+        c_geometry_list.x_coordinates = as_ctypes(
+            to_contiguous_numpy_array(geometry_list.x_coordinates)
+        )
+        c_geometry_list.y_coordinates = as_ctypes(
+            to_contiguous_numpy_array(geometry_list.y_coordinates)
+        )
+        c_geometry_list.values = as_ctypes(
+            to_contiguous_numpy_array(geometry_list.values)
+        )
 
         return c_geometry_list
 
@@ -781,21 +788,27 @@ class CGriddedSamples(Structure):
             c_gridded_samples.x_coordinates = None
         else:
             num_x = len(gridded_samples.x_coordinates)
-            c_gridded_samples.x_coordinates = as_ctypes(gridded_samples.x_coordinates)
+            c_gridded_samples.x_coordinates = as_ctypes(
+                to_contiguous_numpy_array(gridded_samples.x_coordinates)
+            )
 
         if len(gridded_samples.y_coordinates) == 0:
             num_y = gridded_samples.num_y
             c_gridded_samples.y_coordinates = None
         else:
             num_y = len(gridded_samples.y_coordinates)
-            c_gridded_samples.y_coordinates = as_ctypes(gridded_samples.y_coordinates)
+            c_gridded_samples.y_coordinates = as_ctypes(
+                to_contiguous_numpy_array(gridded_samples.y_coordinates)
+            )
 
         c_gridded_samples.num_x = num_x
         c_gridded_samples.num_y = num_y
         c_gridded_samples.x_origin = gridded_samples.x_origin
         c_gridded_samples.y_origin = gridded_samples.y_origin
         c_gridded_samples.cell_size = gridded_samples.cell_size
-        c_gridded_samples.values = gridded_samples.values.ctypes.data_as(c_void_p)
+        c_gridded_samples.values = to_contiguous_numpy_array(
+            gridded_samples.values
+        ).ctypes.data_as(c_void_p)
         c_gridded_samples.value_type = gridded_samples.value_type
 
         return c_gridded_samples

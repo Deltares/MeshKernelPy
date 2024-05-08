@@ -10,6 +10,7 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
+    InterpolationValues,
     MakeGridParameters,
     Mesh2d,
     MeshKernel,
@@ -1887,7 +1888,21 @@ def test_mesh2d_convert_projection():
     assert mesh2d.almost_equal(mesh2d_final, rtol=0)
 
 
-def test_mesh2d_refine_based_on_gridded_samples_coastline():
+cases_test_mesh2d_refine_based_on_gridded_samples_coastline = [
+    InterpolationValues.SHORT,
+    InterpolationValues.FLOAT,
+    InterpolationValues.INT,
+    InterpolationValues.DOUBLE,
+    4,
+]
+
+
+@pytest.mark.parametrize(
+    "interpolation_type", cases_test_mesh2d_refine_based_on_gridded_samples_coastline
+)
+def test_mesh2d_refine_based_on_gridded_samples_coastline(
+    interpolation_type: InterpolationValues,
+):
     """Tests `mesh2d_refine_based_on_gridded_samples` with real world data"""
 
     # set up
@@ -1932,7 +1947,17 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
         ]
     )
 
-    values_np = values_2d.flatten().astype(np.float32)
+    if interpolation_type == InterpolationValues.SHORT:
+        values_np = values_2d.flatten().astype(np.int16)
+    elif interpolation_type == InterpolationValues.FLOAT:
+        values_np = values_2d.flatten().astype(np.float32)
+    elif interpolation_type == InterpolationValues.INT:
+        values_np = values_2d.flatten().astype(np.int32)
+    elif interpolation_type == InterpolationValues.DOUBLE:
+        values_np = values_2d.flatten().astype(np.float64)
+    else:
+        values_np = values_2d.flatten().astype(np.float32)
+
     gridded_samples = GriddedSamples(
         x_coordinates=lon_np, y_coordinates=lat_np, values=values_np
     )
@@ -2085,53 +2110,52 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
     assert len(mesh2d.node_x) == 1676
     assert len(mesh2d.edge_nodes) == 7176
 
+
 def test_mesh2d_get_face_polygons():
     """Tests `mesh2d_get_face_polygons` with a real mesh"""
 
-    edge_nodes = np.array([0, 4,
-                           1, 5,
-                           2, 6,
-                           3, 7,
-                           4, 8,
-                           5, 9,
-                           7, 10,
-                           8, 11,
-                           10, 12,
-                           0, 1,
-                           1, 2,
-                           2, 3,
-                           5, 6,
-                           6, 7,
-                           8, 9,
-                           9, 10,
-                           11, 12], dtype=np.int32)
-    node_x = np.array([0,
-                       1,
-                       2,
-                       3,
-                       0,
-                       1,
-                       2,
-                       3,
-                       0,
-                       1,
-                       3,
-                       0,
-                       1], dtype=np.double)
+    edge_nodes = np.array(
+        [
+            0,
+            4,
+            1,
+            5,
+            2,
+            6,
+            3,
+            7,
+            4,
+            8,
+            5,
+            9,
+            7,
+            10,
+            8,
+            11,
+            10,
+            12,
+            0,
+            1,
+            1,
+            2,
+            2,
+            3,
+            5,
+            6,
+            6,
+            7,
+            8,
+            9,
+            9,
+            10,
+            11,
+            12,
+        ],
+        dtype=np.int32,
+    )
+    node_x = np.array([0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 3, 0, 1], dtype=np.double)
 
-    node_y = np.array([0,
-                       0,
-                       0,
-                       0,
-                       1,
-                       1,
-                       1,
-                       1,
-                       2,
-                       2,
-                       2,
-                       3,
-                       3], dtype=np.double)
+    node_y = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3], dtype=np.double)
 
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mk = MeshKernel()
@@ -2139,32 +2163,109 @@ def test_mesh2d_get_face_polygons():
 
     output_geometry_list = mk.mesh2d_get_face_polygons(5)
 
-
     # Test if edges are correctly calculated
-    assert_array_equal(output_geometry_list.x_coordinates, np.array([1.0000,
-                                                               2.0000,
-                                                               3.0000,
-                                                               3.0000,
-                                                               1.0000,
-                                                               1.0000,
-                                                               -999.0,
-                                                               0.0000,
-                                                               1.0000,
-                                                               3.0000,
-                                                               1.0000,
-                                                               0.0000,
-                                                               0.0000]))
+    assert_array_equal(
+        output_geometry_list.x_coordinates,
+        np.array(
+            [
+                1.0000,
+                2.0000,
+                3.0000,
+                3.0000,
+                1.0000,
+                1.0000,
+                -999.0,
+                0.0000,
+                1.0000,
+                3.0000,
+                1.0000,
+                0.0000,
+                0.0000,
+            ]
+        ),
+    )
 
-    assert_array_equal(output_geometry_list.y_coordinates, np.array([1.0000,
-                                                               1.0000,
-                                                               1.0000,
-                                                               2.0000,
-                                                               2.0000,
-                                                               1.0000,
-                                                               -999.0,
-                                                               2.0000,
-                                                               2.0000,
-                                                               2.0000,
-                                                               3.0000,
-                                                               3.0000,
-                                                               2.0000]))
+    assert_array_equal(
+        output_geometry_list.y_coordinates,
+        np.array(
+            [
+                1.0000,
+                1.0000,
+                1.0000,
+                2.0000,
+                2.0000,
+                1.0000,
+                -999.0,
+                2.0000,
+                2.0000,
+                2.0000,
+                3.0000,
+                3.0000,
+                2.0000,
+            ]
+        ),
+    )
+
+
+def test_mesh2d_refine_based_on_gridded_samples_with_non_contiguos_arrays():
+    """Tests `mesh2d_refine_based_on_gridded_samples` with non contiguos arrays"""
+
+    # Set up
+    upper_right_x = 6000
+    upper_right_y = 6000
+
+    x_coordinates = np.linspace(0, upper_right_x, num=7, dtype=np.float32)
+    y_coordinates = np.linspace(0, upper_right_y, num=7, dtype=np.float32)
+    values = np.full(len(x_coordinates) * len(y_coordinates), 2)
+
+    x_coordinates = x_coordinates[::2]
+    y_coordinates = y_coordinates[::2]
+    values = values[::2]
+
+    # Assert non contiguous coordinates
+    assert not x_coordinates.flags.contiguous
+    assert not y_coordinates.flags.contiguous
+    assert not values.flags.contiguous
+
+    gridded_samples = GriddedSamples(
+        x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+    )
+
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=0,
+        origin_y=0,
+        upper_right_x=upper_right_x,
+        upper_right_y=upper_right_y,
+        block_size_x=2000,
+        block_size_y=2000,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.CARTESIAN)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    # original mesh dimension
+    mesh2d = mk.mesh2d_get()
+    assert len(mesh2d.node_x) == 16
+    assert len(mesh2d.edge_nodes) == 48
+
+    mesh_refinement_parameters = MeshRefinementParameters(
+        min_edge_size=0.1,
+        refinement_type=RefinementType.WAVE_COURANT,
+        connect_hanging_nodes=True,
+        smoothing_iterations=2,
+        max_courant_time=12,
+    )
+
+    mk.mesh2d_refine_based_on_gridded_samples(
+        gridded_samples=gridded_samples,
+        mesh_refinement_params=mesh_refinement_parameters,
+        use_nodal_refinement=True,
+    )
+
+    mesh2d = mk.mesh2d_get()
+
+    # new mesh has more nodes and edges, it has been refined
+    assert len(mesh2d.node_x) == 49
+    assert len(mesh2d.edge_nodes) == 168
