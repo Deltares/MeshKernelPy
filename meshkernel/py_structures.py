@@ -754,7 +754,7 @@ class GriddedSamples:
         elif values.dtype == np.float32:
             self.value_type: int = InterpolationValues.FLOAT
             self.values: ndarray = np.asarray(values, dtype=np.float32)
-        elif values.dtype == np.int64:
+        elif values.dtype == np.int32:
             self.value_type: int = InterpolationValues.INT
             self.values: ndarray = np.asarray(values, dtype=np.int32)
         elif values.dtype == np.float64:
