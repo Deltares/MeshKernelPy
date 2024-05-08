@@ -96,6 +96,8 @@ class InterpolationValues(IntEnum):
 
     SHORT = 0
     FLOAT = 1
+    INT = 2
+    DOUBLE = 3
 
 
 class Mesh2d:
@@ -746,12 +748,18 @@ class GriddedSamples:
         if not isinstance(values, np.ndarray):
             raise RuntimeError("the gridded sample values must be a numpy array")
 
-        if values.dtype == np.float32:
-            self.value_type: int = InterpolationValues.FLOAT
-            self.values: ndarray = np.asarray(values, dtype=np.float32)
-        elif values.dtype == np.int16:
+        if values.dtype == np.int16:
             self.value_type: int = InterpolationValues.SHORT
             self.values: ndarray = np.asarray(values, dtype=np.int16)
+        elif values.dtype == np.float32:
+            self.value_type: int = InterpolationValues.FLOAT
+            self.values: ndarray = np.asarray(values, dtype=np.float32)
+        elif values.dtype == np.int32:
+            self.value_type: int = InterpolationValues.INT
+            self.values: ndarray = np.asarray(values, dtype=np.int32)
+        elif values.dtype == np.float64:
+            self.value_type: int = InterpolationValues.DOUBLE
+            self.values: ndarray = np.asarray(values, dtype=np.float64)
         else:
             self.value_type: int = InterpolationValues.FLOAT
             self.values: ndarray = np.asarray(values, dtype=np.float32)

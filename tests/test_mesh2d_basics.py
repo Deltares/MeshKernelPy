@@ -10,6 +10,7 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
+    InterpolationValues,
     MakeGridParameters,
     Mesh2d,
     MeshKernel,
@@ -1887,7 +1888,21 @@ def test_mesh2d_convert_projection():
     assert mesh2d.almost_equal(mesh2d_final, rtol=0)
 
 
-def test_mesh2d_refine_based_on_gridded_samples_coastline():
+cases_test_mesh2d_refine_based_on_gridded_samples_coastline = [
+    InterpolationValues.SHORT,
+    InterpolationValues.FLOAT,
+    InterpolationValues.INT,
+    InterpolationValues.DOUBLE,
+    4,
+]
+
+
+@pytest.mark.parametrize(
+    "interpolation_type", cases_test_mesh2d_refine_based_on_gridded_samples_coastline
+)
+def test_mesh2d_refine_based_on_gridded_samples_coastline(
+    interpolation_type: InterpolationValues,
+):
     """Tests `mesh2d_refine_based_on_gridded_samples` with real world data"""
 
     # set up
@@ -1932,7 +1947,17 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline():
         ]
     )
 
-    values_np = values_2d.flatten().astype(np.float32)
+    if interpolation_type == InterpolationValues.SHORT:
+        values_np = values_2d.flatten().astype(np.int16)
+    elif interpolation_type == InterpolationValues.FLOAT:
+        values_np = values_2d.flatten().astype(np.float32)
+    elif interpolation_type == InterpolationValues.INT:
+        values_np = values_2d.flatten().astype(np.int32)
+    elif interpolation_type == InterpolationValues.DOUBLE:
+        values_np = values_2d.flatten().astype(np.float64)
+    else:
+        values_np = values_2d.flatten().astype(np.float32)
+
     gridded_samples = GriddedSamples(
         x_coordinates=lon_np, y_coordinates=lat_np, values=values_np
     )
