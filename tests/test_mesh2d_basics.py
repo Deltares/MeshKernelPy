@@ -1947,12 +1947,12 @@ def test_mesh2d_refine_based_on_gridded_samples_coastline(
         ]
     )
 
-    if interpolation_type == InterpolationValues.FLOAT:
-        values_np = values_2d.flatten().astype(np.float32)
-    elif interpolation_type == InterpolationValues.SHORT:
+    if interpolation_type == InterpolationValues.SHORT:
         values_np = values_2d.flatten().astype(np.int16)
+    elif interpolation_type == InterpolationValues.FLOAT:
+        values_np = values_2d.flatten().astype(np.float32)
     elif interpolation_type == InterpolationValues.INT:
-        values_np = values_2d.flatten().astype(np.int64)
+        values_np = values_2d.flatten().astype(np.int32)
     elif interpolation_type == InterpolationValues.DOUBLE:
         values_np = values_2d.flatten().astype(np.float64)
     else:
