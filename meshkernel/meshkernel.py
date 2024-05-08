@@ -76,7 +76,7 @@ class MeshKernel:
         # Determine OS
         system = platform.system()
 
-        file_path = Path(__file__).parent
+        file_path = Path(__file__).parent.absolute()
         if system == "Windows":
             lib_path = os.path.join(file_path, "MeshKernelApi.dll")
         elif system == "Linux":
