@@ -51,7 +51,10 @@ from meshkernel.py_structures import (
     ProjectToLandBoundaryOption,
     SplinesToCurvilinearParameters,
 )
-from meshkernel.utils import get_maximum_bounding_box_coordinates
+from meshkernel.utils import (
+    get_maximum_bounding_box_coordinates,
+    to_contiguous_numpy_array,
+)
 from meshkernel.version import __version__
 
 logger = logging.getLogger(__name__)
@@ -411,7 +414,7 @@ class MeshKernel:
         return index.value
 
     def mesh2d_get_face_polygons(self, num_edges: int) -> GeometryList:
-        """ Gets the faces polygons with a number of edges equal to num_edges.
+        """Gets the faces polygons with a number of edges equal to num_edges.
 
         Args:
             num_edges (int): The number of edges
@@ -421,24 +424,27 @@ class MeshKernel:
         """
         c_geometry_list_dimension = c_int()
 
-        self._execute_function(self.lib.mkernel_mesh2d_get_face_polygons_dimension,
-                               self._meshkernelid,
-                               c_int(num_edges),
-                               byref(c_geometry_list_dimension))
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_face_polygons_dimension,
+            self._meshkernelid,
+            c_int(num_edges),
+            byref(c_geometry_list_dimension),
+        )
 
         n_coordinates = c_geometry_list_dimension.value
         x_coordinates = np.empty(n_coordinates, dtype=np.double)
         y_coordinates = np.empty(n_coordinates, dtype=np.double)
 
-        face_polygons = GeometryList(x_coordinates=x_coordinates,
-                                     y_coordinates=y_coordinates)
+        face_polygons = GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+        )
         c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
 
         self._execute_function(
             self.lib.mkernel_mesh2d_get_face_polygons,
             self._meshkernelid,
             c_int(num_edges),
-            byref(c_face_polygons)
+            byref(c_face_polygons),
         )
 
         return face_polygons
@@ -1366,7 +1372,7 @@ class MeshKernel:
             not inside the 2d mesh.
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = to_contiguous_numpy_array(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1387,7 +1393,7 @@ class MeshKernel:
                                  should not be connected
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = to_contiguous_numpy_array(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
 
         self._execute_function(
@@ -1408,7 +1414,7 @@ class MeshKernel:
 
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = to_contiguous_numpy_array(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1431,7 +1437,7 @@ class MeshKernel:
             polygons (GeometryList, optional):  The polygon selecting the Mesh2d faces to connect.
 
         """
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = to_contiguous_numpy_array(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
@@ -1460,7 +1466,7 @@ class MeshKernel:
 
         """
 
-        node_mask_int = node_mask.astype(np.int32)
+        node_mask_int = to_contiguous_numpy_array(node_mask.astype(np.int32))
         c_node_mask = as_ctypes(node_mask_int)
         c_polygons = CGeometryList.from_geometrylist(polygons)
 
