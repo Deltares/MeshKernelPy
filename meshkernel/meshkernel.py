@@ -387,7 +387,7 @@ class MeshKernel:
             y (float): The y-coordinate of the point.
 
         Returns:
-            int: The index of the edge (ungapped index)
+            int: The index of the edge (gap-free array index)
         """
 
         index = c_int()
@@ -458,7 +458,7 @@ class MeshKernel:
             search_radius (float): The search radius.
 
         Returns:
-            int: The index of node (ungapped index)
+            int: The index of node (gap-free array index)
         """
 
         index = c_int()
