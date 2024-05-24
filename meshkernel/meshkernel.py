@@ -387,7 +387,7 @@ class MeshKernel:
             y (float): The y-coordinate of the point.
 
         Returns:
-            int: The index of the edge.
+            int: The index of the edge (ungapped index)
         """
 
         index = c_int()
@@ -458,7 +458,7 @@ class MeshKernel:
             search_radius (float): The search radius.
 
         Returns:
-            int: The index of node.
+            int: The index of node (ungapped index)
         """
 
         index = c_int()
@@ -1537,6 +1537,8 @@ class MeshKernel:
             byref(c_geometry_list_out),
         )
 
+        self.__map_to_valid_values(geometry_list_out, Mesh2dLocation.EDGES)
+
         return geometry_list_out
 
     def mesh2d_get_smoothness(self):
@@ -1559,6 +1561,8 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_geometry_list_out),
         )
+
+        self.__map_to_valid_values(geometry_list_out, Mesh2dLocation.EDGES)
 
         return geometry_list_out
 
@@ -2488,3 +2492,44 @@ class MeshKernel:
             raise Exception("wrong location_type")
 
         return number_of_coordinates
+
+    def __map_to_valid_values(
+        self, geometry_list: GeometryList, location_type: Mesh2dLocation
+    ):
+        """Removes invalid values from geometry_list
+
+        Args:
+            geometry_list (GeometryList): The input geometry list
+            location_type (Mesh2dLocation): The location type
+
+        Raises:
+            Exception: This exception gets raised if an invalid location is used.
+        """
+
+        mesh = self.mesh2d_get()
+
+        if location_type == location_type.NODES:
+            geometry_list.x_coordinates = mesh.node_x
+            geometry_list.y_coordinates = mesh.node_y
+            geometry_list.values = np.array(
+                [geometry_list.values[i] for i in mesh.valid_nodes_map.keys()],
+                dtype=np.double,
+            )
+        elif location_type == location_type.FACES:
+            geometry_list.x_coordinates = mesh.face_x
+            geometry_list.y_coordinates = mesh.face_y
+            geometry_list.values = np.array(
+                [geometry_list.values[i] for i in mesh.valid_faces_map.keys()],
+                dtype=np.double,
+            )
+        elif location_type == location_type.EDGES:
+            geometry_list.x_coordinates = mesh.edge_x
+            geometry_list.y_coordinates = mesh.edge_y
+            geometry_list.values = np.array(
+                [geometry_list.values[i] for i in mesh.valid_edges_map.keys()],
+                dtype=np.double,
+            )
+        else:
+            raise Exception("wrong location_type")
+
+        return geometry_list
