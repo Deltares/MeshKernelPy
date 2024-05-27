@@ -2489,7 +2489,7 @@ class MeshKernel:
         elif location_type == Mesh2dLocation.EDGES:
             number_of_coordinates = len(mesh.edge_x)
         else:
-            raise Exception("wrong location_type")
+            raise ValueError("wrong location_type")
 
         return number_of_coordinates
 
@@ -2530,6 +2530,6 @@ class MeshKernel:
                 dtype=np.double,
             )
         else:
-            raise Exception("wrong location_type")
+            raise ValueError("wrong location_type")
 
         return geometry_list
