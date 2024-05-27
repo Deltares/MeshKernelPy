@@ -4,7 +4,7 @@ from mesh2d_factory import Mesh2dFactory
 from numpy import ndarray
 from numpy.testing import assert_array_equal
 
-from meshkernel import Contacts, GeometryList, Mesh1d, MeshKernel
+from meshkernel import Contacts, DeleteMeshOption, GeometryList, Mesh1d, MeshKernel
 
 
 def sort_contacts_by_mesh2d_indices(contacts):
@@ -411,3 +411,68 @@ def test_contacts_compute_boundary_with_no_polygon():
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
+
+
+def test_contacts_compute_with_points_after_deletion(
+    meshkernel_with_mesh2d: MeshKernel,
+):
+    """Tests contacts_compute_with_points and mesh2d_delete to ensure the correct indices are retrieved
+    in the gap-free array.
+    """
+
+    mk = MeshKernel()
+
+    mesh2d = Mesh2dFactory.create(3, 3)
+
+    node_x = np.array([0.75, 2.1], dtype=np.double)
+    node_y = np.array([0.75, 2.1], dtype=np.double)
+    edge_nodes = np.array([0, 1], dtype=np.int32)
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    mk.mesh1d_set(mesh1d)
+    mk.mesh2d_set(mesh2d)
+
+    node_mask = np.full(node_x.size, True)
+
+    # The points indicating the faces to connect
+    points_x = np.array([0.75, 2.1], dtype=np.double)
+    points_y = np.array([0.75, 2.1], dtype=np.double)
+    points = GeometryList(points_x, points_y)
+
+    mk.contacts_compute_with_points(node_mask, points)
+
+    contacts = mk.contacts_get()
+    sort_contacts_by_mesh2d_indices(contacts)
+
+    assert contacts.mesh1d_indices.size == 2
+    assert contacts.mesh2d_indices.size == 2
+
+    assert contacts.mesh1d_indices[0] == 0
+    assert contacts.mesh1d_indices[1] == 1
+
+    assert contacts.mesh2d_indices[0] == 0
+    assert contacts.mesh2d_indices[1] == 8
+
+    x_coordinates = np.array([-1.0, 1.5, 1.5, -1.0, -1.0])
+    y_coordinates = np.array([1.5, 1.5, 3.5, 3.5, 1.5])
+
+    polygon = GeometryList(x_coordinates=x_coordinates, y_coordinates=y_coordinates)
+    mk.mesh2d_delete(
+        geometry_list=polygon,
+        delete_option=DeleteMeshOption.INSIDE_NOT_INTERSECTED,
+        invert_deletion=False,
+    )
+
+    mk.contacts_compute_with_points(node_mask, points)
+
+    contacts = mk.contacts_get()
+    sort_contacts_by_mesh2d_indices(contacts)
+
+    assert contacts.mesh1d_indices.size == 2
+    assert contacts.mesh2d_indices.size == 2
+
+    assert contacts.mesh1d_indices[0] == 0
+    assert contacts.mesh1d_indices[1] == 1
+
+    assert contacts.mesh2d_indices[0] == 0
+    assert contacts.mesh2d_indices[1] == 7

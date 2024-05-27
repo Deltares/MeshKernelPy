@@ -2269,3 +2269,39 @@ def test_mesh2d_refine_based_on_gridded_samples_with_non_contiguos_arrays():
     # new mesh has more nodes and edges, it has been refined
     assert len(mesh2d.node_x) == 49
     assert len(mesh2d.edge_nodes) == 168
+
+
+@pytest.mark.parametrize(
+    "values_at_locations_functions",
+    [
+        lambda mk: mk.mesh2d_get_orthogonality(),
+        lambda mk: mk.mesh2d_get_smoothness(),
+    ],
+)
+def test_mesh2d_deletion_and_get_orthogonality(
+    meshkernel_with_mesh2d: MeshKernel, values_at_locations_functions
+):
+    """Tests `mesh2d_delete` and `mesh2d_get_orthogonality` get the correct
+    number of orthogonality values after deletion (consider only the un-gapped array)
+    """
+
+    mk = meshkernel_with_mesh2d(5, 5)
+
+    values = values_at_locations_functions(mk).values
+    mesh2d = mk.mesh2d_get()
+
+    assert len(values) == len(mesh2d.edge_x)
+
+    x_coordinates = np.array([-1.0, 1.5, 1.5, -1.0, -1.0])
+    y_coordinates = np.array([-1.0, -1.0, 1.5, 1.5, -1.0])
+
+    polygon = GeometryList(x_coordinates=x_coordinates, y_coordinates=y_coordinates)
+    mk.mesh2d_delete(
+        geometry_list=polygon,
+        delete_option=DeleteMeshOption.INSIDE_NOT_INTERSECTED,
+        invert_deletion=False,
+    )
+
+    values = values_at_locations_functions(mk).values
+    mesh2d = mk.mesh2d_get()
+    assert len(values) == len(mesh2d.edge_x)

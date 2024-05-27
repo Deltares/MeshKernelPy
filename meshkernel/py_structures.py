@@ -144,6 +144,10 @@ class Mesh2d:
         self.edge_faces: ndarray = np.asarray(edge_faces, dtype=np.int32)
         self.face_edges: ndarray = np.asarray(face_edges, dtype=np.int32)
 
+        self.valid_nodes_map = {}
+        self.valid_faces_map = {}
+        self.valid_edges_map = {}
+
     def remove_invalid_values(self, float_invalid_value: float):
         """Removes invalid values that might be present in the arrays.
         Remove the corresponding entries in the others
@@ -157,7 +161,7 @@ class Mesh2d:
             for i, (x, y) in enumerate(zip(self.node_x, self.node_y))
             if x != float_invalid_value and y != float_invalid_value
         ]
-        valid_nodes_map = {
+        self.valid_nodes_map = {
             old_index: new_index
             for new_index, old_index in enumerate(valid_node_indices)
         }
@@ -170,17 +174,17 @@ class Mesh2d:
         )
         self.edge_nodes = np.array(
             [
-                valid_nodes_map[edge_node]
+                self.valid_nodes_map[edge_node]
                 for edge_node in self.edge_nodes
-                if edge_node in valid_nodes_map
+                if edge_node in self.valid_nodes_map
             ],
             dtype=np.int32,
         )
         self.face_nodes = np.array(
             [
-                valid_nodes_map[face_node]
+                self.valid_nodes_map[face_node]
                 for face_node in self.face_nodes
-                if face_node in valid_nodes_map
+                if face_node in self.valid_nodes_map
             ],
             dtype=np.int32,
         )
@@ -190,15 +194,15 @@ class Mesh2d:
             for i, (x, y) in enumerate(zip(self.face_x, self.face_y))
             if x != float_invalid_value and y != float_invalid_value
         ]
-        valid_face_map = {
+        self.valid_faces_map = {
             old_index: new_index
             for new_index, old_index in enumerate(valid_face_indices)
         }
         self.face_x = np.array(
-            [self.face_x[i] for i in valid_face_map], dtype=np.double
+            [self.face_x[i] for i in self.valid_faces_map], dtype=np.double
         )
         self.face_y = np.array(
-            [self.face_y[i] for i in valid_face_map], dtype=np.double
+            [self.face_y[i] for i in self.valid_faces_map], dtype=np.double
         )
 
         valid_edge_indices = [
@@ -206,15 +210,15 @@ class Mesh2d:
             for i, (x, y) in enumerate(zip(self.edge_x, self.edge_y))
             if x != float_invalid_value and y != float_invalid_value
         ]
-        valid_edge_map = {
+        self.valid_edges_map = {
             old_index: new_index
             for new_index, old_index in enumerate(valid_edge_indices)
         }
         self.edge_x = np.array(
-            [self.edge_x[i] for i in valid_edge_map], dtype=np.double
+            [self.edge_x[i] for i in self.valid_edges_map], dtype=np.double
         )
         self.edge_y = np.array(
-            [self.edge_y[i] for i in valid_edge_map], dtype=np.double
+            [self.edge_y[i] for i in self.valid_edges_map], dtype=np.double
         )
 
         self.edge_faces = np.array(
