@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -96,7 +96,14 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">GriddedSamples</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">MeshRefinementParameters</span><span class="p">,</span> <span class="n">RefinementType</span>
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GeometryList</span><span class="p">,</span>
+    <span class="n">GriddedSamples</span><span class="p">,</span>
+    <span class="n">MakeGridParameters</span><span class="p">,</span>
+    <span class="n">MeshKernel</span><span class="p">,</span>
+    <span class="n">MeshRefinementParameters</span><span class="p">,</span>
+    <span class="n">RefinementType</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -116,7 +123,7 @@ You can look at the documentation in order to find all its parameters.</p>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mf">100.0</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mf">100.0</span>
-   
+
 <span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -152,7 +159,8 @@ You can look at the documentation in order to find all its parameters.</p>
     <span class="n">x_origin</span><span class="o">=-</span><span class="mf">50.0</span><span class="p">,</span>
     <span class="n">y_origin</span><span class="o">=-</span><span class="mf">50.0</span><span class="p">,</span>
     <span class="n">cell_size</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
-    <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">]</span> <span class="o">*</span> <span class="mi">42</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">]</span> <span class="o">*</span> <span class="mi">42</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -167,7 +175,8 @@ You can look at the documentation in order to find all its parameters.</p>
     <span class="n">refinement_type</span><span class="o">=</span><span class="n">RefinementType</span><span class="o">.</span><span class="n">WAVE_COURANT</span><span class="p">,</span>
     <span class="n">connect_hanging_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">account_for_samples_outside_face</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">max_refinement_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">max_refinement_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -217,9 +226,13 @@ First regenerate the starting mesh</p>
 <p>When refining the mesh with gridded samples that have non-uniform x or y spacing, the non-uniform spacing can be specified by using the x_coordinates and y_coordinates parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gridded_samples</span> <span class="o">=</span> <span class="n">GriddedSamples</span><span class="p">(</span><span class="n">x_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
-                                 <span class="n">y_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">550.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
-                                 <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">]</span> <span class="o">*</span> <span class="mi">42</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gridded_samples</span> <span class="o">=</span> <span class="n">GriddedSamples</span><span class="p">(</span>
+    <span class="n">x_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+    <span class="n">y_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">550.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span>
+    <span class="p">),</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">]</span> <span class="o">*</span> <span class="mi">42</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=20623aea"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
@@ -338,6 +338,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectToLandBoundaryOption.DO_NOT_PROJECT_TO_LANDBOUNDARY">DO_NOT_PROJECT_TO_LANDBOUNDARY (ProjectToLandBoundaryOption attribute)</a>
 </li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.DOUBLE">DOUBLE (InterpolationValues attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -502,6 +504,8 @@
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_NOT_INTERSECTED">INSIDE_NOT_INTERSECTED (DeleteMeshOption attribute)</a>
 </li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.INT">INT (InterpolationValues attribute)</a>
+</li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues">InterpolationValues (class in meshkernel.py_structures)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod.INVERSE_WEIGHT_DISTANCE">INVERSE_WEIGHT_DISTANCE (AveragingMethod attribute)</a>
@@ -591,6 +595,8 @@
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get">mesh2d_get() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_edge">mesh2d_get_edge() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_face_polygons">mesh2d_get_face_polygons() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges">mesh2d_get_hanging_edges() (MeshKernel method)</a>
 </li>
@@ -814,14 +820,14 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.nodes_per_face">(Mesh2d attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters.num_columns">num_columns (CMakeGridParameters attribute)</a>
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters.num_columns">(MakeGridParameters attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CContacts.num_contacts">num_contacts (CContacts attribute)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_edges">num_edges (CMesh1d attribute)</a>
@@ -856,6 +862,18 @@
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters.num_rows">(MakeGridParameters attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_valid_edges">num_valid_edges (CMesh1d attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_valid_edges">(CMesh2d attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_valid_nodes">num_valid_nodes (CMesh1d attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_valid_nodes">(CMesh2d attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CGriddedSamples.num_x">num_x (CGriddedSamples attribute)</a>
@@ -962,10 +980,18 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters.refinement_type">(MeshRefinementParameters attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.RefinementType">RefinementType (class in meshkernel.py_structures)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Contacts.remove_invalid_values">remove_invalid_values() (Contacts method)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d.remove_invalid_values">(Mesh1d method)</a>
+</li>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.remove_invalid_values">(Mesh2d method)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CSplinesToCurvilinearParameters.remove_skinny_triangles">remove_skinny_triangles (CSplinesToCurvilinearParameters attribute)</a>
 
       <ul>
@@ -1013,6 +1039,10 @@
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.utils.html#meshkernel.utils.to_contiguous_numpy_array">to_contiguous_numpy_array() (in module meshkernel.utils)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY">TO_ORIGINAL_NETBOUNDARY (ProjectToLandBoundaryOption attribute)</a>
 </li>

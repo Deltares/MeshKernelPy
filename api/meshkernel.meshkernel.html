@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -137,7 +137,7 @@ The boundary nodes of Mesh1d (those sharing only one Mesh1d edge) are not connec
 should not be connected</p></li>
 <li><p><strong>polygons</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygons selecting the area where the contacts will be be generated.</p></li>
 <li><p><strong>projection_factor</strong> (<em>float</em>) – The projection factor used for generating the contacts when 1d nodes are</p></li>
-<li><p><strong>mesh.</strong> (<em>not inside the 2d</em>) – </p></li>
+<li><p><strong>mesh.</strong> (<em>not inside the 2d</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -222,7 +222,7 @@ should not be connected</p></li>
 <li><p><strong>splines</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The spline to use for curvilinear grid generation.</p></li>
 <li><p><strong>curvilinear_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearParameters" title="meshkernel.py_structures.CurvilinearParameters"><em>CurvilinearParameters</em></a>) – The curvilinear grid parameters.</p></li>
 <li><p><strong>splines_to_curvilinear_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters" title="meshkernel.py_structures.SplinesToCurvilinearParameters"><em>SplinesToCurvilinearParameters</em></a>) – Additional parameters required</p></li>
-<li><p><strong>algorithm.</strong> (<em>by the</em>) – </p></li>
+<li><p><strong>algorithm.</strong> (<em>by the</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -909,10 +909,27 @@ shape and wildly varying areas.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The index of the edge.</p>
+<dd class="field-even"><p>The index of the edge (gap-free array index)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_face_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_get_face_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_edges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_face_polygons" title="Link to this definition"></a></dt>
+<dd><p>Gets the faces polygons with a number of edges equal to num_edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_edges</strong> (<em>int</em>) – The number of edges</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting face polygons</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -960,7 +977,7 @@ one for the inner boundary and one for the outer boundary.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The index of node.</p>
+<dd class="field-even"><p>The index of node (gap-free array index)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -1411,7 +1428,7 @@ translation_y (float): Y-component of the translation vector</p>
 <dd class="field-even"><p>The refined polygon.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
 </dd>
 </dl>
 </dd></dl>

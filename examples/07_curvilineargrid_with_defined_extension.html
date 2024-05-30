@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -96,7 +96,15 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="n">GeometryList</span><span class="p">,</span> <span class="n">GriddedSamples</span><span class="p">,</span> <span class="n">MakeGridParameters</span><span class="p">,</span> <span class="n">MeshKernel</span><span class="p">,</span> <span class="n">MeshRefinementParameters</span><span class="p">,</span> <span class="n">ProjectionType</span><span class="p">,</span> <span class="n">RefinementType</span>
+<span class="kn">from</span> <span class="nn">meshkernel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GeometryList</span><span class="p">,</span>
+    <span class="n">GriddedSamples</span><span class="p">,</span>
+    <span class="n">MakeGridParameters</span><span class="p">,</span>
+    <span class="n">MeshKernel</span><span class="p">,</span>
+    <span class="n">MeshRefinementParameters</span><span class="p">,</span>
+    <span class="n">ProjectionType</span><span class="p">,</span>
+    <span class="n">RefinementType</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -106,9 +114,9 @@
 <p>The grid will extend from the origin to the upper right corner, automatically computing the number of rows and columns while adjusting the latitude to preserve an aspect ratio close to one in real-world distances.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span><span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.2</span>
-<span class="n">lat_min</span><span class="p">,</span><span class="n">lat_max</span> <span class="o">=</span> <span class="mf">49.1</span><span class="p">,</span><span class="mf">49.6</span>
-<span class="n">lon_res</span><span class="p">,</span><span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span>
+<span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="mf">49.1</span><span class="p">,</span> <span class="mf">49.6</span>
+<span class="n">lon_res</span><span class="p">,</span> <span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span>
 
 <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">()</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="n">lon_min</span>
@@ -127,7 +135,7 @@
 <p>Convert the curvilinear mesh to an unstructured mesh</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -151,9 +159,9 @@
 <p>In the cartesian case no adjustment of the y coordinate is required</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_x</span><span class="p">,</span><span class="n">min_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
-<span class="n">max_x</span><span class="p">,</span><span class="n">max_y</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span><span class="mf">10.0</span>
-<span class="n">block_size_x</span><span class="p">,</span><span class="n">block_size_y</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span>
+<span class="n">block_size_x</span><span class="p">,</span> <span class="n">block_size_y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
 
 <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">()</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="n">min_x</span>
@@ -172,7 +180,7 @@
 <p>Convert the curvilinear mesh to an unstructured mesh</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

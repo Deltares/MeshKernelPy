@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -91,9 +91,9 @@
 <p>Create a rectangular grid</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span><span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.3</span>
-<span class="n">lat_min</span><span class="p">,</span><span class="n">lat_max</span> <span class="o">=</span> <span class="mf">48.4</span><span class="p">,</span><span class="mf">49.0</span>
-<span class="n">lon_res</span><span class="p">,</span><span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span><span class="mf">0.01</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span>
+<span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="mf">48.4</span><span class="p">,</span> <span class="mf">49.0</span>
+<span class="n">lon_res</span><span class="p">,</span> <span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span>
 
 <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">MakeGridParameters</span><span class="p">()</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="n">lon_min</span>
@@ -107,7 +107,7 @@
 <span class="n">mk2</span><span class="o">.</span><span class="n">get_projection</span><span class="p">()</span>
 
 <span class="n">mk2</span><span class="o">.</span><span class="n">curvilinear_compute_rectangular_grid_on_extension</span><span class="p">(</span><span class="n">make_grid_parameters</span><span class="p">)</span>
-<span class="n">mk2</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span> 
+<span class="n">mk2</span><span class="o">.</span><span class="n">curvilinear_convert_to_mesh2d</span><span class="p">()</span>
 <span class="n">mesh2d_orig</span> <span class="o">=</span> <span class="n">mk2</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -116,29 +116,143 @@
 <p>Create a polygon to be used for deletion</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pol_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">2.554972</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.475056</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.488361</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.4375</span>  <span class="p">,</span> <span class="o">-</span><span class="mf">2.418417</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.319139</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">2.313333</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.28625</span> <span class="p">,</span> <span class="o">-</span><span class="mf">2.336694</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.314167</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.246722</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.213361</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">2.195028</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.182472</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.157944</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.175444</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.152528</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.125889</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">2.152528</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.04925</span> <span class="p">,</span> <span class="o">-</span><span class="mf">2.057944</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.032111</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.034639</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.997083</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">2.015472</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.975028</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.962972</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.989667</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.957139</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.015056</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">2.004583</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.033</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">1.98925</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.992556</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.941667</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.962972</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">1.935056</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.905028</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.843389</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.837111</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.872111</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.842528</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">1.771667</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.635028</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.592528</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.511722</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.51</span>    <span class="p">,</span> <span class="o">-</span><span class="mf">1.470056</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">1.43</span>    <span class="p">,</span> <span class="o">-</span><span class="mf">1.3575</span>  <span class="p">,</span> <span class="o">-</span><span class="mf">1.412889</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.389222</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.447583</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.453361</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">1.505028</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.530056</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.570444</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.576278</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.615444</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.580417</span><span class="p">,</span>
-       <span class="o">-</span><span class="mf">1.2</span>     <span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span>     <span class="p">,</span> <span class="o">-</span><span class="mf">2.6</span>     <span class="p">,</span> <span class="o">-</span><span class="mf">2.554972</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pol_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="o">-</span><span class="mf">2.554972</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.475056</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.488361</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.4375</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.418417</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.319139</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.313333</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.28625</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.336694</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.314167</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.246722</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.213361</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.195028</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.182472</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.157944</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.175444</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.152528</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.125889</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.152528</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.04925</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.057944</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.032111</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.034639</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.997083</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.015472</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.975028</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.962972</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.989667</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.957139</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.015056</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.004583</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.033</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.98925</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.992556</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.941667</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.962972</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.935056</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.905028</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.843389</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.837111</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.872111</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.842528</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.771667</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.635028</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.592528</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.511722</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.51</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.470056</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.43</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.3575</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.412889</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.389222</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.447583</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.453361</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.505028</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.530056</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.570444</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.576278</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.615444</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.580417</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.6</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.554972</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
-<span class="n">pol_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">48.599583</span><span class="p">,</span> <span class="mf">48.622889</span><span class="p">,</span> <span class="mf">48.64625</span> <span class="p">,</span> <span class="mf">48.653722</span><span class="p">,</span> <span class="mf">48.634556</span><span class="p">,</span> <span class="mf">48.690389</span><span class="p">,</span>
-       <span class="mf">48.672083</span><span class="p">,</span> <span class="mf">48.667444</span><span class="p">,</span> <span class="mf">48.620389</span><span class="p">,</span> <span class="mf">48.612111</span><span class="p">,</span> <span class="mf">48.645444</span><span class="p">,</span> <span class="mf">48.57375</span> <span class="p">,</span>
-       <span class="mf">48.611222</span><span class="p">,</span> <span class="mf">48.577889</span><span class="p">,</span> <span class="mf">48.587472</span><span class="p">,</span> <span class="mf">48.597472</span><span class="p">,</span> <span class="mf">48.618722</span><span class="p">,</span> <span class="mf">48.604528</span><span class="p">,</span>
-       <span class="mf">48.633694</span><span class="p">,</span> <span class="mf">48.639583</span><span class="p">,</span> <span class="mf">48.625833</span><span class="p">,</span> <span class="mf">48.624972</span><span class="p">,</span> <span class="mf">48.604944</span><span class="p">,</span> <span class="mf">48.578306</span><span class="p">,</span>
-       <span class="mf">48.571667</span><span class="p">,</span> <span class="mf">48.536222</span><span class="p">,</span> <span class="mf">48.549944</span><span class="p">,</span> <span class="mf">48.583333</span><span class="p">,</span> <span class="mf">48.578306</span><span class="p">,</span> <span class="mf">48.598722</span><span class="p">,</span>
-       <span class="mf">48.614111</span><span class="p">,</span> <span class="mf">48.650806</span><span class="p">,</span> <span class="mf">48.668722</span><span class="p">,</span> <span class="mf">48.684583</span><span class="p">,</span> <span class="mf">48.684583</span><span class="p">,</span> <span class="mf">48.689972</span><span class="p">,</span>
-       <span class="mf">48.702917</span><span class="p">,</span> <span class="mf">48.690417</span><span class="p">,</span> <span class="mf">48.712083</span><span class="p">,</span> <span class="mf">48.679972</span><span class="p">,</span> <span class="mf">48.645806</span><span class="p">,</span> <span class="mf">48.616222</span><span class="p">,</span>
-       <span class="mf">48.603722</span><span class="p">,</span> <span class="mf">48.617889</span><span class="p">,</span> <span class="mf">48.639611</span><span class="p">,</span> <span class="mf">48.621222</span><span class="p">,</span> <span class="mf">48.632056</span><span class="p">,</span> <span class="mf">48.625417</span><span class="p">,</span>
-       <span class="mf">48.643722</span><span class="p">,</span> <span class="mf">48.63375</span> <span class="p">,</span> <span class="mf">48.659139</span><span class="p">,</span> <span class="mf">48.67625</span> <span class="p">,</span> <span class="mf">48.655389</span><span class="p">,</span> <span class="mf">48.672083</span><span class="p">,</span>
-       <span class="mf">48.687056</span><span class="p">,</span> <span class="mf">48.73125</span> <span class="p">,</span> <span class="mf">48.744167</span><span class="p">,</span> <span class="mf">48.821639</span><span class="p">,</span> <span class="mf">48.835806</span><span class="p">,</span> <span class="mf">48.856639</span><span class="p">,</span>
-       <span class="mf">48.9</span>     <span class="p">,</span> <span class="mf">48.3</span>     <span class="p">,</span> <span class="mf">48.3</span>     <span class="p">,</span> <span class="mf">48.599583</span><span class="p">])</span>
+<span class="n">pol_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">48.599583</span><span class="p">,</span>
+        <span class="mf">48.622889</span><span class="p">,</span>
+        <span class="mf">48.64625</span><span class="p">,</span>
+        <span class="mf">48.653722</span><span class="p">,</span>
+        <span class="mf">48.634556</span><span class="p">,</span>
+        <span class="mf">48.690389</span><span class="p">,</span>
+        <span class="mf">48.672083</span><span class="p">,</span>
+        <span class="mf">48.667444</span><span class="p">,</span>
+        <span class="mf">48.620389</span><span class="p">,</span>
+        <span class="mf">48.612111</span><span class="p">,</span>
+        <span class="mf">48.645444</span><span class="p">,</span>
+        <span class="mf">48.57375</span><span class="p">,</span>
+        <span class="mf">48.611222</span><span class="p">,</span>
+        <span class="mf">48.577889</span><span class="p">,</span>
+        <span class="mf">48.587472</span><span class="p">,</span>
+        <span class="mf">48.597472</span><span class="p">,</span>
+        <span class="mf">48.618722</span><span class="p">,</span>
+        <span class="mf">48.604528</span><span class="p">,</span>
+        <span class="mf">48.633694</span><span class="p">,</span>
+        <span class="mf">48.639583</span><span class="p">,</span>
+        <span class="mf">48.625833</span><span class="p">,</span>
+        <span class="mf">48.624972</span><span class="p">,</span>
+        <span class="mf">48.604944</span><span class="p">,</span>
+        <span class="mf">48.578306</span><span class="p">,</span>
+        <span class="mf">48.571667</span><span class="p">,</span>
+        <span class="mf">48.536222</span><span class="p">,</span>
+        <span class="mf">48.549944</span><span class="p">,</span>
+        <span class="mf">48.583333</span><span class="p">,</span>
+        <span class="mf">48.578306</span><span class="p">,</span>
+        <span class="mf">48.598722</span><span class="p">,</span>
+        <span class="mf">48.614111</span><span class="p">,</span>
+        <span class="mf">48.650806</span><span class="p">,</span>
+        <span class="mf">48.668722</span><span class="p">,</span>
+        <span class="mf">48.684583</span><span class="p">,</span>
+        <span class="mf">48.684583</span><span class="p">,</span>
+        <span class="mf">48.689972</span><span class="p">,</span>
+        <span class="mf">48.702917</span><span class="p">,</span>
+        <span class="mf">48.690417</span><span class="p">,</span>
+        <span class="mf">48.712083</span><span class="p">,</span>
+        <span class="mf">48.679972</span><span class="p">,</span>
+        <span class="mf">48.645806</span><span class="p">,</span>
+        <span class="mf">48.616222</span><span class="p">,</span>
+        <span class="mf">48.603722</span><span class="p">,</span>
+        <span class="mf">48.617889</span><span class="p">,</span>
+        <span class="mf">48.639611</span><span class="p">,</span>
+        <span class="mf">48.621222</span><span class="p">,</span>
+        <span class="mf">48.632056</span><span class="p">,</span>
+        <span class="mf">48.625417</span><span class="p">,</span>
+        <span class="mf">48.643722</span><span class="p">,</span>
+        <span class="mf">48.63375</span><span class="p">,</span>
+        <span class="mf">48.659139</span><span class="p">,</span>
+        <span class="mf">48.67625</span><span class="p">,</span>
+        <span class="mf">48.655389</span><span class="p">,</span>
+        <span class="mf">48.672083</span><span class="p">,</span>
+        <span class="mf">48.687056</span><span class="p">,</span>
+        <span class="mf">48.73125</span><span class="p">,</span>
+        <span class="mf">48.744167</span><span class="p">,</span>
+        <span class="mf">48.821639</span><span class="p">,</span>
+        <span class="mf">48.835806</span><span class="p">,</span>
+        <span class="mf">48.856639</span><span class="p">,</span>
+        <span class="mf">48.9</span><span class="p">,</span>
+        <span class="mf">48.3</span><span class="p">,</span>
+        <span class="mf">48.3</span><span class="p">,</span>
+        <span class="mf">48.599583</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -147,17 +261,19 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">delete_pol_geom</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">GeometryList</span><span class="p">(</span><span class="n">x_coordinates</span><span class="o">=</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="o">=</span><span class="n">pol_y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Deleting grid with coastlines: &#39;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleting grid with coastlines: &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="n">dtstart</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="n">mk2</span><span class="o">.</span><span class="n">mesh2d_delete</span><span class="p">(</span><span class="n">geometry_list</span><span class="o">=</span><span class="n">delete_pol_geom</span><span class="p">,</span> 
-                  <span class="n">delete_option</span><span class="o">=</span><span class="n">meshkernel</span><span class="o">.</span><span class="n">DeleteMeshOption</span><span class="o">.</span><span class="n">INSIDE_NOT_INTERSECTED</span><span class="p">,</span>
-                  <span class="n">invert_deletion</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">dtstart</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> sec&#39;</span><span class="p">)</span>
+<span class="n">mk2</span><span class="o">.</span><span class="n">mesh2d_delete</span><span class="p">(</span>
+    <span class="n">geometry_list</span><span class="o">=</span><span class="n">delete_pol_geom</span><span class="p">,</span>
+    <span class="n">delete_option</span><span class="o">=</span><span class="n">meshkernel</span><span class="o">.</span><span class="n">DeleteMeshOption</span><span class="o">.</span><span class="n">INSIDE_NOT_INTERSECTED</span><span class="p">,</span>
+    <span class="n">invert_deletion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">dtstart</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> sec&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deleting grid with coastlines: 0.22 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deleting grid with coastlines: 0.07 sec
 </pre></div>
 </div>
 </div>
@@ -165,14 +281,14 @@
 <p>Plot the deletion result</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
-<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">mesh2d</span> <span class="o">=</span> <span class="n">mk2</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-<span class="n">mesh2d_orig</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
-<span class="n">mesh2d</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span><span class="n">pol_y</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lat_min</span><span class="o">-</span><span class="mf">0.11</span><span class="p">,</span><span class="n">lat_max</span><span class="p">)</span>
+<span class="n">mesh2d_orig</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">mesh2d</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">pol_y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lat_min</span> <span class="o">-</span> <span class="mf">0.11</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -189,9 +305,9 @@
 <p>Create a rectangular grid</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span><span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span>
-<span class="n">lat_min</span><span class="p">,</span><span class="n">lat_max</span> <span class="o">=</span> <span class="mf">48.5</span><span class="p">,</span> <span class="mf">51.2</span> 
-<span class="n">lon_res</span><span class="p">,</span><span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span>
+<span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="mf">48.5</span><span class="p">,</span> <span class="mf">51.2</span>
+<span class="n">lon_res</span><span class="p">,</span> <span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span>
 
 <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">MakeGridParameters</span><span class="p">()</span>
 <span class="n">make_grid_parameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="n">lon_min</span>
@@ -207,13 +323,13 @@
 <span class="n">mesh2d</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 <span class="n">mesh2d_orig</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 
-<span class="n">num_faces_before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh2d</span><span class="o">.</span><span class="n">face_x</span><span class="p">);</span>
-<span class="n">num_columns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span> <span class="n">lat_max</span> <span class="o">-</span> <span class="n">lat_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">num_faces_before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh2d</span><span class="o">.</span><span class="n">face_x</span><span class="p">)</span>
+<span class="n">num_columns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">lat_max</span> <span class="o">-</span> <span class="n">lat_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.2</span><span class="p">)</span>
 <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">lon_max</span> <span class="o">-</span> <span class="n">lon_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.2</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_faces_before &#39;</span><span class="p">,</span> <span class="n">num_faces_before</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_columns &#39;</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_rows &#39;</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_faces_before &quot;</span><span class="p">,</span> <span class="n">num_faces_before</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_columns &quot;</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_rows &quot;</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -238,45 +354,47 @@ num_rows  40
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt;&gt; deleting grid with coastlines: &#39;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt; deleting grid with coastlines: &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="n">dtstart</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">delete_pol_geom</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">GeometryList</span><span class="p">(</span><span class="n">x_coordinates</span><span class="o">=</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="o">=</span><span class="n">pol_y</span><span class="p">)</span>
-<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_delete</span><span class="p">(</span><span class="n">geometry_list</span><span class="o">=</span><span class="n">delete_pol_geom</span><span class="p">,</span> 
-                 <span class="n">delete_option</span><span class="o">=</span><span class="n">meshkernel</span><span class="o">.</span><span class="n">DeleteMeshOption</span><span class="o">.</span><span class="n">INSIDE_NOT_INTERSECTED</span><span class="p">,</span>
-                 <span class="n">invert_deletion</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">dtstart</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> sec&#39;</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_delete</span><span class="p">(</span>
+    <span class="n">geometry_list</span><span class="o">=</span><span class="n">delete_pol_geom</span><span class="p">,</span>
+    <span class="n">delete_option</span><span class="o">=</span><span class="n">meshkernel</span><span class="o">.</span><span class="n">DeleteMeshOption</span><span class="o">.</span><span class="n">INSIDE_NOT_INTERSECTED</span><span class="p">,</span>
+    <span class="n">invert_deletion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">dtstart</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> sec&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt; deleting grid with coastlines: 25.40 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;&gt; deleting grid with coastlines: 3.26 sec
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
-<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">mesh2d</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-<span class="n">mesh2d_orig</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
-<span class="n">mesh2d</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span><span class="n">pol_y</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lon_min</span><span class="p">,</span><span class="n">lon_max</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lat_min</span><span class="p">,</span><span class="n">lat_max</span><span class="p">)</span>
-<span class="n">num_faces_after</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh2d</span><span class="o">.</span><span class="n">face_x</span><span class="p">);</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;num_faces_after &#39;</span><span class="p">,</span> <span class="n">num_faces_before</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;deleted faces &#39;</span><span class="p">,</span> <span class="n">num_faces_before</span> <span class="o">-</span> <span class="n">num_faces_after</span><span class="p">)</span>
+<span class="n">mesh2d_orig</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">mesh2d</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pol_x</span><span class="p">,</span> <span class="n">pol_y</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">)</span>
+<span class="n">num_faces_after</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh2d</span><span class="o">.</span><span class="n">face_x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_faces_after &quot;</span><span class="p">,</span> <span class="n">num_faces_before</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;deleted faces &quot;</span><span class="p">,</span> <span class="n">num_faces_before</span> <span class="o">-</span> <span class="n">num_faces_after</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num_faces_after  1120
-deleted faces  54
+deleted faces  213
 </pre></div>
 </div>
-<img alt="../_images/4a84086a00fad3a14b5697a73f1a6bf9faafb045748fee92567e38c0c0aa2351.png" src="../_images/4a84086a00fad3a14b5697a73f1a6bf9faafb045748fee92567e38c0c0aa2351.png" />
+<img alt="../_images/231894ab0298657d2ce476f9481d1461e077661e9c24014bb1cb1c1f87a258b6.png" src="../_images/231894ab0298657d2ce476f9481d1461e077661e9c24014bb1cb1c1f87a258b6.png" />
 </div>
 </div>
 </section>

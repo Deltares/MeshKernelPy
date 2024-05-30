@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -163,6 +163,8 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.node_y"><code class="docutils literal notranslate"><span class="pre">CMesh1d.node_y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_edges"><code class="docutils literal notranslate"><span class="pre">CMesh1d.num_edges</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh1d.num_nodes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_valid_edges"><code class="docutils literal notranslate"><span class="pre">CMesh1d.num_valid_edges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.num_valid_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh1d.num_valid_nodes</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d"><code class="docutils literal notranslate"><span class="pre">CMesh2d</span></code></a><ul>
@@ -183,6 +185,8 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_face_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh2d.num_face_nodes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_faces"><code class="docutils literal notranslate"><span class="pre">CMesh2d.num_faces</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh2d.num_nodes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_valid_edges"><code class="docutils literal notranslate"><span class="pre">CMesh2d.num_valid_edges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMesh2d.num_valid_nodes"><code class="docutils literal notranslate"><span class="pre">CMesh2d.num_valid_nodes</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMeshRefinementParameters"><code class="docutils literal notranslate"><span class="pre">CMeshRefinementParameters</span></code></a><ul>
@@ -294,6 +298,7 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_flip_edges"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_flip_edges()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_edge"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_face_polygons"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_face_polygons()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_hanging_edges()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_mesh_boundaries_as_polygons()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_node_index"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_get_node_index()</span></code></a></li>
@@ -345,6 +350,7 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts.mesh1d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh1d_indices</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts.mesh2d_indices"><code class="docutils literal notranslate"><span class="pre">Contacts.mesh2d_indices</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts.plot_edges"><code class="docutils literal notranslate"><span class="pre">Contacts.plot_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Contacts.remove_invalid_values"><code class="docutils literal notranslate"><span class="pre">Contacts.remove_invalid_values()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.CurvilinearDirection"><code class="docutils literal notranslate"><span class="pre">CurvilinearDirection</span></code></a><ul>
@@ -394,7 +400,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues"><code class="docutils literal notranslate"><span class="pre">InterpolationValues</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.DOUBLE"><code class="docutils literal notranslate"><span class="pre">InterpolationValues.DOUBLE</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.FLOAT"><code class="docutils literal notranslate"><span class="pre">InterpolationValues.FLOAT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.INT"><code class="docutils literal notranslate"><span class="pre">InterpolationValues.INT</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.SHORT"><code class="docutils literal notranslate"><span class="pre">InterpolationValues.SHORT</span></code></a></li>
 </ul>
 </li>
@@ -415,6 +423,7 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d.node_y"><code class="docutils literal notranslate"><span class="pre">Mesh1d.node_y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d.edge_nodes"><code class="docutils literal notranslate"><span class="pre">Mesh1d.edge_nodes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh1d.plot_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh1d.remove_invalid_values"><code class="docutils literal notranslate"><span class="pre">Mesh1d.remove_invalid_values()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d"><code class="docutils literal notranslate"><span class="pre">Mesh2d</span></code></a><ul>
@@ -432,6 +441,7 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.almost_equal"><code class="docutils literal notranslate"><span class="pre">Mesh2d.almost_equal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.plot_edges"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_edges()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.plot_faces"><code class="docutils literal notranslate"><span class="pre">Mesh2d.plot_faces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.remove_invalid_values"><code class="docutils literal notranslate"><span class="pre">Mesh2d.remove_invalid_values()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation"><code class="docutils literal notranslate"><span class="pre">Mesh2dLocation</span></code></a><ul>
@@ -500,6 +510,7 @@
 <li class="toctree-l1"><a class="reference internal" href="meshkernel.utils.html">meshkernel.utils module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.utils.html#meshkernel.utils.get_maximum_bounding_box_coordinates"><code class="docutils literal notranslate"><span class="pre">get_maximum_bounding_box_coordinates()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.utils.html#meshkernel.utils.plot_edges"><code class="docutils literal notranslate"><span class="pre">plot_edges()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.utils.html#meshkernel.utils.to_contiguous_numpy_array"><code class="docutils literal notranslate"><span class="pre">to_contiguous_numpy_array()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshkernel.version.html">meshkernel.version module</a></li>

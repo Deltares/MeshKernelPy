@@ -17,7 +17,7 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=20623aea"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -170,6 +170,18 @@
 <li><p><strong>mesh1d</strong> (<a class="reference internal" href="#meshkernel.py_structures.Mesh1d" title="meshkernel.py_structures.Mesh1d"><em>Mesh1d</em></a>) – The mesh1d instance used to plot the contacts</p></li>
 <li><p><strong>mesh2d</strong> (<a class="reference internal" href="#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The mesh2d instance used to plot the contacts</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Contacts.remove_invalid_values">
+<span class="sig-name descname"><span class="pre">remove_invalid_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">int_invalid_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Contacts.remove_invalid_values" title="Link to this definition"></a></dt>
+<dd><p>Removes invalid values that might be present in the arrays.
+Remove the corresponding entries in the others</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>int_invalid_value</strong> – (int): The int invalid value.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -516,8 +528,18 @@ part. Default is <cite>-998.0</cite>.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
 <p>The possible types of the values to be interpolated in the gridded sample.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationValues.DOUBLE">
+<span class="sig-name descname"><span class="pre">DOUBLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#meshkernel.py_structures.InterpolationValues.DOUBLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationValues.FLOAT">
 <span class="sig-name descname"><span class="pre">FLOAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.InterpolationValues.FLOAT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationValues.INT">
+<span class="sig-name descname"><span class="pre">INT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#meshkernel.py_structures.InterpolationValues.INT" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -713,6 +735,17 @@ part. Default is <cite>-998.0</cite>.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh1d.remove_invalid_values">
+<span class="sig-name descname"><span class="pre">remove_invalid_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">float_invalid_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh1d.remove_invalid_values" title="Link to this definition"></a></dt>
+<dd><p>Removes invalid values that might be present in the arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>float_invalid_value</strong> – (float): The float invalid value.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -883,6 +916,18 @@ must be exactly equal in both meshes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The axes where to plot the faces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.py_structures.Mesh2d.remove_invalid_values">
+<span class="sig-name descname"><span class="pre">remove_invalid_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">float_invalid_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.Mesh2d.remove_invalid_values" title="Link to this definition"></a></dt>
+<dd><p>Removes invalid values that might be present in the arrays.
+Remove the corresponding entries in the others</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>float_invalid_value</strong> – (float): The float invalid value.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1193,7 +1238,7 @@ Default is <cite>1.0</cite>.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="meshkernel.py_structures.SplinesToCurvilinearParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SplinesToCurvilinearParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio_grow_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature_adapted_grid_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grow_grid_outside</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_num_faces_in_uniform_part</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_on_top_of_each_other_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cosine_crossing_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_front_collisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_skinny_triangles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SplinesToCurvilinearParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio_grow_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature_adapted_grid_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grow_grid_outside</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_num_faces_in_uniform_part</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_on_top_of_each_other_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cosine_crossing_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_front_collisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_skinny_triangles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.SplinesToCurvilinearParameters" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class holding the additional parameters required for generating a curvilinear grid from splines
 using the advancing front method.</p>
