@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
-from tests.mesh2d_factory import Mesh2dFactory
 from numpy import ndarray
 from numpy.testing import assert_array_equal
 
 from meshkernel import Contacts, DeleteMeshOption, GeometryList, Mesh1d, MeshKernel
+from tests.mesh2d_factory import Mesh2dFactory
 
 
 def sort_contacts_by_mesh2d_indices(contacts):

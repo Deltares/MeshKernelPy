@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
-from tests.mesh2d_factory import Mesh2dFactory
 from numpy.testing import assert_array_equal
 
 from meshkernel import InputError, Mesh2d
+from tests.mesh2d_factory import Mesh2dFactory
 
 
 def test_create_rectilinear_mesh_simple():

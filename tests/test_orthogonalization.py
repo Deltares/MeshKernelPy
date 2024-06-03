@@ -1,5 +1,4 @@
 import numpy as np
-from tests.mesh2d_factory import Mesh2dFactory
 from numpy.testing import assert_array_equal
 from pytest import approx
 
@@ -10,6 +9,7 @@ from meshkernel import (
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,
 )
+from tests.mesh2d_factory import Mesh2dFactory
 
 
 def test_mesh2d_compute_orthogonalization():

@@ -3,7 +3,6 @@ import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from pytest import approx
-from tests.transformation_utils import rotate, translate
 
 from meshkernel import (
     DeleteMeshOption,
@@ -19,6 +18,7 @@ from meshkernel import (
     ProjectionType,
     RefinementType,
 )
+from tests.transformation_utils import rotate, translate
 
 cases_projection_constructor = [(ProjectionType.CARTESIAN), (ProjectionType.SPHERICAL)]
 
