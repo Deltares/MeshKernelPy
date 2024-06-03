@@ -3,7 +3,7 @@ import pytest
 from numpy import ndarray
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from pytest import approx
-from transformation_utils import rotate, translate
+from tests.transformation_utils import rotate, translate
 
 from meshkernel import (
     DeleteMeshOption,

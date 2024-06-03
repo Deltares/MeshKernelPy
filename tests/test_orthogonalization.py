@@ -1,5 +1,5 @@
 import numpy as np
-from mesh2d_factory import Mesh2dFactory
+from tests.mesh2d_factory import Mesh2dFactory
 from numpy.testing import assert_array_equal
 from pytest import approx
 

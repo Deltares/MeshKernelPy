@@ -1,5 +1,5 @@
 import pytest
-from mesh2d_factory import Mesh2dFactory
+from tests.mesh2d_factory import Mesh2dFactory
 
 from meshkernel import MeshKernel
 
