@@ -277,7 +277,6 @@ setup(
     python_requires=">=3.8",
     package_data={"meshkernel": [get_library_meta().name]},
     packages=find_packages(),
-    test_suite="tests",
     ext_modules=[CMakeExtension("https://github.com/Deltares/MeshKernel")],
     cmdclass={"build_ext": build_ext, "bdist_wheel": bdist_wheel},
     version=get_version("meshkernel/version.py"),
