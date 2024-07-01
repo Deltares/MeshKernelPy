@@ -9,9 +9,15 @@ error() {
 }
 
 # add development tools
-yum -y install git make wget which bzip2 netcdf scl-utils
-yum -y install "${DEVTOOLSET}"
-scl enable "${DEVTOOLSET}" bash
+yum -y install git || error "[yum] Failed to install git"
+yum -y install make || error "[yum] Failed to install make make"
+yum -y install which || error "[yum] Failed to install which"
+yum -y install bzip2 || error "[yum] Failed to install bzip2"
+yum -y install netcdf || error "[yum] Failed to install netcdf"
+yum -y install scl-utils || error "[yum] Failed to install scl-utils"
+yum -y install "${DEVTOOLSET}" || error "[yum] Failed to install ${DEVTOOLSET}"
+
+scl enable "${DEVTOOLSET}" bash || error "[scl] Failed to enable ${DEVTOOLSET}"
 
 # enter root
 (
