@@ -9,7 +9,7 @@ error() {
 }
 
 # add development tools
-yum -y install git make wget which bzip2 netcdf centos-release-scl
+yum -y install git make wget which bzip2 netcdf scl-utils
 yum -y install "${DEVTOOLSET}"
 scl enable "${DEVTOOLSET}" bash
 
