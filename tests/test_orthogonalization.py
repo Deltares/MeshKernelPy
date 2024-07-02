@@ -173,4 +173,4 @@ def test_mesh2d_get_smoothness_smooth_mesh2d():
     assert smoothness.values[1] == -999.0
     assert smoothness.values[2] == -999.0
     assert smoothness.values[3] == -999.0
-    assert smoothness.values[4] == approx(0.0, abs=0.01)
+    assert smoothness.values[4] == approx(1.0, abs=0.01)

@@ -87,7 +87,7 @@ To test, simply run `pytest`.
 
 ## Manylinux Docker image
 
-To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux2014_x86_64.
+To deploy Linux wheels to PyPI, we provide a Docker image that is based on manylinux_2_28_x86_64.
 This image includes cmake and boost, which are necessary for compiling the native MeshKernel library (written in C++).
 To build the Docker image, use:
 

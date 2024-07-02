@@ -9,18 +9,40 @@ error() {
 }
 
 # add development tools
-yum -y install git make wget which bzip2 netcdf centos-release-scl
-yum -y install "${DEVTOOLSET}"
-scl enable "${DEVTOOLSET}" bash
+yum repolist all
+
+yum clean all
+yum makecache
+yum update
+
+dnf clean all
+dnf makecache
+dnf update
+
+# NetCDF
+dnf -y install epel-release || error "[dnf] Failed to install epel-release"
+dnf -y config-manager --set-enabled powertools || error "[dnf] Failed to enable powertools"
+dnf -y install netcdf || error "[dnf] Failed to install netcdf"
+
+# git
+yum -y install git || error "[yum] Failed to install git"
+
+# wget
+yum -y install wget || error "[yum] Failed to install wget"
+
+# devtoolset
+yum -y install "${DEVTOOLSET}" || error "[yum] Failed to install ${DEVTOOLSET}"
+scl enable "${DEVTOOLSET}" bash || error "[scl] Failed to enable ${DEVTOOLSET}"
 
 # enter root
 (
   cd /root  || error "Could not change the directory to root"
 
   # install CMake
-  CMAKE_SCRIPT=cmake-${CMAKE_VERSION}-linux-x86_64.sh
-  wget https://github.com/Kitware/CMake/releases/download/v"${CMAKE_VERSION}"/"${CMAKE_SCRIPT}" \
-    || error "[cmake] ${CMAKE_SCRIPT} download failed"
+  CMAKE_SCRIPT="cmake-${CMAKE_VERSION}-linux-x86_64.sh"
+  CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_SCRIPT}"
+  echo "${CMAKE_URL}"
+  wget "${CMAKE_URL}" || error "[cmake] ${CMAKE_SCRIPT} download failed"
   CMAKE_INSTALL_PREFIX=/opt/cmake
   mkdir ${CMAKE_INSTALL_PREFIX} || error "[cmake] Creation of ${CMAKE_INSTALL_PREFIX} failed"
   chmod +x "${CMAKE_SCRIPT}" || error "[cmake] Changing the permissions of ${CMAKE_SCRIPT} failed"
@@ -43,9 +65,9 @@ scl enable "${DEVTOOLSET}" bash
   )
   
   # install miniconda
-  MINICONDA3_SCRIPT=Miniconda3-${MINICONDA3_VERSION}-Linux-x86_64.sh
-  wget https://repo.continuum.io/miniconda/"${MINICONDA3_SCRIPT}" \
-    || error "[miniconda] ${MINICONDA3_SCRIPT} download failed"
+  MINICONDA3_SCRIPT="Miniconda3-${MINICONDA3_VERSION}-Linux-x86_64.sh"
+  MINICONDA_URL="https://repo.continuum.io/miniconda/${MINICONDA3_SCRIPT}"
+  wget  "${MINICONDA_URL}" || error "[miniconda] ${MINICONDA3_SCRIPT} download failed"
   chmod +x "${MINICONDA3_SCRIPT}" || error "[miniconda] Changing the permissions of ${MINICONDA3_SCRIPT} failed"
   bash "${MINICONDA3_SCRIPT}" -b -p /opt/conda || error '[miniconda] Installation failed'
 )
