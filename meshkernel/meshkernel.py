@@ -1501,7 +1501,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_casulli_derefinement_on_polygon,
             self._meshkernelid,
-            c_polygon,
+            byref(c_polygon),
         )
 
     def mesh2d_casulli_refinement(self) -> None:
@@ -1527,7 +1527,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_casulli_refinement_on_polygon,
             self._meshkernelid,
-            c_polygon,
+            byref(c_polygon),
         )
 
     def mesh2d_compute_orthogonalization(
