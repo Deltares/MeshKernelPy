@@ -1478,6 +1478,58 @@ class MeshKernel:
             c_double(search_radius),
         )
 
+    def mesh2d_casulli_derefinement(self) -> None:
+        """
+        De-refine the whole mesh using the Casulli algorithm
+        """
+        self._execute_function(
+            self.lib.mkernel_mesh2d_casulli_derefinement,
+            self._meshkernelid,
+        )
+
+    def mesh2d_casulli_derefinement_on_polygon(
+        self,
+        polygon: GeometryList,
+    ) -> None:
+        """
+        De-refine a mesh region using the Casulli algorithm
+
+        Args:
+            polygon (GeometryList): The input polygon.
+        """
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        self._execute_function(
+            self.lib.mkernel_mesh2d_casulli_derefinement_on_polygon,
+            self._meshkernelid,
+            c_polygon,
+        )
+
+    def mesh2d_casulli_refinement(self) -> None:
+        """
+        Refine the whole mesh using the Casulli algorithm
+        """
+        self._execute_function(
+            self.lib.mkernel_mesh2d_casulli_refinement,
+            self._meshkernelid,
+        )
+
+    def mesh2d_casulli_refinement_on_polygon(
+        self,
+        polygon: GeometryList,
+    ) -> None:
+        """
+        Refine a mesh region using the Casulli algorithm
+
+        Args:
+            polygon (GeometryList): The input polygon.
+        """
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+        self._execute_function(
+            self.lib.mkernel_mesh2d_casulli_refinement_on_polygon,
+            self._meshkernelid,
+            c_polygon,
+        )
+
     def mesh2d_compute_orthogonalization(
         self,
         project_to_land_boundary_option: ProjectToLandBoundaryOption,
