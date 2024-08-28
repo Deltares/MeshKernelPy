@@ -176,10 +176,7 @@ class MeshKernel:
         Args:
             undo_stack_size (int): The maximum size of the undo stack.
         """
-        self._execute_function(
-            self.lib.mkernel_set_undo_size,
-            undo_stack_size
-        )
+        self._execute_function(self.lib.mkernel_set_undo_size, undo_stack_size)
 
     def _deallocate_state(self) -> None:
         """
