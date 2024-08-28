@@ -100,6 +100,8 @@ class MeshKernel:
 
         self._float_invalid_value = float(invalid_value)
 
+        self._set_undo_size(0)
+
     def __del__(self):
         self._deallocate_state()
 
@@ -167,6 +169,14 @@ class MeshKernel:
             projection,
             byref(self._meshkernelid),
         )
+
+    def _set_undo_size(self, undo_stack_size: int) -> None:
+        """Sets the maximum size of the undo stack.
+
+        Args:
+            undo_stack_size (int): The maximum size of the undo stack.
+        """
+        self._execute_function(self.lib.mkernel_set_undo_size, undo_stack_size)
 
     def _deallocate_state(self) -> None:
         """
