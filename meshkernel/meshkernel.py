@@ -460,13 +460,13 @@ class MeshKernel:
         return face_polygons
 
     def mesh2d_get_filtered_face_polygons(
-        self, filter: Mesh2d.Property, min_value: float, max_value: float
+        self, property: Mesh2d.Property, min_value: float, max_value: float
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
 
         Args:
 
-            filter (Mesh2d.Property): The metric used to filter the locations
+            property (Mesh2d.Property): The property used to filter the locations
             min_value(float): The minimum value of the metric.
             max_value(float): The maximum value of the metric.
 
@@ -478,7 +478,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_filtered_face_polygons_dimension,
             self._meshkernelid,
-            c_int(filter),
+            c_int(property),
             c_double(min_value),
             c_double(max_value),
             byref(c_geometry_list_dimension),
@@ -496,7 +496,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_filtered_face_polygons,
             self._meshkernelid,
-            c_int(filter),
+            c_int(property),
             c_double(min_value),
             c_double(max_value),
             byref(c_face_polygons),
