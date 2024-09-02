@@ -122,7 +122,7 @@ class Mesh2d:
     class Property(IntEnum):
         """Different properties on a 2D mesh."""
 
-        ORTHOGONALITY = 0,
+        ORTHOGONALITY = (0,)
         EDGE_LENGTHS = 1
 
     def __init__(

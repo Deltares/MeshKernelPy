@@ -2385,7 +2385,7 @@ def test_mesh2d_get_property(
     expected_values: ndarray,
 ):
     """Test mesh2d_get_property,
-    getting the mesh2d orthogonality values
+    getting the mesh2d property values
     """
     mk = meshkernel_with_mesh2d(3, 3)
 
