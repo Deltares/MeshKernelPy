@@ -118,6 +118,12 @@ class Mesh2d:
 
     """
 
+    @unique
+    class Metric(IntEnum):
+        """Different filtering metrics on a 2D mesh."""
+
+        ORTHOGONALITY = 0
+
     def __init__(
         self,
         node_x=np.empty(0, dtype=np.double),
