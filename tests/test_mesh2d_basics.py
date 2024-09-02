@@ -2305,3 +2305,90 @@ def test_mesh2d_deletion_and_get_orthogonality(
     values = values_at_locations_functions(mk).values
     mesh2d = mk.mesh2d_get()
     assert len(values) == len(mesh2d.edge_x)
+
+
+cases_get_property = [
+    (
+        Mesh2d.Property.ORTHOGONALITY,
+        np.array(
+            [
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                -999.0,
+            ],
+            dtype=np.double,
+        ),
+    ),
+    (
+        Mesh2d.Property.EDGE_LENGTHS,
+        np.array(
+            [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+            ],
+            dtype=np.double,
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "property, expected_values",
+    cases_get_property,
+)
+def test_mesh2d_get_property(
+    meshkernel_with_mesh2d: MeshKernel,
+    property: Mesh2d.Property,
+    expected_values: ndarray,
+):
+    """Test mesh2d_get_property,
+    getting the mesh2d orthogonality values
+    """
+    mk = meshkernel_with_mesh2d(3, 3)
+
+    property_list = mk.mesh2d_get_property(property)
+
+    assert property_list.values == approx(expected_values, abs=1e-6)

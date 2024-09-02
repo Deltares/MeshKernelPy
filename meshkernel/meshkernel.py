@@ -1620,20 +1620,23 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_get_property_dimension,
             self._meshkernelid,
             c_int(property),
+            byref(c_geometry_list_dimension),
         )
 
         n_coordinates = c_geometry_list_dimension.value
         x_coordinates = np.empty(n_coordinates, dtype=np.double)
         y_coordinates = np.empty(n_coordinates, dtype=np.double)
+        values = np.empty(n_coordinates, dtype=np.double)
 
         property_list = GeometryList(
-            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
         )
         c_property_list = CGeometryList.from_geometrylist(property_list)
 
         self._execute_function(
             self.lib.mkernel_mesh2d_get_property,
             self._meshkernelid,
+            c_int(property),
             byref(c_property_list),
         )
 

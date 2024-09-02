@@ -1,13 +1,9 @@
 import numpy as np
-import pytest
-from numpy import ndarray
 
 from meshkernel import (
     GeometryList,
     MakeGridParameters,
-    Mesh2d,
-    MeshKernel,
-    MeshRefinementParameters,
+    MeshKernel
 )
 
 
