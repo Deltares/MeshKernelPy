@@ -1619,7 +1619,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_property_dimension,
             self._meshkernelid,
-            c_int(property)
+            c_int(property),
         )
 
         n_coordinates = c_geometry_list_dimension.value
@@ -1634,7 +1634,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_property,
             self._meshkernelid,
-            byref(c_property_list)
+            byref(c_property_list),
         )
 
         return property_list
