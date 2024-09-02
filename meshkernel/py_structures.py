@@ -119,8 +119,8 @@ class Mesh2d:
     """
 
     @unique
-    class Metric(IntEnum):
-        """Different filtering metrics on a 2D mesh."""
+    class Property(IntEnum):
+        """Different properties on a 2D mesh."""
 
         ORTHOGONALITY = 0
 

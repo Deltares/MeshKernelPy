@@ -460,13 +460,13 @@ class MeshKernel:
         return face_polygons
 
     def mesh2d_get_filtered_face_polygons(
-        self, filter: Mesh2d.Metric, min_value: float, max_value: float
+        self, filter: Mesh2d.Property, min_value: float, max_value: float
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
 
         Args:
 
-            filter (Mesh2d.Metric): The metric used to filter the locations
+            filter (Mesh2d.Property): The metric used to filter the locations
             min_value(float): The minimum value of the metric.
             max_value(float): The maximum value of the metric.
 

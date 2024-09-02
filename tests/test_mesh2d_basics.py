@@ -2334,7 +2334,7 @@ def test_mesh2d_get_filtered_face_polygons():
     input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
     mk.mesh2d_set(input_mesh2d)
 
-    face_polygons = mk.mesh2d_get_filtered_face_polygons(Mesh2d.Metric.ORTHOGONALITY, 0.04, 1.0)
+    face_polygons = mk.mesh2d_get_filtered_face_polygons(Mesh2d.Property.ORTHOGONALITY, 0.04, 1.0)
 
     expected_coordinates_x = np.array([57.0, 49.1, 58.9, 66.7, 57.0], dtype=np.double)
     expected_coordinates_y = np.array([23.6, 14.0, 6.9, 16.2, 23.6], dtype=np.double)
