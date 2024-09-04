@@ -13,6 +13,7 @@ from meshkernel import (
     InterpolationValues,
     MakeGridParameters,
     Mesh2d,
+    Mesh2dLocation,
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
@@ -2306,7 +2307,6 @@ def test_mesh2d_deletion_and_get_orthogonality(
     mesh2d = mk.mesh2d_get()
     assert len(values) == len(mesh2d.edge_x)
 
-
 cases_get_property = [
     (
         Mesh2d.Property.ORTHOGONALITY,
@@ -2392,3 +2392,30 @@ def test_mesh2d_get_property(
     property_list = mk.mesh2d_get_property(property)
 
     assert property_list.values == approx(expected_values, abs=1e-6)
+
+def test_mesh2d_get_filtered_face_polygons():
+    """Test mesh2d_get_filtered_face_polygons,
+    getting the polygons of faces with all edges having bad orthogonality values
+    """
+    mk = MeshKernel()
+
+    edge_nodes = np.array(
+        [0, 1, 1, 2, 2, 3, 0, 3, 1, 4, 0, 4, 0, 5, 3, 5, 3, 6, 2, 6, 2, 7, 1, 7],
+        dtype=np.int32,
+    )
+
+    node_x = np.array([57.0, 49.1, 58.9, 66.7, 48.8, 65.9, 67.0, 49.1], dtype=np.double)
+    node_y = np.array([23.6, 14.0, 6.9, 16.2, 23.4, 24.0, 7.2, 6.7], dtype=np.double)
+
+    input_mesh2d = Mesh2d(node_x, node_y, edge_nodes)
+    mk.mesh2d_set(input_mesh2d)
+
+    face_polygons = mk.mesh2d_get_filtered_face_polygons(
+        Mesh2d.Property.ORTHOGONALITY, 0.04, 1.0
+    )
+
+    expected_coordinates_x = np.array([57.0, 49.1, 58.9, 66.7, 57.0], dtype=np.double)
+    expected_coordinates_y = np.array([23.6, 14.0, 6.9, 16.2, 23.6], dtype=np.double)
+
+    assert face_polygons.x_coordinates == approx(expected_coordinates_x, abs=1e-6)
+    assert face_polygons.y_coordinates == approx(expected_coordinates_y, abs=1e-6)
