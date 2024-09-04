@@ -123,6 +123,7 @@ class Mesh2d:
         """Different properties on a 2D mesh."""
 
         ORTHOGONALITY = 0
+        EDGE_LENGTHS = 1
 
     def __init__(
         self,

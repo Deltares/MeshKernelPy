@@ -446,16 +446,16 @@ cases_mesh2d_delete_small_polygon = [
     (
         True,
         DeleteMeshOption.INSIDE_NOT_INTERSECTED,
-        4,
-        4,
-        1,
+        16,
+        24,
+        9,
     ),
     (
         True,
         DeleteMeshOption.INSIDE_AND_INTERSECTED,
-        16,
-        24,
-        9,
+        4,
+        4,
+        1,
     ),
     (
         False,
@@ -2306,6 +2306,93 @@ def test_mesh2d_deletion_and_get_orthogonality(
     values = values_at_locations_functions(mk).values
     mesh2d = mk.mesh2d_get()
     assert len(values) == len(mesh2d.edge_x)
+
+
+cases_get_property = [
+    (
+        Mesh2d.Property.ORTHOGONALITY,
+        np.array(
+            [
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                -999.0,
+                -999.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -999.0,
+                -999.0,
+                -999.0,
+            ],
+            dtype=np.double,
+        ),
+    ),
+    (
+        Mesh2d.Property.EDGE_LENGTHS,
+        np.array(
+            [
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                100.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+                50.0,
+            ],
+            dtype=np.double,
+        ),
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "property, expected_values",
+    cases_get_property,
+)
+def test_mesh2d_get_property(
+    meshkernel_with_mesh2d: MeshKernel,
+    property: Mesh2d.Property,
+    expected_values: ndarray,
+):
+    """Test mesh2d_get_property,
+    getting the mesh2d property values
+    """
+    mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
+
+    property_list = mk.mesh2d_get_property(property)
+
+    assert property_list.values == approx(expected_values, abs=1e-6)
 
 
 def test_mesh2d_get_filtered_face_polygons():

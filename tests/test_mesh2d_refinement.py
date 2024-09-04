@@ -1,14 +1,6 @@
 import numpy as np
-import pytest
-from numpy import ndarray
 
-from meshkernel import (
-    GeometryList,
-    MakeGridParameters,
-    Mesh2d,
-    MeshKernel,
-    MeshRefinementParameters,
-)
+from meshkernel import GeometryList, MakeGridParameters, MeshKernel
 
 
 def test_mesh2d_casulli_refinement():
