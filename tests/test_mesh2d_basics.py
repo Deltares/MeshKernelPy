@@ -2307,6 +2307,7 @@ def test_mesh2d_deletion_and_get_orthogonality(
     mesh2d = mk.mesh2d_get()
     assert len(values) == len(mesh2d.edge_x)
 
+
 cases_get_property = [
     (
         Mesh2d.Property.ORTHOGONALITY,
@@ -2392,6 +2393,7 @@ def test_mesh2d_get_property(
     property_list = mk.mesh2d_get_property(property)
 
     assert property_list.values == approx(expected_values, abs=1e-6)
+
 
 def test_mesh2d_get_filtered_face_polygons():
     """Test mesh2d_get_filtered_face_polygons,
