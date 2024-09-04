@@ -1,10 +1,6 @@
 import numpy as np
 
-from meshkernel import (
-    GeometryList,
-    MakeGridParameters,
-    MeshKernel
-)
+from meshkernel import GeometryList, MakeGridParameters, MeshKernel
 
 
 def test_mesh2d_casulli_refinement():
