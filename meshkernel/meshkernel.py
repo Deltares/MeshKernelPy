@@ -459,6 +459,51 @@ class MeshKernel:
 
         return face_polygons
 
+    def mesh2d_get_filtered_face_polygons(
+        self, property: Mesh2d.Property, min_value: float, max_value: float
+    ) -> GeometryList:
+        """Gets the polygons matching the metric value within the minimum and maximum value.
+
+        Args:
+
+            property (Mesh2d.Property): The property used to filter the locations
+            min_value(float): The minimum value of the metric.
+            max_value(float): The maximum value of the metric.
+
+        Returns:
+            GeometryList: The resulting face polygons
+        """
+        c_geometry_list_dimension = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_filtered_face_polygons_dimension,
+            self._meshkernelid,
+            c_int(property),
+            c_double(min_value),
+            c_double(max_value),
+            byref(c_geometry_list_dimension),
+        )
+
+        n_coordinates = c_geometry_list_dimension.value
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+
+        face_polygons = GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+        )
+        c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_filtered_face_polygons,
+            self._meshkernelid,
+            c_int(property),
+            c_double(min_value),
+            c_double(max_value),
+            byref(c_face_polygons),
+        )
+
+        return face_polygons
+
     def mesh2d_get_node_index(self, x: float, y: float, search_radius: float) -> int:
         """Finds the node closest to a point within a given search radius.
 
