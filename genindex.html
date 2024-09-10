@@ -352,6 +352,8 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.edge_faces">(Mesh2d attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property.EDGE_LENGTHS">EDGE_LENGTHS (Mesh2d.Property attribute)</a>
+</li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.edge_nodes">edge_nodes (CMesh1d attribute)</a>
 
       <ul>
@@ -570,9 +572,19 @@
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d">Mesh2d (class in meshkernel.py_structures)</a>
 </li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property">Mesh2d.Property (class in meshkernel.py_structures)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_add">mesh2d_add() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_averaging_interpolation">mesh2d_averaging_interpolation() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement">mesh2d_casulli_derefinement() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement_on_polygon">mesh2d_casulli_derefinement_on_polygon() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement">mesh2d_casulli_refinement() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement_on_polygon">mesh2d_casulli_refinement_on_polygon() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization">mesh2d_compute_orthogonalization() (MeshKernel method)</a>
 </li>
@@ -598,6 +610,8 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_face_polygons">mesh2d_get_face_polygons() (MeshKernel method)</a>
 </li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_filtered_face_polygons">mesh2d_get_filtered_face_polygons() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges">mesh2d_get_hanging_edges() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons">mesh2d_get_mesh_boundaries_as_polygons() (MeshKernel method)</a>
@@ -609,6 +623,8 @@
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_obtuse_triangles_mass_centers">mesh2d_get_obtuse_triangles_mass_centers() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_orthogonality">mesh2d_get_orthogonality() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_property">mesh2d_get_property() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_get_small_flow_edge_centers">mesh2d_get_small_flow_edge_centers() (MeshKernel method)</a>
 </li>
@@ -626,6 +642,8 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_global">mesh2d_make_global() (MeshKernel method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh">mesh2d_make_rectangular_mesh() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon">mesh2d_make_rectangular_mesh_from_polygon() (MeshKernel method)</a>
@@ -634,8 +652,6 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon">mesh2d_make_triangular_mesh_from_polygon() (MeshKernel method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples">mesh2d_make_triangular_mesh_from_samples() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes">mesh2d_merge_nodes() (MeshKernel method)</a>
@@ -906,6 +922,8 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters.origin_y">(MakeGridParameters attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property.ORTHOGONALITY">ORTHOGONALITY (Mesh2d.Property attribute)</a>
+</li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.COrthogonalizationParameters.orthogonalization_to_smoothing_factor">orthogonalization_to_smoothing_factor (COrthogonalizationParameters attribute)</a>
 
       <ul>

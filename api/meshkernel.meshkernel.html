@@ -748,6 +748,40 @@ a valid interpolation.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement">
+<span class="sig-name descname"><span class="pre">mesh2d_casulli_derefinement</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement" title="Link to this definition"></a></dt>
+<dd><p>De-refine the whole mesh using the Casulli algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement_on_polygon">
+<span class="sig-name descname"><span class="pre">mesh2d_casulli_derefinement_on_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_derefinement_on_polygon" title="Link to this definition"></a></dt>
+<dd><p>De-refine a mesh region using the Casulli algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement">
+<span class="sig-name descname"><span class="pre">mesh2d_casulli_refinement</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement" title="Link to this definition"></a></dt>
+<dd><p>Refine the whole mesh using the Casulli algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement_on_polygon">
+<span class="sig-name descname"><span class="pre">mesh2d_casulli_refinement_on_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_casulli_refinement_on_polygon" title="Link to this definition"></a></dt>
+<dd><p>Refine a mesh region using the Casulli algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The input polygon.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization">
 <span class="sig-name descname"><span class="pre">mesh2d_compute_orthogonalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_to_land_boundary_option:</span> <span class="pre">~meshkernel.py_structures.ProjectToLandBoundaryOption</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters:</span> <span class="pre">~meshkernel.py_structures.OrthogonalizationParameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_boundaries:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecting_polygon:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span> <span class="pre">=</span> <span class="pre">&lt;meshkernel.py_structures.GeometryList</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_compute_orthogonalization" title="Link to this definition"></a></dt>
 <dd><p>Orthogonalizes the Mesh2d.
@@ -935,6 +969,27 @@ shape and wildly varying areas.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_filtered_face_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_get_filtered_face_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property" title="meshkernel.py_structures.Mesh2d.Property"><span class="pre">Property</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_filtered_face_polygons" title="Link to this definition"></a></dt>
+<dd><p>Gets the polygons matching the metric value within the minimum and maximum value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property" title="meshkernel.py_structures.Mesh2d.Property"><em>Mesh2d.Property</em></a>) – The property used to filter the locations</p></li>
+<li><p><strong>min_value</strong> (<em>float</em>) – The minimum value of the metric.</p></li>
+<li><p><strong>max_value</strong> (<em>float</em>) – The maximum value of the metric.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting face polygons</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges">
 <span class="sig-name descname"><span class="pre">mesh2d_get_hanging_edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_hanging_edges" title="Link to this definition"></a></dt>
 <dd><p>Gets the indices of hanging edges. A hanging edge is an edge where one of the two nodes is not connected.</p>
@@ -1031,6 +1086,23 @@ the segments connecting the face circumcenters.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_property">
+<span class="sig-name descname"><span class="pre">mesh2d_get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property" title="meshkernel.py_structures.Mesh2d.Property"><span class="pre">Property</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_property" title="Link to this definition"></a></dt>
+<dd><p>Gets the polygons matching the metric value within the minimum and maximum value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>property</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property" title="meshkernel.py_structures.Mesh2d.Property"><em>Mesh2d.Property</em></a>) – The property to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting geometry list containing the value of the properties</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
 </dd>
 </dl>
 </dd></dl>
