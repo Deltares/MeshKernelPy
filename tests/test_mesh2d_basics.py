@@ -446,16 +446,16 @@ cases_mesh2d_delete_small_polygon = [
     (
         True,
         DeleteMeshOption.INSIDE_NOT_INTERSECTED,
-        16,
-        24,
-        9,
+        4,
+        4,
+        1,
     ),
     (
         True,
         DeleteMeshOption.INSIDE_AND_INTERSECTED,
-        4,
-        4,
-        1,
+        16,
+        24,
+        9,
     ),
     (
         False,
