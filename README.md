@@ -1,7 +1,9 @@
 # MeshKernelPy
 
+[![PyPI version](https://img.shields.io/pypi/v/meshkernel.svg)](https://pypi.python.org/pypi/meshkernel)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Deltares_MeshKernelPy&metric=alert_status)](https://sonarcloud.io/dashboard?id=Deltares_MeshKernelPy)
-[![PyPI version](https://badge.fury.io/py/meshkernel.svg)](https://badge.fury.io/py/meshkernel)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Deltares_MeshKernelPy&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Deltares_MeshKernelPy)
+[![Downloads](https://img.shields.io/pypi/dm/meshkernel.svg)](https://pypistats.org/packages/meshkernel)
 
 `MeshKernelPy` is a library for creating and editing meshes.
 It supports 1D and 2D unstructured meshes.
