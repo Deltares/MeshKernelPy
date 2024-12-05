@@ -3,10 +3,8 @@
 DOCKER_CONDA_ENV="docker_conda_env"
 
 # set default channel
-conda config --show channels
 conda config --add channels conda-forge
 conda config --remove channels defaults
-conda config --show channels
 
 # create conda env and activate it
 conda create -y --force -n "${DOCKER_CONDA_ENV}" python="${PYTHON_VERSION}" pip
