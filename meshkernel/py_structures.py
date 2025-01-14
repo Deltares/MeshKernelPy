@@ -57,7 +57,6 @@ class Mesh2dLocation(IntEnum):
     NODES = 1
     EDGES = 2
 
-
 @unique
 class AveragingMethod(IntEnum):
     """The averaging methods."""
@@ -99,6 +98,12 @@ class InterpolationValues(IntEnum):
     INT = 2
     DOUBLE = 3
 
+@unique
+class InterpolationType(IntEnum):
+    """The Mesh2d location types."""
+
+    TRIANGULATION = 0
+    AVERAGING = 1
 
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data.

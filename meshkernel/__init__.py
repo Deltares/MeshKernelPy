@@ -11,6 +11,7 @@ from meshkernel.py_structures import (
     GeometryList,
     GriddedSamples,
     InterpolationValues,
+    InterpolationType,
     MakeGridParameters,
     Mesh1d,
     Mesh2d,
