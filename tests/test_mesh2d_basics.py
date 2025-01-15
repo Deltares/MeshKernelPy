@@ -10,8 +10,8 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
-    InterpolationValues,
     InterpolationType,
+    InterpolationValues,
     MakeGridParameters,
     Mesh2d,
     Mesh2dLocation,
@@ -2427,13 +2427,12 @@ def test_mesh2d_get_filtered_face_polygons():
 
 
 def test_mesh2d_casulli_refinement_based_on_depths():
-    """Test test_mesh2d_casulli_refinement_based_on_depths on spherical projection
-    """
+    """Test test_mesh2d_casulli_refinement_based_on_depths on spherical projection"""
     mk = MeshKernel(ProjectionType.CARTESIAN)
 
     x_start, x_end = 0, 10000
     y_min, y_max = 0, 10000
-    num_samples = 100 # Number of samples in each direction
+    num_samples = 100  # Number of samples in each direction
 
     makeGridParameters = MakeGridParameters()
     makeGridParameters.origin_x = x_start
@@ -2447,30 +2446,34 @@ def test_mesh2d_casulli_refinement_based_on_depths():
 
     mesh2d_not_refined = mk.mesh2d_get()
 
-    x_grid, y_grid = np.meshgrid(np.linspace(x_start, x_end, num_samples),
-                                     np.linspace(y_min, y_max, num_samples))
-    values = np.array(np.interp(x_grid, [x_start, x_end], [-10.0, 5.0]), dtype=np.double)
+    x_grid, y_grid = np.meshgrid(
+        np.linspace(x_start, x_end, num_samples), np.linspace(y_min, y_max, num_samples)
+    )
+    values = np.array(
+        np.interp(x_grid, [x_start, x_end], [-10.0, 5.0]), dtype=np.double
+    )
 
-    x_coordinates= np.array(x_grid.flatten(), dtype=np.double)
+    x_coordinates = np.array(x_grid.flatten(), dtype=np.double)
     y_coordinates = np.array(y_grid.flatten(), dtype=np.double)
     values = np.array(values.flatten(), dtype=np.double)
 
-    samples = GeometryList(x_coordinates=x_coordinates,
-                           y_coordinates=y_coordinates,
-                           values=values)
-    property_id = mk.mkernel_set_property(ProjectionType.CARTESIAN,
-                                          InterpolationType.AVERAGING,
-                                          samples)
+    samples = GeometryList(
+        x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+    )
+    property_id = mk.mkernel_set_property(
+        ProjectionType.CARTESIAN, InterpolationType.AVERAGING, samples
+    )
 
-    polygons = GeometryList(x_coordinates=np.empty(0, dtype=np.double),
-                            y_coordinates=np.empty(0, dtype=np.double))
+    polygons = GeometryList(
+        x_coordinates=np.empty(0, dtype=np.double),
+        y_coordinates=np.empty(0, dtype=np.double),
+    )
 
     meshRefinementParameters = MeshRefinementParameters()
     minimumRefinementDepth = 0.0
-    mk.mkernel_mesh2d_casulli_refinement_based_on_depths(polygons,
-                                                         property_id,
-                                                         meshRefinementParameters,
-                                                         minimumRefinementDepth)
+    mk.mkernel_mesh2d_casulli_refinement_based_on_depths(
+        polygons, property_id, meshRefinementParameters, minimumRefinementDepth
+    )
     mk.mkernel_delete_property(property_id)
     mesh2d_refined = mk.mesh2d_get()
 
