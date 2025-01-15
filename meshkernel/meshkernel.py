@@ -1629,11 +1629,11 @@ class MeshKernel:
 
         return propertyId.value
 
-    def mkernel_mesh2d_casulli_refinement_wrt_depths(self,
-                                                     polygons: GeometryList,
-                                                     propertyId: int,
-                                                     meshRefinementParameters: MeshRefinementParameters,
-                                                     minimumRefinementDepth: float ) -> None:
+    def mkernel_mesh2d_casulli_refinement_based_on_depths(self,
+                                                          polygons: GeometryList,
+                                                          propertyId: int,
+                                                          meshRefinementParameters: MeshRefinementParameters,
+                                                          minimumRefinementDepth: float ) -> None:
 
         """
         Refine mesh using the Casulli refinement algorithm based on the depth values.
@@ -1646,13 +1646,14 @@ class MeshKernel:
         """
 
         c_polygons = CGeometryList.from_geometrylist(polygons)
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(meshRefinementParameters)
         self._execute_function(
             self.lib.mkernel_mesh2d_casulli_refinement_wrt_depths,
             self._meshkernelid,
             byref(c_polygons),
             c_int(propertyId),
-            byref(meshRefinementParameters),
-            float(minimumRefinementDepth))
+            byref(c_refinement_params),
+            c_double(minimumRefinementDepth))
 
 
     def mesh2d_compute_orthogonalization(
