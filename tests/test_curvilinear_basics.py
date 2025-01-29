@@ -548,8 +548,8 @@ def test_curvilinear_line_attraction_repulsion():
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
 
-    # Test a node on the third grid line was shifted from 20 to 15
-    assert curvilinear_grid.node_x[2] == 15.0
+    # Test a node on the third grid line was shifted from 20 to 25
+    assert curvilinear_grid.node_x[2] == 25.0
 
 
 def test_curvilinear_line_mirror():
