@@ -1649,10 +1649,11 @@ class MeshKernel:
         return geometry_list_out
 
     def mesh2d_get_property(
-        self, mesh2dLocation: Mesh2dLocation, property: Mesh2d.Property
+        self, mesh2d_location: Mesh2dLocation, property: Mesh2d.Property
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
         Args:
+            mesh2d_location (Mesh2dLocation): Location of the property
             property (Mesh2d.Property): The property to retrieve
         Returns:
             GeometryList: The resulting geometry list containing the value of the properties
@@ -1676,7 +1677,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_get_property,
             self._meshkernelid,
             c_int(property),
-            c_int(mesh2dLocation.value),
+            c_int(mesh2d_location.value),
             byref(c_property_list),
         )
 
