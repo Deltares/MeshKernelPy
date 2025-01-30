@@ -660,8 +660,8 @@ def test_mesh2d_make_global():
     mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
     mesh2d = mk.mesh2d_get()
 
-    assert mesh2d.edge_x.size == 1233
-    assert mesh2d.node_x.size == 629
+    assert mesh2d.edge_x.size == 1225
+    assert mesh2d.node_x.size == 621
 
 
 def test_mesh2d_make_global_with_cartesian_coordinates_should_throw():
@@ -2311,6 +2311,7 @@ def test_mesh2d_deletion_and_get_orthogonality(
 cases_get_property = [
     (
         Mesh2d.Property.ORTHOGONALITY,
+        Mesh2dLocation.EDGES,
         np.array(
             [
                 -999.0,
@@ -2343,6 +2344,7 @@ cases_get_property = [
     ),
     (
         Mesh2d.Property.EDGE_LENGTHS,
+        Mesh2dLocation.EDGES,
         np.array(
             [
                 100.0,
@@ -2377,12 +2379,13 @@ cases_get_property = [
 
 
 @pytest.mark.parametrize(
-    "property, expected_values",
+    "property, location, expected_values",
     cases_get_property,
 )
 def test_mesh2d_get_property(
     meshkernel_with_mesh2d: MeshKernel,
     property: Mesh2d.Property,
+    location: Mesh2dLocation,
     expected_values: ndarray,
 ):
     """Test mesh2d_get_property,
@@ -2390,7 +2393,7 @@ def test_mesh2d_get_property(
     """
     mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
 
-    property_list = mk.mesh2d_get_property(property)
+    property_list = mk.mesh2d_get_property(location, property)
 
     assert property_list.values == approx(expected_values, abs=1e-6)
 
