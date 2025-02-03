@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mesh2d refinement based on Gebco gridded samples with variable depth precision &mdash; MeshKernelPy 2.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
 
@@ -99,9 +99,9 @@
 <p>Import necessary libraries, close all figures</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">meshkernel</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">meshkernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 </pre></div>
@@ -158,7 +158,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ugrid_installed</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">if</span> <span class="n">ugrid_installed</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">ugrid</span> <span class="kn">import</span> <span class="n">UGrid</span><span class="p">,</span> <span class="n">UGridMesh2D</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ugrid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UGrid</span><span class="p">,</span> <span class="n">UGridMesh2D</span>
 
     <span class="n">mesh2d_ugrid</span> <span class="o">=</span> <span class="n">UGrid</span><span class="o">.</span><span class="n">from_meshkernel_mesh2d_to_ugrid_mesh2d</span><span class="p">(</span>
         <span class="n">mesh2d</span><span class="o">=</span><span class="n">mesh2d</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mesh2d&quot;</span><span class="p">,</span> <span class="n">is_spherical</span><span class="o">=</span><span class="kc">True</span>
@@ -205,7 +205,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select and plot bathy</span>
 <span class="n">uniform_grid_spacing</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_grid_spacing</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
     <span class="n">file_nc_bathy</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;p:\metocean-data\open\GEBCO\2021\GEBCO_2021.nc&quot;</span>
     <span class="n">data_bathy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_nc_bathy</span><span class="p">)</span>
@@ -224,7 +224,7 @@
 <p>Otherwise, read from ascii, assuming uniform spacing</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_asc_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_asc_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads asc file and returns headers and data as numpy array</span>
 <span class="sd">    Args:</span>
 <span class="sd">            file_path (str): The file path</span>
