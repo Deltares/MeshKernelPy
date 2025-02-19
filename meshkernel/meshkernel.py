@@ -4,6 +4,7 @@ import platform
 from ctypes import (
     CDLL,
     byref,
+    c_bool,
     c_char_p,
     c_double,
     c_int,
@@ -2254,13 +2255,22 @@ class MeshKernel:
             c_int(third_node),
         )
 
-    def curvilinear_initialize_orthogonalize(
-        self, orthogonalization_parameters: OrthogonalizationParameters
+    def curvilinear_orthogonalize(
+        self,
+            orthogonalization_parameters: OrthogonalizationParameters,
+            x_lower_left_corner: float,
+            y_lower_left_corner: float,
+            x_upper_right_corner: float,
+            y_upper_right_corner: float
     ) -> None:
-        """Initializes the algorithm for performing curvilinear grid orthogonalization.
+        """
+        Orthogonalizes a specified block within a curvilinear grid.
 
         Args:
-            orthogonalization_parameters (OrthogonalizationParameters): The input orthogonalization parameters.
+            x_lower_left_corner (float): X-coordinate of the block's lower-left corner.
+            y_lower_left_corner (float): Y-coordinate of the block's lower-left corner.
+            x_upper_right_corner (float): X-coordinate of the block's upper-right corner.
+            y_upper_right_corner (float): Y-coordinate of the block's upper-right corner.
         """
 
         c_orthogonalization_parameters = (
@@ -2270,69 +2280,84 @@ class MeshKernel:
         )
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_initialize_orthogonalize,
+            self.lib.mkernel_curvilinear_orthogonalize,
             self._meshkernelid,
             byref(c_orthogonalization_parameters),
-        )
-
-    def curvilinear_set_block_orthogonalize(
-        self,
-        x_lower_left_corner: float,
-        y_lower_left_corner: float,
-        x_upper_right_corner: float,
-        y_upper_right_corner: float,
-    ) -> None:
-        """Defines a block on the curvilinear grid where to perform orthogonalization
-
-        Args:
-            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to orthogonalize.
-            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to orthogonalize.
-            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to orthogonalize.
-            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to orthogonalize.
-        """
-
-        self._execute_function(
-            self.lib.mkernel_curvilinear_set_block_orthogonalize,
-            self._meshkernelid,
             c_double(x_lower_left_corner),
             c_double(y_lower_left_corner),
             c_double(x_upper_right_corner),
-            c_double(y_upper_right_corner),
+            c_double(y_upper_right_corner)
         )
 
-    def curvilinear_set_frozen_lines_orthogonalize(
-        self,
-        x_first_gridline_node: float,
-        y_first_gridline_node: float,
-        x_second_gridline_node: float,
-        y_second_gridline_node: float,
-    ) -> None:
-        """Freezes a curvilinear grid line during the orthogonalization process
+    def curvilinear_frozen_line_is_valid(self, frozenLineId: int) -> bool:
+        """Checks if a frozen line in a curvilinear grid is valid.
 
         Args:
-            x_first_gridline_node (float): The x coordinate of the first point of the line to freeze.
-            y_first_gridline_node (float): The y coordinate of the first point of the line to freeze.
-            x_second_gridline_node (float): The x coordinate of the second point of the line to freeze.
-            y_second_gridline_node (float): The y coordinate of the second point of the line to freeze.
+            frozenLineId (int): The identifier of the frozen line to validate.
+
+        Returns:
+            bool: True if the frozen line is valid, False otherwise.
+        """
+        isValid = c_bool()
+        self._execute_function(
+            self.lib.mkernel_curvilinear_frozen_line_is_valid,
+            self._meshkernelid,
+            c_int(frozenLineId),
+            byref(isValid)
+        )
+        return isValid.value  # Extract the boolean value
+
+    def curvilinear_frozen_line_delete(self, frozenLineId: int) -> int:
+        """Deletes a frozen line in a curvilinear grid.
+
+        Args:
+            frozenLineId (int): The identifier of the frozen line to delete.
         """
 
         self._execute_function(
-            self.lib.mkernel_curvilinear_set_frozen_lines_orthogonalize,
+            self.lib.mkernel_curvilinear_frozen_line_delete,
             self._meshkernelid,
-            c_double(x_first_gridline_node),
-            c_double(y_first_gridline_node),
-            c_double(x_second_gridline_node),
-            c_double(y_second_gridline_node),
+            c_int(frozenLineId)
         )
 
-    def curvilinear_orthogonalize(self) -> None:
-        """Performs curvilinear grid orthogonalization and finalizes the algorithm"""
+    def curvilinear_frozen_line_add(self, xFirstGridLineNode: float,
+                                            yFirstGridLineNode: float,
+                                            xSecondGridLineNode: float,
+                                            ySecondGridLineNode: float) -> int:
+        """Adds a frozen line to a curvilinear grid.
+
+        Args:
+            xFirstGridLineNode (float): X-coordinate of the first grid line node.
+            yFirstGridLineNode (float): Y-coordinate of the first grid line node.
+            xSecondGridLineNode (float): X-coordinate of the second grid line node.
+            ySecondGridLineNode (float): Y-coordinate of the second grid line node.
+
+        Returns:
+            int: Status code indicating success (0) or failure (non-zero) of the operation.
+                 The frozen line ID is returned through `frozenLineId` argument.
+        """
+        frozenLineId = c_int()
         self._execute_function(
-            self.lib.mkernel_curvilinear_orthogonalize, self._meshkernelid
+            self.lib.mkernel_curvilinear_frozen_line_add,
+            self._meshkernelid,
+            c_double(xFirstGridLineNode),
+            c_double(yFirstGridLineNode),
+            c_double(xSecondGridLineNode),
+            c_double(ySecondGridLineNode),
+            byref(frozenLineId),
         )
-        self._execute_function(
-            self.lib.mkernel_curvilinear_finalize_orthogonalize, self._meshkernelid
-        )
+
+        return frozenLineId.value
+
+    def mkernel_curvilinear_frozen_line_get(self):
+        pass
+
+    def mkernel_curvilinear_frozen_lines_get_count(self):
+        pass
+
+    def mkernel_curvilinear_frozen_lines_get_ids(self):
+        pass
+
 
     def curvilinear_smoothing(
         self,

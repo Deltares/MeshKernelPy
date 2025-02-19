@@ -372,14 +372,14 @@ def test_curvilinear_grid_orthogonalization():
     orthogonalization_parameters.inner_iterations = 25
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
+    # Orthogonalizes a curvilinear grid
+    mk.curvilinear_orthogonalize(orthogonalization_parameters,
+                                 0.0,
+                                 0.0,
+                                 30.0,
+                                 30.0)
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 30.0, 30.0)
-
-    # Performs orthogonalization
-    mk.curvilinear_orthogonalize()
+    # Get the new curvilinear grid
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Assert nodal position after orthogonalization is closer to 10.0, 20.0
@@ -399,17 +399,15 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     orthogonalization_parameters.inner_iterations = 25
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
-
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 30.0, 30.0)
-
-    # Freeze the vertical grid line where the moved node is
+    # Add frozen lines
     mk.curvilinear_set_frozen_lines_orthogonalize(10.0, 0.0, 10.0, 30.0)
 
     # Performs orthogonalization
-    mk.curvilinear_orthogonalize()
+    mk.curvilinear_orthogonalize(orthogonalization_parameters,
+                                 10.0,
+                                 0.0,
+                                 10.0,
+                                 30.0)
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
