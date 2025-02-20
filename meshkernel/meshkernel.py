@@ -2339,7 +2339,7 @@ class MeshKernel:
             y_second_grid_line_node (float): Y-coordinate of the second grid line node.
         Returns: The id of the added frozen line in the meshkernel state
         """
-        frozen_line_id = c_int
+        frozen_line_id = c_int()
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_add,
             self._meshkernelid,
