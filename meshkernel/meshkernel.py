@@ -2393,8 +2393,6 @@ class MeshKernel:
             np.ndarray: A NumPy array of frozen line IDs.
         """
 
-        # count the numer of frozen lines
-
         num_forzen_lines = c_int()
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_lines_get_count,
