@@ -2289,11 +2289,11 @@ class MeshKernel:
             c_double(y_upper_right_corner),
         )
 
-    def curvilinear_frozen_line_is_valid(self, frozenLineId: int) -> bool:
+    def curvilinear_frozen_line_is_valid(self, frozen_line_id: int) -> bool:
         """Checks if a frozen line in a curvilinear grid is valid.
 
         Args:
-            frozenLineId (int): The identifier of the frozen line to validate.
+            frozen_line_id (int): The identifier of the frozen line to validate.
 
         Returns:
             bool: True if the frozen line is valid, False otherwise.
@@ -2302,59 +2302,59 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_is_valid,
             self._meshkernelid,
-            c_int(frozenLineId),
+            c_int(frozen_line_id),
             byref(isValid),
         )
         return isValid.value  # Extract the boolean value
 
-    def curvilinear_frozen_line_delete(self, frozenLineId: int) -> int:
+    def curvilinear_frozen_line_delete(self, frozen_line_id: int) -> int:
         """Deletes a frozen line in a curvilinear grid.
 
         Args:
-            frozenLineId (int): The identifier of the frozen line to delete.
+            frozen_line_id (int): The identifier of the frozen line to delete.
         """
 
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_delete,
             self._meshkernelid,
-            c_int(frozenLineId),
+            c_int(frozen_line_id),
         )
 
     def curvilinear_frozen_line_add(
         self,
-        xFirstGridLineNode: float,
-        yFirstGridLineNode: float,
-        xSecondGridLineNode: float,
-        ySecondGridLineNode: float,
+        x_first_grid_line_node: float,
+        y_first_grid_line_node: float,
+        x_second_grid_line_node: float,
+        y_second_grid_line_node: float,
     ):
         """Adds a frozen line to a curvilinear grid.
 
         Args:
-            xFirstGridLineNode (float): X-coordinate of the first grid line node.
-            yFirstGridLineNode (float): Y-coordinate of the first grid line node.
-            xSecondGridLineNode (float): X-coordinate of the second grid line node.
-            ySecondGridLineNode (float): Y-coordinate of the second grid line node.
+            x_first_grid_line_node (float): X-coordinate of the first grid line node.
+            y_first_grid_line_node (float): Y-coordinate of the first grid line node.
+            x_second_grid_line_node (float): X-coordinate of the second grid line node.
+            y_second_grid_line_node (float): Y-coordinate of the second grid line node.
         """
-        frozenLineId = c_int()
+        frozen_line_id = c_int()
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_add,
             self._meshkernelid,
-            c_double(xFirstGridLineNode),
-            c_double(yFirstGridLineNode),
-            c_double(xSecondGridLineNode),
-            c_double(ySecondGridLineNode),
-            byref(frozenLineId),
+            c_double(x_first_grid_line_node),
+            c_double(y_first_grid_line_node),
+            c_double(x_second_grid_line_node),
+            c_double(y_second_grid_line_node),
+            byref(frozen_line_id),
         )
 
-        return frozenLineId.value
+        return frozen_line_id.value
 
     def mkernel_curvilinear_frozen_line_get(
-        self, frozenLineId: int
+        self, frozen_line_id: int
     ) -> tuple[float, float, float, float]:
         """Retrieves the coordinates of a frozen line in a curvilinear grid.
 
         Args:
-            frozenLineId (int): The identifier of the frozen line to retrieve.
+            frozen_line_id (int): The identifier of the frozen line to retrieve.
 
         Returns:
             tuple: A tuple containing:
@@ -2364,26 +2364,26 @@ class MeshKernel:
                 - ySecondFrozenLineCoordinate (float): Y-coordinate of the second frozen line node.
         """
 
-        xFirstFrozenLineCoordinate = c_double()
-        yFirstFrozenLineCoordinate = c_double()
-        xSecondFrozenLineCoordinate = c_double()
-        ySecondFrozenLineCoordinate = c_double()
+        x_first_frozen_line_coordinate = c_double()
+        y_first_frozen_line_coordinate = c_double()
+        x_second_frozen_line_coordinate = c_double()
+        y_second_frozen_line_coordinate = c_double()
 
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_get,
             self._meshkernelid,
-            c_int(frozenLineId),
-            byref(xFirstFrozenLineCoordinate),
-            byref(yFirstFrozenLineCoordinate),
-            byref(xSecondFrozenLineCoordinate),
-            byref(ySecondFrozenLineCoordinate),
+            c_int(frozen_line_id),
+            byref(x_first_frozen_line_coordinate),
+            byref(y_first_frozen_line_coordinate),
+            byref(x_second_frozen_line_coordinate),
+            byref(y_second_frozen_line_coordinate),
         )
 
         return (
-            xFirstFrozenLineCoordinate.value,
-            yFirstFrozenLineCoordinate.value,
-            xSecondFrozenLineCoordinate.value,
-            ySecondFrozenLineCoordinate.value,
+            x_first_frozen_line_coordinate.value,
+            y_first_frozen_line_coordinate.value,
+            x_second_frozen_line_coordinate.value,
+            y_second_frozen_line_coordinate.value,
         )
 
     def curvilinear_frozen_lines_get_ids(self) -> np.ndarray:
