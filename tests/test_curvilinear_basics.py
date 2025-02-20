@@ -372,14 +372,10 @@ def test_curvilinear_grid_orthogonalization():
     orthogonalization_parameters.inner_iterations = 25
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
+    # Orthogonalizes a curvilinear grid
+    mk.curvilinear_orthogonalize(orthogonalization_parameters, 0.0, 0.0, 30.0, 30.0)
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 30.0, 30.0)
-
-    # Performs orthogonalization
-    mk.curvilinear_orthogonalize()
+    # Get the new curvilinear grid
     curvilinear_grid = mk.curvilineargrid_get()
 
     # Assert nodal position after orthogonalization is closer to 10.0, 20.0
@@ -399,17 +395,11 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     orthogonalization_parameters.inner_iterations = 25
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_initialize_orthogonalize(orthogonalization_parameters)
-
-    # Initialize the curvilinear grid orthogonalization algorithm
-    mk.curvilinear_set_block_orthogonalize(0.0, 0.0, 30.0, 30.0)
-
-    # Freeze the vertical grid line where the moved node is
-    mk.curvilinear_set_frozen_lines_orthogonalize(10.0, 0.0, 10.0, 30.0)
+    # Add frozen lines
+    mk.curvilinear_frozen_line_add(10.0, 0.0, 10.0, 30.0)
 
     # Performs orthogonalization
-    mk.curvilinear_orthogonalize()
+    mk.curvilinear_orthogonalize(orthogonalization_parameters, 10.0, 0.0, 10.0, 30.0)
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
@@ -605,3 +595,40 @@ def test_curvilinear_compute_smoothness():
     assert smoothness[5] == -999.0
     assert smoothness[6] == 1.0
     assert smoothness[7] == approx(1.2126781251816647, 0.0001)
+
+
+def test_add_frozen_line():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 10.0, 40.0)
+
+    assert frozen_line_id == 0
+
+
+def test_get_frozen_line_ids():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 0.0, 40.0)
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 1
+    assert frozen_line_id == frozen_line_ids[0]
+
+
+def test_delete_frozen_line():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 10.0, 40.0)
+    mk.curvilinear_frozen_line_delete(frozen_line_id)
+
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 0
+
+
+def test_delete_frozen_line_twice_does_not_throw_an_exception():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 10.0, 40.0)
+
+    mk.curvilinear_frozen_line_delete(frozen_line_id)
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 0
+
+    mk.curvilinear_frozen_line_delete(frozen_line_id)
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 0
