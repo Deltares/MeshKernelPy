@@ -373,11 +373,7 @@ def test_curvilinear_grid_orthogonalization():
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
     # Orthogonalizes a curvilinear grid
-    mk.curvilinear_orthogonalize(orthogonalization_parameters,
-                                 0.0,
-                                 0.0,
-                                 30.0,
-                                 30.0)
+    mk.curvilinear_orthogonalize(orthogonalization_parameters, 0.0, 0.0, 30.0, 30.0)
 
     # Get the new curvilinear grid
     curvilinear_grid = mk.curvilineargrid_get()
@@ -400,14 +396,10 @@ def test_curvilinear_grid_orthogonalization_with_frozen_line():
     orthogonalization_parameters.orthogonalization_to_smoothing_factor = 0.975
 
     # Add frozen lines
-    mk.curvilinear_set_frozen_lines_orthogonalize(10.0, 0.0, 10.0, 30.0)
+    mk.curvilinear_frozen_line_add(10.0, 0.0, 10.0, 30.0)
 
     # Performs orthogonalization
-    mk.curvilinear_orthogonalize(orthogonalization_parameters,
-                                 10.0,
-                                 0.0,
-                                 10.0,
-                                 30.0)
+    mk.curvilinear_orthogonalize(orthogonalization_parameters, 10.0, 0.0, 10.0, 30.0)
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()
