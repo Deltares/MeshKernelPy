@@ -2329,7 +2329,7 @@ class MeshKernel:
         y_first_grid_line_node: float,
         x_second_grid_line_node: float,
         y_second_grid_line_node: float,
-    )->int:
+    ) -> int:
         """Adds a frozen line to the meshkernel state
 
         Args:
@@ -2370,10 +2370,12 @@ class MeshKernel:
         """
 
         if not self.curvilinear_frozen_line_is_valid(frozen_line_id):
-            return (self._float_invalid_value,
-                    self._float_invalid_value,
-                    self._float_invalid_value,
-                    self._float_invalid_value)
+            return (
+                self._float_invalid_value,
+                self._float_invalid_value,
+                self._float_invalid_value,
+                self._float_invalid_value,
+            )
 
         x_first_frozen_line_coordinate = c_double()
         y_first_frozen_line_coordinate = c_double()
