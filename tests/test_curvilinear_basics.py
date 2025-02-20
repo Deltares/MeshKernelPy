@@ -595,3 +595,27 @@ def test_curvilinear_compute_smoothness():
     assert smoothness[5] == -999.0
     assert smoothness[6] == 1.0
     assert smoothness[7] == approx(1.2126781251816647, 0.0001)
+
+
+def test_add_frozen_line():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 10.0, 40.0)
+
+    assert frozen_line_id == 0
+
+
+def test_get_frozen_line_ids():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 0.0, 40.0)
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 1
+    assert frozen_line_id == frozen_line_ids[0]
+
+
+def test_delete_frozen_line():
+    mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
+    frozen_line_id = mk.curvilinear_frozen_line_add(10.0, 20.0, 10.0, 40.0)
+    mk.curvilinear_frozen_line_delete(frozen_line_id)
+
+    frozen_line_ids = mk.curvilinear_frozen_lines_get_ids()
+    assert len(frozen_line_ids) == 0

@@ -2298,14 +2298,14 @@ class MeshKernel:
         Returns:
             bool: True if the frozen line is valid, False otherwise.
         """
-        isValid = c_bool()
+        is_valid = c_bool()
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_line_is_valid,
             self._meshkernelid,
             c_int(frozen_line_id),
-            byref(isValid),
+            byref(is_valid),
         )
-        return isValid.value  # Extract the boolean value
+        return is_valid.value
 
     def curvilinear_frozen_line_delete(self, frozen_line_id: int) -> int:
         """Deletes a frozen line in a curvilinear grid.
@@ -2402,15 +2402,15 @@ class MeshKernel:
             byref(num_forzen_lines),
         )
 
-        if num_forzen_lines == 0:
+        if num_forzen_lines.value == 0:
             return np.empty(0, dtype=np.int32)
 
-        frozen_line_ids = np.empty(num_forzen_lines, dtype=np.int32)
+        frozen_line_ids = np.empty(num_forzen_lines.value, dtype=np.int32)
         c_frozen_line_ids = np.ctypeslib.as_ctypes(frozen_line_ids)
         self._execute_function(
             self.lib.mkernel_curvilinear_frozen_lines_get_ids,
             self._meshkernelid,
-            c_frozen_line_ids,
+            byref(c_frozen_line_ids),
         )
         return frozen_line_ids
 
