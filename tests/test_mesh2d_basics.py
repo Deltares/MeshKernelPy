@@ -2426,8 +2426,7 @@ def test_mesh2d_get_filtered_face_polygons():
     assert face_polygons.y_coordinates == approx(expected_coordinates_y, abs=1e-6)
 
 
-def test_mesh2d__get_filtered_face_polygons_full_and_empty():
-
+def test_mesh2d_get_filtered_face_polygons_full_and_empty():
     make_grid_parameters = MakeGridParameters(
         angle=0,
         origin_x=46.2,
