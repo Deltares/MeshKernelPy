@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 
 project = "MeshKernelPy"
-copyright = "2023, Deltares"
+copyright = "2025, Deltares"
 author = "Deltares"
 release = "2.1.0"
 
