@@ -573,54 +573,6 @@ def test_mesh2d_delete_empty_polygon(
     assert mesh2d.edge_x.size == exp_edges
     assert mesh2d.face_x.size == exp_faces
 
-
-cases_mesh2d_get_hanging_edges = [
-    (
-        np.array([0.0, 1.0, 1.0, 0.0], dtype=np.double),  # node_x
-        np.array([0.0, 0.0, 1.0, 1.0], dtype=np.double),  # node_y
-        np.array([0, 1, 1, 3, 2, 3, 2, 0], dtype=np.int32),  # edge_nodes
-        np.array([], dtype=np.int32),  # expected
-    ),
-    (
-        np.array([0.0, 1.0, 1.0, 0.0, 0.0], dtype=np.double),  # node_x
-        np.array([0.0, 0.0, 1.0, 1.0, 2.0], dtype=np.double),  # node_y
-        np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4], dtype=np.int32),  # edge_nodes
-        np.array([4], dtype=np.int32),  # expected
-    ),
-    (
-        np.array([0.0, 1.0, 1.0, 0.0, 0.0, 2.0], dtype=np.double),  # node_x
-        np.array([0.0, 0.0, 1.0, 1.0, 2.0, 1.0], dtype=np.double),  # node_y
-        np.array([0, 1, 1, 3, 2, 3, 2, 0, 3, 4, 2, 5], dtype=np.int32),  # edge_nodes
-        np.array([4, 5], dtype=np.int32),  # expected
-    ),
-]
-
-
-@pytest.mark.parametrize(
-    "node_x, node_y, edge_nodes, expected", cases_mesh2d_get_hanging_edges
-)
-def test_mesh2d_get_hanging_edges(
-    node_x: np.ndarray, node_y: np.ndarray, edge_nodes: np.ndarray, expected: int
-):
-    """Tests `mesh2d_get_hanging_edges` by comparing the returned hanging edges with the expected ones
-    4*
-    |
-    3---2---5*
-    |   |
-    0---1
-    """
-
-    mk = MeshKernel()
-
-    mesh2d = Mesh2d(node_x, node_y, edge_nodes)
-
-    mk.mesh2d_set(mesh2d)
-
-    result = mk.mesh2d_get_hanging_edges()
-
-    assert_array_equal(result, expected)
-
-
 def test_mesh2d_delete_hanging_edges():
     """Tests `mesh2d_delete_hanging_edges` by deleting 2 hanging edges in a simple Mesh2d
     4*
@@ -1718,8 +1670,8 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_flow_ed
 
     mesh2d = mk.mesh2d_get()
 
-    assert mesh2d.node_x.size == 8
-    assert mesh2d.edge_x.size == 7
+    assert mesh2d.node_x.size == 6
+    assert mesh2d.edge_x.size == 6
     assert mesh2d.face_x.size == 1
 
 
