@@ -1670,7 +1670,7 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_flow_ed
 
     mesh2d = mk.mesh2d_get()
 
-    assert mesh2d.node_x.size == 6
+    assert mesh2d.node_x.size == 6 # The hanging edge is removed
     assert mesh2d.edge_x.size == 6
     assert mesh2d.face_x.size == 1
 
