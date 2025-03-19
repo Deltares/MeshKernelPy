@@ -547,7 +547,7 @@ def test_curvilinear_line_mirror():
     mk = create_meshkernel_instance_with_skewed_curvilinear_grid(5, 5)
 
     # Mirrors the left grid line to left
-    mk.curvilinear_line_mirror(2.0, 0.0, 0.0, 0.0, 50.0)
+    mk.curvilinear_line_mirror(2.0, 1, 0.0, 0.0, 0.0, 50.0)
 
     # Get the result
     curvilinear_grid = mk.curvilineargrid_get()

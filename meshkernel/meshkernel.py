@@ -2665,6 +2665,7 @@ class MeshKernel:
     def curvilinear_line_mirror(
         self,
         mirroring_factor: float,
+        num_lines_to_mirror: int,
         x_first_grid_line_node: float,
         y_first_grid_line_node: float,
         x_second_grid_line_node: float,
@@ -2674,6 +2675,7 @@ class MeshKernel:
 
         Args:
             mirroring_factor (float): The mirroring factor.
+            num_lines_to_mirror (int): The number of lines to mirror.
             x_first_grid_line_node (float): The x coordinate of the first node.
             y_first_grid_line_node (float): The y coordinate of the first node.
             x_second_grid_line_node (float): The x coordinate of the second node.
@@ -2683,6 +2685,7 @@ class MeshKernel:
             self.lib.mkernel_curvilinear_line_mirror,
             self._meshkernelid,
             c_double(mirroring_factor),
+            c_int(num_lines_to_mirror),
             c_double(x_first_grid_line_node),
             c_double(y_first_grid_line_node),
             c_double(x_second_grid_line_node),
