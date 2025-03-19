@@ -359,20 +359,97 @@ and upper_right_corner</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift">
-<span class="sig-name descname"><span class="pre">curvilinear_initialize_line_shift</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift" title="Link to this definition"></a></dt>
-<dd><p>Initializes the curvilinear line shift algorithm</p>
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_add">
+<span class="sig-name descname"><span class="pre">curvilinear_frozen_line_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_add" title="Link to this definition"></a></dt>
+<dd><p>Adds a frozen line to the meshkernel state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – X-coordinate of the first grid line node.</p></li>
+<li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – Y-coordinate of the first grid line node.</p></li>
+<li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – X-coordinate of the second grid line node.</p></li>
+<li><p><strong>y_second_grid_line_node</strong> (<em>float</em>) – Y-coordinate of the second grid line node.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns: The id of the added frozen line in the meshkernel state</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_initialize_orthogonalize">
-<span class="sig-name descname"><span class="pre">curvilinear_initialize_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><span class="pre">OrthogonalizationParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_initialize_orthogonalize" title="Link to this definition"></a></dt>
-<dd><p>Initializes the algorithm for performing curvilinear grid orthogonalization.</p>
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_delete">
+<span class="sig-name descname"><span class="pre">curvilinear_frozen_line_delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frozen_line_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_delete" title="Link to this definition"></a></dt>
+<dd><p>Deletes a frozen line in a curvilinear grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>orthogonalization_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><em>OrthogonalizationParameters</em></a>) – The input orthogonalization parameters.</p>
+<dd class="field-odd"><p><strong>frozen_line_id</strong> (<em>int</em>) – The identifier of the frozen line to delete.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_get">
+<span class="sig-name descname"><span class="pre">curvilinear_frozen_line_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frozen_line_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_get" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the coordinates of a frozen line in a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frozen_line_id</strong> (<em>int</em>) – The identifier of the frozen line to retrieve. If the frozen line id cannot be found</p></li>
+<li><p><strong>returned</strong> (<em>a tuple with invalid coordinates is</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>x_first_frozen_line_coordinate (float): X-coordinate of the first frozen line node.</p></li>
+<li><p>y_first_frozen_line_coordinate (float): Y-coordinate of the first frozen line node.</p></li>
+<li><p>x_second_frozen_line_coordinate (float): X-coordinate of the second frozen line node.</p></li>
+<li><p>y_second_frozen_line_coordinate (float): Y-coordinate of the second frozen line node.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_is_valid">
+<span class="sig-name descname"><span class="pre">curvilinear_frozen_line_is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frozen_line_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_is_valid" title="Link to this definition"></a></dt>
+<dd><p>Checks if a frozen line id is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frozen_line_id</strong> (<em>int</em>) – The identifier of the frozen line to validate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the frozen line contained in the meshkernel state, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_lines_get_ids">
+<span class="sig-name descname"><span class="pre">curvilinear_frozen_lines_get_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_lines_get_ids" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the IDs of all valid frozen lines in a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A NumPy array of frozen line IDs.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift">
+<span class="sig-name descname"><span class="pre">curvilinear_initialize_line_shift</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_initialize_line_shift" title="Link to this definition"></a></dt>
+<dd><p>Initializes the curvilinear line shift algorithm</p>
 </dd></dl>
 
 <dl class="py method">
@@ -413,12 +490,13 @@ The new face will be inserted on top of the closest edge by linear extrapolation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror">
-<span class="sig-name descname"><span class="pre">curvilinear_line_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirroring_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">curvilinear_line_mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mirroring_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_lines_to_mirror</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_line_mirror" title="Link to this definition"></a></dt>
 <dd><p>Mirrors a boundary grid line outwards. The boundary grid line is defined by its start and end points</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mirroring_factor</strong> (<em>float</em>) – The mirroring factor.</p></li>
+<li><p><strong>num_lines_to_mirror</strong> (<em>int</em>) – The number of lines to mirror.</p></li>
 <li><p><strong>x_first_grid_line_node</strong> (<em>float</em>) – The x coordinate of the first node.</p></li>
 <li><p><strong>y_first_grid_line_node</strong> (<em>float</em>) – The y coordinate of the first node.</p></li>
 <li><p><strong>x_second_grid_line_node</strong> (<em>float</em>) – The x coordinate of the second node.</p></li>
@@ -468,8 +546,18 @@ The new face will be inserted on top of the closest edge by linear extrapolation
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize">
-<span class="sig-name descname"><span class="pre">curvilinear_orthogonalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize" title="Link to this definition"></a></dt>
-<dd><p>Performs curvilinear grid orthogonalization and finalizes the algorithm</p>
+<span class="sig-name descname"><span class="pre">curvilinear_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orthogonalization_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters" title="meshkernel.py_structures.OrthogonalizationParameters"><span class="pre">OrthogonalizationParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_orthogonalize" title="Link to this definition"></a></dt>
+<dd><p>Orthogonalizes a specified block within a curvilinear grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – X-coordinate of the block’s lower-left corner.</p></li>
+<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – Y-coordinate of the block’s lower-left corner.</p></li>
+<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – X-coordinate of the block’s upper-right corner.</p></li>
+<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – Y-coordinate of the block’s upper-right corner.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -502,38 +590,6 @@ and upper_right_corner</p>
 <li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block.</p></li>
 <li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block.</p></li>
 <li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_block_orthogonalize">
-<span class="sig-name descname"><span class="pre">curvilinear_set_block_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_block_orthogonalize" title="Link to this definition"></a></dt>
-<dd><p>Defines a block on the curvilinear grid where to perform orthogonalization</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to orthogonalize.</p></li>
-<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to orthogonalize.</p></li>
-<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to orthogonalize.</p></li>
-<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to orthogonalize.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_set_frozen_lines_orthogonalize">
-<span class="sig-name descname"><span class="pre">curvilinear_set_frozen_lines_orthogonalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_first_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_gridline_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_set_frozen_lines_orthogonalize" title="Link to this definition"></a></dt>
-<dd><p>Freezes a curvilinear grid line during the orthogonalization process</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x_first_gridline_node</strong> (<em>float</em>) – The x coordinate of the first point of the line to freeze.</p></li>
-<li><p><strong>y_first_gridline_node</strong> (<em>float</em>) – The y coordinate of the first point of the line to freeze.</p></li>
-<li><p><strong>x_second_gridline_node</strong> (<em>float</em>) – The x coordinate of the second point of the line to freeze.</p></li>
-<li><p><strong>y_second_gridline_node</strong> (<em>float</em>) – The y coordinate of the second point of the line to freeze.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1519,7 +1575,7 @@ translation_y (float): Y-component of the translation vector</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Deltares.</p>
+    <p>&#169; Copyright 2025, Deltares.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

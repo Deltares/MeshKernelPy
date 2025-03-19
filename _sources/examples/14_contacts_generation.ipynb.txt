@@ -17,7 +17,7 @@
     {
      "data": {
       "text/plain": [
-       "'5.0.2'"
+       "'6.0.1'"
       ]
      },
      "execution_count": 1,
