@@ -573,6 +573,7 @@ def test_mesh2d_delete_empty_polygon(
     assert mesh2d.edge_x.size == exp_edges
     assert mesh2d.face_x.size == exp_faces
 
+
 def test_mesh2d_delete_hanging_edges():
     """Tests `mesh2d_delete_hanging_edges` by deleting 2 hanging edges in a simple Mesh2d
     4*
@@ -1670,7 +1671,7 @@ def test_mesh2d_delete_small_flow_edges_and_small_triangles_delete_small_flow_ed
 
     mesh2d = mk.mesh2d_get()
 
-    assert mesh2d.node_x.size == 6 # The hanging edge is removed
+    assert mesh2d.node_x.size == 6  # The hanging edge is removed
     assert mesh2d.edge_x.size == 6
     assert mesh2d.face_x.size == 1
 
