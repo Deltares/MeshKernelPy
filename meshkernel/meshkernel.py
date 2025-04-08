@@ -1145,18 +1145,29 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def mesh2d_get_mesh_boundaries_as_polygons(self) -> GeometryList:
-        """Retrieves the boundaries of a mesh as a series of separated polygons.
+    def mesh2d_get_mesh_boundaries_as_polygons(
+        self, geometry_list: GeometryList
+    ) -> GeometryList:
+        """Retrieves the boundaries of a mesh as a series of separated polygons within the selecting polygon.
+           If the polygon is empty, all the mesh boundaries are retrieved.
 
         For example, if a mesh has an single inner hole, two polygons will be generated,
         one for the inner boundary and one for the outer boundary.
+
+        Args:
+            geometry_list (GeometryList): The selecting polygon.
 
         Returns:
             GeometryList: The output network boundary polygon.
         """
 
         # Get number of polygon nodes
-        number_of_polygon_nodes = self._mesh2d_count_mesh_boundaries_as_polygons()
+        number_of_polygon_nodes = self._mesh2d_count_mesh_boundaries_as_polygons(
+            geometry_list
+        )
+
+        # Create GeometryList instance
+        c_geometry_list_in = CGeometryList.from_geometrylist(geometry_list)
 
         # Create GeometryList instance
         x_coordinates = np.empty(number_of_polygon_nodes, dtype=np.double)
@@ -1168,24 +1179,36 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_get_mesh_boundaries_as_polygons,
             self._meshkernelid,
+            byref(c_geometry_list_in),
             byref(c_geometry_list_out),
         )
 
         return geometry_list_out
 
-    def _mesh2d_count_mesh_boundaries_as_polygons(self) -> int:
-        """For internal use only.
+    def _mesh2d_count_mesh_boundaries_as_polygons(
+        self, geometry_list: GeometryList
+    ) -> int:
+        """For internal use only. Retrieves the number of boundaries of a mesh within the selecting polygon.
+           If the polygon is empty, all the mesh boundaries are considered.
 
         Counts the number of polygon nodes contained in the mesh boundary polygons
         computed in function mesh2d_get_mesh_boundaries_as_polygons.
+
+        Args:
+            geometry_list (GeometryList): The selecting polygon.
 
         Returns:
             int: The number of polygon nodes.
         """
         number_of_polygon_nodes = c_int()
+
+        # Create GeometryList instance
+        c_geometry_list_in = CGeometryList.from_geometrylist(geometry_list)
+
         self._execute_function(
             self.lib.mkernel_mesh2d_count_mesh_boundaries_as_polygons,
             self._meshkernelid,
+            byref(c_geometry_list_in),
             byref(number_of_polygon_nodes),
         )
         return number_of_polygon_nodes.value
@@ -2169,32 +2192,6 @@ class MeshKernel:
             c_double(x_upper_right_corner),
             c_double(y_upper_right_corner),
             c_int(refinement),
-        )
-
-    def curvilinear_derefine(
-        self,
-        x_lower_left_corner: float,
-        y_lower_left_corner: float,
-        x_upper_right_corner: float,
-        y_upper_right_corner: float,
-    ) -> None:
-        """Directional curvilinear grid derefinement.
-        Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner
-        and upper_right_corner
-
-        Args:
-            x_lower_left_corner (float): The x coordinate of the lower left corner of the block to refine.
-            y_lower_left_corner (float): The y coordinate of the lower left corner of the block to refine.
-            x_upper_right_corner (float): The x coordinate of the upper right corner of the block to refine.
-            y_upper_right_corner (float): The y coordinate of the upper right corner of the block to refine.
-        """
-        self._execute_function(
-            self.lib.mkernel_curvilinear_derefine,
-            self._meshkernelid,
-            c_double(x_lower_left_corner),
-            c_double(y_lower_left_corner),
-            c_double(x_upper_right_corner),
-            c_double(y_upper_right_corner),
         )
 
     def curvilinear_compute_transfinite_from_polygon(
