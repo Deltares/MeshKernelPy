@@ -266,7 +266,7 @@ def test_curvilinear_refine_derefine():
     assert curvilinear_grid.num_m == 11
     assert curvilinear_grid.num_n == 14
 
-    mk.curvilinear_derefine(2.299, 4.612, 3.074, 3.684)
+    mk.curvilinear_refine(2.299, 4.612, 3.074, 3.684, -6)
 
     curvilinear_grid = mk.curvilineargrid_get()
 
