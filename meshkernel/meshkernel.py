@@ -1149,7 +1149,7 @@ class MeshKernel:
         self, geometry_list: GeometryList
     ) -> GeometryList:
         """Retrieves the boundaries of a mesh as a series of separated polygons within the selecting polygon.
-           If the polygon is empty, all the mesh boundaries are retrived.
+           If the polygon is empty, all the mesh boundaries are retrieved.
 
         For example, if a mesh has an single inner hole, two polygons will be generated,
         one for the inner boundary and one for the outer boundary.
