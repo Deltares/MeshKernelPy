@@ -341,24 +341,6 @@ should not be connected</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_derefine">
-<span class="sig-name descname"><span class="pre">curvilinear_derefine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lower_left_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_upper_right_corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_derefine" title="Link to this definition"></a></dt>
-<dd><p>Directional curvilinear grid derefinement.
-Additional gridlines are removed perpendicularly to the segment defined by lower_left_corner
-and upper_right_corner</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x_lower_left_corner</strong> (<em>float</em>) – The x coordinate of the lower left corner of the block to refine.</p></li>
-<li><p><strong>y_lower_left_corner</strong> (<em>float</em>) – The y coordinate of the lower left corner of the block to refine.</p></li>
-<li><p><strong>x_upper_right_corner</strong> (<em>float</em>) – The x coordinate of the upper right corner of the block to refine.</p></li>
-<li><p><strong>y_upper_right_corner</strong> (<em>float</em>) – The y coordinate of the upper right corner of the block to refine.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_add">
 <span class="sig-name descname"><span class="pre">curvilinear_frozen_line_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_first_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_second_grid_line_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.curvilinear_frozen_line_add" title="Link to this definition"></a></dt>
 <dd><p>Adds a frozen line to the meshkernel state</p>
@@ -1059,16 +1041,22 @@ shape and wildly varying areas.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons">
-<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_boundaries_as_polygons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons" title="Link to this definition"></a></dt>
-<dd><p>Retrieves the boundaries of a mesh as a series of separated polygons.</p>
+<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_boundaries_as_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Retrieves the boundaries of a mesh as a series of separated polygons within the selecting polygon.</dt><dd><p>If the polygon is empty, all the mesh boundaries are retrived.</p>
+</dd>
+</dl>
 <p>For example, if a mesh has an single inner hole, two polygons will be generated,
 one for the inner boundary and one for the outer boundary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The output network boundary polygon.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The selecting polygon.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output network boundary polygon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
 </dd>
 </dl>
 </dd></dl>
