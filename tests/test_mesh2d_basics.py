@@ -10,8 +10,8 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
-    InterpolationValues,
     InterpolationParameters,
+    InterpolationValues,
     MakeGridParameters,
     Mesh2d,
     Mesh2dLocation,
@@ -2409,6 +2409,7 @@ def test_mesh2d_get_filtered_face_polygons_full_and_empty():
         Mesh2d.Property.ORTHOGONALITY, 0.1, 10.0
     )
     assert orthogonality.x_coordinates.shape[0] == 0
+
 
 def test_mesh2d_casulli_refinement_based_on_depths():
     """Test test_mesh2d_casulli_refinement_based_on_depths on cartesian coordinate reference system"""

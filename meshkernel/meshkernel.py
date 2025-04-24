@@ -1613,7 +1613,11 @@ class MeshKernel:
             int: The id of the property.
         """
 
-        c_interpolation_parameters = CInterpolationParameters.from_interpolationparameters(interpolation_parameters)
+        c_interpolation_parameters = (
+            CInterpolationParameters.from_interpolationparameters(
+                interpolation_parameters
+            )
+        )
         c_sample_data = CGeometryList.from_geometrylist(sample_data)
 
         propertyId = c_int()
@@ -1805,7 +1809,9 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def mesh2d_connect_meshes(self, mesh2d: Mesh2d, search_fraction: float, connect: bool) -> None:
+    def mesh2d_connect_meshes(
+        self, mesh2d: Mesh2d, search_fraction: float, connect: bool
+    ) -> None:
         """Connect a mesh to an existing mesh
 
         Args:
@@ -1821,7 +1827,7 @@ class MeshKernel:
             self._meshkernelid,
             byref(c_mesh2d),
             c_double(search_fraction),
-            c_bool(connect)
+            c_bool(connect),
         )
 
     def _get_error(self) -> str:

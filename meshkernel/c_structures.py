@@ -221,6 +221,7 @@ class CGeometryList(Structure):
 
         return c_geometry_list
 
+
 class CInterpolationParameters(Structure):
     """C-structure intended for internal use only.
     It represents Parameters used by the sample interpolation.
@@ -246,7 +247,9 @@ class CInterpolationParameters(Structure):
     ]
 
     @staticmethod
-    def from_interpolationparameters(interpolation_parameters: InterpolationParameters) -> CInterpolationParameters:
+    def from_interpolationparameters(
+        interpolation_parameters: InterpolationParameters,
+    ) -> CInterpolationParameters:
         """Creates a new `CInterpolationParameters` instance from the given InterpolationParameters instance.
 
         Args:
@@ -258,12 +261,22 @@ class CInterpolationParameters(Structure):
 
         c_interpolation_parameters = CInterpolationParameters()
 
-        c_interpolation_parameters.interpolation_type = interpolation_parameters.interpolation_type
+        c_interpolation_parameters.interpolation_type = (
+            interpolation_parameters.interpolation_type
+        )
         c_interpolation_parameters.method = interpolation_parameters.method
-        c_interpolation_parameters.absolute_search_radius = interpolation_parameters.absolute_search_radius
-        c_interpolation_parameters.relative_search_radius = interpolation_parameters.relative_search_radius
-        c_interpolation_parameters.use_closest_if_none_found = interpolation_parameters.use_closest_if_none_found
-        c_interpolation_parameters.minimum_number_of_samples = interpolation_parameters.minimum_number_of_samples
+        c_interpolation_parameters.absolute_search_radius = (
+            interpolation_parameters.absolute_search_radius
+        )
+        c_interpolation_parameters.relative_search_radius = (
+            interpolation_parameters.relative_search_radius
+        )
+        c_interpolation_parameters.use_closest_if_none_found = (
+            interpolation_parameters.use_closest_if_none_found
+        )
+        c_interpolation_parameters.minimum_number_of_samples = (
+            interpolation_parameters.minimum_number_of_samples
+        )
 
         return c_interpolation_parameters
 
