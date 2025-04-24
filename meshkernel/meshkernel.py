@@ -1652,7 +1652,7 @@ class MeshKernel:
             meshRefinementParameters
         )
         self._execute_function(
-            self.lib.mkernel_mesh2d_casulli_refinement_wrt_depths,
+            self.lib.mkernel_mesh2d_casulli_refinement_based_on_depths,
             self._meshkernelid,
             byref(c_polygons),
             c_int(propertyId),
