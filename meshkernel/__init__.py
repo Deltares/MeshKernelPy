@@ -10,6 +10,8 @@ from meshkernel.py_structures import (
     DeleteMeshOption,
     GeometryList,
     GriddedSamples,
+    InterpolationParameters,
+    InterpolationType,
     InterpolationValues,
     MakeGridParameters,
     Mesh1d,
