@@ -371,7 +371,7 @@ class GeometryList:
 
 
 class InterpolationParameters:
-    """A class holding the parameters for interpolation.
+    """A class holding the parameters for interpolating properties.
 
     Attributes:
         interpolation_type (int, optional): The interpolation type to use.
