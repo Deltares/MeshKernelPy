@@ -25,6 +25,7 @@ from meshkernel.c_structures import (
     CCurvilinearParameters,
     CGeometryList,
     CGriddedSamples,
+    CInterpolationParameters,
     CMakeGridParameters,
     CMesh1d,
     CMesh2d,
@@ -42,6 +43,8 @@ from meshkernel.py_structures import (
     DeleteMeshOption,
     GeometryList,
     GriddedSamples,
+    InterpolationParameters,
+    InterpolationType,
     MakeGridParameters,
     Mesh1d,
     Mesh2d,
@@ -1583,6 +1586,80 @@ class MeshKernel:
             byref(c_polygon),
         )
 
+    def mkernel_delete_property(self, propertyId: int):
+        """
+        Deletes a property and its calculator.
+        Args:
+            propertyId (int): The property id.
+        """
+
+        self._execute_function(
+            self.lib.mkernel_deallocate_property,
+            self._meshkernelid,
+            c_int(propertyId),
+        )
+
+    def mkernel_set_property(
+        self,
+        interpolation_parameters: InterpolationParameters,
+        sample_data: GeometryList,
+    ) -> int:
+        """
+        Sets the property data for the mesh, the sample data points do not have to match the mesh2d nodes.
+        Args:
+            interpolation_parameters (InterpolationParameters): The parameters required for the interpolation
+            sample_data (GeometryList): The sample data and associated sample data points.
+        Returns:
+            int: The id of the property.
+        """
+
+        c_interpolation_parameters = (
+            CInterpolationParameters.from_interpolationparameters(
+                interpolation_parameters
+            )
+        )
+        c_sample_data = CGeometryList.from_geometrylist(sample_data)
+
+        propertyId = c_int()
+        self._execute_function(
+            self.lib.mkernel_mesh2d_set_property,
+            self._meshkernelid,
+            byref(c_interpolation_parameters),
+            byref(c_sample_data),
+            byref(propertyId),
+        )
+
+        return propertyId.value
+
+    def mkernel_mesh2d_casulli_refinement_based_on_depths(
+        self,
+        polygons: GeometryList,
+        propertyId: int,
+        meshRefinementParameters: MeshRefinementParameters,
+        minimumRefinementDepth: float,
+    ) -> None:
+        """
+        Refine mesh using the Casulli refinement algorithm based on the depth values.
+        Args:
+            polygons (GeometryList): The polygon within which the refinement is computed.
+            propertyId (int): The identifier of the interpolator to be used.
+            meshRefinementParameters (MeshRefinementParameters): Parameters indicating how the mesh is to be refined.
+            minimumRefinementDepth (float): Nodes with depth value less than this value will not be marked for refinement.
+        """
+
+        c_polygons = CGeometryList.from_geometrylist(polygons)
+        c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
+            meshRefinementParameters
+        )
+        self._execute_function(
+            self.lib.mkernel_mesh2d_casulli_refinement_based_on_depths,
+            self._meshkernelid,
+            byref(c_polygons),
+            c_int(propertyId),
+            byref(c_refinement_params),
+            c_double(minimumRefinementDepth),
+        )
+
     def mesh2d_casulli_refinement(self) -> None:
         """
         Refine the whole mesh using the Casulli algorithm
@@ -1677,7 +1754,7 @@ class MeshKernel:
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
         Args:
-            mesh2d_location (Mesh2dLocation): Location of the property
+            mesh2d_location (Mesh2dLocation): The property location
             property (Mesh2d.Property): The property to retrieve
         Returns:
             GeometryList: The resulting geometry list containing the value of the properties
@@ -1732,22 +1809,25 @@ class MeshKernel:
 
         return geometry_list_out
 
-    def mesh2d_connect_meshes(self, mesh2d: Mesh2d, search_fraction: float) -> None:
+    def mesh2d_connect_meshes(
+        self, mesh2d: Mesh2d, search_fraction: float, connect: bool
+    ) -> None:
         """Connect a mesh to an existing mesh
 
         Args:
             mesh2d (Mesh2d): The mesh to connect to the existing mesh
             search_fraction (float): Fraction of the shortest edge (along an edge to be connected)
                                      to use when determining neighbour edge closeness
+            connect (bool): Connect the meshes with additional edges or not
         """
 
         c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
-
         self._execute_function(
             self.lib.mkernel_mesh2d_connect_meshes,
             self._meshkernelid,
             byref(c_mesh2d),
             c_double(search_fraction),
+            c_bool(connect),
         )
 
     def _get_error(self) -> str:

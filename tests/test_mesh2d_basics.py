@@ -10,6 +10,7 @@ from meshkernel import (
     GeometryList,
     GriddedSamples,
     InputError,
+    InterpolationParameters,
     InterpolationValues,
     MakeGridParameters,
     Mesh2d,
@@ -1789,7 +1790,7 @@ def test_connect_meshes():
     mk_to_connect.mesh2d_make_rectangular_mesh(make_grid_parameters)
     mesh2d_to_connect = mk_to_connect.mesh2d_get()
 
-    mk_existing.mesh2d_connect_meshes(mesh2d_to_connect, 0.4)
+    mk_existing.mesh2d_connect_meshes(mesh2d_to_connect, 0.4, True)
     mesh2d_existing = mk_existing.mesh2d_get()
 
     assert max(mesh2d_existing.node_x) == 2 * width + 1
@@ -2408,3 +2409,60 @@ def test_mesh2d_get_filtered_face_polygons_full_and_empty():
         Mesh2d.Property.ORTHOGONALITY, 0.1, 10.0
     )
     assert orthogonality.x_coordinates.shape[0] == 0
+
+
+def test_mesh2d_casulli_refinement_based_on_depths():
+    """Test test_mesh2d_casulli_refinement_based_on_depths on cartesian coordinate reference system"""
+    mk = MeshKernel(ProjectionType.CARTESIAN)
+
+    x_start, x_end = 0, 10000
+    y_min, y_max = 0, 10000
+    num_samples = 100  # Number of samples in each direction
+
+    makeGridParameters = MakeGridParameters()
+    makeGridParameters.origin_x = x_start
+    makeGridParameters.origin_y = y_min
+    makeGridParameters.upper_right_x = x_end
+    makeGridParameters.upper_right_y = y_max
+    makeGridParameters.block_size_x = 1000.0
+    makeGridParameters.block_size_y = 1000.0
+
+    mk.mesh2d_make_rectangular_mesh_on_extension(makeGridParameters)
+
+    mesh2d_not_refined = mk.mesh2d_get()
+
+    x_grid, y_grid = np.meshgrid(
+        np.linspace(x_start, x_end, num_samples), np.linspace(y_min, y_max, num_samples)
+    )
+    values = np.array(
+        np.interp(x_grid, [x_start, x_end], [-10.0, 5.0]), dtype=np.double
+    )
+
+    x_coordinates = np.array(x_grid.flatten(), dtype=np.double)
+    y_coordinates = np.array(y_grid.flatten(), dtype=np.double)
+    values = np.array(values.flatten(), dtype=np.double)
+
+    samples = GeometryList(
+        x_coordinates=x_coordinates, y_coordinates=y_coordinates, values=values
+    )
+
+    interpolationParameters = InterpolationParameters()
+
+    property_id = mk.mkernel_set_property(interpolationParameters, samples)
+
+    polygons = GeometryList(
+        x_coordinates=np.empty(0, dtype=np.double),
+        y_coordinates=np.empty(0, dtype=np.double),
+    )
+
+    meshRefinementParameters = MeshRefinementParameters()
+    minimumRefinementDepth = 0.0
+    mk.mkernel_mesh2d_casulli_refinement_based_on_depths(
+        polygons, property_id, meshRefinementParameters, minimumRefinementDepth
+    )
+    mk.mkernel_delete_property(property_id)
+    mesh2d_refined = mk.mesh2d_get()
+
+    # new mesh has more nodes and edges than the starting mesh, it has been refined
+    assert len(mesh2d_not_refined.node_x) == 121
+    assert len(mesh2d_refined.node_x) == 253

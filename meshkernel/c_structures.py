@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ctypes import POINTER, Structure, c_double, c_int, c_void_p
+from ctypes import POINTER, Structure, c_bool, c_double, c_int, c_void_p
 
 import numpy as np
 from numpy.ctypeslib import as_ctypes
@@ -12,6 +12,7 @@ from meshkernel.py_structures import (
     CurvilinearParameters,
     GeometryList,
     GriddedSamples,
+    InterpolationParameters,
     MakeGridParameters,
     Mesh1d,
     Mesh2d,
@@ -219,6 +220,65 @@ class CGeometryList(Structure):
         )
 
         return c_geometry_list
+
+
+class CInterpolationParameters(Structure):
+    """C-structure intended for internal use only.
+    It represents Parameters used by the sample interpolation.
+
+    Used for communicating with the MeshKernel dll.
+
+    The ``_fields_`` attribute of this class contains the following fields:
+        - interpolation_type (c_int): Default is to use sample averaging.
+        - method (c_int): Which averaging method should be used.
+        - absolute_search_radius (c_double): The absolute search radius.
+        - relative_search_radius (c_double): The relative search radius.
+        - use_closest_if_none_found (c_bool): If no point is found in polygon then just used the closest point.
+        - minimum_number_of_samples (c_int): The minimum number of samples for several averaging methods.
+    """
+
+    _fields_ = [
+        ("interpolation_type", c_int),
+        ("method", c_int),
+        ("absolute_search_radius", c_double),
+        ("relative_search_radius", c_double),
+        ("use_closest_if_none_found", c_bool),
+        ("minimum_number_of_samples", c_int),
+    ]
+
+    @staticmethod
+    def from_interpolationparameters(
+        interpolation_parameters: InterpolationParameters,
+    ) -> CInterpolationParameters:
+        """Creates a new `CInterpolationParameters` instance from the given InterpolationParameters instance.
+
+        Args:
+            interpolation_parameters (InterpolationParameters): The interpolation parameters.
+
+        Returns:
+            CInterpolationParameters: The created C-Structure for the given InterpolationParameters.
+        """
+
+        c_interpolation_parameters = CInterpolationParameters()
+
+        c_interpolation_parameters.interpolation_type = (
+            interpolation_parameters.interpolation_type
+        )
+        c_interpolation_parameters.method = interpolation_parameters.method
+        c_interpolation_parameters.absolute_search_radius = (
+            interpolation_parameters.absolute_search_radius
+        )
+        c_interpolation_parameters.relative_search_radius = (
+            interpolation_parameters.relative_search_radius
+        )
+        c_interpolation_parameters.use_closest_if_none_found = (
+            interpolation_parameters.use_closest_if_none_found
+        )
+        c_interpolation_parameters.minimum_number_of_samples = (
+            interpolation_parameters.minimum_number_of_samples
+        )
+
+        return c_interpolation_parameters
 
 
 class COrthogonalizationParameters(Structure):

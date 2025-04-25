@@ -100,6 +100,14 @@ class InterpolationValues(IntEnum):
     DOUBLE = 3
 
 
+@unique
+class InterpolationType(IntEnum):
+    """The interpolation types for point clouds."""
+
+    TRIANGULATION = 0
+    AVERAGING = 1
+
+
 class Mesh2d:
     """This class is used for getting and setting two-dimensional mesh data.
 
@@ -360,6 +368,35 @@ class GeometryList:
             raise mk_errors.InputError(
                 "The length of values is not equal to the length of x_coordinates"
             )
+
+
+class InterpolationParameters:
+    """A class holding the parameters for interpolating properties.
+
+    Attributes:
+        interpolation_type (int, optional): The interpolation type to use.
+        method (int, optional):  Which averaging method should be used.
+        absolute_search_radius (float, optional): The absolute search radius.
+        relative_search_radius (float, optional):  The relative search radius.
+        use_closest_if_none_found (bool, optional): If no point is found in polygon then just used the closest point.
+        minimum_number_of_samples (int, optional): The minimum number of samples for several averaging methods.
+    """
+
+    def __init__(
+        self,
+        interpolation_type=1,
+        method=1,
+        absolute_search_radius=100.0,
+        relative_search_radius=1.0,
+        use_closest_if_none_found=True,
+        minimum_number_of_samples=10,
+    ):
+        self.interpolation_type: int = int(interpolation_type)
+        self.method: int = int(method)
+        self.absolute_search_radius: float = float(absolute_search_radius)
+        self.relative_search_radius: float = float(relative_search_radius)
+        self.use_closest_if_none_found: bool = bool(use_closest_if_none_found)
+        self.minimum_number_of_samples: int = int(minimum_number_of_samples)
 
 
 class OrthogonalizationParameters:
