@@ -839,7 +839,7 @@ land boundaries.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes">
-<span class="sig-name descname"><span class="pre">mesh2d_connect_meshes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mesh2d_connect_meshes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><span class="pre">Mesh2d</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_connect_meshes" title="Link to this definition"></a></dt>
 <dd><p>Connect a mesh to an existing mesh</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -847,6 +847,7 @@ land boundaries.</p></li>
 <li><p><strong>mesh2d</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d"><em>Mesh2d</em></a>) – The mesh to connect to the existing mesh</p></li>
 <li><p><strong>search_fraction</strong> (<em>float</em>) – Fraction of the shortest edge (along an edge to be connected)
 to use when determining neighbour edge closeness</p></li>
+<li><p><strong>connect</strong> (<em>bool</em>) – Connect the meshes with additional edges or not</p></li>
 </ul>
 </dd>
 </dl>
@@ -1136,7 +1137,7 @@ the segments connecting the face circumcenters.</p>
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_property">
 <span class="sig-name descname"><span class="pre">mesh2d_get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d.Property" title="meshkernel.py_structures.Mesh2d.Property"><span class="pre">Property</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_property" title="Link to this definition"></a></dt>
 <dd><p>Gets the polygons matching the metric value within the minimum and maximum value.
-:param mesh2d_location: Location of the property
+:param mesh2d_location: The property location
 :type mesh2d_location: Mesh2dLocation
 :param property: The property to retrieve
 :type property: Mesh2d.Property</p>
@@ -1475,6 +1476,14 @@ translation_y (float): Y-component of the translation vector</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_delete_property">
+<span class="sig-name descname"><span class="pre">mkernel_delete_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">propertyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_delete_property" title="Link to this definition"></a></dt>
+<dd><p>Deletes a property and its calculator.
+:param propertyId: The property id.
+:type propertyId: int</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator">
 <span class="sig-name descname"><span class="pre">mkernel_get_inner_outer_separator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator" title="Link to this definition"></a></dt>
 <dd><p>Get the separator used in MeshKernel for separating the outer perimeter of a polygon from is inner perimeter</p>
@@ -1498,6 +1507,38 @@ translation_y (float): Y-component of the translation vector</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_mesh2d_casulli_refinement_based_on_depths">
+<span class="sig-name descname"><span class="pre">mkernel_mesh2d_casulli_refinement_based_on_depths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">propertyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshRefinementParameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters" title="meshkernel.py_structures.MeshRefinementParameters"><span class="pre">MeshRefinementParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimumRefinementDepth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_mesh2d_casulli_refinement_based_on_depths" title="Link to this definition"></a></dt>
+<dd><p>Refine mesh using the Casulli refinement algorithm based on the depth values.
+:param polygons: The polygon within which the refinement is computed.
+:type polygons: GeometryList
+:param propertyId: The identifier of the interpolator to be used.
+:type propertyId: int
+:param meshRefinementParameters: Parameters indicating how the mesh is to be refined.
+:type meshRefinementParameters: MeshRefinementParameters
+:param minimumRefinementDepth: Nodes with depth value less than this value will not be marked for refinement.
+:type minimumRefinementDepth: float</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mkernel_set_property">
+<span class="sig-name descname"><span class="pre">mkernel_set_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters" title="meshkernel.py_structures.InterpolationParameters"><span class="pre">InterpolationParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mkernel_set_property" title="Link to this definition"></a></dt>
+<dd><p>Sets the property data for the mesh, the sample data points do not have to match the mesh2d nodes.
+:param interpolation_parameters: The parameters required for the interpolation
+:type interpolation_parameters: InterpolationParameters
+:param sample_data: The sample data and associated sample data points.
+:type sample_data: GeometryList</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The id of the property.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>

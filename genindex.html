@@ -98,6 +98,12 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.absolute_search_radius">absolute_search_radius (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.absolute_search_radius">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters.account_for_samples_outside">account_for_samples_outside (MeshRefinementParameters attribute)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMeshRefinementParameters.account_for_samples_outside_face">account_for_samples_outside_face (CMeshRefinementParameters attribute)</a>
@@ -120,14 +126,14 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MakeGridParameters.angle">(MakeGridParameters attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.COrthogonalizationParameters.areal_to_angle_smoothing_factor">areal_to_angle_smoothing_factor (COrthogonalizationParameters attribute)</a>
 
       <ul>
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.OrthogonalizationParameters.areal_to_angle_smoothing_factor">(OrthogonalizationParameters attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CSplinesToCurvilinearParameters.aspect_ratio">aspect_ratio (CSplinesToCurvilinearParameters attribute)</a>
 
       <ul>
@@ -152,6 +158,8 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters.average_width">(SplinesToCurvilinearParameters attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType.AVERAGING">AVERAGING (InterpolationType attribute)</a>
+</li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod">AveragingMethod (class in meshkernel.py_structures)</a>
 </li>
   </ul></td>
@@ -210,6 +218,8 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.SplinesToCurvilinearParameters.check_front_collisions">(SplinesToCurvilinearParameters attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters">CInterpolationParameters (class in meshkernel.c_structures)</a>
+</li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod.CLOSEST_POINT">CLOSEST_POINT (AveragingMethod attribute)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters">CMakeGridParameters (class in meshkernel.c_structures)</a>
@@ -254,10 +264,10 @@
       </ul></li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_curvature">curvilinear_compute_curvature() (MeshKernel method)</a>
 </li>
-      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines">curvilinear_compute_orthogonal_from_splines() (MeshKernel method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_orthogonal_from_splines">curvilinear_compute_orthogonal_from_splines() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid">curvilinear_compute_rectangular_grid() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.curvilinear_compute_rectangular_grid_from_polygon">curvilinear_compute_rectangular_grid_from_polygon() (MeshKernel method)</a>
@@ -430,6 +440,8 @@
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CGriddedSamples.from_griddedSamples">from_griddedSamples() (CGriddedSamples static method)</a>
 </li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.from_interpolationparameters">from_interpolationparameters() (CInterpolationParameters static method)</a>
+</li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters.from_makegridparameters">from_makegridparameters() (CMakeGridParameters static method)</a>
 </li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMesh1d.from_mesh1d">from_mesh1d() (CMesh1d static method)</a>
@@ -498,15 +510,25 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.GeometryList.inner_outer_separator">(GeometryList attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.errors.html#meshkernel.errors.InputError">InputError</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_AND_INTERSECTED">INSIDE_AND_INTERSECTED (DeleteMeshOption attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption.INSIDE_NOT_INTERSECTED">INSIDE_NOT_INTERSECTED (DeleteMeshOption attribute)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues.INT">INT (InterpolationValues attribute)</a>
+</li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.interpolation_type">interpolation_type (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.interpolation_type">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters">InterpolationParameters (class in meshkernel.py_structures)</a>
+</li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType">InterpolationType (class in meshkernel.py_structures)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues">InterpolationValues (class in meshkernel.py_structures)</a>
 </li>
@@ -642,8 +664,6 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_global">mesh2d_make_global() (MeshKernel method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh">mesh2d_make_rectangular_mesh() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_rectangular_mesh_from_polygon">mesh2d_make_rectangular_mesh_from_polygon() (MeshKernel method)</a>
@@ -652,6 +672,8 @@
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon">mesh2d_make_triangular_mesh_from_polygon() (MeshKernel method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_samples">mesh2d_make_triangular_mesh_from_samples() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_merge_nodes">mesh2d_merge_nodes() (MeshKernel method)</a>
@@ -739,6 +761,12 @@
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters">MeshRefinementParameters (class in meshkernel.py_structures)</a>
 </li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.method">method (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.method">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod.MIN">MIN (AveragingMethod attribute)</a>
 </li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.AveragingMethod.MIN_ABS">MIN_ABS (AveragingMethod attribute)</a>
@@ -755,9 +783,21 @@
         <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.MeshRefinementParameters.min_edge_size">(MeshRefinementParameters attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.minimum_number_of_samples">minimum_number_of_samples (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.minimum_number_of_samples">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_delete_property">mkernel_delete_property() (MeshKernel method)</a>
+</li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator">mkernel_get_inner_outer_separator() (MeshKernel method)</a>
 </li>
       <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_separator">mkernel_get_separator() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_mesh2d_casulli_refinement_based_on_depths">mkernel_mesh2d_casulli_refinement_based_on_depths() (MeshKernel method)</a>
+</li>
+      <li><a href="api/meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_set_property">mkernel_set_property() (MeshKernel method)</a>
 </li>
       <li>
     module
@@ -1000,6 +1040,12 @@
       </ul></li>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.RefinementType">RefinementType (class in meshkernel.py_structures)</a>
 </li>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.relative_search_radius">relative_search_radius (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.relative_search_radius">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.Contacts.remove_invalid_values">remove_invalid_values() (Contacts method)</a>
@@ -1064,6 +1110,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.ProjectToLandBoundaryOption.TO_ORIGINAL_NETBOUNDARY">TO_ORIGINAL_NETBOUNDARY (ProjectToLandBoundaryOption attribute)</a>
 </li>
+      <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType.TRIANGULATION">TRIANGULATION (InterpolationType attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1084,6 +1132,12 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.use_closest_if_none_found">use_closest_if_none_found (CInterpolationParameters attribute)</a>
+
+      <ul>
+        <li><a href="api/meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.use_closest_if_none_found">(InterpolationParameters attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/meshkernel.c_structures.html#meshkernel.c_structures.CMeshRefinementParameters.use_mass_center_when_refining">use_mass_center_when_refining (CMeshRefinementParameters attribute)</a>
 
       <ul>

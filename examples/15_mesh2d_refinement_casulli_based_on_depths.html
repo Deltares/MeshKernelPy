@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesh2d refine casulli based on depths &mdash; MeshKernelPy 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=20623aea"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MeshKernelPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">MeshKernelPy</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MeshKernelPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mesh2d refine casulli based on depths</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/15_mesh2d_refinement_casulli_based_on_depths.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mesh2d-refine-casulli-based-on-depths">
+<h1>Mesh2d refine casulli based on depths<a class="headerlink" href="#mesh2d-refine-casulli-based-on-depths" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">meshkernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">meshkernel</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MakeGridParameters</span><span class="p">,</span>
+    <span class="n">MeshKernel</span><span class="p">,</span>
+    <span class="n">GeometryList</span><span class="p">,</span>
+    <span class="n">GriddedSamples</span><span class="p">,</span>
+    <span class="n">ProjectionType</span><span class="p">,</span>
+    <span class="n">MeshRefinementParameters</span><span class="p">,</span>
+    <span class="n">RefinementType</span><span class="p">,</span>
+    <span class="n">InterpolationType</span><span class="p">,</span>
+    <span class="n">InterpolationParameters</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">mk_version</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-refine-cartesian-mesh">
+<h1>Example 1: refine cartesian mesh<a class="headerlink" href="#example-1-refine-cartesian-mesh" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">ProjectionType</span><span class="o">.</span><span class="n">CARTESIAN</span><span class="p">)</span>
+
+<span class="n">x_start</span><span class="p">,</span> <span class="n">x_end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">makeGridParameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">()</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">origin_x</span> <span class="o">=</span> <span class="n">x_start</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">origin_y</span> <span class="o">=</span> <span class="n">y_min</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">upper_right_x</span> <span class="o">=</span> <span class="n">x_end</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">upper_right_y</span> <span class="o">=</span> <span class="n">y_max</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">block_size_x</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">makeGridParameters</span><span class="o">.</span><span class="n">block_size_y</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_make_rectangular_mesh_on_extension</span><span class="p">(</span><span class="n">makeGridParameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="plot-starting-cartesian-mesh">
+<h2>Plot starting cartesian mesh<a class="headerlink" href="#plot-starting-cartesian-mesh" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_not_refined</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_not_refined</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cafd32a4d23ea139a496aedeaacd5d5e5173ea7455e9f81691d40f6251c6e8fe.png" src="../_images/cafd32a4d23ea139a496aedeaacd5d5e5173ea7455e9f81691d40f6251c6e8fe.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_start</span><span class="p">,</span> <span class="n">x_end</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="p">[</span><span class="n">x_start</span><span class="p">,</span> <span class="n">x_end</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-sample-set">
+<h2>Plot sample set<a class="headerlink" href="#plot-sample-set" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.contour.QuadContourSet at 0x1f054cec790&gt;
+</pre></div>
+</div>
+<img alt="../_images/d85cd0dd9815b39c75e2151ff5844df405e44efe56fa0560b8411d5e4be14d87.png" src="../_images/d85cd0dd9815b39c75e2151ff5844df405e44efe56fa0560b8411d5e4be14d87.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span>
+    <span class="n">x_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+    <span class="n">y_coordinates</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">interpolation_parameters</span> <span class="o">=</span> <span class="n">InterpolationParameters</span><span class="p">()</span>
+<span class="n">interpolation_parameters</span><span class="o">.</span><span class="n">interpolation_type</span> <span class="o">=</span> <span class="n">InterpolationType</span><span class="o">.</span><span class="n">AVERAGING</span>
+
+<span class="n">property_id</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mkernel_set_property</span><span class="p">(</span><span class="n">interpolation_parameters</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+
+<span class="n">x_coordinates_pol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">y_coordinates_pol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">polygons</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span>
+    <span class="n">x_coordinates</span><span class="o">=</span><span class="n">x_coordinates_pol</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="o">=</span><span class="n">y_coordinates_pol</span>
+<span class="p">)</span>
+
+<span class="n">meshRefinementParameters</span> <span class="o">=</span> <span class="n">MeshRefinementParameters</span><span class="p">()</span>
+<span class="n">minimumRefinementDepth</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mkernel_mesh2d_casulli_refinement_based_on_depths</span><span class="p">(</span>
+    <span class="n">polygons</span><span class="p">,</span> <span class="n">property_id</span><span class="p">,</span> <span class="n">meshRefinementParameters</span><span class="p">,</span> <span class="n">minimumRefinementDepth</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-refined-mesh-this-must-change">
+<h2>Plot refined mesh (this must change)<a class="headerlink" href="#plot-refined-mesh-this-must-change" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_refined</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_refined</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/74d5fcfc6badb2ad84692decc09b493134b13fce5dd1d3f55e9b6cd1f47c75bc.png" src="../_images/74d5fcfc6badb2ad84692decc09b493134b13fce5dd1d3f55e9b6cd1f47c75bc.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="example-2-refining-the-analysis-using-real-bathymetric-data-in-a-smaller-region">
+<h1>Example 2: Refining the Analysis Using Real Bathymetric Data in a Smaller Region<a class="headerlink" href="#example-2-refining-the-analysis-using-real-bathymetric-data-in-a-smaller-region" title="Link to this heading"></a></h1>
+<section id="utility-for-reading-samples">
+<h2>Utility for reading samples<a class="headerlink" href="#utility-for-reading-samples" title="Link to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_and_filter_samples</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">lower_left</span><span class="p">,</span> <span class="n">upper_right</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a text file of samples (lat, long, depth), filters samples within a bounding box,</span>
+<span class="sd">    and returns three numpy arrays of doubles (latitude, longitude, depth).</span>
+
+<span class="sd">    :param file_path: Path to the text file containing the data.</span>
+<span class="sd">    :param lower_left: Tuple with (latitude, longitude) of the lower-left corner of the bounding box.</span>
+<span class="sd">    :param upper_right: Tuple with (latitude, longitude) of the upper-right corner of the bounding box.</span>
+<span class="sd">    :return: Tuple of three numpy arrays: latitudes, longitudes, depths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">latitudes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">longitudes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">depths</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Unpack bounding box corners</span>
+    <span class="n">ll_lat</span><span class="p">,</span> <span class="n">ll_long</span> <span class="o">=</span> <span class="n">lower_left</span>
+    <span class="n">ur_lat</span><span class="p">,</span> <span class="n">ur_long</span> <span class="o">=</span> <span class="n">upper_right</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+                <span class="c1"># Parse the line into latitude, longitude, and depth</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">lat</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">parts</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Check if the sample is within the bounding box</span>
+                <span class="k">if</span> <span class="n">ll_lat</span> <span class="o">&lt;=</span> <span class="n">lat</span> <span class="o">&lt;=</span> <span class="n">ur_lat</span> <span class="ow">and</span> <span class="n">ll_long</span> <span class="o">&lt;=</span> <span class="n">long</span> <span class="o">&lt;=</span> <span class="n">ur_long</span><span class="p">:</span>
+                    <span class="n">latitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+                    <span class="n">longitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">long</span><span class="p">)</span>
+                    <span class="n">depths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: File </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Convert lists to numpy arrays of type double</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">latitudes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">longitudes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;stpete.xyz&quot;</span>
+<span class="n">input_file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;data_examples&quot;</span> <span class="o">/</span> <span class="n">input_file</span>
+
+<span class="n">lower_left_corner</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">82.79428</span><span class="p">,</span> <span class="mf">28.00218</span><span class="p">)</span>
+<span class="n">upper_right_corner</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">82.76323</span><span class="p">,</span> <span class="mf">28.02404</span><span class="p">)</span>
+<span class="c1"># Read and filter the samples</span>
+<span class="n">x_coordinates</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">read_and_filter_samples</span><span class="p">(</span>
+    <span class="n">input_file_path</span><span class="p">,</span> <span class="n">lower_left_corner</span><span class="p">,</span> <span class="n">upper_right_corner</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="generate-regular-grid">
+<h3>Generate regular grid<a class="headerlink" href="#generate-regular-grid" title="Link to this heading"></a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">82.79428</span><span class="p">,</span> <span class="o">-</span><span class="mf">82.76323</span><span class="p">,</span> <span class="mf">28.00218</span><span class="p">,</span> <span class="mf">28.02404</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">lon_max</span> <span class="o">-</span> <span class="n">lon_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">lat_max</span> <span class="o">-</span> <span class="n">lat_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span>
+
+<span class="n">makeGridParameters</span> <span class="o">=</span> <span class="n">MakeGridParameters</span><span class="p">(</span>
+    <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">origin_x</span><span class="o">=</span><span class="n">lon_min</span><span class="p">,</span>
+    <span class="n">origin_y</span><span class="o">=</span><span class="n">lat_min</span><span class="p">,</span>
+    <span class="n">upper_right_x</span><span class="o">=</span><span class="n">lon_max</span><span class="p">,</span>
+    <span class="n">upper_right_y</span><span class="o">=</span><span class="n">lat_max</span><span class="p">,</span>
+    <span class="n">block_size_x</span><span class="o">=</span><span class="n">dx</span><span class="p">,</span>
+    <span class="n">block_size_y</span><span class="o">=</span><span class="n">dy</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">mk</span> <span class="o">=</span> <span class="n">MeshKernel</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ProjectionType</span><span class="o">.</span><span class="n">SPHERICAL</span><span class="p">)</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_make_rectangular_mesh</span><span class="p">(</span><span class="n">makeGridParameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_not_refined</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_not_refined</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d942378c2d628aba4fdd8a210b20d977982846f80f111edb16a469c9f1a436f6.png" src="../_images/d942378c2d628aba4fdd8a210b20d977982846f80f111edb16a469c9f1a436f6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span>
+    <span class="n">x_coordinates</span><span class="o">=</span><span class="n">x_coordinates</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="o">=</span><span class="n">y_coordinates</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interpolation_parameters</span> <span class="o">=</span> <span class="n">InterpolationParameters</span><span class="p">()</span>
+<span class="n">interpolation_parameters</span><span class="o">.</span><span class="n">interpolation_type</span> <span class="o">=</span> <span class="n">InterpolationType</span><span class="o">.</span><span class="n">AVERAGING</span>
+
+<span class="n">property_id</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mkernel_set_property</span><span class="p">(</span><span class="n">interpolation_parameters</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+
+<span class="n">x_coordinates_pol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">y_coordinates_pol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="n">polygons</span> <span class="o">=</span> <span class="n">GeometryList</span><span class="p">(</span>
+    <span class="n">x_coordinates</span><span class="o">=</span><span class="n">x_coordinates_pol</span><span class="p">,</span> <span class="n">y_coordinates</span><span class="o">=</span><span class="n">y_coordinates_pol</span>
+<span class="p">)</span>
+
+<span class="n">meshRefinementParameters</span> <span class="o">=</span> <span class="n">MeshRefinementParameters</span><span class="p">()</span>
+<span class="n">minimumRefinementDepth</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">mkernel_mesh2d_casulli_refinement_based_on_depths</span><span class="p">(</span>
+    <span class="n">polygons</span><span class="p">,</span> <span class="n">property_id</span><span class="p">,</span> <span class="n">meshRefinementParameters</span><span class="p">,</span> <span class="n">minimumRefinementDepth</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2d_refined</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">mesh2d_get</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">mesh2d_refined</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3349b3f212e75b6650d3bb2fdae347f68ef9a4c8bfe9d6f2e8f811a3fc0ffcaf.png" src="../_images/3349b3f212e75b6650d3bb2fdae347f68ef9a4c8bfe9d6f2e8f811a3fc0ffcaf.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Deltares.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

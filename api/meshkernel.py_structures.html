@@ -521,6 +521,96 @@ part. Default is <cite>-998.0</cite>.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InterpolationParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absolute_search_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_search_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_closest_if_none_found</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_number_of_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class holding the parameters for interpolating properties.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.interpolation_type">
+<span class="sig-name descname"><span class="pre">interpolation_type</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.interpolation_type" title="Link to this definition"></a></dt>
+<dd><p>The interpolation type to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.method">
+<span class="sig-name descname"><span class="pre">method</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.method" title="Link to this definition"></a></dt>
+<dd><p>Which averaging method should be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.absolute_search_radius">
+<span class="sig-name descname"><span class="pre">absolute_search_radius</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.absolute_search_radius" title="Link to this definition"></a></dt>
+<dd><p>The absolute search radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.relative_search_radius">
+<span class="sig-name descname"><span class="pre">relative_search_radius</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.relative_search_radius" title="Link to this definition"></a></dt>
+<dd><p>The relative search radius.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.use_closest_if_none_found">
+<span class="sig-name descname"><span class="pre">use_closest_if_none_found</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.use_closest_if_none_found" title="Link to this definition"></a></dt>
+<dd><p>If no point is found in polygon then just used the closest point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationParameters.minimum_number_of_samples">
+<span class="sig-name descname"><span class="pre">minimum_number_of_samples</span></span><a class="headerlink" href="#meshkernel.py_structures.InterpolationParameters.minimum_number_of_samples" title="Link to this definition"></a></dt>
+<dd><p>The minimum number of samples for several averaging methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InterpolationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.InterpolationType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>The interpolation types for point clouds.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationType.AVERAGING">
+<span class="sig-name descname"><span class="pre">AVERAGING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#meshkernel.py_structures.InterpolationType.AVERAGING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationType.TRIANGULATION">
+<span class="sig-name descname"><span class="pre">TRIANGULATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#meshkernel.py_structures.InterpolationType.TRIANGULATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="meshkernel.py_structures.InterpolationValues">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InterpolationValues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#meshkernel.py_structures.InterpolationValues" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>

@@ -140,6 +140,16 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CGriddedSamples.y_origin"><code class="docutils literal notranslate"><span class="pre">CGriddedSamples.y_origin</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.absolute_search_radius"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.absolute_search_radius</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.from_interpolationparameters"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.from_interpolationparameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.interpolation_type"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.interpolation_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.method"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.method</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.minimum_number_of_samples"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.minimum_number_of_samples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.relative_search_radius"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.relative_search_radius</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CInterpolationParameters.use_closest_if_none_found"><code class="docutils literal notranslate"><span class="pre">CInterpolationParameters.use_closest_if_none_found</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters"><code class="docutils literal notranslate"><span class="pre">CMakeGridParameters</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters.angle"><code class="docutils literal notranslate"><span class="pre">CMakeGridParameters.angle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.c_structures.html#meshkernel.c_structures.CMakeGridParameters.block_size_x"><code class="docutils literal notranslate"><span class="pre">CMakeGridParameters.block_size_x</span></code></a></li>
@@ -333,8 +343,11 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_set"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_set()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_translate"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_translate()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mesh2d_triangulation_interpolation"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mesh2d_triangulation_interpolation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_delete_property"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_delete_property()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_inner_outer_separator"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_get_inner_outer_separator()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_get_separator"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_get_separator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_mesh2d_casulli_refinement_based_on_depths"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_mesh2d_casulli_refinement_based_on_depths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.mkernel_set_property"><code class="docutils literal notranslate"><span class="pre">MeshKernel.mkernel_set_property()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.polygon_get_included_points"><code class="docutils literal notranslate"><span class="pre">MeshKernel.polygon_get_included_points()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.meshkernel.html#meshkernel.meshkernel.MeshKernel.polygon_refine"><code class="docutils literal notranslate"><span class="pre">MeshKernel.polygon_refine()</span></code></a></li>
 </ul>
@@ -402,6 +415,20 @@
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples.x_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.x_coordinates</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples.y_coordinates"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.y_coordinates</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GriddedSamples.values"><code class="docutils literal notranslate"><span class="pre">GriddedSamples.values</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.interpolation_type"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.interpolation_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.method"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.method</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.absolute_search_radius"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.absolute_search_radius</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.relative_search_radius"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.relative_search_radius</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.use_closest_if_none_found"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.use_closest_if_none_found</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters.minimum_number_of_samples"><code class="docutils literal notranslate"><span class="pre">InterpolationParameters.minimum_number_of_samples</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType"><code class="docutils literal notranslate"><span class="pre">InterpolationType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType.AVERAGING"><code class="docutils literal notranslate"><span class="pre">InterpolationType.AVERAGING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationType.TRIANGULATION"><code class="docutils literal notranslate"><span class="pre">InterpolationType.TRIANGULATION</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationValues"><code class="docutils literal notranslate"><span class="pre">InterpolationValues</span></code></a><ul>

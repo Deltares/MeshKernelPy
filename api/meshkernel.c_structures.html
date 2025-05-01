@@ -463,6 +463,79 @@ It represents a GriddedSamples struct as described by the MeshKernel API.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CInterpolationParameters</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<p>C-structure intended for internal use only.
+It represents Parameters used by the sample interpolation.</p>
+<p>Used for communicating with the MeshKernel dll.</p>
+<dl class="simple">
+<dt>The <code class="docutils literal notranslate"><span class="pre">_fields_</span></code> attribute of this class contains the following fields:</dt><dd><ul class="simple">
+<li><p>interpolation_type (c_int): Default is to use sample averaging.</p></li>
+<li><p>method (c_int): Which averaging method should be used.</p></li>
+<li><p>absolute_search_radius (c_double): The absolute search radius.</p></li>
+<li><p>relative_search_radius (c_double): The relative search radius.</p></li>
+<li><p>use_closest_if_none_found (c_bool): If no point is found in polygon then just used the closest point.</p></li>
+<li><p>minimum_number_of_samples (c_int): The minimum number of samples for several averaging methods.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.absolute_search_radius">
+<span class="sig-name descname"><span class="pre">absolute_search_radius</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.absolute_search_radius" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.from_interpolationparameters">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_interpolationparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters" title="meshkernel.py_structures.InterpolationParameters"><span class="pre">InterpolationParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#meshkernel.c_structures.CInterpolationParameters" title="meshkernel.c_structures.CInterpolationParameters"><span class="pre">CInterpolationParameters</span></a></span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.from_interpolationparameters" title="Link to this definition"></a></dt>
+<dd><p>Creates a new <cite>CInterpolationParameters</cite> instance from the given InterpolationParameters instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>interpolation_parameters</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.InterpolationParameters" title="meshkernel.py_structures.InterpolationParameters"><em>InterpolationParameters</em></a>) – The interpolation parameters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created C-Structure for the given InterpolationParameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#meshkernel.c_structures.CInterpolationParameters" title="meshkernel.c_structures.CInterpolationParameters">CInterpolationParameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.interpolation_type">
+<span class="sig-name descname"><span class="pre">interpolation_type</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.interpolation_type" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.method">
+<span class="sig-name descname"><span class="pre">method</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.method" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.minimum_number_of_samples">
+<span class="sig-name descname"><span class="pre">minimum_number_of_samples</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.minimum_number_of_samples" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.relative_search_radius">
+<span class="sig-name descname"><span class="pre">relative_search_radius</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.relative_search_radius" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="meshkernel.c_structures.CInterpolationParameters.use_closest_if_none_found">
+<span class="sig-name descname"><span class="pre">use_closest_if_none_found</span></span><a class="headerlink" href="#meshkernel.c_structures.CInterpolationParameters.use_closest_if_none_found" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="meshkernel.c_structures.CMakeGridParameters">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CMakeGridParameters</span></span><a class="headerlink" href="#meshkernel.c_structures.CMakeGridParameters" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
