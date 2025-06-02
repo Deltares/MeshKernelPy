@@ -1149,7 +1149,8 @@ class MeshKernel:
         return geometry_list_out
 
     def mesh2d_get_mesh_boundaries_as_polygons(
-        self, geometry_list: GeometryList
+        self,
+        geometry_list: GeometryList = GeometryList(),
     ) -> GeometryList:
         """Retrieves the boundaries of a mesh as a series of separated polygons within the selecting polygon.
            If the polygon is empty, all the mesh boundaries are retrieved.
@@ -1158,7 +1159,7 @@ class MeshKernel:
         one for the inner boundary and one for the outer boundary.
 
         Args:
-            geometry_list (GeometryList): The selecting polygon.
+            geometry_list (GeometryList, optional): The selecting polygon.
 
         Returns:
             GeometryList: The output network boundary polygon.
