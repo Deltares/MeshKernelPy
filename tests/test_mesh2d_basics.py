@@ -1121,12 +1121,7 @@ def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKern
 
     mk = meshkernel_with_mesh2d(2, 2)
 
-    # Create an empty polygon for selecting all boundaries
-    x_coordinates = np.empty(0, dtype=np.double)
-    y_coordinates = np.empty(0, dtype=np.double)
-    geometry_list_in = GeometryList(x_coordinates, y_coordinates)
-
-    mesh_boundary = mk.mesh2d_get_mesh_boundaries_as_polygons(geometry_list_in)
+    mesh_boundary = mk.mesh2d_get_mesh_boundaries_as_polygons()
 
     assert_array_equal(
         mesh_boundary.x_coordinates,
