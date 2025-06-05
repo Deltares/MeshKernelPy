@@ -927,7 +927,7 @@ class MeshKernel:
 
         Args:
             selecting_polygon (GeometryList): The selection polygon.
-            selected_polygon (GeometryList): The polygon of which to get the selected points.
+            selected_polygon (GeometryList): The polygon from which to get the selected points.
 
         Returns:
             GeometryList: The selection result. The selected points are contained in the values array of the returned
