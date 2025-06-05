@@ -757,9 +757,6 @@ def test_mesh2d_make_rectangular_mesh_on_extension():
     assert mesh2d_1.node_x.size == 6318
     assert mesh2d_1.edge_x.size == 12477
     assert mesh2d_1.face_x.size == 6160
-    # assert mesh2d_1.node_x.size == 8343
-    # assert mesh2d_1.edge_x.size == 16502
-    # assert mesh2d_1.face_x.size == 8160
 
     assert mesh2d_1 == mesh2d_2
 
