@@ -617,7 +617,7 @@ class MeshKernel:
         Args:
             polygon (GeometryList): The polygon.
             scaleFactor (float):    Scaling factor for the triangulation, if negative value then a default will be used.
-                                    The default scaling will be polygon dependant.
+                                    The default scaling will be polygon dependent.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
