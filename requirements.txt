@@ -1,6 +1,6 @@
 setuptools
-wheel
-auditwheel
+wheel-0.41.2
+auditwheel-6.3.0
 pytest
 numpy>=1.22
 matplotlib>=3.6
