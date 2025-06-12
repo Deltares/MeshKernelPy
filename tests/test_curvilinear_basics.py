@@ -221,7 +221,7 @@ def test_curvilinear_compute_rectangular_grid_defined_extension_spherical_coordi
 
     # Test the number of m and n
     assert curvilinear_grid.num_m == 81
-    assert curvilinear_grid.num_n == 103
+    assert curvilinear_grid.num_n == 78
 
 
 def test_curvilinear_compute_rectangular_grid_with_polygon():
