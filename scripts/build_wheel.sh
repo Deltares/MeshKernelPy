@@ -41,7 +41,8 @@ python setup.py bdist_wheel || error "[setup] Building the wheel failed"
     list+=("$file")
   done
   auditwheel show "${list[0]}"
-  auditwheel repair "${list[0]}"
+  # only-plat: Do not check for higher policy compatibility
+  auditwheel repair "${list[0]}"  --only-plat
 )
 
 cp ./dist/wheelhouse/*.whl .
