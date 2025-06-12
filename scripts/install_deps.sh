@@ -55,9 +55,9 @@ scl enable "${DEVTOOLSET}" bash || error "[scl] Failed to enable ${DEVTOOLSET}"
   # Alternative mirror to use if the official mirror is down
   # BOOST_MIRROR=https://mirror.bazel.build/boostorg.jfrog.io/artifactory/main/release/"${BOOST_VERSION}"/source/"${BOOST_LIB}".tar.gz
   # sourceforge
-  #BOOST_MIRROR=https://sourceforge.net/projects/boost/files/boost/"${BOOST_VERSION}"/"${BOOST_LIB}".tar.gz
-  # Github
-  BOOST_MIRROR=https://github.com/boostorg/boost/releases/download/"${BOOST_LIB}"/"${BOOST_LIB}".tar.gz
+  BOOST_MIRROR=https://sourceforge.net/projects/boost/files/boost/"${BOOST_VERSION}"/"${BOOST_LIB}".tar.gz
+  # github
+  BOOST_MIRROR=https://github.com/boostorg/boost/releases/download/boost-"${BOOST_VERSION}"/"${BOOST_LIB}".tar.gz
 
   wget  "${BOOST_MIRROR}" || error "[boost] ${BOOST_LIB}.tar.gz download failed"
   export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64:"$LD_LIBRARY_PATH"
