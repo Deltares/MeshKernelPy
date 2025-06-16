@@ -1042,7 +1042,7 @@ shape and wildly varying areas.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons">
-<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_boundaries_as_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_boundaries_as_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list:</span> <span class="pre">~meshkernel.py_structures.GeometryList</span> <span class="pre">=</span> <span class="pre">&lt;meshkernel.py_structures.GeometryList</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_boundaries_as_polygons" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Retrieves the boundaries of a mesh as a series of separated polygons within the selecting polygon.</dt><dd><p>If the polygon is empty, all the mesh boundaries are retrieved.</p>
 </dd>
@@ -1051,7 +1051,7 @@ shape and wildly varying areas.</p>
 one for the inner boundary and one for the outer boundary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The selecting polygon.</p>
+<dd class="field-odd"><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a><em>, </em><em>optional</em>) – The selecting polygon.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The output network boundary polygon.</p>
@@ -1551,7 +1551,7 @@ translation_y (float): Y-component of the translation vector</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>selecting_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The selection polygon.</p></li>
-<li><p><strong>selected_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon of which to get the selected points.</p></li>
+<li><p><strong>selected_polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon from which to get the selected points.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
