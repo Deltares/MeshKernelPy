@@ -244,8 +244,9 @@ def test_contacts_compute_with_polygons():
     assert contacts.mesh2d_indices[1] == 14
 
 
-def test_contacts_compute_with_points():
+def test_contacts_compute_with_points_node_mask_true():
     """Tests `contacts_compute_with_points` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
+    the node_mask contains only true value
 
     30--31--32--33--34--35
     |   |   |   |   | / |
@@ -294,6 +295,103 @@ def test_contacts_compute_with_points():
     assert contacts.mesh2d_indices[0] == 8
     assert contacts.mesh2d_indices[1] == 10
     assert contacts.mesh2d_indices[2] == 14
+
+
+def test_contacts_compute_with_points_node_mask_false():
+    """Tests `contacts_compute_with_points` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
+    the node_mask contains only false value
+
+    30--31--32--33--34--35
+    |   |   |   |   | / |
+    24--25--26--27--28--29
+    |   |   |   | / |   |
+    18--19--20--21--22--23
+    |   |   | / |   |   |
+    12--13--14--15--16--17
+    |   | / |   |   |   |
+    6---7---8---9---10--11
+    | / |   |   |   |   |
+    0---1---2---3---4---5
+    """
+
+    mk = MeshKernel()
+
+    mesh2d = Mesh2dFactory.create(5, 5)
+
+    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
+
+    node_mask = np.full(node_x.size, False)
+
+    # Three points in Mesh2d faces 10, 8, 14
+    points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
+    points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
+    points = GeometryList(points_x, points_y)
+
+    mk.contacts_compute_with_points(node_mask, points)
+
+    contacts = mk.contacts_get()
+    sort_contacts_by_mesh2d_indices(contacts)
+
+    assert contacts.mesh1d_indices.size == 0
+    assert contacts.mesh2d_indices.size == 0
+
+
+def test_contacts_compute_with_points_node_mask_mixed():
+    """Tests `contacts_compute_with_points` with a 5x5 Mesh2d and a Mesh1d with 5 nodes.
+    the node_mask contains both true and false value
+
+    30--31--32--33--34--35
+    |   |   |   |   | / |
+    24--25--26--27--28--29
+    |   |   |   | / |   |
+    18--19--20--21--22--23
+    |   |   | / |   |   |
+    12--13--14--15--16--17
+    |   | / |   |   |   |
+    6---7---8---9---10--11
+    | / |   |   |   |   |
+    0---1---2---3---4---5
+    """
+
+    mk = MeshKernel()
+
+    mesh2d = Mesh2dFactory.create(5, 5)
+
+    node_x = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    node_y = np.array([0.5, 1.5, 2.5, 3.5, 4.5], dtype=np.double)
+    edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
+    mesh1d = Mesh1d(node_x, node_y, edge_nodes)
+
+    mk.mesh2d_set(mesh2d)
+    mk.mesh1d_set(mesh1d)
+
+    node_mask = np.full(node_x.size, True)
+    node_mask [1] = False
+
+    # Three points in Mesh2d faces 10, 8, 14
+    points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
+    points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
+    points = GeometryList(points_x, points_y)
+
+    mk.contacts_compute_with_points(node_mask, points)
+
+    contacts = mk.contacts_get()
+    sort_contacts_by_mesh2d_indices(contacts)
+
+    assert contacts.mesh1d_indices.size == 2
+    assert contacts.mesh2d_indices.size == 2
+
+    assert contacts.mesh1d_indices[0] == 1
+    assert contacts.mesh1d_indices[1] == 3
+
+    assert contacts.mesh2d_indices[0] == 10
+    assert contacts.mesh2d_indices[1] == 14
 
 
 cases_contacts_compute_boundary = [
