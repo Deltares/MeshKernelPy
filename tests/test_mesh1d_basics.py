@@ -372,7 +372,7 @@ def test_contacts_compute_with_points_node_mask_mixed():
     mk.mesh1d_set(mesh1d)
 
     node_mask = np.full(node_x.size, True)
-    node_mask [1] = False
+    node_mask[1] = False
 
     # Three points in Mesh2d faces 10, 8, 14
     points_x = np.array([0.5, 3.5, 4.5], dtype=np.double)
