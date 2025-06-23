@@ -1270,12 +1270,16 @@ num_latitude_nodes (int):  The number of points along the latitude (half hemisph
 
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon">
-<span class="sig-name descname"><span class="pre">mesh2d_make_triangular_mesh_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mesh2d_make_triangular_mesh_from_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polygon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-999.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_make_triangular_mesh_from_polygon" title="Link to this definition"></a></dt>
 <dd><p>Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
 the polygon edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygon</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The polygon.</p></li>
+<li><p><strong>scale_factor</strong> (<em>float</em>) – Scaling factor for the triangulation, if negative value then a default will be used.
+The default scaling will be polygon dependent.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
