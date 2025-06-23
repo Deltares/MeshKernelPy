@@ -628,7 +628,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_make_triangular_mesh_from_polygon,
             self._meshkernelid,
             byref(c_geometry_list),
-            scaleFactor,
+            c_double(scaleFactor),
         )
 
     def mesh2d_make_triangular_mesh_from_samples(
