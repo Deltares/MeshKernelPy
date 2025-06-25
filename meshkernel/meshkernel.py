@@ -1818,22 +1818,30 @@ class MeshKernel:
         return geometry_list_out
 
     def mesh2d_connect_meshes(
-        self, mesh2d: Mesh2d, search_fraction: float, connect: bool
+        self,
+        mesh2d: Mesh2d,
+        polygon: GeometryList,
+        search_fraction: float,
+        connect: bool,
     ) -> None:
         """Connect a mesh to an existing mesh
 
         Args:
             mesh2d (Mesh2d): The mesh to connect to the existing mesh
+            polygon: The area to be considered when connecting meshes, may be empty indicating the entire domain is considered
             search_fraction (float): Fraction of the shortest edge (along an edge to be connected)
                                      to use when determining neighbour edge closeness
             connect (bool): Connect the meshes with additional edges or not
         """
 
         c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
+        c_polygon = CGeometryList.from_geometrylist(polygon)
+
         self._execute_function(
             self.lib.mkernel_mesh2d_connect_meshes,
             self._meshkernelid,
             byref(c_mesh2d),
+            byref(c_polygon),
             c_double(search_fraction),
             c_bool(connect),
         )

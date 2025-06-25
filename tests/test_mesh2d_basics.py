@@ -1785,7 +1785,10 @@ def test_connect_meshes():
     mk_to_connect.mesh2d_make_rectangular_mesh(make_grid_parameters)
     mesh2d_to_connect = mk_to_connect.mesh2d_get()
 
-    mk_existing.mesh2d_connect_meshes(mesh2d_to_connect, 0.4, True)
+    polygon = GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double))
+
+
+    mk_existing.mesh2d_connect_meshes(mesh2d_to_connect, polygon, 0.4, True)
     mesh2d_existing = mk_existing.mesh2d_get()
 
     assert max(mesh2d_existing.node_x) == 2 * width + 1
