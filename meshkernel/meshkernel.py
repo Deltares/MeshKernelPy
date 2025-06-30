@@ -608,12 +608,18 @@ class MeshKernel:
             c_int(num_latitude_nodes),
         )
 
-    def mesh2d_make_triangular_mesh_from_polygon(self, polygon: GeometryList) -> None:
+    def mesh2d_make_triangular_mesh_from_polygon(
+        self,
+        polygon: GeometryList,
+        scale_factor: float = float(-999.0),
+    ) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
 
         Args:
             polygon (GeometryList): The polygon.
+            scale_factor (float):    Scaling factor for the triangulation, if negative value then a default will be used.
+                                    The default scaling will be polygon dependent.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
@@ -622,6 +628,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_make_triangular_mesh_from_polygon,
             self._meshkernelid,
             byref(c_geometry_list),
+            c_double(scale_factor),
         )
 
     def mesh2d_make_triangular_mesh_from_samples(
