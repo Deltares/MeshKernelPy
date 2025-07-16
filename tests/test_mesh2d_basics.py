@@ -2355,6 +2355,24 @@ def test_mesh2d_get_property(
     assert property_list.values == approx(expected_values, abs=1e-6)
 
 
+def test_mesh2d_get_circumcentre_property(meshkernel_with_mesh2d: MeshKernel):
+    """Test mesh2d_get_circumcentre property,
+    getting the mesh2d property values
+    """
+    mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
+
+    property = Mesh2d.Property.FACE_CIRCUMCENTER
+    location = Mesh2dLocation.FACES
+    property_list = mk.mesh2d_get_property(location, property)
+
+    print(property_list.x_coordinates)
+    print(property_list.y_coordinates)
+
+    # assert property_list.x_coordinates == approx(expected_x_coords, abs=1e-6)
+    # assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
+
+
+
 def test_mesh2d_get_filtered_face_polygons():
     """Test mesh2d_get_filtered_face_polygons,
     getting the polygons of faces with all edges having bad orthogonality values
