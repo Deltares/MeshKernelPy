@@ -132,6 +132,7 @@ class Mesh2d:
 
         ORTHOGONALITY = 0
         EDGE_LENGTHS = 1
+        FACE_CIRCUMCENTER = 2
 
     def __init__(
         self,
