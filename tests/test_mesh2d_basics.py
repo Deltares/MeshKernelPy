@@ -2372,7 +2372,6 @@ def test_mesh2d_get_circumcentre_property(meshkernel_with_mesh2d: MeshKernel):
     # assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
 
 
-
 def test_mesh2d_get_filtered_face_polygons():
     """Test mesh2d_get_filtered_face_polygons,
     getting the polygons of faces with all edges having bad orthogonality values
