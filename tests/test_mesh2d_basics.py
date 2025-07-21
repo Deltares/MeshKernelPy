@@ -2361,7 +2361,8 @@ def test_mesh2d_get_circumcentre_property(meshkernel_with_mesh2d: MeshKernel):
     """
     mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
 
-    property = Mesh2d.Property(mk.mkernel_mesh2d_get_face_circumcenter_property_type())
+    # property = Mesh2d.Property(mk.mesh2d_get_face_circumcenter_property_type())
+    property = Mesh2d.Property.FACE_CIRCUMCENTER
     location = Mesh2dLocation.FACES
     property_list = mk.mesh2d_get_property(location, property)
 
