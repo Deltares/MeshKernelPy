@@ -2374,8 +2374,6 @@ def test_mesh2d_get_circumcentre_property():
     mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
-    # Would prefer to use the following function rather than the enum
-    # property = Mesh2d.Property(mk.mesh2d_get_face_circumcenter_property_type())
     property = Mesh2d.Property.FACE_CIRCUMCENTER
     location = Mesh2dLocation.FACES
     property_list = mk.mesh2d_get_property(location, property)
