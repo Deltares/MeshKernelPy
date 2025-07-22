@@ -2355,22 +2355,38 @@ def test_mesh2d_get_property(
     assert property_list.values == approx(expected_values, abs=1e-6)
 
 
-def test_mesh2d_get_circumcentre_property(meshkernel_with_mesh2d: MeshKernel):
+def test_mesh2d_get_circumcentre_property():
     """Test mesh2d_get_circumcentre property,
     getting the mesh2d property values
     """
-    mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
+
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=0.0,
+        origin_y=0.0,
+        upper_right_x=30.0,
+        upper_right_y=30.0,
+        block_size_x=10.0,
+        block_size_y=10.0,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.CARTESIAN)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    # mk = MeshKernel()
+    # mk = meshkernel_with_mesh2d(rows=3, columns=3, spacing_x=50.0, spacing_y=100.0)
 
     # property = Mesh2d.Property(mk.mesh2d_get_face_circumcenter_property_type())
     property = Mesh2d.Property.FACE_CIRCUMCENTER
     location = Mesh2dLocation.FACES
     property_list = mk.mesh2d_get_property(location, property)
 
-    print(property_list.x_coordinates)
-    print(property_list.y_coordinates)
+    expected_x_coords = [5.0, 15.0, 25.0, 5.0, 15.0, 25.0, 5.0, 15.0, 25.0]
+    expected_y_coords = [5.0, 5.0, 5.0, 15.0, 15.0, 15.0, 25.0, 25.0, 25.0]
 
-    # assert property_list.x_coordinates == approx(expected_x_coords, abs=1e-6)
-    # assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
+    assert property_list.x_coordinates == approx(expected_x_coords, abs=1e-6)
+    assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
 
 
 def test_mesh2d_get_filtered_face_polygons():
