@@ -2355,6 +2355,36 @@ def test_mesh2d_get_property(
     assert property_list.values == approx(expected_values, abs=1e-6)
 
 
+def test_mesh2d_get_circumcentre_property():
+    """Test mesh2d_get_circumcentre property,
+    getting the mesh2d property values
+    """
+
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=0.0,
+        origin_y=0.0,
+        upper_right_x=30.0,
+        upper_right_y=30.0,
+        block_size_x=10.0,
+        block_size_y=10.0,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.CARTESIAN)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    property = Mesh2d.Property.FACE_CIRCUMCENTER
+    location = Mesh2dLocation.FACES
+    property_list = mk.mesh2d_get_property(location, property)
+
+    expected_x_coords = [5.0, 15.0, 25.0, 5.0, 15.0, 25.0, 5.0, 15.0, 25.0]
+    expected_y_coords = [5.0, 5.0, 5.0, 15.0, 15.0, 15.0, 25.0, 25.0, 25.0]
+
+    assert property_list.x_coordinates == approx(expected_x_coords, abs=1e-6)
+    assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
+
+
 def test_mesh2d_get_filtered_face_polygons():
     """Test mesh2d_get_filtered_face_polygons,
     getting the polygons of faces with all edges having bad orthogonality values
