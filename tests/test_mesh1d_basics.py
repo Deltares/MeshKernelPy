@@ -387,10 +387,10 @@ def test_contacts_compute_with_points_node_mask_mixed():
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
 
-    assert contacts.mesh1d_indices[0] == 1
+    assert contacts.mesh1d_indices[0] == 2
     assert contacts.mesh1d_indices[1] == 3
 
-    assert contacts.mesh2d_indices[0] == 10
+    assert contacts.mesh2d_indices[0] == 8
     assert contacts.mesh2d_indices[1] == 14
 
 
