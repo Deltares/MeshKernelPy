@@ -127,7 +127,7 @@ def test_contacts_compute_single():
     mk.contacts_compute_single(node_mask, polygon, projection_factor)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 5
     assert contacts.mesh2d_indices.size == 5
@@ -178,7 +178,7 @@ def test_contacts_compute_multiple():
     mk.contacts_compute_multiple(node_mask)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 9
     assert contacts.mesh2d_indices.size == 9
@@ -232,7 +232,7 @@ def test_contacts_compute_with_polygons():
     mk.contacts_compute_with_polygons(node_mask, polygon)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -270,8 +270,8 @@ def test_contacts_compute_with_points_node_mask_true():
     edge_nodes = np.array([0, 1, 1, 2, 2, 3, 3, 4], dtype=np.int32)
     mesh1d = Mesh1d(node_x, node_y, edge_nodes)
 
-    mk.mesh2d_set(mesh2d)
-    mk.mesh1d_set(mesh1d)
+    mk.mesh2d_set(mesh2d = mesh2d)
+    mk.mesh1d_set(mesh1d = mesh1d)
 
     node_mask = np.full(node_x.size, True)
 
@@ -280,10 +280,10 @@ def test_contacts_compute_with_points_node_mask_true():
     points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.contacts_compute_with_points(node_mask, points)
+    mk.contacts_compute_with_points(node_mask = node_mask, polygons = points)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 3
     assert contacts.mesh2d_indices.size == 3
@@ -333,10 +333,10 @@ def test_contacts_compute_with_points_node_mask_false():
     points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.contacts_compute_with_points(node_mask, points)
+    mk.contacts_compute_with_points(node_mask = node_mask, polygons = points)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 0
     assert contacts.mesh2d_indices.size == 0
@@ -379,10 +379,10 @@ def test_contacts_compute_with_points_node_mask_mixed():
     points_y = np.array([2.5, 1.5, 2.5], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.contacts_compute_with_points(node_mask, points)
+    mk.contacts_compute_with_points(node_mask = node_mask, polygons = points)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -466,7 +466,7 @@ def test_contacts_compute_boundary(
     mk.contacts_compute_boundary(node_mask, 2.0, polygon)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert_array_equal(contacts.mesh1d_indices, exp_mesh1d_indices)
     assert_array_equal(contacts.mesh2d_indices, exp_mesh2d_indices)
@@ -502,7 +502,7 @@ def test_contacts_compute_boundary_with_no_polygon():
 
     contacts = mk.contacts_get()
 
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     exp_mesh1d_indices = np.array([0, 2, 4], dtype=np.int32)
     exp_mesh2d_indices = np.array([0, 2, 3], dtype=np.int32)
@@ -537,10 +537,10 @@ def test_contacts_compute_with_points_after_deletion(
     points_y = np.array([0.75, 2.1], dtype=np.double)
     points = GeometryList(points_x, points_y)
 
-    mk.contacts_compute_with_points(node_mask, points)
+    mk.contacts_compute_with_points(node_mask = node_mask, polygons = points)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
@@ -561,10 +561,10 @@ def test_contacts_compute_with_points_after_deletion(
         invert_deletion=False,
     )
 
-    mk.contacts_compute_with_points(node_mask, points)
+    mk.contacts_compute_with_points(node_mask = node_mask, polygons = points)
 
     contacts = mk.contacts_get()
-    sort_contacts_by_mesh2d_indices(contacts)
+    sort_contacts_by_mesh2d_indices(contacts = contacts)
 
     assert contacts.mesh1d_indices.size == 2
     assert contacts.mesh2d_indices.size == 2
