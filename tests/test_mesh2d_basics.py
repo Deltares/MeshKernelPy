@@ -1787,7 +1787,9 @@ def test_connect_meshes():
 
     polygon = GeometryList(np.empty(0, dtype=np.double), np.empty(0, dtype=np.double))
 
-    mk_existing.mesh2d_connect_meshes(mesh2d=mesh2d_to_connect, connect=True, polygon=polygon, search_fraction=0.4)
+    mk_existing.mesh2d_connect_meshes(
+        mesh2d=mesh2d_to_connect, connect=True, polygon=polygon, search_fraction=0.4
+    )
     mesh2d_existing = mk_existing.mesh2d_get()
 
     assert max(mesh2d_existing.node_x) == 2 * width + 1
