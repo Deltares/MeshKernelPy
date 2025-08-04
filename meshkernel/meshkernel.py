@@ -1820,9 +1820,9 @@ class MeshKernel:
     def mesh2d_connect_meshes(
         self,
         mesh2d: Mesh2d,
-        polygon: GeometryList,
-        search_fraction: float,
         connect: bool,
+        polygon: GeometryList = GeometryList(),
+        search_fraction: float = float(0.4),
     ) -> None:
         """Connect a mesh to an existing mesh
 
