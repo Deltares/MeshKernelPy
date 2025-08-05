@@ -1829,8 +1829,10 @@ class MeshKernel:
         Args:
             mesh2d (Mesh2d): The mesh to connect to the existing mesh
             connect (bool): Connect the meshes with additional edges or not
-            polygon: The area to be considered when connecting meshes, may be empty indicating the entire domain is considered
-            search_fraction (float): Used to determine if two edges are sufficiently close to be connected. Value is the fraction of the shortest edge
+            polygon: The area to be considered when connecting meshes, may be empty indicating the entire
+                     domain is considered
+            search_fraction (float): Used to determine if two edges are sufficiently close to be connected.
+                                     Value is the fraction of the shortest edge
         """
 
         c_mesh2d = CMesh2d.from_mesh2d(mesh2d)
