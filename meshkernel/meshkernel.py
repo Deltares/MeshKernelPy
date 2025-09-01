@@ -766,6 +766,7 @@ class MeshKernel:
         relative_search_radius: float,
         minimum_num_samples: int,
         mesh_refinement_params: MeshRefinementParameters,
+        polygon: GeometryList = GeometryList(),
     ) -> None:
         """Refines a mesh2d based on samples. Refinement is achieved by successive splits of the face edges.
         The number of successive splits is indicated by the sample value.
@@ -780,8 +781,10 @@ class MeshKernel:
                                             used for some interpolation algorithms.
             minimum_num_samples (int): The minimum number of samples used for some averaging algorithms.
             mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
+            polygon (GeometryList): The region in which refinement is done, if empty the whole mesh will be considered
         """
 
+        c_polygon = CGeometryList.from_geometrylist(polygon)
         c_samples = CGeometryList.from_geometrylist(samples)
         c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
             mesh_refinement_params
@@ -790,6 +793,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_refine_based_on_samples,
             self._meshkernelid,
+            byref(c_polygon),
             byref(c_samples),
             c_double(relative_search_radius),
             c_int(minimum_num_samples),
@@ -803,6 +807,7 @@ class MeshKernel:
         minimum_num_samples: int,
         number_of_smoothing_iterations: int,
         mesh_refinement_params: MeshRefinementParameters,
+        polygon: GeometryList = GeometryList(),
     ) -> None:
         """Refines a mesh2d based on samples with ridge refinement. This method automatically detects the ridges in a sample set.
 
@@ -813,8 +818,10 @@ class MeshKernel:
             minimum_num_samples (int): The minimum number of samples used for some averaging algorithms.
             number_of_smoothing_iterations (int): The number of smoothing iterations to apply to the input sample set.
             mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
+            polygon (GeometryList): The region in which refinement is done, if empty the whole mesh will be considered
         """
 
+        c_polygon = CGeometryList.from_geometrylist(polygon)
         c_gridded_samples = CGriddedSamples.from_griddedSamples(gridded_samples)
         c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
             mesh_refinement_params
@@ -823,6 +830,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_refine_ridges_based_on_gridded_samples,
             self._meshkernelid,
+            byref(c_polygon),
             byref(c_gridded_samples),
             c_double(relative_search_radius),
             c_int(minimum_num_samples),
@@ -835,6 +843,7 @@ class MeshKernel:
         gridded_samples: GriddedSamples,
         mesh_refinement_params: MeshRefinementParameters,
         use_nodal_refinement: bool = True,
+        polygon: GeometryList = GeometryList(),
     ) -> None:
         """Computes mesh refinement based of gridded samples and bilinear interpolation
 
@@ -842,8 +851,10 @@ class MeshKernel:
             gridded_samples (GriddedSamples): The gridded samples.
             mesh_refinement_params (MeshRefinementParameters): The mesh refinement parameters.
             use_nodal_refinement (bool): If the depth value at nodes is used for refinement. Default True.
+            polygon (GeometryList): The region in which refinement is done, if empty the whole mesh will be considered
         """
 
+        c_polygon = CGeometryList.from_geometrylist(polygon)
         c_gridded_samples = CGriddedSamples.from_griddedSamples(gridded_samples)
         c_refinement_params = CMeshRefinementParameters.from_meshrefinementparameters(
             mesh_refinement_params
@@ -853,6 +864,7 @@ class MeshKernel:
         self._execute_function(
             self.lib.mkernel_mesh2d_refine_based_on_gridded_samples,
             self._meshkernelid,
+            byref(c_polygon),
             byref(c_gridded_samples),
             byref(c_refinement_params),
             c_int(use_nodal_refinement_int),
