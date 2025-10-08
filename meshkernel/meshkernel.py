@@ -282,6 +282,24 @@ class MeshKernel:
             c_int(invert_deletion),
         )
 
+    def mesh2d_delete_faces_in_polygons(
+        self,
+        geometry_list: GeometryList,
+    ) -> None:
+        """Deletes a faces of the mesh that lie inside a polygon.
+
+        Args:
+            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_delete_faces_in_polygons,
+            self._meshkernelid,
+            byref(c_geometry_list),
+        )
+
     def mesh2d_insert_edge(self, start_node: int, end_node: int) -> int:
         """Insert a new mesh2d edge connecting two given nodes.
 
