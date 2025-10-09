@@ -289,7 +289,7 @@ class MeshKernel:
         """Deletes a faces of the mesh that lie inside a polygon.
 
         Args:
-            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
+            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the deletion.
         """
 
         c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
