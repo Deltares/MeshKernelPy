@@ -264,7 +264,7 @@ class MeshKernel:
         delete_option: DeleteMeshOption,
         invert_deletion: bool,
     ) -> None:
-        """Deletes a mesh in a polygon using several options.
+        """Deletes parts of a mesh inside a polygon using several options.
 
         Args:
             geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
