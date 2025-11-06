@@ -54,7 +54,7 @@ jobs:
         run: |
           str="${GITHUB_REF_NAME}"
           if [[ "$str" = "main" ]]; then
-            # MeshKernelPy default barnch is called main, but MeshKernel default branch is called master
+            # MeshKernelPy default branch is called main, but MeshKernel default branch is called master
             str="master"
           elif [[ "$str" =~ ^release/ ]]; then
             # branch name starts with "release/", get the semantic version from MeshKernelPy
