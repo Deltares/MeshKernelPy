@@ -1,17 +1,17 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 from mesh2d_factory import Mesh2dFactory
 from numpy import ndarray
 from numpy.testing import assert_array_equal
-import matplotlib.pyplot as plt
 
 from meshkernel import (
     Contacts,
     DeleteMeshOption,
     GeometryList,
+    MakeGridParameters,
     Mesh1d,
     MeshKernel,
-    MakeGridParameters,
 )
 
 
