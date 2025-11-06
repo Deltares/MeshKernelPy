@@ -264,7 +264,7 @@ class MeshKernel:
         delete_option: DeleteMeshOption,
         invert_deletion: bool,
     ) -> None:
-        """Deletes a mesh in a polygon using several options.
+        """Deletes parts of a mesh inside a polygon using several options.
 
         Args:
             geometry_list (GeometryList): The GeometryList describing the polygon where to perform the operation.
@@ -280,6 +280,24 @@ class MeshKernel:
             byref(c_geometry_list),
             c_int(delete_option),
             c_int(invert_deletion),
+        )
+
+    def mesh2d_delete_faces_in_polygons(
+        self,
+        geometry_list: GeometryList,
+    ) -> None:
+        """Deletes a faces of the mesh that lie inside a polygon or polygons.
+
+        Args:
+            geometry_list (GeometryList): The GeometryList describing the polygon where to perform the deletion.
+        """
+
+        c_geometry_list = CGeometryList.from_geometrylist(geometry_list)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_delete_faces_in_polygons,
+            self._meshkernelid,
+            byref(c_geometry_list),
         )
 
     def mesh2d_insert_edge(self, start_node: int, end_node: int) -> int:
