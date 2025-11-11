@@ -286,7 +286,7 @@ class MeshKernel:
         self,
         geometry_list: GeometryList,
     ) -> None:
-        """Deletes a faces of the mesh that lie inside a polygon or polygons.
+        """Deletes the faces of the mesh that lie inside a polygon or polygons.
 
         Args:
             geometry_list (GeometryList): The GeometryList describing the polygon where to perform the deletion.
