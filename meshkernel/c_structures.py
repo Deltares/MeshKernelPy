@@ -111,7 +111,7 @@ class CMesh2d(Structure):
         # Set the sizes
         c_mesh2d.num_nodes = mesh2d.node_x.size
         c_mesh2d.num_edges = mesh2d.edge_nodes.size // 2
-        c_mesh2d.num_faces = mesh2d.face_x.size
+        c_mesh2d.num_faces = mesh2d.nodes_per_face.size
         c_mesh2d.num_face_nodes = mesh2d.face_nodes.size
 
         return c_mesh2d
