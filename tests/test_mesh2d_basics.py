@@ -73,6 +73,76 @@ def test_mesh2d_set_and_mesh2d_get():
     assert_array_equal(output_mesh2d.edge_y, np.array([0.0, 0.5, 1.0, 0.5]))
 
 
+def test_mesh2d_set_and_mesh2d_get_with_holes():
+    """
+    mesh2d_set has to preserve any existing holes/illegalcells in the grid
+    Was not the case before resolving issue
+    https://github.com/Deltares/MeshKernelPy/issues/247
+    """
+
+    # create base grid
+    projection = ProjectionType.SPHERICAL
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=147.75,
+        origin_y=-40.4,
+        upper_right_x=147.9,
+        upper_right_y=-40.25,
+        block_size_x=0.01,
+        block_size_y=0.01,
+    )
+
+    mk = MeshKernel(projection=projection)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    # this grid has 320 faces before deletion
+    assert len(mk.mesh2d_get().face_x) == 320
+
+    # cut a hole in the grid
+    xx, yy = np.array(
+        [
+            [147.815, -40.282],
+            [147.835, -40.282],
+            [147.835, -40.305],
+            [147.815, -40.305],
+            [147.815, -40.282],
+        ]
+    ).T
+
+    delete_pol_geom = GeometryList(
+        x_coordinates=xx,
+        y_coordinates=yy,
+        geometry_separator=-999,
+    )
+    mk.mesh2d_delete(
+        geometry_list=delete_pol_geom,
+        delete_option=DeleteMeshOption.INSIDE_NOT_INTERSECTED,
+        invert_deletion=False,
+    )
+
+    mk_grid = mk.mesh2d_get()
+
+    # recreate the grid with minimal information, specifically by leaving out
+    # face_x/face_y but including face_nodes and nodes_per_face since this is
+    # the face_node_connectivity
+    mk2_grid = Mesh2d(
+        node_x=mk_grid.node_x,
+        node_y=mk_grid.node_y,
+        edge_nodes=mk_grid.edge_nodes,
+        face_nodes=mk_grid.face_nodes,
+        nodes_per_face=mk_grid.nodes_per_face,
+    )
+
+    mk2 = MeshKernel(projection=projection)
+    mk2.mesh2d_set(mk2_grid)
+
+    # assert the number of faces, if the face_node_connectivity includes a face
+    # at the location of the deleted cells, there will be 319 faces
+    assert len(mk.mesh2d_get().face_x) == 318
+    assert len(mk2.mesh2d_get().face_x) == 318
+
+
 def test_mesh2d_add():
     """Test adding a 2d mesh"""
     mk = MeshKernel()
