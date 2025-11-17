@@ -282,6 +282,40 @@ class MeshKernel:
             c_int(invert_deletion),
         )
 
+    def mesh2d_get_inner_boundary_polygons(self) -> Mesh2d:
+        """Gets the two-dimensional mesh state from the MeshKernel.
+
+        Please note that this involves a copy of the data.
+
+        Returns:
+            Mesh2d: A copy of the inner boundary polygons.
+        """
+
+        c_mesh2d = self._mesh2d_get_inner_boundary_polygons_dimension()
+        mesh2d = c_mesh2d.allocate_memory()
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_inner_boundary_polygon_data, self._meshkernelid, byref(c_mesh2d)
+        )
+
+        mesh2d.remove_invalid_values(float_invalid_value=self._float_invalid_value)
+
+        return mesh2d
+
+    def _mesh2d_get_inner_boundary_polygons_dimension(self) -> CMesh2d:
+        """For internal use only.
+
+        Gets the inner boundary polygons dimensions.
+
+        Returns:
+            Mesh2d: The inner boudnary polygons array dimensions.
+        """
+        c_mesh2d = CMesh2d()
+        self._execute_function(
+            self.lib.mesh2d_get_inner_boundary_polygons_dimension, self._meshkernelid, byref(c_mesh2d)
+        )
+        return c_mesh2d
+
+
     def mesh2d_delete_faces_in_polygons(
         self,
         geometry_list: GeometryList,
