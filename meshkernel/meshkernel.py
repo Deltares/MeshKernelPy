@@ -309,7 +309,7 @@ class MeshKernel:
         Gets the inner boundary polygons dimensions.
 
         Returns:
-            Mesh2d: The inner boudnary polygons array dimensions.
+            Mesh2d: The inner boundary polygons array dimensions.
         """
         c_mesh2d = CMesh2d()
         self._execute_function(
