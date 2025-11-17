@@ -142,6 +142,13 @@ def test_mesh2d_set_and_mesh2d_get_with_holes():
     assert len(mk.mesh2d_get().face_x) == 318
     assert len(mk2.mesh2d_get().face_x) == 318
 
+    innerPolygon = GeometryList(
+        geometry_separator=-999,
+    )
+
+    innerPolygon = mk.mesh2d_get_inner_boundary_polygons ();
+    assert innerPolygon.n_coordinates == 32
+
 
 def test_mesh2d_add():
     """Test adding a 2d mesh"""
