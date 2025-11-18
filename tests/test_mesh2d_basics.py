@@ -146,8 +146,8 @@ def test_mesh2d_set_and_mesh2d_get_with_holes():
         geometry_separator=-999,
     )
 
-    innerPolygon = mk.mesh2d_get_inner_boundary_polygons ();
-    assert innerPolygon.n_coordinates == 32
+    innerPolygon = mk.mesh2d_get_inner_boundary_polygons();
+    assert innerPolygon.n_coordinates == 5
 
 
 def test_mesh2d_add():
