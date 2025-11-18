@@ -292,7 +292,7 @@ class MeshKernel:
         c_geometry_list_dimension = c_int()
 
         self._execute_function(
-            self.lib.meshkernel_mesh2d_get_inner_boundary_polygons_dimension,
+            self.lib.mkernel_mesh2d_get_inner_boundary_polygon_dimension,
             self._meshkernelid,
             byref(c_geometry_list_dimension),
         )
