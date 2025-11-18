@@ -315,22 +315,6 @@ class MeshKernel:
 
         return face_polygons
 
-    def _mesh2d_get_inner_boundary_polygons_dimension(self) -> CMesh2d:
-        """For internal use only.
-
-        Gets the inner boundary polygons dimensions.
-
-        Returns:
-            Mesh2d: The inner boundary polygons array dimensions.
-        """
-        c_mesh2d = CMesh2d()
-        self._execute_function(
-            self.lib.mesh2d_get_inner_boundary_polygons_dimension,
-            self._meshkernelid,
-            byref(c_mesh2d),
-        )
-        return c_mesh2d
-
     def mesh2d_delete_faces_in_polygons(
         self,
         geometry_list: GeometryList,
