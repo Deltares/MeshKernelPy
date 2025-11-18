@@ -283,9 +283,7 @@ class MeshKernel:
         )
 
     def mesh2d_get_inner_boundary_polygons(self) -> GeometryList:
-        """Gets the geometry list from the MeshKernel.
-
-        Please note that this involves a copy of the data.
+        """Gets the inner boundary polygons from the MeshKernel.
 
         Returns:
             Mesh2d: A copy of the inner boundary polygons.
@@ -315,8 +313,7 @@ class MeshKernel:
             byref(c_face_polygons),
         )
 
-
-        return mesh2d
+        return face_polygons
 
     def _mesh2d_get_inner_boundary_polygons_dimension(self) -> CMesh2d:
         """For internal use only.
