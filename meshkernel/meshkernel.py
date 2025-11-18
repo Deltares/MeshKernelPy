@@ -282,7 +282,7 @@ class MeshKernel:
             c_int(invert_deletion),
         )
 
-    def mesh2d_get_inner_boundary_polygons(self) -> GeometryList:
+    def mesh2d_get_mesh_inner_boundaries_as_polygons(self) -> GeometryList:
         """Gets the inner boundary polygons from the MeshKernel.
 
         Returns:
@@ -292,7 +292,7 @@ class MeshKernel:
         c_geometry_list_dimension = c_int()
 
         self._execute_function(
-            self.lib.mkernel_mesh2d_get_inner_boundary_polygon_dimension,
+            self.lib.mkernel_mesh2d_get_mesh_inner_boundaries_as_polygons_dimension,
             self._meshkernelid,
             byref(c_geometry_list_dimension),
         )
@@ -308,7 +308,7 @@ class MeshKernel:
         c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
 
         self._execute_function(
-            self.lib.mkernel_mesh2d_get_inner_boundary_polygon_data,
+            self.lib.mkernel_mesh2d_get_mesh_inner_boundaries_as_polygons_data,
             self._meshkernelid,
             byref(c_face_polygons),
         )
