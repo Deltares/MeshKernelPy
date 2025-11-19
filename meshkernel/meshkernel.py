@@ -282,11 +282,44 @@ class MeshKernel:
             c_int(invert_deletion),
         )
 
+    def mesh2d_get_mesh_inner_boundaries_as_polygons(self) -> GeometryList:
+        """Gets the inner boundary polygons from the MeshKernel.
+
+        Returns:
+            Mesh2d: A copy of the inner boundary polygons.
+        """
+
+        c_geometry_list_dimension = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_mesh_inner_boundaries_as_polygons_dimension,
+            self._meshkernelid,
+            byref(c_geometry_list_dimension),
+        )
+
+        n_coordinates = c_geometry_list_dimension.value
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+
+        face_polygons = GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+        )
+
+        c_face_polygons = CGeometryList.from_geometrylist(face_polygons)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_get_mesh_inner_boundaries_as_polygons_data,
+            self._meshkernelid,
+            byref(c_face_polygons),
+        )
+
+        return face_polygons
+
     def mesh2d_delete_faces_in_polygons(
         self,
         geometry_list: GeometryList,
     ) -> None:
-        """Deletes a faces of the mesh that lie inside a polygon or polygons.
+        """Deletes the faces of the mesh that lie inside a polygon or polygons.
 
         Args:
             geometry_list (GeometryList): The GeometryList describing the polygon where to perform the deletion.
