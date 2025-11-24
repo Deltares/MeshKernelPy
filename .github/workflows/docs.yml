@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "release/v[0-9].[0-9].[0-9]"
+  pull:
+    branches: [ main ]
 
 jobs:
   build:
