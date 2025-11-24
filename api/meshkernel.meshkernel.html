@@ -872,7 +872,7 @@ Value is the fraction of the shortest edge</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete">
 <span class="sig-name descname"><span class="pre">mesh2d_delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.DeleteMeshOption" title="meshkernel.py_structures.DeleteMeshOption"><span class="pre">DeleteMeshOption</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_deletion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete" title="Link to this definition"></a></dt>
-<dd><p>Deletes a mesh in a polygon using several options.</p>
+<dd><p>Deletes parts of a mesh inside a polygon using several options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -895,6 +895,17 @@ The coordinates of the edge middle points are used for calculating the distances
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the point.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the point.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_delete_faces_in_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_delete_faces_in_polygons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_delete_faces_in_polygons" title="Link to this definition"></a></dt>
+<dd><p>Deletes the faces of the mesh that lie inside a polygon or polygons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geometry_list</strong> (<a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><em>GeometryList</em></a>) – The GeometryList describing the polygon where to perform the deletion.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1060,6 +1071,20 @@ one for the inner boundary and one for the outer boundary.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_inner_boundaries_as_polygons">
+<span class="sig-name descname"><span class="pre">mesh2d_get_mesh_inner_boundaries_as_polygons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_mesh_inner_boundaries_as_polygons" title="Link to this definition"></a></dt>
+<dd><p>Gets the inner boundary polygons from the MeshKernel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the inner boundary polygons.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2d" title="meshkernel.py_structures.Mesh2d">Mesh2d</a></p>
 </dd>
 </dl>
 </dd></dl>
