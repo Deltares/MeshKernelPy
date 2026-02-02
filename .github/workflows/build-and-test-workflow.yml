@@ -31,14 +31,14 @@ jobs:
 
       # Step: Checkout
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         # Workaround for getting "git describe --tags" to work in cmake/get_version_from_git.cmake (Build step)
         with:
           fetch-depth: 0
 
       # Step: Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
