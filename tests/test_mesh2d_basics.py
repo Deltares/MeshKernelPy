@@ -2568,3 +2568,15 @@ def test_mesh2d_casulli_refinement_based_on_depths():
     # new mesh has more nodes and edges than the starting mesh, it has been refined
     assert len(mesh2d_not_refined.node_x) == 121
     assert len(mesh2d_refined.node_x) == 253
+
+
+def test_mesh2d_netlink_contour_polygons():
+    """Test test_mesh2d_netlink_contour_polygons """
+
+    mk = meshkernel_with_mesh2d(2, 2)
+
+    netlink_polygons = mk.mesh2d_compute_netlink_contour_polygons()
+
+    assert len(netlink_polygons.num_coordinates) == 48
+    assert len(netlink_polygons.x_coordinates) == 48
+    assert len(netlink_polygons.y_coordinates) == 48
