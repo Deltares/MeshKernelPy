@@ -1757,6 +1757,39 @@ class MeshKernel:
             byref(c_polygon),
         )
 
+    def mesh2d_compute_netlink_contour_polygons(self) -> GeometryList:
+        """Gets the netlink contour polygons from the MeshKernel.
+
+        Returns:
+            Mesh2d: A copy of the netlink contour polygons.
+        """
+
+        c_geometry_list_dimension = c_int()
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_compute_netlink_contour_polygons_dimension,
+            self._meshkernelid,
+            byref(c_geometry_list_dimension),
+        )
+
+        n_coordinates = c_geometry_list_dimension.value
+        x_coordinates = np.empty(n_coordinates, dtype=np.double)
+        y_coordinates = np.empty(n_coordinates, dtype=np.double)
+
+        edge_polygons = GeometryList(
+            x_coordinates=x_coordinates, y_coordinates=y_coordinates
+        )
+
+        c_edge_polygons = CGeometryList.from_geometrylist(edge_polygons)
+
+        self._execute_function(
+            self.lib.mkernel_mesh2d_compute_netlink_contour_polygons,
+            self._meshkernelid,
+            byref(c_edge_polygons),
+        )
+
+        return edge_polygons
+
     def mesh2d_compute_orthogonalization(
         self,
         project_to_land_boundary_option: ProjectToLandBoundaryOption,
