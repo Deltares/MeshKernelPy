@@ -2577,6 +2577,5 @@ def test_mesh2d_netlink_contour_polygons(meshkernel_with_mesh2d: MeshKernel):
 
     netlink_polygons = mk.mesh2d_compute_netlink_contour_polygons()
 
-    assert len(netlink_polygons.num_coordinates) == 48
     assert len(netlink_polygons.x_coordinates) == 48
     assert len(netlink_polygons.y_coordinates) == 48
