@@ -2571,7 +2571,7 @@ def test_mesh2d_casulli_refinement_based_on_depths():
 
 
 def test_mesh2d_netlink_contour_polygons():
-    """Test test_mesh2d_netlink_contour_polygons """
+    """Test test_mesh2d_netlink_contour_polygons"""
 
     mk = meshkernel_with_mesh2d(2, 2)
 
