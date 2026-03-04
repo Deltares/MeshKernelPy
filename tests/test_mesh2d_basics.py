@@ -2570,7 +2570,7 @@ def test_mesh2d_casulli_refinement_based_on_depths():
     assert len(mesh2d_refined.node_x) == 253
 
 
-def test_mesh2d_netlink_contour_polygons():
+def test_mesh2d_netlink_contour_polygons(meshkernel_with_mesh2d: MeshKernel):
     """Test test_mesh2d_netlink_contour_polygons"""
 
     mk = meshkernel_with_mesh2d(2, 2)
