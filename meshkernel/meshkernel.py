@@ -1868,6 +1868,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_get_property_dimension,
             self._meshkernelid,
             c_int(property),
+            c_int(mesh2d_location.value),
             byref(c_geometry_list_dimension),
         )
         n_coordinates = c_geometry_list_dimension.value
