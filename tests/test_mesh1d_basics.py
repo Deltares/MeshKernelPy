@@ -866,4 +866,5 @@ def test_contacts_compute_single_circle():
     network1_link1d2d = np.stack(
         [contacts.mesh1d_indices, contacts.mesh2d_indices], axis=1
     )
+
     assert network1_link1d2d.shape == (21, 2)
