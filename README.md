@@ -42,7 +42,7 @@ A mesh can be refined in areas based on samples or polygon selections.
 
 # Contributing
 
-In order to install `MeshKernelPy` locally, please execute the following line inside your virtual environment:
+In order to install `MeshKernelPy` locally, please execute the following line inside your virtual environment
 
 ```bash
 pip install -e ".[tests, lint, docs]"
