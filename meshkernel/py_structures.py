@@ -133,8 +133,6 @@ class Mesh2d:
         ORTHOGONALITY = 0
         EDGE_LENGTHS = 1
         FACE_CIRCUMCENTER = 2
-        NETLINK_CONTOUR_POLYGON = 3
-        FACE_BOUNDS = 4
 
     def __init__(
         self,
