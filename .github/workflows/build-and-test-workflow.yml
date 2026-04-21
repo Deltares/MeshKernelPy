@@ -21,13 +21,6 @@ jobs:
 
     # Build steps
     steps:
-      # Step: Install GCC (macOS only)
-      - name: Install GCC
-        if: startsWith(runner.os, 'macOS')
-        run: |
-          brew install gcc@12
-          echo "CC=$(brew --prefix)/bin/gcc-12" >> $GITHUB_ENV
-          echo "CXX=$(brew --prefix)/bin/g++-12" >> $GITHUB_ENV
 
       # Step: Checkout
       - name: Checkout
@@ -50,8 +43,7 @@ jobs:
       # macOS
       - name: Install backend dependencies
         run: | # brew update
-          brew install boost
-          brew install doxygen
+          brew install boost doxygen libomp
 
       - name: Process branch name
         id: process_branch_name
@@ -71,15 +63,19 @@ jobs:
           echo "BACK_END_BRANCH=$str" >> $GITHUB_ENV
 
       # Step: Build Wheel
-      # The default compiler on macos is clang, switch to gcc 11. Specifying the version is necessary.
-      # It seems like gcc and g++ are symbolic links to the default clang and clang++ compilers, respectively.
-      # CMAKE_CXX_COMPILER_ID will evaluate to AppleClang rather than GNU on macos.
       - name: Build Wheel
         env:
-          CC: gcc-12
-          CXX: g++-12
+          CC: clang
+          CXX: clang++
         run: |
           export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
+          # Detect Homebrew prefix based on runner architecture
+          if [ "${{ runner.arch }}" = "ARM64" ]; then
+            HOMEBREW_PREFIX="/opt/homebrew"
+          else
+            HOMEBREW_PREFIX="/usr/local"
+          fi
+          export OpenMP_ROOT="$HOMEBREW_PREFIX/opt/libomp"
           python setup.py build_ext
           python setup.py sdist
           python setup.py bdist_wheel
@@ -110,7 +106,7 @@ jobs:
 
       # Step: Upload artifact
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: meshkernel-${{ inputs.platform }}-${{ inputs.build_type }}
