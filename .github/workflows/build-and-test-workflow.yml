@@ -29,15 +29,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Step: Set compiler (use system Clang for all macOS versions)
-      - name: Set compiler (macOS Clang)
-        if: runner.os == 'macOS'
-        run: |
-          echo "Using system Clang for ${{ inputs.platform }}"
-          echo "CC=clang" >> "$GITHUB_ENV"
-          echo "CXX=clang++" >> "$GITHUB_ENV"
-          echo "Configured Clang toolchain: $(clang --version | head -n 1)"
-
       # Step: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v6
