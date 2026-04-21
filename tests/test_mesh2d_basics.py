@@ -2484,9 +2484,6 @@ def test_mesh2d_get_netlink_countour_polygon_property():
 
     property_list = mk.mesh2d_get_property(location, property)
 
-    print(property_list.x_coordinates)
-    print(property_list.y_coordinates)
-
     assert property_list.x_coordinates.size == 48
 
 
