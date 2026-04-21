@@ -2460,6 +2460,33 @@ def test_mesh2d_get_circumcentre_property():
     assert property_list.y_coordinates == approx(expected_y_coords, abs=1e-6)
 
 
+def test_mesh2d_get_netlink_countour_polygon_property():
+    """Test mesh2d_get property for netlink contour polygons,
+    getting the mesh2d property values
+    """
+
+    make_grid_parameters = MakeGridParameters(
+        angle=0,
+        origin_x=0.0,
+        origin_y=0.0,
+        upper_right_x=20.0,
+        upper_right_y=20.0,
+        block_size_x=10.0,
+        block_size_y=10.0,
+    )
+
+    mk = MeshKernel(projection=ProjectionType.CARTESIAN)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d()
+
+    property = Mesh2d.Property.NETLINK_CONTOUR_POLYGON
+    location = Mesh2dLocation.EDGES
+
+    property_list = mk.mesh2d_get_property(location, property)
+
+    assert property_list.x_coordinates.size == 48
+
+
 def test_mesh2d_get_filtered_face_polygons():
     """Test mesh2d_get_filtered_face_polygons,
     getting the polygons of faces with all edges having bad orthogonality values
