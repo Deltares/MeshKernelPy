@@ -7,6 +7,10 @@ on:
         description: "Platform"
         required: true
         type: string
+      python_version:
+        description: "Python version"
+        required: true
+        type: string
       build_type:
         description: "Build type"
         required: true
@@ -17,7 +21,7 @@ jobs:
     # Build platform
     runs-on: ${{ inputs.platform }}
 
-    name: ${{ inputs.platform }}-${{ inputs.build_type }}
+    name: ${{ inputs.platform }}-${{ inputs.python_version }}-${{ inputs.build_type }}
 
     # Build steps
     steps:
@@ -33,7 +37,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14"
+          python-version: ${{ inputs.python_version }}
 
       # Step: Install Python dependencies
       - name: Install Python dependencies
