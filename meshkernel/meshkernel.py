@@ -286,8 +286,8 @@ class MeshKernel:
         """Gets the inner boundary polygons from the MeshKernel.
 
         Returns:
-            Mesh2d: A copy of the inner boundary polygons.
-            Multiple boundaries will be separated by a separator value (-999).
+            Mesh2d: A sequence of points describing the inner boundary polygons.
+            Boundaries may be separated by a separator value (-999).
         """
 
         c_geometry_list_dimension = c_int()
