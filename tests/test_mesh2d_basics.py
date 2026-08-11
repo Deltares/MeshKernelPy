@@ -2342,7 +2342,7 @@ def test_mesh2d_deletion_and_get_orthogonality(
 
 cases_get_property = [
     (
-        Mesh2dProperty.EDGE_ORTHOGONALITY,
+        Mesh2dProperty.ORTHOGONALITY,
         Mesh2dLocation.EDGES,
         np.array(
             [
@@ -2505,7 +2505,7 @@ def test_mesh2d_get_filtered_face_polygons():
     mk.mesh2d_set(input_mesh2d)
 
     face_polygons = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.04, 1.0
+        Mesh2dProperty.ORTHOGONALITY, 0.04, 1.0
     )
 
     expected_coordinates_x = np.array([57.0, 49.1, 58.9, 66.7, 57.0], dtype=np.double)
@@ -2531,11 +2531,11 @@ def test_mesh2d_get_filtered_face_polygons_full_and_empty():
     mk.curvilinear_convert_to_mesh2d()
 
     orthogonality = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.0, 1.0
+        Mesh2dProperty.ORTHOGONALITY, 0.0, 1.0
     )
     assert orthogonality.x_coordinates.shape[0] == 503
     orthogonality = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.1, 10.0
+        Mesh2dProperty.ORTHOGONALITY, 0.1, 10.0
     )
     assert orthogonality.x_coordinates.shape[0] == 0
 
