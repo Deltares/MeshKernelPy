@@ -2342,7 +2342,7 @@ def test_mesh2d_deletion_and_get_orthogonality(
 
 cases_get_property = [
     (
-        Mesh2d.Property.ORTHOGONALITY,
+        Mesh2dProperty.EDGE_ORTHOGONALITY,
         Mesh2dLocation.EDGES,
         np.array(
             [
@@ -2375,7 +2375,7 @@ cases_get_property = [
         ),
     ),
     (
-        Mesh2d.Property.EDGE_LENGTHS,
+        Mesh2dProperty.EDGE_LENGTHS,
         Mesh2dLocation.EDGES,
         np.array(
             [
@@ -2416,7 +2416,7 @@ cases_get_property = [
 )
 def test_mesh2d_get_property(
     meshkernel_with_mesh2d: MeshKernel,
-    property: Mesh2d.Property,
+    property: Mesh2dProperty,
     location: Mesh2dLocation,
     expected_values: ndarray,
 ):
@@ -2449,7 +2449,7 @@ def test_mesh2d_get_circumcentre_property():
     mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
-    property = Mesh2d.Property.FACE_CIRCUMCENTER
+    property = Mesh2dProperty.FACE_CIRCUMCENTER
     location = Mesh2dLocation.FACES
     property_list = mk.mesh2d_get_property(location, property)
 
@@ -2479,7 +2479,7 @@ def test_mesh2d_get_netlink_countour_polygon_property():
     mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
     mk.curvilinear_convert_to_mesh2d()
 
-    property = Mesh2d.Property.NETLINK_CONTOUR_POLYGON
+    property = Mesh2dProperty.NETLINK_CONTOUR_POLYGON
     location = Mesh2dLocation.EDGES
 
     property_list = mk.mesh2d_get_property(location, property)
@@ -2505,7 +2505,7 @@ def test_mesh2d_get_filtered_face_polygons():
     mk.mesh2d_set(input_mesh2d)
 
     face_polygons = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2d.Property.ORTHOGONALITY, 0.04, 1.0
+        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.04, 1.0
     )
 
     expected_coordinates_x = np.array([57.0, 49.1, 58.9, 66.7, 57.0], dtype=np.double)
@@ -2531,11 +2531,11 @@ def test_mesh2d_get_filtered_face_polygons_full_and_empty():
     mk.curvilinear_convert_to_mesh2d()
 
     orthogonality = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2d.Property.ORTHOGONALITY, 0.0, 1.0
+        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.0, 1.0
     )
     assert orthogonality.x_coordinates.shape[0] == 503
     orthogonality = mk.mesh2d_get_filtered_face_polygons(
-        Mesh2d.Property.ORTHOGONALITY, 0.1, 10.0
+        Mesh2dProperty.EDGE_ORTHOGONALITY, 0.1, 10.0
     )
     assert orthogonality.x_coordinates.shape[0] == 0
 
@@ -2577,7 +2577,7 @@ def test_mesh2d_casulli_refinement_based_on_depths():
 
     interpolationParameters = InterpolationParameters()
 
-    property_id = mk.mkernel_set_property(interpolationParameters, samples)
+    property_id = mk.mesh2d_set_property(interpolationParameters, samples)
 
     polygons = GeometryList(
         x_coordinates=np.empty(0, dtype=np.double),
@@ -2586,10 +2586,10 @@ def test_mesh2d_casulli_refinement_based_on_depths():
 
     meshRefinementParameters = MeshRefinementParameters()
     minimumRefinementDepth = 0.0
-    mk.mkernel_mesh2d_casulli_refinement_based_on_depths(
+    mk.mesh2d_casulli_refinement_based_on_depths(
         polygons, property_id, meshRefinementParameters, minimumRefinementDepth
     )
-    mk.mkernel_delete_property(property_id)
+    mk.mesh2d_delete_property(property_id)
     mesh2d_refined = mk.mesh2d_get()
 
     # new mesh has more nodes and edges than the starting mesh, it has been refined

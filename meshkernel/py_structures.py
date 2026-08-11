@@ -57,6 +57,15 @@ class Mesh2dLocation(IntEnum):
     NODES = 1
     EDGES = 2
 
+@unique
+class Mesh2dProperty(IntEnum):
+    """Different properties on a 2D mesh."""
+
+    EDGE_ORTHOGONALITY = 0
+    EDGE_LENGTHS = 1
+    FACE_CIRCUMCENTER = 2
+    NETLINK_CONTOUR_POLYGON = 3
+    FACE_BOUNDS = 4
 
 @unique
 class AveragingMethod(IntEnum):
@@ -125,16 +134,6 @@ class Mesh2d:
         face_edges (ndarray, optional): A 1D integer array describing for each face the indices of the edges.
 
     """
-
-    @unique
-    class Property(IntEnum):
-        """Different properties on a 2D mesh."""
-
-        ORTHOGONALITY = 0
-        EDGE_LENGTHS = 1
-        FACE_CIRCUMCENTER = 2
-        NETLINK_CONTOUR_POLYGON = 3
-        FACE_BOUNDS = 4
 
     def __init__(
         self,

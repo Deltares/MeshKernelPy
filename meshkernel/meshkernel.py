@@ -515,13 +515,13 @@ class MeshKernel:
         return face_polygons
 
     def mesh2d_get_filtered_face_polygons(
-        self, property: Mesh2d.Property, min_value: float, max_value: float
+        self, property: Mesh2dProperty, min_value: float, max_value: float
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
 
         Args:
 
-            property (Mesh2d.Property): The property used to filter the locations
+            property (Mesh2dProperty): The property used to filter the locations
             min_value(float): The minimum value of the metric.
             max_value(float): The maximum value of the metric.
 
@@ -1657,7 +1657,7 @@ class MeshKernel:
             byref(c_polygon),
         )
 
-    def mkernel_delete_property(self, propertyId: int):
+    def mesh2d_delete_property(self, propertyId: int):
         """
         Deletes a property and its calculator.
         Args:
@@ -1670,7 +1670,7 @@ class MeshKernel:
             c_int(propertyId),
         )
 
-    def mkernel_set_property(
+    def mesh2d_set_property(
         self,
         interpolation_parameters: InterpolationParameters,
         sample_data: GeometryList,
@@ -1702,7 +1702,7 @@ class MeshKernel:
 
         return propertyId.value
 
-    def mkernel_mesh2d_casulli_refinement_based_on_depths(
+    def mesh2d_casulli_refinement_based_on_depths(
         self,
         polygons: GeometryList,
         propertyId: int,
@@ -1821,12 +1821,12 @@ class MeshKernel:
         return geometry_list_out
 
     def mesh2d_get_property(
-        self, mesh2d_location: Mesh2dLocation, property: Mesh2d.Property
+        self, mesh2d_location: Mesh2dLocation, property: Mesh2dProperty
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
         Args:
             mesh2d_location (Mesh2dLocation): The property location
-            property (Mesh2d.Property): The property to retrieve
+            property (Mesh2dProperty): The property to retrieve
         Returns:
             GeometryList: The resulting geometry list containing the value of the properties
         """
