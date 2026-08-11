@@ -15,6 +15,7 @@ from meshkernel import (
     MakeGridParameters,
     Mesh2d,
     Mesh2dLocation,
+    Mesh2dProperty,
     MeshKernel,
     MeshKernelError,
     MeshRefinementParameters,
