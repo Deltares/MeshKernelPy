@@ -1658,17 +1658,17 @@ class MeshKernel:
             byref(c_polygon),
         )
 
-    def mesh2d_delete_property(self, propertyId: int):
+    def mesh2d_delete_property(self, property_id: int):
         """
         Deletes a property and its calculator.
         Args:
-            propertyId (int): The property id.
+            property_id (int): The property id.
         """
 
         self._execute_function(
             self.lib.mkernel_deallocate_property,
             self._meshkernelid,
-            c_int(propertyId),
+            c_int(property_id),
         )
 
     def mesh2d_set_property(
@@ -1692,21 +1692,21 @@ class MeshKernel:
         )
         c_sample_data = CGeometryList.from_geometrylist(sample_data)
 
-        propertyId = c_int()
+        property_id = c_int()
         self._execute_function(
             self.lib.mkernel_mesh2d_set_property,
             self._meshkernelid,
             byref(c_interpolation_parameters),
             byref(c_sample_data),
-            byref(propertyId),
+            byref(property_id),
         )
 
-        return propertyId.value
+        return property_id.value
 
     def mesh2d_casulli_refinement_based_on_depths(
         self,
         polygons: GeometryList,
-        propertyId: int,
+        property_id: int,
         meshRefinementParameters: MeshRefinementParameters,
         minimumRefinementDepth: float,
     ) -> None:
@@ -1714,7 +1714,7 @@ class MeshKernel:
         Refine mesh using the Casulli refinement algorithm based on the depth values.
         Args:
             polygons (GeometryList): The polygon within which the refinement is computed.
-            propertyId (int): The identifier of the interpolator to be used.
+            property_id (int): The identifier of the interpolator to be used.
             meshRefinementParameters (MeshRefinementParameters): Parameters indicating how the mesh is to be refined.
             minimumRefinementDepth (float): Nodes with depth value less than this value will not be marked for refinement.
         """
@@ -1727,7 +1727,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_casulli_refinement_based_on_depths,
             self._meshkernelid,
             byref(c_polygons),
-            c_int(propertyId),
+            c_int(property_id),
             byref(c_refinement_params),
             c_double(minimumRefinementDepth),
         )
