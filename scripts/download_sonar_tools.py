@@ -11,6 +11,7 @@ import requests
 
 SONAR_SCANNER_VERSION = "8.1.0.6389"
 
+
 def download_file(url: str, save_path: Path, chunk_size=128) -> None:
     r = requests.get(url, stream=True)
     with save_path.open("wb") as fd:
