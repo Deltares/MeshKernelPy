@@ -49,6 +49,7 @@ from meshkernel.py_structures import (
     Mesh1d,
     Mesh2d,
     Mesh2dLocation,
+    Mesh2dProperty,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectionType,
@@ -515,13 +516,13 @@ class MeshKernel:
         return face_polygons
 
     def mesh2d_get_filtered_face_polygons(
-        self, property: Mesh2d.Property, min_value: float, max_value: float
+        self, property: Mesh2dProperty, min_value: float, max_value: float
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
 
         Args:
 
-            property (Mesh2d.Property): The property used to filter the locations
+            property (Mesh2dProperty): The property used to filter the locations
             min_value(float): The minimum value of the metric.
             max_value(float): The maximum value of the metric.
 
@@ -1657,20 +1658,20 @@ class MeshKernel:
             byref(c_polygon),
         )
 
-    def mkernel_delete_property(self, propertyId: int):
+    def mesh2d_delete_property(self, property_id: int):
         """
         Deletes a property and its calculator.
         Args:
-            propertyId (int): The property id.
+            property_id (int): The property id.
         """
 
         self._execute_function(
             self.lib.mkernel_deallocate_property,
             self._meshkernelid,
-            c_int(propertyId),
+            c_int(property_id),
         )
 
-    def mkernel_set_property(
+    def mesh2d_set_property(
         self,
         interpolation_parameters: InterpolationParameters,
         sample_data: GeometryList,
@@ -1691,21 +1692,21 @@ class MeshKernel:
         )
         c_sample_data = CGeometryList.from_geometrylist(sample_data)
 
-        propertyId = c_int()
+        property_id = c_int()
         self._execute_function(
             self.lib.mkernel_mesh2d_set_property,
             self._meshkernelid,
             byref(c_interpolation_parameters),
             byref(c_sample_data),
-            byref(propertyId),
+            byref(property_id),
         )
 
-        return propertyId.value
+        return property_id.value
 
-    def mkernel_mesh2d_casulli_refinement_based_on_depths(
+    def mesh2d_casulli_refinement_based_on_depths(
         self,
         polygons: GeometryList,
-        propertyId: int,
+        property_id: int,
         meshRefinementParameters: MeshRefinementParameters,
         minimumRefinementDepth: float,
     ) -> None:
@@ -1713,7 +1714,7 @@ class MeshKernel:
         Refine mesh using the Casulli refinement algorithm based on the depth values.
         Args:
             polygons (GeometryList): The polygon within which the refinement is computed.
-            propertyId (int): The identifier of the interpolator to be used.
+            property_id (int): The identifier of the interpolator to be used.
             meshRefinementParameters (MeshRefinementParameters): Parameters indicating how the mesh is to be refined.
             minimumRefinementDepth (float): Nodes with depth value less than this value will not be marked for refinement.
         """
@@ -1726,7 +1727,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_casulli_refinement_based_on_depths,
             self._meshkernelid,
             byref(c_polygons),
-            c_int(propertyId),
+            c_int(property_id),
             byref(c_refinement_params),
             c_double(minimumRefinementDepth),
         )
@@ -1821,12 +1822,12 @@ class MeshKernel:
         return geometry_list_out
 
     def mesh2d_get_property(
-        self, mesh2d_location: Mesh2dLocation, property: Mesh2d.Property
+        self, mesh2d_location: Mesh2dLocation, property: Mesh2dProperty
     ) -> GeometryList:
         """Gets the polygons matching the metric value within the minimum and maximum value.
         Args:
             mesh2d_location (Mesh2dLocation): The property location
-            property (Mesh2d.Property): The property to retrieve
+            property (Mesh2dProperty): The property to retrieve
         Returns:
             GeometryList: The resulting geometry list containing the value of the properties
         """

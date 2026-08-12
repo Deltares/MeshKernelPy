@@ -7,6 +7,7 @@ from meshkernel import (
     GeometryList,
     Mesh2d,
     Mesh2dLocation,
+    Mesh2dProperty,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectToLandBoundaryOption,

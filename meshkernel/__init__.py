@@ -17,6 +17,7 @@ from meshkernel.py_structures import (
     Mesh1d,
     Mesh2d,
     Mesh2dLocation,
+    Mesh2dProperty,
     MeshRefinementParameters,
     OrthogonalizationParameters,
     ProjectionType,
