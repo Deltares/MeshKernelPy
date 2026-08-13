@@ -643,9 +643,7 @@ class MeshKernel:
             self.lib.mkernel_mesh2d_delete_hanging_edges, self._meshkernelid
         )
 
-    def mesh2d_make_global(
-        self, num_longitude_nodes: int
-    ) -> None:
+    def mesh2d_make_global(self, num_longitude_nodes: int) -> None:
         """Compute the global mesh with a given number of points along the longitude direction.
         The points in the latitude direction will continue to the poles.
 
