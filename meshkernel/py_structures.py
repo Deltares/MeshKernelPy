@@ -67,6 +67,7 @@ class Mesh2dProperty(IntEnum):
     FACE_CIRCUMCENTER = 2
     NETLINK_CONTOUR_POLYGON = 3
     FACE_BOUNDS = 4
+    SMOOTHNESS = 5
 
 
 @unique
