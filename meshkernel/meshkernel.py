@@ -287,7 +287,7 @@ class MeshKernel:
         """Gets the inner boundary polygons from the MeshKernel.
 
         Returns:
-            Mesh2d: A copy of the inner boundary polygons.
+            GeometryList: A sequence of points describing the inner boundary polygons of the mesh.
         """
 
         c_geometry_list_dimension = c_int()

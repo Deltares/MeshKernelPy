@@ -1198,12 +1198,12 @@ def test_mesh2d_get_mesh_boundaries_as_polygons(meshkernel_with_mesh2d: MeshKern
     mesh_boundary = mk.mesh2d_get_mesh_boundaries_as_polygons()
 
     assert_array_equal(
+        np.array([0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0], dtype=np.double),
         mesh_boundary.x_coordinates,
-        np.array([0.0, 0.0, 0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0], dtype=np.double),
     )
     assert_array_equal(
         mesh_boundary.y_coordinates,
-        np.array([0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0, 0.0, 0.0], dtype=np.double),
+        np.array([0.0, 0.0, 0.0, 1.0, 2.0, 2.0, 2.0, 1.0, 0.0], dtype=np.double),
     )
 
 
