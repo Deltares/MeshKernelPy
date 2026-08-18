@@ -645,7 +645,9 @@ class MeshKernel:
 
     def mesh2d_make_global(self, num_longitude_nodes: int) -> None:
         """Compute the global mesh with a given number of points along the longitude direction.
-        The points in the latitude direction will continue up to the poles.
+        The number of points in the latitude direction will be automatically calculated, such
+        that the resulting cells are as square as possible and the resulting mesh extends up
+        to the poles.
 
         Args:
         num_longitude_nodes (int): The number of points along the longitude.
