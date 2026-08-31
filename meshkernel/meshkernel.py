@@ -750,7 +750,7 @@ class MeshKernel:
         Args:
             make_grid_parameters (MakeGridParameters): The parameters used for making the uniform grid
             If the angle is not zero then a uniform grid will be generated then rotated about the origin
-            by the angle specified
+            by the angle specified using a 3d spherical coordinate transformation
         """
 
         c_make_grid_parameters = CMakeGridParameters.from_makegridparameters(
