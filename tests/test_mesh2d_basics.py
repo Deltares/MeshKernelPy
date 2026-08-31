@@ -2596,3 +2596,25 @@ def test_mesh2d_casulli_refinement_based_on_depths():
     # new mesh has more nodes and edges than the starting mesh, it has been refined
     assert len(mesh2d_not_refined.node_x) == 121
     assert len(mesh2d_refined.node_x) == 253
+
+def test_mesh2d_compute_orthogonality():
+    lon_min, lon_max, lat_min, lat_max = 1, 2, 48.5, 49.2
+    dxy = 0.7
+    make_grid_parameters = MakeGridParameters(
+        origin_x=lon_min,
+        origin_y=lat_min,
+        upper_right_x=lon_max,
+        upper_right_y=lat_max,
+        block_size_x=dxy,
+        block_size_y=dxy,
+    )
+    mk = MeshKernel(projection=ProjectionType.SPHERICAL)
+    mk.curvilinear_compute_rectangular_grid_on_extension(make_grid_parameters)
+    mk.curvilinear_convert_to_mesh2d() #convert to ugrid/mesh2d
+
+    edge_orthogonality = mk.mesh2d_get_property(mesh2d_location=Mesh2dLocation.EDGES, property=Mesh2d.Property.ORTHOGONALITY)
+
+    # xy coordinates of orthogonality property contains invalid values
+    print(edge_orthogonality.x_coordinates)
+    print(edge_orthogonality.y_coordinates)
+    print(edge_orthogonality.values)

@@ -102,7 +102,7 @@ jobs:
         run: |
           wheel_name=$(find ./dist -name "meshkernel-*-macosx_*.whl")
           python -m pip install $wheel_name
-          pytest ./tests
+          pytest -s ./tests
 
       # Step: Upload artifact
       - name: Upload artifact
