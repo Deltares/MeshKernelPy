@@ -103,7 +103,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">"all"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -118,13 +118,13 @@
 <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="mf">49.1</span><span class="p">,</span> <span class="mf">49.6</span>
 <span class="n">lon_res</span><span class="p">,</span> <span class="n">lat_res</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span>
 <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="s2">"EPSG:4326"</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Make a regular (potentially rotated) rectilinear grid. First generate a curvilinear grid than convert the curvilinear grid into unstructured grid. The steps are the following:</span>
 <span class="sd">- curvilinear_compute_uniform_on_extension, see the following notebook: https://github.com/Deltares/MeshKernelPy/blob/AddCurvilinearGridSupport/docs/examples/04_curvilineargrid_basics.ipynb</span>
 <span class="sd">- curvilinear_convert_to_mesh2d: https://github.com/Deltares/MeshKernelPy/blob/118cb4953c4e95d5b18ed283bb37f391134b2bb2/meshkernel/meshkernel.py#L1399 </span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># Create an instance of MakeGridParameters and set the values</span>
 <span class="n">make_grid_parameters</span> <span class="o">=</span> <span class="n">meshkernel</span><span class="o">.</span><span class="n">MakeGridParameters</span><span class="p">()</span>
@@ -161,35 +161,35 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">ugrid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UGrid</span><span class="p">,</span> <span class="n">UGridMesh2D</span>
 
     <span class="n">mesh2d_ugrid</span> <span class="o">=</span> <span class="n">UGrid</span><span class="o">.</span><span class="n">from_meshkernel_mesh2d_to_ugrid_mesh2d</span><span class="p">(</span>
-        <span class="n">mesh2d</span><span class="o">=</span><span class="n">mesh2d</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mesh2d&quot;</span><span class="p">,</span> <span class="n">is_spherical</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">mesh2d</span><span class="o">=</span><span class="n">mesh2d</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"mesh2d"</span><span class="p">,</span> <span class="n">is_spherical</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="n">attribute_dict</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown projected&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;epsg&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4326</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
-        <span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown projected&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;longitude_of_prime_meridian&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-        <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6378137.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-        <span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6356752.314245</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-        <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6356752.314245</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
-        <span class="s2">&quot;EPSG_code&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value is equal to EPSG code&quot;</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Unknown projected"</span><span class="p">,</span>
+        <span class="s2">"epsg"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4326</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+        <span class="s2">"grid_mapping_name"</span><span class="p">:</span> <span class="s2">"Unknown projected"</span><span class="p">,</span>
+        <span class="s2">"longitude_of_prime_meridian"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="s2">"semi_major_axis"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6378137.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="s2">"semi_minor_axis"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6356752.314245</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="s2">"inverse_flattening"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">6356752.314245</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+        <span class="s2">"EPSG_code"</span><span class="p">:</span> <span class="s2">"EPSG:4326"</span><span class="p">,</span>
+        <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"value is equal to EPSG code"</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span><span class="s2">&quot;./gebco_mesh2d_net.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span><span class="s2">"./gebco_mesh2d_net.nc"</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
         <span class="c1"># 1. Define a new mesh2d</span>
         <span class="n">topology_id</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">mesh2d_define</span><span class="p">(</span><span class="n">mesh2d_ugrid</span><span class="p">)</span>
         <span class="c1"># 3. Put a new mesh2d</span>
         <span class="n">ug</span><span class="o">.</span><span class="n">mesh2d_put</span><span class="p">(</span><span class="n">topology_id</span><span class="p">,</span> <span class="n">mesh2d_ugrid</span><span class="p">)</span>
         <span class="c1"># 3. Add crs to file</span>
-        <span class="n">ug</span><span class="o">.</span><span class="n">variable_int_with_attributes_define</span><span class="p">(</span><span class="s2">&quot;wgs84&quot;</span><span class="p">,</span> <span class="n">attribute_dict</span><span class="p">)</span>
+        <span class="n">ug</span><span class="o">.</span><span class="n">variable_int_with_attributes_define</span><span class="p">(</span><span class="s2">"wgs84"</span><span class="p">,</span> <span class="n">attribute_dict</span><span class="p">)</span>
         <span class="c1"># 4. Add conventions (global attributes)</span>
         <span class="n">conventions</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;institution&quot;</span><span class="p">:</span> <span class="s2">&quot;Deltares&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;references&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown Unknown. Model: Unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="s2">&quot;Created on 2017-11-27T18:05:09+0100, Unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Conventions&quot;</span><span class="p">:</span> <span class="s2">&quot;CF-1.6 UGRID-1.0/Deltares-0.8&quot;</span><span class="p">,</span>
+            <span class="s2">"institution"</span><span class="p">:</span> <span class="s2">"Deltares"</span><span class="p">,</span>
+            <span class="s2">"references"</span><span class="p">:</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+            <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"Unknown Unknown. Model: Unknown"</span><span class="p">,</span>
+            <span class="s2">"history"</span><span class="p">:</span> <span class="s2">"Created on 2017-11-27T18:05:09+0100, Unknown"</span><span class="p">,</span>
+            <span class="s2">"Conventions"</span><span class="p">:</span> <span class="s2">"CF-1.6 UGRID-1.0/Deltares-0.8"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">ug</span><span class="o">.</span><span class="n">attribute_global_define</span><span class="p">(</span><span class="n">conventions</span><span class="p">)</span>
 </pre></div>
@@ -207,16 +207,16 @@
 <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_grid_spacing</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
-    <span class="n">file_nc_bathy</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;p:\metocean-data\open\GEBCO\2021\GEBCO_2021.nc&quot;</span>
+    <span class="n">file_nc_bathy</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"p:\metocean-data\open\GEBCO\2021\GEBCO_2021.nc"</span>
     <span class="n">data_bathy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_nc_bathy</span><span class="p">)</span>
     <span class="n">data_bathy_sel</span> <span class="o">=</span> <span class="n">data_bathy</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
         <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">lon_min</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">lon_max</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span>
         <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">lat_min</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">lon_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
-    <span class="n">lat_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
-    <span class="n">values_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="n">lon_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float"</span><span class="p">)</span>
+    <span class="n">lat_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float"</span><span class="p">)</span>
+    <span class="n">values_np</span> <span class="o">=</span> <span class="n">data_bathy_sel</span><span class="o">.</span><span class="n">elevation</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -225,18 +225,18 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_asc_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads asc file and returns headers and data as numpy array</span>
+<span class="w">    </span><span class="sd">"""Reads asc file and returns headers and data as numpy array</span>
 <span class="sd">    Args:</span>
 <span class="sd">            file_path (str): The file path</span>
 <span class="sd">    Returns:</span>
 <span class="sd">            header: The ascii header</span>
 <span class="sd">            data: The ascii data as a numpy array of doubles</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">header</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="c1"># Read header information</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -261,7 +261,7 @@
 <p>Read the depths in file as np.float32</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s2">&quot;./data_examples/gebco.asc&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s2">"./data_examples/gebco.asc"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -269,7 +269,7 @@
 <p>Read the depths in file as np.int16</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s2">&quot;./data_examples/gebco.asc&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">header</span><span class="p">,</span> <span class="n">values_np</span> <span class="o">=</span> <span class="n">read_asc_file</span><span class="p">(</span><span class="s2">"./data_examples/gebco.asc"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -277,10 +277,10 @@
 <p>Grid properties</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;ncols&quot;</span><span class="p">])</span>
-<span class="n">num_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;nrows&quot;</span><span class="p">])</span>
-<span class="n">x_origin</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;xllcenter&quot;</span><span class="p">]</span>
-<span class="n">y_origin</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;yllcenter&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"ncols"</span><span class="p">])</span>
+<span class="n">num_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">"nrows"</span><span class="p">])</span>
+<span class="n">x_origin</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s2">"xllcenter"</span><span class="p">]</span>
+<span class="n">y_origin</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s2">"yllcenter"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>

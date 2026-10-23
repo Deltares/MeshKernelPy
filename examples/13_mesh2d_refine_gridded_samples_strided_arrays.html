@@ -76,7 +76,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">"all"</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">meshkernel</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">MeshKernel</span><span class="p">,</span>
@@ -98,7 +98,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">39</span>
 <span class="n">dxy</span> <span class="o">=</span> <span class="mf">0.5</span>
 
-<span class="n">file_nc_bathy</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;p:\metocean-data\open\GEBCO\2021\GEBCO_2021.nc&quot;</span>
+<span class="n">file_nc_bathy</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"p:\metocean-data\open\GEBCO\2021\GEBCO_2021.nc"</span>
 <span class="n">data_bathy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_nc_bathy</span><span class="p">)</span>
 <span class="n">data_bathy_sel</span> <span class="o">=</span> <span class="n">data_bathy</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
     <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
