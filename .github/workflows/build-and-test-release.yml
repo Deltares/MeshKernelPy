@@ -23,10 +23,12 @@ jobs:
           - macos-15 # arm64 (free)
           - macos-15-intel # intel (free)
           - macos-26 # arm64 (free)
+        python_version: ['3.10', '3.14']
         build_type:
           - Release
 
     uses: ./.github/workflows/build-and-test-workflow.yml
     with:
       platform: ${{ matrix.platform }}
+      python_version: ${{ matrix.python_version }}
       build_type: ${{ matrix.build_type }}
