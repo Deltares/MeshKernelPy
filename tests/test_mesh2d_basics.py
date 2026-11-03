@@ -683,9 +683,8 @@ def test_mesh2d_make_global():
     mk = MeshKernel(ProjectionType.SPHERICAL)
 
     num_longitude_nodes = 19
-    num_latitude_nodes = 25
 
-    mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
+    mk.mesh2d_make_global(num_longitude_nodes)
     mesh2d = mk.mesh2d_get()
 
     assert mesh2d.edge_x.size == 1225
@@ -698,10 +697,9 @@ def test_mesh2d_make_global_with_cartesian_coordinates_should_throw():
     mk = MeshKernel(ProjectionType.CARTESIAN)
 
     num_longitude_nodes = 19
-    num_latitude_nodes = 25
 
     with pytest.raises(MeshKernelError):
-        mk.mesh2d_make_global(num_longitude_nodes, num_latitude_nodes)
+        mk.mesh2d_make_global(num_longitude_nodes)
 
 
 def test_mesh2d_make_triangular_mesh_from_polygon():
