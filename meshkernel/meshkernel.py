@@ -1824,12 +1824,12 @@ class MeshKernel:
     def mesh2d_get_property(
         self, mesh2d_location: Mesh2dLocation, property: Mesh2dProperty
     ) -> GeometryList:
-        """Gets the polygons matching the metric value within the minimum and maximum value.
+        """Get a predefined property.
         Args:
-            mesh2d_location (Mesh2dLocation): The property location
+            mesh2d_location (Mesh2dLocation): The property location (Nodes, Edges or Faces)
             property (Mesh2dProperty): The property to retrieve
         Returns:
-            GeometryList: The resulting geometry list containing the value of the properties
+            GeometryList: The resulting geometry list containing x-,y-coordinate and or the value of the property
         """
         c_geometry_list_dimension = c_int()
         self._execute_function(
