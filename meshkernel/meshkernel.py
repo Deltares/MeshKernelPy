@@ -1,6 +1,7 @@
 import logging
 import os
 import platform
+import warnings
 from ctypes import (
     CDLL,
     byref,
@@ -670,10 +671,15 @@ class MeshKernel:
 
         Args:
             polygon (GeometryList): The polygon.
-            scale_factor (float):    Scaling factor for the triangulation, if negative value then a default will be used.
-                                    The default scaling will be polygon dependent.
+            scale_factor (float):   Deprecated, not functional anymore
         """
-
+        if not np.isclose(scale_factor, -999.0):
+            msg = (
+                "`scale_factor` is deprecated. It is not doing anything since the "
+                "triangulation method in `mesh2d_make_triangular_mesh_from_polygon()` "
+                "was improved in meshkernel 8.4.0."
+            )
+            warnings.warn(msg, DeprecationWarning)
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
 
         self._execute_function(
@@ -1824,12 +1830,12 @@ class MeshKernel:
     def mesh2d_get_property(
         self, mesh2d_location: Mesh2dLocation, property: Mesh2dProperty
     ) -> GeometryList:
-        """Gets the polygons matching the metric value within the minimum and maximum value.
+        """Get a predefined property.
         Args:
-            mesh2d_location (Mesh2dLocation): The property location
+            mesh2d_location (Mesh2dLocation): The property location (Nodes, Edges or Faces)
             property (Mesh2dProperty): The property to retrieve
         Returns:
-            GeometryList: The resulting geometry list containing the value of the properties
+            GeometryList: The resulting geometry list containing x-,y-coordinate and or the value of the property
         """
         c_geometry_list_dimension = c_int()
         self._execute_function(
