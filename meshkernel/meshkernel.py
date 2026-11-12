@@ -679,6 +679,7 @@ class MeshKernel:
                 "was improved in meshkernel 8.4.0."
             ),
             warnings.warn(msg, DeprecationWarning)
+            scale_factor = -999 #must be real number fot C-code
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
 
         self._execute_function(
