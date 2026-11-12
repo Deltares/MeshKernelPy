@@ -737,7 +737,7 @@ def test_mesh2d_make_triangular_mesh_from_polygon_warn_scale_factor():
     y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
     polygon = GeometryList(x_coordinates, y_coordinates)
 
-    with pytest.warns(DeprecationWarning, match='`scale_factor` is deprecated'):
+    with pytest.warns(DeprecationWarning, match="`scale_factor` is deprecated"):
         mk.mesh2d_make_triangular_mesh_from_polygon(polygon, scale_factor=1)
 
 
