@@ -726,6 +726,21 @@ def test_mesh2d_make_triangular_mesh_from_polygon():
     assert mesh2d.face_x.size == 6
 
 
+def test_mesh2d_make_triangular_mesh_from_polygon_warn_scale_factor():
+    mk = MeshKernel()
+
+    #   5__4
+    #  /    \
+    # 0      3
+    #  \1__2/
+    x_coordinates = np.array([0.0, 0.5, 1.5, 2.0, 1.5, 0.5, 0.0], dtype=np.double)
+    y_coordinates = np.array([1.0, 0.0, 0.0, 1.0, 2.0, 2.0, 1.0], dtype=np.double)
+    polygon = GeometryList(x_coordinates, y_coordinates)
+
+    with pytest.warns(DeprecationWarning, match="`scale_factor` is deprecated"):
+        mk.mesh2d_make_triangular_mesh_from_polygon(polygon, scale_factor=1)
+
+
 def test_mesh2d_make_triangular_mesh_from_samples():
     """Tests `mesh2d_make_mesh_from_samples` by creating a mesh2d from six sample points."""
 
