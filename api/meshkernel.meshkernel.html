@@ -1185,14 +1185,14 @@ the segments connecting the face circumcenters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="meshkernel.meshkernel.MeshKernel.mesh2d_get_property">
 <span class="sig-name descname"><span class="pre">mesh2d_get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh2d_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dLocation" title="meshkernel.py_structures.Mesh2dLocation"><span class="pre">Mesh2dLocation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.Mesh2dProperty" title="meshkernel.py_structures.Mesh2dProperty"><span class="pre">Mesh2dProperty</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList"><span class="pre">GeometryList</span></a></span></span><a class="headerlink" href="#meshkernel.meshkernel.MeshKernel.mesh2d_get_property" title="Link to this definition"></a></dt>
-<dd><p>Gets the polygons matching the metric value within the minimum and maximum value.
-:param mesh2d_location: The property location
+<dd><p>Get a predefined property.
+:param mesh2d_location: The property location (Nodes, Edges or Faces)
 :type mesh2d_location: Mesh2dLocation
 :param property: The property to retrieve
 :type property: Mesh2dProperty</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The resulting geometry list containing the value of the properties</p>
+<dd class="field-odd"><p>The resulting geometry list containing x-,y-coordinate and or the value of the property</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="meshkernel.py_structures.html#meshkernel.py_structures.GeometryList" title="meshkernel.py_structures.GeometryList">GeometryList</a></p>
