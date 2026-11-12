@@ -673,14 +673,15 @@ class MeshKernel:
             polygon (GeometryList): The polygon.
             scale_factor (float):   Deprecated, not functional anymore
         """
-        if scale_factor is not None:
+        if scale_factor is None:
+            scale_factor = -999  # must be real number for C++
+        else:
             msg = (
                 "`scale_factor` is deprecated. It is not doing anything since the "
                 "triangulation method in `mesh2d_make_triangular_mesh_from_polygon()` "
                 "was improved in meshkernel 8.4.0."
             )
             warnings.warn(msg, DeprecationWarning)
-            scale_factor = -999  # must be real number for C++
         c_geometry_list = CGeometryList.from_geometrylist(polygon)
 
         self._execute_function(
