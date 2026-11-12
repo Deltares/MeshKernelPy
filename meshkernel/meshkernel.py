@@ -664,7 +664,7 @@ class MeshKernel:
     def mesh2d_make_triangular_mesh_from_polygon(
         self,
         polygon: GeometryList,
-        scale_factor=None,
+        scale_factor: float = float(-999.0),
     ) -> None:
         """Generates a triangular mesh2d within a polygon. The size of the triangles is determined from the length of
         the polygon edges.
@@ -673,9 +673,7 @@ class MeshKernel:
             polygon (GeometryList): The polygon.
             scale_factor (float):   Deprecated, not functional anymore
         """
-        if scale_factor is None:
-            scale_factor = -999  # must be real number for C++
-        else:
+        if not np.isclose(scale_factor, -999.0):
             msg = (
                 "`scale_factor` is deprecated. It is not doing anything since the "
                 "triangulation method in `mesh2d_make_triangular_mesh_from_polygon()` "
